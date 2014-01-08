@@ -6,6 +6,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SDImageCache.h"
 
+#import "AnimatorShowDetailForDismissMHGallery.h"
+#import "AnimatorShowDetailForPresentingMHGallery.h"
 
 typedef NS_ENUM(NSUInteger, MHImageGeneration) {
     MHImageGenerationStart,

@@ -7,9 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import  "MHGalleryCells.h"
-#import "AnimatorShowDetailForPresentingMHGallery.h"
-#import "AnimatorShowDetailForDismissMHGallery.h"
+#import "MHVideoImageGalleryGlobal.h"
 
 @interface UINavigationController (Rotation)
 @end
