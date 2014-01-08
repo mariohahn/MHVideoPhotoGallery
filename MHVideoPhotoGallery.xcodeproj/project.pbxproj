@@ -1,0 +1,632 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F15E40C9FF174E88ADA680C7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95CB513D1E2A4AD798D33CC6 /* libPods.a */; };
+		F53F924417EB008100A9FE6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924317EB008100A9FE6A /* Foundation.framework */; };
+		F53F924617EB008100A9FE6A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924517EB008100A9FE6A /* CoreGraphics.framework */; };
+		F53F924817EB008100A9FE6A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924717EB008100A9FE6A /* UIKit.framework */; };
+		F53F924E17EB008100A9FE6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F53F924C17EB008100A9FE6A /* InfoPlist.strings */; };
+		F53F925017EB008100A9FE6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F53F924F17EB008100A9FE6A /* main.m */; };
+		F53F925417EB008100A9FE6A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F53F925317EB008100A9FE6A /* AppDelegate.m */; };
+		F53F925C17EB008100A9FE6A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F53F925B17EB008100A9FE6A /* Images.xcassets */; };
+		F53F926317EB008100A9FE6A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F926217EB008100A9FE6A /* XCTest.framework */; };
+		F53F926417EB008100A9FE6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924317EB008100A9FE6A /* Foundation.framework */; };
+		F53F926517EB008100A9FE6A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924717EB008100A9FE6A /* UIKit.framework */; };
+		F53F926D17EB008100A9FE6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F53F926B17EB008100A9FE6A /* InfoPlist.strings */; };
+		F53F926F17EB008100A9FE6A /* MHVideoPhotoGalleryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F53F926E17EB008100A9FE6A /* MHVideoPhotoGalleryTests.m */; };
+		F5506EDD187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = F5506EDC187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m */; };
+		F5B2EC8017F9D68C000ADC51 /* ExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5B2EC7F17F9D68C000ADC51 /* ExampleViewController.m */; };
+		F5B2EC8217F9D70C000ADC51 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */; };
+		F5DBBF20187D573C00BEFE29 /* AnimatorShowDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF1B187D573C00BEFE29 /* AnimatorShowDetail.m */; };
+		F5DBBF21187D573C00BEFE29 /* AnimatorShowDetailForPresentingMHGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF1D187D573C00BEFE29 /* AnimatorShowDetailForPresentingMHGallery.m */; };
+		F5DBBF22187D573C00BEFE29 /* AnimatorShowOverView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF1F187D573C00BEFE29 /* AnimatorShowOverView.m */; };
+		F5DBBF25187D577C00BEFE29 /* MHGalleryCells.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF24187D577C00BEFE29 /* MHGalleryCells.m */; };
+		F5DBBF28187D57DD00BEFE29 /* MHGalleryOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF27187D57DD00BEFE29 /* MHGalleryOverViewController.m */; };
+		F5DBBF2B187D580000BEFE29 /* MHVideoImageGalleryGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF2A187D580000BEFE29 /* MHVideoImageGalleryGlobal.m */; };
+		F5DBBF2E187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF2D187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m */; };
+		F5DBBF31187D584C00BEFE29 /* MHGalleryImageViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF30187D584C00BEFE29 /* MHGalleryImageViewerViewController.m */; };
+		F5DBBF34187D5B8600BEFE29 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF33187D5B8600BEFE29 /* UIImage+ImageEffects.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F53F926617EB008100A9FE6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F53F923817EB008100A9FE6A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F53F923F17EB008100A9FE6A;
+			remoteInfo = MHVideoPhotoGallery;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		74E134CE6C764BDCAF73F292 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		95CB513D1E2A4AD798D33CC6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F53F924017EB008100A9FE6A /* MHVideoPhotoGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHVideoPhotoGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F53F924317EB008100A9FE6A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F53F924517EB008100A9FE6A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		F53F924717EB008100A9FE6A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F53F924B17EB008100A9FE6A /* MHVideoPhotoGallery-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MHVideoPhotoGallery-Info.plist"; sourceTree = "<group>"; };
+		F53F924D17EB008100A9FE6A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F53F924F17EB008100A9FE6A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F53F925117EB008100A9FE6A /* MHVideoPhotoGallery-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MHVideoPhotoGallery-Prefix.pch"; sourceTree = "<group>"; };
+		F53F925217EB008100A9FE6A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F53F925317EB008100A9FE6A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F53F925B17EB008100A9FE6A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		F53F926117EB008100A9FE6A /* MHVideoPhotoGalleryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MHVideoPhotoGalleryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F53F926217EB008100A9FE6A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		F53F926A17EB008100A9FE6A /* MHVideoPhotoGalleryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MHVideoPhotoGalleryTests-Info.plist"; sourceTree = "<group>"; };
+		F53F926C17EB008100A9FE6A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F53F926E17EB008100A9FE6A /* MHVideoPhotoGalleryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MHVideoPhotoGalleryTests.m; sourceTree = "<group>"; };
+		F5506EDB187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatorShowDetailForDismissMHGallery.h; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetailForDismissMHGallery.h; sourceTree = "<group>"; };
+		F5506EDC187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimatorShowDetailForDismissMHGallery.m; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetailForDismissMHGallery.m; sourceTree = "<group>"; };
+		F5B2EC7E17F9D68C000ADC51 /* ExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleViewController.h; sourceTree = "<group>"; };
+		F5B2EC7F17F9D68C000ADC51 /* ExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleViewController.m; sourceTree = "<group>"; };
+		F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		F5DBBF1A187D573C00BEFE29 /* AnimatorShowDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatorShowDetail.h; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetail.h; sourceTree = "<group>"; };
+		F5DBBF1B187D573C00BEFE29 /* AnimatorShowDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimatorShowDetail.m; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetail.m; sourceTree = "<group>"; };
+		F5DBBF1C187D573C00BEFE29 /* AnimatorShowDetailForPresentingMHGallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatorShowDetailForPresentingMHGallery.h; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetailForPresentingMHGallery.h; sourceTree = "<group>"; };
+		F5DBBF1D187D573C00BEFE29 /* AnimatorShowDetailForPresentingMHGallery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimatorShowDetailForPresentingMHGallery.m; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetailForPresentingMHGallery.m; sourceTree = "<group>"; };
+		F5DBBF1E187D573C00BEFE29 /* AnimatorShowOverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatorShowOverView.h; path = MMHVideoPhotoGallery/Animators/AnimatorShowOverView.h; sourceTree = "<group>"; };
+		F5DBBF1F187D573C00BEFE29 /* AnimatorShowOverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimatorShowOverView.m; path = MMHVideoPhotoGallery/Animators/AnimatorShowOverView.m; sourceTree = "<group>"; };
+		F5DBBF23187D577C00BEFE29 /* MHGalleryCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGalleryCells.h; path = MMHVideoPhotoGallery/MHGalleryCells/MHGalleryCells.h; sourceTree = "<group>"; };
+		F5DBBF24187D577C00BEFE29 /* MHGalleryCells.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHGalleryCells.m; path = MMHVideoPhotoGallery/MHGalleryCells/MHGalleryCells.m; sourceTree = "<group>"; };
+		F5DBBF26187D57DD00BEFE29 /* MHGalleryOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGalleryOverViewController.h; path = MMHVideoPhotoGallery/MHGalleryOverViewController/MHGalleryOverViewController.h; sourceTree = "<group>"; };
+		F5DBBF27187D57DD00BEFE29 /* MHGalleryOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHGalleryOverViewController.m; path = MMHVideoPhotoGallery/MHGalleryOverViewController/MHGalleryOverViewController.m; sourceTree = "<group>"; };
+		F5DBBF29187D580000BEFE29 /* MHVideoImageGalleryGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHVideoImageGalleryGlobal.h; path = MMHVideoPhotoGallery/MHVideoImageGalleryGlobal/MHVideoImageGalleryGlobal.h; sourceTree = "<group>"; };
+		F5DBBF2A187D580000BEFE29 /* MHVideoImageGalleryGlobal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHVideoImageGalleryGlobal.m; path = MMHVideoPhotoGallery/MHVideoImageGalleryGlobal/MHVideoImageGalleryGlobal.m; sourceTree = "<group>"; };
+		F5DBBF2C187D582000BEFE29 /* MHUIImageViewContentViewAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHUIImageViewContentViewAnimation.h; path = MMHVideoPhotoGallery/MHUIImageViewContentViewAnimation/MHUIImageViewContentViewAnimation.h; sourceTree = "<group>"; };
+		F5DBBF2D187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHUIImageViewContentViewAnimation.m; path = MMHVideoPhotoGallery/MHUIImageViewContentViewAnimation/MHUIImageViewContentViewAnimation.m; sourceTree = "<group>"; };
+		F5DBBF2F187D584C00BEFE29 /* MHGalleryImageViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGalleryImageViewerViewController.h; path = MMHVideoPhotoGallery/MHGalleryImageViewerViewController/MHGalleryImageViewerViewController.h; sourceTree = "<group>"; };
+		F5DBBF30187D584C00BEFE29 /* MHGalleryImageViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHGalleryImageViewerViewController.m; path = MMHVideoPhotoGallery/MHGalleryImageViewerViewController/MHGalleryImageViewerViewController.m; sourceTree = "<group>"; };
+		F5DBBF32187D5B8600BEFE29 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ImageEffects.h"; path = "MMHVideoPhotoGallery/UIImage+ImageEffects/UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		F5DBBF33187D5B8600BEFE29 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageEffects.m"; path = "MMHVideoPhotoGallery/UIImage+ImageEffects/UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F53F923D17EB008100A9FE6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F53F924617EB008100A9FE6A /* CoreGraphics.framework in Frameworks */,
+				F53F924817EB008100A9FE6A /* UIKit.framework in Frameworks */,
+				F53F924417EB008100A9FE6A /* Foundation.framework in Frameworks */,
+				F15E40C9FF174E88ADA680C7 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F53F925E17EB008100A9FE6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F53F926317EB008100A9FE6A /* XCTest.framework in Frameworks */,
+				F53F926517EB008100A9FE6A /* UIKit.framework in Frameworks */,
+				F53F926417EB008100A9FE6A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F53F923717EB008100A9FE6A = {
+			isa = PBXGroup;
+			children = (
+				F53F924917EB008100A9FE6A /* MHVideoPhotoGallery */,
+				F53F926817EB008100A9FE6A /* MHVideoPhotoGalleryTests */,
+				F53F924217EB008100A9FE6A /* Frameworks */,
+				F53F924117EB008100A9FE6A /* Products */,
+				74E134CE6C764BDCAF73F292 /* Pods.xcconfig */,
+			);
+			sourceTree = "<group>";
+		};
+		F53F924117EB008100A9FE6A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F53F924017EB008100A9FE6A /* MHVideoPhotoGallery.app */,
+				F53F926117EB008100A9FE6A /* MHVideoPhotoGalleryTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F53F924217EB008100A9FE6A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F53F924317EB008100A9FE6A /* Foundation.framework */,
+				F53F924517EB008100A9FE6A /* CoreGraphics.framework */,
+				F53F924717EB008100A9FE6A /* UIKit.framework */,
+				F53F926217EB008100A9FE6A /* XCTest.framework */,
+				95CB513D1E2A4AD798D33CC6 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F53F924917EB008100A9FE6A /* MHVideoPhotoGallery */ = {
+			isa = PBXGroup;
+			children = (
+				F53F925217EB008100A9FE6A /* AppDelegate.h */,
+				F53F925317EB008100A9FE6A /* AppDelegate.m */,
+				F5DBBF18187D56CD00BEFE29 /* MHGalleryImageViewerViewController */,
+				F5DBBF17187D56B700BEFE29 /* MHUIImageViewContentViewAnimation */,
+				F5DBBF16187D56A400BEFE29 /* UIImage+ImageEffects */,
+				F5DBBF15187D569A00BEFE29 /* MHGalleryOverViewController */,
+				F5DBBF19187D56DB00BEFE29 /* MHVideoImageGalleryGlobal */,
+				F5DBBF14187D568100BEFE29 /* MHGalleryCells */,
+				F5415D8A186DB65600BB8B52 /* Animators */,
+				F5B2EC7E17F9D68C000ADC51 /* ExampleViewController.h */,
+				F5B2EC7F17F9D68C000ADC51 /* ExampleViewController.m */,
+				F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */,
+				F53F925B17EB008100A9FE6A /* Images.xcassets */,
+				F53F924A17EB008100A9FE6A /* Supporting Files */,
+			);
+			path = MHVideoPhotoGallery;
+			sourceTree = "<group>";
+		};
+		F53F924A17EB008100A9FE6A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F53F924B17EB008100A9FE6A /* MHVideoPhotoGallery-Info.plist */,
+				F53F924C17EB008100A9FE6A /* InfoPlist.strings */,
+				F53F924F17EB008100A9FE6A /* main.m */,
+				F53F925117EB008100A9FE6A /* MHVideoPhotoGallery-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F53F926817EB008100A9FE6A /* MHVideoPhotoGalleryTests */ = {
+			isa = PBXGroup;
+			children = (
+				F53F926E17EB008100A9FE6A /* MHVideoPhotoGalleryTests.m */,
+				F53F926917EB008100A9FE6A /* Supporting Files */,
+			);
+			path = MHVideoPhotoGalleryTests;
+			sourceTree = "<group>";
+		};
+		F53F926917EB008100A9FE6A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F53F926A17EB008100A9FE6A /* MHVideoPhotoGalleryTests-Info.plist */,
+				F53F926B17EB008100A9FE6A /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F5415D8A186DB65600BB8B52 /* Animators */ = {
+			isa = PBXGroup;
+			children = (
+				F5DBBF1A187D573C00BEFE29 /* AnimatorShowDetail.h */,
+				F5DBBF1B187D573C00BEFE29 /* AnimatorShowDetail.m */,
+				F5DBBF1E187D573C00BEFE29 /* AnimatorShowOverView.h */,
+				F5DBBF1F187D573C00BEFE29 /* AnimatorShowOverView.m */,
+				F5DBBF1C187D573C00BEFE29 /* AnimatorShowDetailForPresentingMHGallery.h */,
+				F5DBBF1D187D573C00BEFE29 /* AnimatorShowDetailForPresentingMHGallery.m */,
+				F5506EDB187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.h */,
+				F5506EDC187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m */,
+			);
+			name = Animators;
+			sourceTree = "<group>";
+		};
+		F5DBBF14187D568100BEFE29 /* MHGalleryCells */ = {
+			isa = PBXGroup;
+			children = (
+				F5DBBF23187D577C00BEFE29 /* MHGalleryCells.h */,
+				F5DBBF24187D577C00BEFE29 /* MHGalleryCells.m */,
+			);
+			name = MHGalleryCells;
+			sourceTree = "<group>";
+		};
+		F5DBBF15187D569A00BEFE29 /* MHGalleryOverViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F5DBBF26187D57DD00BEFE29 /* MHGalleryOverViewController.h */,
+				F5DBBF27187D57DD00BEFE29 /* MHGalleryOverViewController.m */,
+			);
+			name = MHGalleryOverViewController;
+			sourceTree = "<group>";
+		};
+		F5DBBF16187D56A400BEFE29 /* UIImage+ImageEffects */ = {
+			isa = PBXGroup;
+			children = (
+				F5DBBF32187D5B8600BEFE29 /* UIImage+ImageEffects.h */,
+				F5DBBF33187D5B8600BEFE29 /* UIImage+ImageEffects.m */,
+			);
+			name = "UIImage+ImageEffects";
+			sourceTree = "<group>";
+		};
+		F5DBBF17187D56B700BEFE29 /* MHUIImageViewContentViewAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				F5DBBF2C187D582000BEFE29 /* MHUIImageViewContentViewAnimation.h */,
+				F5DBBF2D187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m */,
+			);
+			name = MHUIImageViewContentViewAnimation;
+			sourceTree = "<group>";
+		};
+		F5DBBF18187D56CD00BEFE29 /* MHGalleryImageViewerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F5DBBF2F187D584C00BEFE29 /* MHGalleryImageViewerViewController.h */,
+				F5DBBF30187D584C00BEFE29 /* MHGalleryImageViewerViewController.m */,
+			);
+			name = MHGalleryImageViewerViewController;
+			sourceTree = "<group>";
+		};
+		F5DBBF19187D56DB00BEFE29 /* MHVideoImageGalleryGlobal */ = {
+			isa = PBXGroup;
+			children = (
+				F5DBBF29187D580000BEFE29 /* MHVideoImageGalleryGlobal.h */,
+				F5DBBF2A187D580000BEFE29 /* MHVideoImageGalleryGlobal.m */,
+			);
+			name = MHVideoImageGalleryGlobal;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F53F923F17EB008100A9FE6A /* MHVideoPhotoGallery */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F53F927217EB008100A9FE6A /* Build configuration list for PBXNativeTarget "MHVideoPhotoGallery" */;
+			buildPhases = (
+				430BE6EF175B4CB89B0C0B34 /* Check Pods Manifest.lock */,
+				F53F923C17EB008100A9FE6A /* Sources */,
+				F53F923D17EB008100A9FE6A /* Frameworks */,
+				F53F923E17EB008100A9FE6A /* Resources */,
+				E9F735A991B1460BBCD98AAB /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MHVideoPhotoGallery;
+			productName = MHVideoPhotoGallery;
+			productReference = F53F924017EB008100A9FE6A /* MHVideoPhotoGallery.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F53F926017EB008100A9FE6A /* MHVideoPhotoGalleryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F53F927517EB008100A9FE6A /* Build configuration list for PBXNativeTarget "MHVideoPhotoGalleryTests" */;
+			buildPhases = (
+				F53F925D17EB008100A9FE6A /* Sources */,
+				F53F925E17EB008100A9FE6A /* Frameworks */,
+				F53F925F17EB008100A9FE6A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F53F926717EB008100A9FE6A /* PBXTargetDependency */,
+			);
+			name = MHVideoPhotoGalleryTests;
+			productName = MHVideoPhotoGalleryTests;
+			productReference = F53F926117EB008100A9FE6A /* MHVideoPhotoGalleryTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F53F923817EB008100A9FE6A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Mario Hahn";
+				TargetAttributes = {
+					F53F926017EB008100A9FE6A = {
+						TestTargetID = F53F923F17EB008100A9FE6A;
+					};
+				};
+			};
+			buildConfigurationList = F53F923B17EB008100A9FE6A /* Build configuration list for PBXProject "MHVideoPhotoGallery" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F53F923717EB008100A9FE6A;
+			productRefGroup = F53F924117EB008100A9FE6A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F53F923F17EB008100A9FE6A /* MHVideoPhotoGallery */,
+				F53F926017EB008100A9FE6A /* MHVideoPhotoGalleryTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F53F923E17EB008100A9FE6A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F53F925C17EB008100A9FE6A /* Images.xcassets in Resources */,
+				F5B2EC8217F9D70C000ADC51 /* Storyboard.storyboard in Resources */,
+				F53F924E17EB008100A9FE6A /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F53F925F17EB008100A9FE6A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F53F926D17EB008100A9FE6A /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		430BE6EF175B4CB89B0C0B34 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E9F735A991B1460BBCD98AAB /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F53F923C17EB008100A9FE6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5DBBF28187D57DD00BEFE29 /* MHGalleryOverViewController.m in Sources */,
+				F5DBBF34187D5B8600BEFE29 /* UIImage+ImageEffects.m in Sources */,
+				F5DBBF21187D573C00BEFE29 /* AnimatorShowDetailForPresentingMHGallery.m in Sources */,
+				F53F925417EB008100A9FE6A /* AppDelegate.m in Sources */,
+				F5506EDD187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m in Sources */,
+				F5DBBF2B187D580000BEFE29 /* MHVideoImageGalleryGlobal.m in Sources */,
+				F5DBBF31187D584C00BEFE29 /* MHGalleryImageViewerViewController.m in Sources */,
+				F53F925017EB008100A9FE6A /* main.m in Sources */,
+				F5DBBF2E187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m in Sources */,
+				F5DBBF20187D573C00BEFE29 /* AnimatorShowDetail.m in Sources */,
+				F5B2EC8017F9D68C000ADC51 /* ExampleViewController.m in Sources */,
+				F5DBBF22187D573C00BEFE29 /* AnimatorShowOverView.m in Sources */,
+				F5DBBF25187D577C00BEFE29 /* MHGalleryCells.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F53F925D17EB008100A9FE6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F53F926F17EB008100A9FE6A /* MHVideoPhotoGalleryTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F53F926717EB008100A9FE6A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F53F923F17EB008100A9FE6A /* MHVideoPhotoGallery */;
+			targetProxy = F53F926617EB008100A9FE6A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F53F924C17EB008100A9FE6A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F53F924D17EB008100A9FE6A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		F53F926B17EB008100A9FE6A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F53F926C17EB008100A9FE6A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F53F927017EB008100A9FE6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F53F927117EB008100A9FE6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F53F927317EB008100A9FE6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74E134CE6C764BDCAF73F292 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MHVideoPhotoGallery/MHVideoPhotoGallery-Prefix.pch";
+				INFOPLIST_FILE = "MHVideoPhotoGallery/MHVideoPhotoGallery-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		F53F927417EB008100A9FE6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74E134CE6C764BDCAF73F292 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MHVideoPhotoGallery/MHVideoPhotoGallery-Prefix.pch";
+				INFOPLIST_FILE = "MHVideoPhotoGallery/MHVideoPhotoGallery-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		F53F927617EB008100A9FE6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MHVideoPhotoGallery.app/MHVideoPhotoGallery";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MHVideoPhotoGallery/MHVideoPhotoGallery-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "MHVideoPhotoGalleryTests/MHVideoPhotoGalleryTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		F53F927717EB008100A9FE6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MHVideoPhotoGallery.app/MHVideoPhotoGallery";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MHVideoPhotoGallery/MHVideoPhotoGallery-Prefix.pch";
+				INFOPLIST_FILE = "MHVideoPhotoGalleryTests/MHVideoPhotoGalleryTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F53F923B17EB008100A9FE6A /* Build configuration list for PBXProject "MHVideoPhotoGallery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F53F927017EB008100A9FE6A /* Debug */,
+				F53F927117EB008100A9FE6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F53F927217EB008100A9FE6A /* Build configuration list for PBXNativeTarget "MHVideoPhotoGallery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F53F927317EB008100A9FE6A /* Debug */,
+				F53F927417EB008100A9FE6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F53F927517EB008100A9FE6A /* Build configuration list for PBXNativeTarget "MHVideoPhotoGalleryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F53F927617EB008100A9FE6A /* Debug */,
+				F53F927717EB008100A9FE6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F53F923817EB008100A9FE6A /* Project object */;
+}

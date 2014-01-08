@@ -1,0 +1,19 @@
+//
+//  AnimatorShowOverView.h
+//  MHVideoPhotoGallery
+//
+//  Created by Mario Hahn on 27.12.13.
+//  Copyright (c) 2013 Mario Hahn. All rights reserved.
+//
+
+
+
+#import <UIKit/UIKit.h>
+#import "MHGalleryOverViewController.h"
+#import "MHGalleryImageViewerViewController.h"
+#import "MHUIImageViewContentViewAnimation.h"
+#import "MHVideoImageGalleryGlobal.h"
+
+@interface AnimatorShowOverView : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
+@property (nonatomic, assign) BOOL interactionInProgress;
+@end
