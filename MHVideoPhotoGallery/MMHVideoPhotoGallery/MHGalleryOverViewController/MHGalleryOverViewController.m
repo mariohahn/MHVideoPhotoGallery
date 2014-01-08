@@ -40,12 +40,7 @@
     [self.cv setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     [self.view addSubview:self.cv];
     [self.cv reloadData];
-    if (self.viewMode == MHGalleryViewModeList) {
-        if (self.currentPage > self.galleryItems.count-1) {
-            self.currentPage =0;
-            NSLog(@"Check your Index");
-        }        
-    }
+    
     self.numberFormatter = [NSNumberFormatter new];
     [self.numberFormatter setMinimumIntegerDigits:2];
     

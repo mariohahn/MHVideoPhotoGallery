@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHGalleryOverViewController.h"
 #import "AnimatorShowOverView.h"
 #import "MHVideoImageGalleryGlobal.h"
 

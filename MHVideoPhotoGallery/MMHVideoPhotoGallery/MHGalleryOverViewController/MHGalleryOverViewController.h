@@ -18,9 +18,6 @@
 @property (strong, nonatomic)           UICollectionView *cv;
 
 @property (nonatomic)                   NSInteger currentPage;
-@property (nonatomic)                   MHGalleryTheme theme;
-@property (nonatomic)                   MHGalleryViewMode viewMode;
-@property (nonatomic)                   BOOL alwaysShowFullText;
 
 @property (nonatomic, strong)           MHGalleryOverViewCell *clickedCell;
 

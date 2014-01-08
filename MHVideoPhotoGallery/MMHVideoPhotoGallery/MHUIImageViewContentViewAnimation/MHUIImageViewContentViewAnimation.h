@@ -7,11 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHVideoImageGalleryGlobal.h"
 
 @interface MHUIImageViewContentViewAnimation : UIImageView
-
-@property (nonatomic) MHGalleryTheme theme;
 
 -(void)animateToViewMode:(UIViewContentMode)contenMode
                 forFrame:(CGRect)frame

@@ -27,7 +27,6 @@
     
     MHGalleryItem *item0 = [[MHGalleryItem alloc]initWithURL:@"https://dl.dropboxusercontent.com/u/17911939/UIViewios7.png"
                                                  galleryType:MHGalleryTypeImage];
-    
     MHGalleryItem *item1 = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/ipad-air/built-in-apps/images/reminders_screen_2x.jpg"
                                                                               galleryType:MHGalleryTypeImage];
     MHGalleryItem *item2 = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/ipad-air/built-in-apps/images/videos_screen_2x.jpg"
@@ -156,38 +155,34 @@
     return cell;
 }
 
+-(void)dismissGalleryForIndexPath:(NSIndexPath*)indexPath
+                andCollectionView:(UICollectionView*)collectionView{
+    CGRect cellFrame  = [[collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:indexPath].frame;
+    [collectionView scrollRectToVisible:cellFrame
+                               animated:NO];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    });
+    
+}
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
     self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
-    [[MHGallerySharedManager sharedManager] setGalleryItems:self.galleryDataSource[indexPath.section]];
     
-    MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
-    gallery.viewMode = MHGalleryViewModeList;
-    gallery.currentPage = indexPath.row;
-    [gallery viewDidLoad];
-    gallery.finishedCallback = ^(NSUInteger photoIndex) {
-      
-        NSIndexPath * newIndexPath = [NSIndexPath indexPathForRow:photoIndex inSection:0];
-        CGRect cellFrame  = [[collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:newIndexPath].frame;
-        [collectionView scrollRectToVisible:cellFrame
-                                   animated:NO];
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [collectionView reloadItemsAtIndexPaths:@[newIndexPath]];
-            self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:newIndexPath] iv];
-            [self dismissViewControllerAnimated:YES completion:nil];
-        });
-    };
-   
-    MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
-    detail.pageIndex = indexPath.row;
+    NSArray *galleryData = self.galleryDataSource[indexPath.section];
     
-    UINavigationController *nav = [UINavigationController new];
-
-    nav.viewControllers = @[gallery,detail];
-    nav.transitioningDelegate = self;
-    nav.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:nav animated:YES completion:nil];
+    [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
+                                                             forIndex:indexPath.row
+                                             andCurrentViewController:self
+                                                       finishCallback:^(NSInteger pageIndex) {
+                                                           [self dismissGalleryForIndexPath:[NSIndexPath indexPathForRow:pageIndex inSection:0]
+                                                                          andCollectionView:collectionView];
+                                                           
+                                                       }
+                                             withImageViewTransiation:YES];
 }
 
 

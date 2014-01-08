@@ -1,5 +1,6 @@
 
 #import "MHVideoImageGalleryGlobal.h"
+#import "MHGalleryOverViewController.h"
 
 @implementation MHGalleryItem
 
@@ -29,13 +30,31 @@
     return sharedManagerInstance;
 }
 
--(void)presentMHVideoPhotoViewControllerWithItems:(NSArray*)galleryItems
-                                         forIndex:(NSInteger)index
-                           withImageViewToPresent:(UIImageView*)imageViewToPresent
-                         andCurrentViewController:(id)viewcontroller{
+-(void)presentMHGalleryWithItems:(NSArray*)galleryItems
+                        forIndex:(NSInteger)index
+        andCurrentViewController:(id)viewcontroller
+                  finishCallback:(void(^)(NSInteger pageIndex)
+                                  )FinishBlock
+        withImageViewTransiation:(BOOL)animated{
     
+    [[MHGallerySharedManager sharedManager] setGalleryItems:galleryItems];
     
+    MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
+    [gallery viewDidLoad];
+    gallery.finishedCallback = ^(NSUInteger photoIndex) {
+        FinishBlock(photoIndex);
+    };
     
+    MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
+    detail.pageIndex = index;
+    
+    UINavigationController *nav = [UINavigationController new];
+    nav.viewControllers = @[gallery,detail];
+    if (animated) {
+        nav.transitioningDelegate = viewcontroller;
+        nav.modalPresentationStyle = UIModalPresentationFullScreen;
+    }
+    [viewcontroller presentViewController:nav animated:YES completion:nil];
 }
 
 -(void)startDownloadingThumbImage:(NSString*)urlString

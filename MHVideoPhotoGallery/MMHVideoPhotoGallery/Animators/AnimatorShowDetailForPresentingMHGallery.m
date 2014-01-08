@@ -7,6 +7,7 @@
 //
 
 #import "AnimatorShowDetailForPresentingMHGallery.h"
+#import "MHGalleryOverViewController.h"
 
 @implementation AnimatorShowDetailForPresentingMHGallery
 

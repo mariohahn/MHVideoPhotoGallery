@@ -52,10 +52,12 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
 
 - (UIImage *)imageByRenderingView:(id)view;
 
--(void)presentMHVideoPhotoViewControllerWithItems:(NSArray*)galleryItems
-                                         forIndex:(NSInteger)index
-                           withImageViewToPresent:(UIImageView*)imageViewToPresent
-                         andCurrentViewController:(id)viewcontroller;
+-(void)presentMHGalleryWithItems:(NSArray*)galleryItems
+                        forIndex:(NSInteger)index
+        andCurrentViewController:(id)viewcontroller
+                  finishCallback:(void(^)(NSInteger pageIndex)
+                                  )FinishBlock
+        withImageViewTransiation:(BOOL)animated;
 
 
 

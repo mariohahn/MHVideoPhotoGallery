@@ -9,9 +9,6 @@
 
 
 #import <UIKit/UIKit.h>
-#import "MHGalleryOverViewController.h"
-#import "MHGalleryImageViewerViewController.h"
-#import "MHUIImageViewContentViewAnimation.h"
 #import "MHVideoImageGalleryGlobal.h"
 
 @interface AnimatorShowOverView : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>

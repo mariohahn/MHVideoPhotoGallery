@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHGalleryImageViewerViewController.h"
 #import "MHVideoImageGalleryGlobal.h"
 
 @interface AnimatorShowDetailForDismissMHGallery : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>

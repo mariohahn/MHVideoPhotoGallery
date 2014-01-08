@@ -7,6 +7,7 @@
 //
 
 #import "AnimatorShowOverView.h"
+#import "MHGalleryOverViewController.h"
 
 
 @implementation AnimatorShowOverView
@@ -23,7 +24,6 @@
     MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height)];
     cellImageSnapshot.image = iv.image;
     iv.hidden = YES;
-    
     
     
     if (!cellImageSnapshot.image) {

@@ -8,6 +8,7 @@
 
 
 #import "MHGalleryImageViewerViewController.h"
+#import "MHGalleryOverViewController.h"
 
 @interface MHGalleryImageViewerViewController()
 @property (nonatomic, strong) NSArray *galleryItems;
@@ -159,7 +160,14 @@
 -(void)sharePressed{
     
     MHGalleryItem *item = self.galleryItems[self.pageIndex];
-    self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[item.urlString,item.description]
+    
+    NSMutableArray *dataToShare = [NSMutableArray new];
+    if (item.description.length>0) {
+        [dataToShare addObject:item.description];
+    }
+    [dataToShare addObject:item.urlString];
+    
+    self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:dataToShare
                                                                     applicationActivities:nil];
     [self presentViewController:self.activityViewController
                        animated:YES
