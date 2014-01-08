@@ -112,6 +112,8 @@
     self.descriptionView.text = item.description;
     self.descriptionView.textColor = [UIColor blackColor];
     [self.descriptionView setUserInteractionEnabled:NO];
+    self.descriptionView.scrollEnabled = NO;
+
     [self.view addSubview:self.descriptionView];
     
     
