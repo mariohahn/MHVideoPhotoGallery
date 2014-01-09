@@ -9,6 +9,8 @@
 #import "AnimatorShowDetailForDismissMHGallery.h"
 #import "AnimatorShowDetailForPresentingMHGallery.h"
 
+@class AnimatorShowDetailForDismissMHGallery;
+
 typedef NS_ENUM(NSUInteger, MHImageGeneration) {
     MHImageGenerationStart,
     MHImageGenerationMiddle,
@@ -44,6 +46,7 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
 
 @interface MHGallerySharedManager : NSObject
 @property (nonatomic,strong) NSArray *galleryItems;
+@property (nonatomic) UIStatusBarStyle oldStatusBarStyle;
 
 + (MHGallerySharedManager *)sharedManager;
 
@@ -57,7 +60,7 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
         andCurrentViewController:(id)viewcontroller
-                  finishCallback:(void(^)(NSInteger pageIndex)
+                  finishCallback:(void(^)(NSInteger pageIndex, AnimatorShowDetailForDismissMHGallery *interactiveTransition)
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated;
 

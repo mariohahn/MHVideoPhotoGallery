@@ -17,19 +17,23 @@
 @property (nonatomic, strong)          UIToolbar *descriptionViewBackground;
 @property (nonatomic)                  NSInteger pageIndex;
 @property (nonatomic, strong)          UIPageViewController *pvc;
+@property (nonatomic, getter = isUserScrolling)          BOOL userScrolls;
+@property(nonatomic,getter = isHiddingToolBarAndNavigationBar)BOOL hiddingToolBarAndNavigationBar;
 
 -(void)playStopButtonPressed;
 -(void)changeToPauseButton;
 -(void)changeToPlayButton;
 @end
 
-@interface ImageViewController : UIViewController<UIScrollViewDelegate>
+@interface ImageViewController : UIViewController<UIScrollViewDelegate,UIGestureRecognizerDelegate>
+@property (nonatomic, strong)AnimatorShowDetailForDismissMHGallery *interactiveTransition;
 @property (nonatomic,strong) MHGalleryItem *item;
 @property (nonatomic,strong) UIScrollView *scrollView;
 @property (nonatomic,strong) UIButton *playButton;
 @property (nonatomic,strong) UIActivityIndicatorView *act;
 @property (nonatomic,strong) UIImageView *imageView;
 @property (nonatomic)        NSInteger pageIndex;
+
 @property (nonatomic,getter = isPlayingVideo)        BOOL playingVideo;
 @property (nonatomic,getter = isPausingVideo)        BOOL pausingVideo;
 

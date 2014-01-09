@@ -21,5 +21,5 @@
 
 @property (nonatomic, strong)           MHGalleryOverViewCell *clickedCell;
 
-@property (nonatomic, copy) void (^finishedCallback)(NSUInteger photoIndex);
+@property (nonatomic, copy) void (^finishedCallback)(NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition);
 @end

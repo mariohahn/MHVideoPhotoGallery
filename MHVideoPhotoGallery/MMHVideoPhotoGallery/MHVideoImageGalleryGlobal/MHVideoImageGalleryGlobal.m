@@ -2,6 +2,18 @@
 #import "MHVideoImageGalleryGlobal.h"
 #import "MHGalleryOverViewController.h"
 
+@interface MHNavigationController : UINavigationController
+@end
+
+@implementation MHNavigationController
+
+- (UIViewController *)childViewControllerForStatusBarStyle {
+    UIViewController *vc = [super childViewControllerForStatusBarStyle];
+    vc = self.topViewController;
+    return vc;
+}
+
+@end
 @implementation MHGalleryItem
 
 
@@ -33,22 +45,24 @@
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
         andCurrentViewController:(id)viewcontroller
-                  finishCallback:(void(^)(NSInteger pageIndex)
+                  finishCallback:(void(^)(NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition)
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated{
     
+    self.oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
+
     [[MHGallerySharedManager sharedManager] setGalleryItems:galleryItems];
     
     MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
     [gallery viewDidLoad];
-    gallery.finishedCallback = ^(NSUInteger photoIndex) {
-        FinishBlock(photoIndex);
+    gallery.finishedCallback = ^(NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition) {
+        FinishBlock(photoIndex,interactiveTransition);
     };
     
     MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
     detail.pageIndex = index;
     
-    UINavigationController *nav = [UINavigationController new];
+    UINavigationController *nav = [MHNavigationController new];
     nav.viewControllers = @[gallery,detail];
     if (animated) {
         nav.transitioningDelegate = viewcontroller;
