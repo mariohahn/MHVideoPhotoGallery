@@ -136,13 +136,15 @@
         [self.descriptionViewBackground setHidden:YES];
     }
     [(UIScrollView*)self.pvc.view.subviews[0] setDelegate:self];
+    [(UIGestureRecognizer*)[[self.pvc.view.subviews[0] gestureRecognizers] firstObject] setDelegate:self];
     
-
-    
-   // [(UIScrollView*)self.pvc.view.subviews[0] setDelaysContentTouches:NO];
     [self updateTitleForIndex:self.pageIndex];
     [self.view addSubview:self.tb];
 
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+        return ([touch.view isKindOfClass:[UIControl class]] == NO);
 }
 
 -(void)changeToPlayButton{
@@ -543,9 +545,13 @@
             [self.rightSliderLabel setText:@"-00:00"];
             self.rightSliderLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
             [self.moviePlayerToolBarTop addSubview:self.rightSliderLabel];
-        }else{
-            [self.imageView setUserInteractionEnabled:YES];
+            
+            [self.scrollView setMaximumZoomScale:1];
+            [self.scrollView setMinimumZoomScale:1];
         }
+        
+        [self.imageView setUserInteractionEnabled:YES];
+
         [imageTap requireGestureRecognizerToFail: doubleTap];
 
         if (self.item.galleryType == MHGalleryTypeImage) {
@@ -917,6 +923,9 @@
 }
 - (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer {
     if ([self.imageView.image isEqual:[UIImage imageNamed:@"error"]]) {
+        return;
+    }
+    if (self.item.galleryType == MHGalleryTypeVideo) {
         return;
     }
     float newScale =  [self.scrollView zoomScale] * 1.5;

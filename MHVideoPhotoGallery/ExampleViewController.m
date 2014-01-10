@@ -12,6 +12,7 @@
 @interface ExampleViewController ()
 @property(nonatomic,strong)NSArray *galleryDataSource;
 @property(nonatomic,strong) UIImageView *imageViewForPresentingMHGallery;
+@property(nonatomic,strong) AnimatorShowDetailForDismissMHGallery *interactive;
 @end
 
 @implementation ExampleViewController
@@ -164,9 +165,19 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [collectionView reloadItemsAtIndexPaths:@[indexPath]];
         self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
+        if (self.interactive) {
+            self.interactive.iv = self.imageViewForPresentingMHGallery;
+        }
         [self dismissViewControllerAnimated:YES completion:nil];
     });
     
+}
+-(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
+    if ([animator isKindOfClass:[AnimatorShowDetailForDismissMHGallery class]]) {
+        return self.interactive;
+    }else {
+        return nil;
+    }
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -177,7 +188,8 @@
     [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
                                                              forIndex:indexPath.row
                                              andCurrentViewController:self
-                                                       finishCallback:^(NSInteger pageIndex) {
+                                                       finishCallback:^(NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition) {
+                                                           self.interactive = interactiveTransition;
                                                            [self dismissGalleryForIndexPath:[NSIndexPath indexPathForRow:pageIndex inSection:0]
                                                                           andCollectionView:collectionView];
                                                            
