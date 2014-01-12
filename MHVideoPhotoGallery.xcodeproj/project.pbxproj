@@ -38,7 +38,6 @@
 		F58F65131880942700D3A8F9 /* EditControl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F650F1880942700D3A8F9 /* EditControl@2x.png */; };
 		F58F65141880942700D3A8F9 /* EditControlSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F65101880942700D3A8F9 /* EditControlSelected.png */; };
 		F58F65151880942700D3A8F9 /* EditControlSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F65111880942700D3A8F9 /* EditControlSelected@2x.png */; };
-		F58F651718809E9A00D3A8F9 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F651618809E9A00D3A8F9 /* Reveal.framework */; };
 		F58F651C1880B00C00D3A8F9 /* facebookMH@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F65181880B00C00D3A8F9 /* facebookMH@2x.png */; };
 		F58F651D1880B00C00D3A8F9 /* mailMH@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F65191880B00C00D3A8F9 /* mailMH@2x.png */; };
 		F58F651E1880B00C00D3A8F9 /* saveMH@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F651A1880B00C00D3A8F9 /* saveMH@2x.png */; };
@@ -110,7 +109,6 @@
 		F58F650F1880942700D3A8F9 /* EditControl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EditControl@2x.png"; path = "MMHVideoPhotoGallery/Images/EditControl@2x.png"; sourceTree = "<group>"; };
 		F58F65101880942700D3A8F9 /* EditControlSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EditControlSelected.png; path = MMHVideoPhotoGallery/Images/EditControlSelected.png; sourceTree = "<group>"; };
 		F58F65111880942700D3A8F9 /* EditControlSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EditControlSelected@2x.png"; path = "MMHVideoPhotoGallery/Images/EditControlSelected@2x.png"; sourceTree = "<group>"; };
-		F58F651618809E9A00D3A8F9 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		F58F65181880B00C00D3A8F9 /* facebookMH@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "facebookMH@2x.png"; path = "MMHVideoPhotoGallery/Images/facebookMH@2x.png"; sourceTree = "<group>"; };
 		F58F65191880B00C00D3A8F9 /* mailMH@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mailMH@2x.png"; path = "MMHVideoPhotoGallery/Images/mailMH@2x.png"; sourceTree = "<group>"; };
 		F58F651A1880B00C00D3A8F9 /* saveMH@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "saveMH@2x.png"; path = "MMHVideoPhotoGallery/Images/saveMH@2x.png"; sourceTree = "<group>"; };
@@ -153,7 +151,6 @@
 				F58F65281882F97600D3A8F9 /* Social.framework in Frameworks */,
 				F53F924617EB008100A9FE6A /* CoreGraphics.framework in Frameworks */,
 				F53F924817EB008100A9FE6A /* UIKit.framework in Frameworks */,
-				F58F651718809E9A00D3A8F9 /* Reveal.framework in Frameworks */,
 				F53F924417EB008100A9FE6A /* Foundation.framework in Frameworks */,
 				F15E40C9FF174E88ADA680C7 /* libPods.a in Frameworks */,
 			);
@@ -175,7 +172,6 @@
 		F53F923717EB008100A9FE6A = {
 			isa = PBXGroup;
 			children = (
-				F58F651618809E9A00D3A8F9 /* Reveal.framework */,
 				F53F924917EB008100A9FE6A /* MHVideoPhotoGallery */,
 				F53F926817EB008100A9FE6A /* MHVideoPhotoGalleryTests */,
 				F53F924217EB008100A9FE6A /* Frameworks */,
@@ -657,10 +653,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/mario_hahn/Documents/Development/MHGallery,
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MHVideoPhotoGallery/MHVideoPhotoGallery-Prefix.pch";
 				INFOPLIST_FILE = "MHVideoPhotoGallery/MHVideoPhotoGallery-Info.plist";
@@ -677,10 +670,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/mario_hahn/Documents/Development/MHGallery,
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MHVideoPhotoGallery/MHVideoPhotoGallery-Prefix.pch";
 				INFOPLIST_FILE = "MHVideoPhotoGallery/MHVideoPhotoGallery-Info.plist";
