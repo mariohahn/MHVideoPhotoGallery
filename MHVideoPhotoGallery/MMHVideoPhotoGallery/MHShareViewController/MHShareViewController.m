@@ -81,7 +81,7 @@
               targetContentOffset:(inout CGPoint*)targetContentOffset {
     NSArray *visibleCells = [self sortObjectsWithFrame:self.cv.visibleCells];
     MHGalleryOverViewCell *cell;
-    if ((self.startPointScroll <  targetContentOffset->x) && (visibleCells.count >=1)) {
+    if ((self.startPointScroll <  targetContentOffset->x) && (visibleCells.count >1)) {
             cell = visibleCells[1];
     }else{
         cell = [visibleCells firstObject];
@@ -319,6 +319,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     if ([scrollView isEqual:self.cv]) {
         NSArray *visibleCells = [self sortObjectsWithFrame:self.cv.visibleCells];
         MHGalleryOverViewCell *cell = [visibleCells lastObject];
+
         CGRect rect = [self.view convertRect:cell.iv.frame fromView:cell.iv.superview];
         cell.selectionImageView.frame = CGRectMake(self.view.frame.size.width-rect.origin.x-30, cell.bounds.size.height-30, 22, 22);
         if (cell.selectionImageView.frame.origin.x < 5) {
