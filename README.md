@@ -1,6 +1,37 @@
 MHVideoPhotoGallery
 ==================
+
+
+OverView 
+--------------------
+
+
+![alt tag](https://dl.dropboxusercontent.com/u/17911939/OverView.gif)
+
+Dismiss
+--------------------
+
+
+![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissMH.gif)
+
+Share
+--------------------
+
+
+![alt tag](https://dl.dropboxusercontent.com/u/17911939/ShareView.gif)
+
+Play Videos
+--------------------
+
+
+![alt tag](https://dl.dropboxusercontent.com/u/17911939/video.gif)
+
+
+
+
 Setup
+--------------------
+
 
     self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
     
@@ -19,67 +50,51 @@ Setup
 
 
 Presenting 
-
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
-                                                                  presentingController:(UIViewController *)presenting
-                                                                      sourceController:(UIViewController *)source {
-    AnimatorShowDetailForPresentingMHGallery *detail = [AnimatorShowDetailForPresentingMHGallery new];
-    detail.iv = self.imageViewForPresentingMHGallery;
-    return detail;
-}
-
-
-Dismiss
-
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
-    AnimatorShowDetailForDismissMHGallery *detail = [AnimatorShowDetailForDismissMHGallery new];
-    detail.iv = self.imageViewForPresentingMHGallery;
-    return detail;
-}
--(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
-    if ([animator isKindOfClass:[AnimatorShowDetailForDismissMHGallery class]]) {
-        return self.interactive;
-    }else {
-        return nil;
-    }
-}
-
--(void)dismissGalleryForIndexPath:(NSIndexPath*)indexPath
-                andCollectionView:(UICollectionView*)collectionView{
-    CGRect cellFrame  = [[collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:indexPath].frame;
-    [collectionView scrollRectToVisible:cellFrame
-                               animated:NO];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [collectionView reloadItemsAtIndexPaths:@[indexPath]];
-        self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
-        if (self.interactive) {
-            self.interactive.iv = self.imageViewForPresentingMHGallery;
-        }
-        [self dismissViewControllerAnimated:YES completion:nil];
-    });
-    
-}
-
 --------------------
 
-OverView 
 
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/OverView.gif)
+    - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source {
+         AnimatorShowDetailForPresentingMHGallery *detail = [AnimatorShowDetailForPresentingMHGallery new];
+         detail.iv = self.imageViewForPresentingMHGallery;
+        return detail;
+    }
+
 
 Dismiss
-
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissMH.gif)
-
-Share
-
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/ShareView.gif)
-
-Play Videos
-
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/video.gif)
+--------------------
 
 
+    -(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
+         AnimatorShowDetailForDismissMHGallery *detail = [AnimatorShowDetailForDismissMHGallery new];
+         detail.iv = self.imageViewForPresentingMHGallery;
+         return detail;
+    }
+    -(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
+         if ([animator isKindOfClass:[AnimatorShowDetailForDismissMHGallery class]]) {
+             return self.interactive;
+         }else {
+               return nil;
+         }
+    }
+
+    -(void)dismissGalleryForIndexPath:(NSIndexPath*)indexPath
+                andCollectionView:(UICollectionView*)collectionView{
+         CGRect cellFrame  = [[collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:indexPath].frame;
+         [collectionView scrollRectToVisible:cellFrame
+                               animated:NO];
+    
+            dispatch_async(dispatch_get_main_queue(), ^{
+              [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+             self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
+                if (self.interactive) {
+                   self.interactive.iv = self.imageViewForPresentingMHGallery;
+             }
+             [self dismissViewControllerAnimated:YES completion:nil];
+    });
+    
+    }
 
 
 
