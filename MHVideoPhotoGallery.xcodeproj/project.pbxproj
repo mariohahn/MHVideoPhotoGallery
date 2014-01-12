@@ -46,6 +46,8 @@
 		F58F65211880BC6500D3A8F9 /* messageMH@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F65201880BC6500D3A8F9 /* messageMH@2x.png */; };
 		F58F65231880BD0000D3A8F9 /* activtyMH@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F65221880BD0000D3A8F9 /* activtyMH@2x.png */; };
 		F58F65261882C1A100D3A8F9 /* AnimatorShowShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = F58F65251882C1A100D3A8F9 /* AnimatorShowShareView.m */; };
+		F58F65281882F97600D3A8F9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65271882F97600D3A8F9 /* Social.framework */; };
+		F58F652A1882F97B00D3A8F9 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65291882F97B00D3A8F9 /* MessageUI.framework */; };
 		F5B2EC8017F9D68C000ADC51 /* ExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5B2EC7F17F9D68C000ADC51 /* ExampleViewController.m */; };
 		F5B2EC8217F9D70C000ADC51 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */; };
 		F5DBBF20187D573C00BEFE29 /* AnimatorShowDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF1B187D573C00BEFE29 /* AnimatorShowDetail.m */; };
@@ -117,6 +119,8 @@
 		F58F65221880BD0000D3A8F9 /* activtyMH@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "activtyMH@2x.png"; path = "MMHVideoPhotoGallery/Images/activtyMH@2x.png"; sourceTree = "<group>"; };
 		F58F65241882C1A100D3A8F9 /* AnimatorShowShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatorShowShareView.h; path = MMHVideoPhotoGallery/Animators/AnimatorShowShareView.h; sourceTree = "<group>"; };
 		F58F65251882C1A100D3A8F9 /* AnimatorShowShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimatorShowShareView.m; path = MMHVideoPhotoGallery/Animators/AnimatorShowShareView.m; sourceTree = "<group>"; };
+		F58F65271882F97600D3A8F9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		F58F65291882F97B00D3A8F9 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F5B2EC7E17F9D68C000ADC51 /* ExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleViewController.h; sourceTree = "<group>"; };
 		F5B2EC7F17F9D68C000ADC51 /* ExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleViewController.m; sourceTree = "<group>"; };
 		F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
@@ -145,6 +149,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F58F652A1882F97B00D3A8F9 /* MessageUI.framework in Frameworks */,
+				F58F65281882F97600D3A8F9 /* Social.framework in Frameworks */,
 				F53F924617EB008100A9FE6A /* CoreGraphics.framework in Frameworks */,
 				F53F924817EB008100A9FE6A /* UIKit.framework in Frameworks */,
 				F58F651718809E9A00D3A8F9 /* Reveal.framework in Frameworks */,
@@ -190,6 +196,8 @@
 		F53F924217EB008100A9FE6A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F58F65291882F97B00D3A8F9 /* MessageUI.framework */,
+				F58F65271882F97600D3A8F9 /* Social.framework */,
 				F53F924317EB008100A9FE6A /* Foundation.framework */,
 				F53F924517EB008100A9FE6A /* CoreGraphics.framework */,
 				F53F924717EB008100A9FE6A /* UIKit.framework */,

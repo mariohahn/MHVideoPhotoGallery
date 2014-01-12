@@ -11,8 +11,6 @@
 #import "MHVideoImageGalleryGlobal.h"
 #import "UIImageView+WebCache.h"
 #import "AnimatorShowShareView.h"
-#import <AssertMacros.h>
-#import <AssetsLibrary/AssetsLibrary.h>
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
 
@@ -27,11 +25,11 @@
 @property(nonatomic,strong) MHShareItem *messageObject;
 @property(nonatomic,strong) MHShareItem *twitterObject;
 @property(nonatomic,strong) MHShareItem *faceBookObject;
+@property(nonatomic,getter = isShowingShareViewInLandscapeMode) BOOL showingShareViewInLandscapeMode;
 
 @end
 
 @implementation MHShareViewController
-
 
 -(void)initShareObjects{
     self.saveObject = [[MHShareItem alloc]initWithImageName:@"activtyMH"
@@ -147,6 +145,9 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
                             animated:NO];
     self.gradientView= [[UIView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240)];
     
+    self.tb = [[UIToolbar alloc]initWithFrame:self.gradientView.frame];
+    [self.view addSubview:self.tb];
+    
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = self.gradientView.bounds;
     gradient.colors = @[(id)[[UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1] CGColor],(id)[[UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1] CGColor]];
@@ -163,14 +164,12 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
                 forCellReuseIdentifier:@"MHGalleryCollectionViewCell"];
     [self.view addSubview:self.tableViewShare];
     
-    UIView *sep = [[UIView alloc]initWithFrame:CGRectMake(0,120, self.view.frame.size.width, 1)];
+    UIView *sep = [[UIView alloc]initWithFrame:CGRectMake(0,115, self.view.frame.size.width, 1)];
     sep.backgroundColor = [UIColor colorWithRed:0.63 green:0.63 blue:0.63 alpha:1];
-    [self.gradientView addSubview:sep];
+    sep.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self.tableViewShare addSubview:sep];
     
-    UIView *sep0 = [[UIView alloc]initWithFrame:CGRectMake(0,0, self.view.frame.size.width, 0.5)];
-    sep0.backgroundColor = [UIColor colorWithRed:0.64 green:0.64 blue:0.64 alpha:1];
-    [self.gradientView addSubview:sep0];
-    [self initShareObjects];
+   [self initShareObjects];
     
     
     NSMutableArray *shareObjectAvailable = [NSMutableArray arrayWithArray:@[self.messageObject,
@@ -191,6 +190,9 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
                                                             ]];
     
     self.shareDataSourceStart = [NSArray arrayWithArray:self.shareDataSource];
+    if([UIApplication sharedApplication].statusBarOrientation != UIInterfaceOrientationPortrait){
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(showShareSheet)];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -453,6 +455,67 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
                                                      }];
         }
     }
+}
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+                                        duration:(NSTimeInterval)duration{
+    if (toInterfaceOrientation == UIInterfaceOrientationPortrait) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                             target:self
+                                                                                             action:@selector(cancelPressed)];
+        self.navigationItem.rightBarButtonItem = nil;
+        self.cv.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-240);
+        self.tb.frame = CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240);
+        self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height-230, self.view.frame.size.width, 240);
+        self.gradientView.frame = CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240);
+    }else{
+        self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 240);
+        self.tb.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
+        self.cv.frame = self.view.bounds;
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(showShareSheet)];
+    }
+    [self.cv.collectionViewLayout invalidateLayout];
+}
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    
+    NSArray *visibleCells = [self sortObjectsWithFrame:self.cv.visibleCells];
+    NSInteger numberToScrollTo =  visibleCells.count/2;
+    MHGalleryOverViewCell *cell =  (MHGalleryOverViewCell*)visibleCells[numberToScrollTo];
+   
+    [self.cv scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:cell.tag inSection:0]
+                    atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                            animated:YES];
+    if (self.isShowingShareViewInLandscapeMode) {
+        self.showingShareViewInLandscapeMode = NO;
+
+    }
+    
+}
+-(void)cancelShareSheet{
+    self.showingShareViewInLandscapeMode = NO;
+
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                         target:self
+                                                                                         action:@selector(cancelPressed)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(showShareSheet)];
+
+    [UIView animateWithDuration:0.3 animations:^{
+        self.tb.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
+        self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 240);
+    }];
+}
+-(void)showShareSheet{
+    self.showingShareViewInLandscapeMode = YES;
+    self.navigationItem.rightBarButtonItem = nil;
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelShareSheet)];
+    self.tb.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
+    self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 240);
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.tb.frame = CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240);
+        self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height-230, self.view.frame.size.width, 240);
+    }];
+    
 }
 -(void)saveImages:(NSArray*)object{
     [self getAllImagesForSelectedRows:^(NSArray *images) {

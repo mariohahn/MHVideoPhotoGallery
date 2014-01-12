@@ -14,6 +14,8 @@
 @property(nonatomic,strong) UICollectionView *cv;
 @property(nonatomic,strong) UITableView *tableViewShare;
 @property(nonatomic,strong) UIView *gradientView;
+@property(nonatomic,strong) UIToolbar *tb;
+
 @property(nonatomic) NSInteger pageIndex;
 
 @end

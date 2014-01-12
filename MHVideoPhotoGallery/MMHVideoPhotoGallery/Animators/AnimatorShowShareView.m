@@ -37,9 +37,17 @@
         
         
         toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
-        toViewController.tableViewShare.frame = CGRectMake(0, toViewController.view.frame.size.height, toViewController.view.frame.size.width, 240);
-        toViewController.gradientView.frame = CGRectMake(0, toViewController.view.frame.size.height, toViewController.view.frame.size.width,240);
+        toViewController.tableViewShare.frame = CGRectMake(0, fromViewController.view.frame.size.height, fromViewController.view.frame.size.width, 240);
+        toViewController.gradientView.frame = CGRectMake(0, fromViewController.view.frame.size.height, fromViewController.view.frame.size.width,240);
         toViewController.cv.alpha =0;
+        toViewController.cv.frame =  CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height-240);
+        
+        if([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait){
+            toViewController.cv.frame =  CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height-240);
+        }else{
+            toViewController.cv.frame =  CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height);
+        }
+        
     
         [containerView addSubview:toViewController.view];
         [containerView addSubview:cellImageSnapshot];
@@ -62,9 +70,16 @@
             [UIView animateWithDuration:duration animations:^{
                 
                 toViewController.cv.alpha =1;
+               
+                if([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait){
+                    toViewController.gradientView.frame = CGRectMake(0, toViewController.view.frame.size.height-240, toViewController.view.frame.size.width,240);
+                    toViewController.tableViewShare.frame = CGRectMake(0, toViewController.view.frame.size.height-230, toViewController.view.frame.size.width, 240);
+                }else{
+                    toViewController.gradientView.frame = CGRectMake(0, toViewController.view.frame.size.height, toViewController.view.frame.size.width,240);
+                    toViewController.tableViewShare.frame = CGRectMake(0, toViewController.view.frame.size.height, toViewController.view.frame.size.width, 240);
+                }
                 
-                toViewController.gradientView.frame = CGRectMake(0, toViewController.view.frame.size.height-240, toViewController.view.frame.size.width,240);
-                toViewController.tableViewShare.frame = CGRectMake(0, toViewController.view.frame.size.height-230, toViewController.view.frame.size.width, 240);
+                
                 cellImageSnapshot.frame = [containerView convertRect:cell.iv.frame fromView:cell.iv.superview];
                 cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
                 
@@ -93,7 +108,7 @@
             cell = [fromViewController.cv.visibleCells firstObject];
         }
         toViewController.pageIndex = cell.tag;
-
+        toViewController.tb.frame = CGRectMake(0, fromViewController.view.frame.size.height-44, fromViewController.view.frame.size.width, 44);
         MHGalleryItem *item = [MHGallerySharedManager sharedManager].galleryItems[toViewController.pageIndex];
         
         ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:item];
