@@ -14,6 +14,27 @@
 }
 
 @end
+
+@implementation MHShareItem
+
+
+- (id)initWithImageName:(NSString*)imageName
+                  title:(NSString*)title
+           withMaxNumberOfItems:(NSInteger)maxNumberOfItems
+           withSelector:(NSString*)selectorName
+       onViewController:(id)onViewController{
+    self = [super init];
+    if (!self)
+        return nil;
+    self.imageName = imageName;
+    self.title = title;
+    self.maxNumberOfItems = maxNumberOfItems;
+    self.selectorName = selectorName;
+    self.onViewController = onViewController;
+    return self;
+}
+@end
+
 @implementation MHGalleryItem
 
 

@@ -9,6 +9,7 @@
 
 #import "MHGalleryImageViewerViewController.h"
 #import "MHGalleryOverViewController.h"
+#import "AnimatorShowShareView.h"
 
 @interface MHGalleryImageViewerViewController()
 @property (nonatomic, strong) NSArray *galleryItems;
@@ -34,7 +35,6 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
     [[self.pvc.view.subviews firstObject] setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
-
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
@@ -174,20 +174,29 @@
 }
 
 -(void)sharePressed{
+    MHShareViewController *share = [MHShareViewController new];
+    share.pageIndex = self.pageIndex;
+    [self.navigationController pushViewController:share
+                                         animated:YES];
     
-    MHGalleryItem *item = self.galleryItems[self.pageIndex];
-    
-    NSMutableArray *dataToShare = [NSMutableArray new];
-    if (item.description.length>0) {
-        [dataToShare addObject:item.description];
-    }
-    [dataToShare addObject:item.urlString];
-    
-    self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:dataToShare
-                                                                    applicationActivities:nil];
-    [self presentViewController:self.activityViewController
-                       animated:YES
-                     completion:nil];
+//
+//    
+//    MHGalleryItem *item = self.galleryItems[self.pageIndex];
+//    
+//    NSMutableArray *dataToShare = [NSMutableArray new];
+//    if (item.description.length>0) {
+//        [dataToShare addObject:ivc.imageView.image];
+//    }
+//    [dataToShare addObject:item.urlString];
+//    
+//    self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:dataToShare
+//                                                                    applicationActivities:nil];
+//    
+//    
+//    
+//    [self presentViewController:self.activityViewController
+//                       animated:YES
+//                     completion:nil];
     
 }
 
@@ -279,6 +288,11 @@
                                   animationControllerForOperation:(UINavigationControllerOperation)operation
                                                fromViewController:(UIViewController *)fromVC
                                                  toViewController:(UIViewController *)toVC {
+    if ([toVC isKindOfClass:[MHShareViewController class]]) {
+        AnimatorShowShareView *present = [AnimatorShowShareView new];
+        present.present = YES;
+        return present;
+    }
     return [AnimatorShowOverView new];
 }
 

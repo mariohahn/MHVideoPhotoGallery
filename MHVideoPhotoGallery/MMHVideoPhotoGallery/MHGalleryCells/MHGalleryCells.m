@@ -57,6 +57,33 @@
         [self.videoIcon setHidden:YES];
         [[self contentView] addSubview:self.videoIcon];
         
+        _selectionImageView = [[UIImageView alloc]initWithFrame:CGRectMake(self.bounds.size.width-30,  self.bounds.size.height-30, 22, 22)];
+        self.selectionImageView.image = [UIImage imageNamed:@"videoIcon"];
+        [self.selectionImageView setContentMode:UIViewContentModeScaleAspectFit];
+        [self.selectionImageView setHidden:YES];
+        [[self contentView] addSubview:self.selectionImageView];
+        
+    }
+    return self;
+}
+@end
+
+@implementation MHShareCell
+
+- (id)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _iv = [[UIImageView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2-30, 1, 60, 60)];
+        self.iv.contentMode = UIViewContentModeScaleAspectFill;
+        self.iv.clipsToBounds = TRUE;
+        [[self contentView] addSubview:self.iv];
+        
+        _labelDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, self.bounds.size.height-40, self.bounds.size.width, 40)];
+        self.labelDescription.backgroundColor = [UIColor clearColor];
+        self.labelDescription.textColor = [UIColor blackColor];
+        self.labelDescription.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
+        [self.labelDescription setNumberOfLines:2];
+        [[self contentView] addSubview:self.labelDescription];
     }
     return self;
 }
@@ -75,7 +102,7 @@
     layout.minimumInteritemSpacing = 15;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
     _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds
                                          collectionViewLayout:layout];

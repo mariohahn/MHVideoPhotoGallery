@@ -32,6 +32,22 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
     MHGalleryViewModeList
 };
 
+@interface MHShareItem : NSObject
+@property (nonatomic,strong) NSString *imageName;
+@property (nonatomic,strong) NSString *title;
+@property (nonatomic)        NSInteger maxNumberOfItems;
+@property (nonatomic,strong) NSString *selectorName;
+@property (nonatomic)        id onViewController;
+
+
+- (id)initWithImageName:(NSString*)imageName
+                  title:(NSString*)title
+   withMaxNumberOfItems:(NSInteger)maxNumberOfItems
+           withSelector:(NSString*)selectorName
+       onViewController:(id)onViewController;
+
+@end
+
 @interface MHGalleryItem : NSObject
 @property (nonatomic, strong) NSString *urlString;
 @property (nonatomic) MHGalleryType galleryType;

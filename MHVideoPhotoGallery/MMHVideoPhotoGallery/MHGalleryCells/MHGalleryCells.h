@@ -15,6 +15,13 @@
 @property (nonatomic, strong)UILabel *videoDurationLength;
 @property (nonatomic, strong)UIImageView *videoIcon;
 @property (nonatomic, strong)UIView *videoGradient;
+@property (nonatomic, strong)UIImageView *selectionImageView;
+
+@end
+
+@interface MHShareCell : UICollectionViewCell
+@property (strong, nonatomic) UIImageView *iv;
+@property (strong, nonatomic) UILabel *labelDescription;
 @end
 
 @interface MHGalleryCollectionViewCell : UITableViewCell
