@@ -19,7 +19,7 @@
 @property(nonatomic,strong)NSMutableArray *shareDataSource;
 @property(nonatomic,strong)NSArray *shareDataSourceStart;
 @property(nonatomic,strong)NSMutableArray *selectedRows;
-@property(nonatomic)CGFloat startPointScroll;
+@property(nonatomic)        CGFloat startPointScroll;
 @property(nonatomic,strong) MHShareItem *saveObject;
 @property(nonatomic,strong) MHShareItem *mailObject;
 @property(nonatomic,strong) MHShareItem *messageObject;
@@ -88,7 +88,6 @@
         cell = [visibleCells firstObject];
     }
     *targetContentOffset = CGPointMake((cell.tag * 250+20), targetContentOffset->y);
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -319,12 +318,13 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if ([scrollView isEqual:self.cv]) {
         NSArray *visibleCells = [self sortObjectsWithFrame:self.cv.visibleCells];
-        for (MHGalleryOverViewCell *cell in visibleCells) {
-            cell.selectionImageView.frame = CGRectMake(cell.bounds.size.width-30,  cell.bounds.size.height-30, 22, 22);
+        for (MHGalleryOverViewCell *cellOther in visibleCells) {
+            cellOther.selectionImageView.frame = CGRectMake(cellOther.bounds.size.width-30,  cellOther.bounds.size.height-30, 22, 22);
         }
-        
-        MHGalleryOverViewCell *cell = [visibleCells lastObject];
+        NSLog(@"%@",visibleCells);
 
+        MHGalleryOverViewCell *cell = [visibleCells lastObject];
+        NSLog(@"%@",cell);
         CGRect rect = [self.view convertRect:cell.iv.frame fromView:cell.iv.superview];
         cell.selectionImageView.frame = CGRectMake(self.view.frame.size.width-rect.origin.x-30, cell.bounds.size.height-30, 22, 22);
         if (cell.selectionImageView.frame.origin.x < 5) {
@@ -557,9 +557,14 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
         [self.cv reloadItemsAtIndexPaths:@[indexPath]];
         
         [self.cv.delegate scrollViewDidScroll:self.cv];
-        [self.cv scrollToItemAtIndexPath:indexPath
-                        atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
-                                animated:YES];
+        [UIView animateWithDuration:0.35 animations:^{
+            [self.cv scrollToItemAtIndexPath:indexPath
+                            atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                    animated:NO];
+        } completion:^(BOOL finished) {
+            [self.cv.delegate scrollViewDidScroll:self.cv];
+        }];
+       
         [self updateCollectionView];
         [self updateTitle];
     }else{
