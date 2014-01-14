@@ -69,7 +69,7 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
 -(void)startDownloadingThumbImage:(NSString*)urlString
                           forSize:(CGSize)size
                        atDuration:(MHImageGeneration)duration
-                     successBlock:(void (^)(UIImage *image,NSUInteger videoDuration))succeedBlock;
+                     successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error))succeedBlock;
 
 - (UIImage *)imageByRenderingView:(id)view;
 

@@ -34,6 +34,10 @@
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
+    
+    [self.view addSubview:self.descriptionViewBackground];
+    [self.view addSubview:self.descriptionView];
+    [self.view addSubview:self.tb];
     [[self.pvc.view.subviews firstObject] setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
 }
 
@@ -114,8 +118,6 @@
     }
     
     self.descriptionViewBackground = [[UIToolbar alloc]initWithFrame:CGRectZero];
-    [self.view addSubview:self.descriptionViewBackground];
-    
     self.descriptionView = [[UITextView alloc]initWithFrame:CGRectZero];
     self.descriptionView.backgroundColor = [UIColor clearColor];
     self.descriptionView.font = [UIFont systemFontOfSize:15];
@@ -123,8 +125,6 @@
     self.descriptionView.textColor = [UIColor blackColor];
     self.descriptionView.scrollEnabled = NO;
     [self.descriptionView setUserInteractionEnabled:NO];
-    [self.view addSubview:self.descriptionView];
-    
     
     
     CGSize size = [self.descriptionView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
@@ -139,7 +139,6 @@
     [(UIGestureRecognizer*)[[self.pvc.view.subviews[0] gestureRecognizers] firstObject] setDelegate:self];
     
     [self updateTitleForIndex:self.pageIndex];
-    [self.view addSubview:self.tb];
 
 }
 
@@ -178,25 +177,6 @@
     share.pageIndex = self.pageIndex;
     [self.navigationController pushViewController:share
                                          animated:YES];
-    
-//
-//    
-//    MHGalleryItem *item = self.galleryItems[self.pageIndex];
-//    
-//    NSMutableArray *dataToShare = [NSMutableArray new];
-//    if (item.description.length>0) {
-//        [dataToShare addObject:ivc.imageView.image];
-//    }
-//    [dataToShare addObject:item.urlString];
-//    
-//    self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:dataToShare
-//                                                                    applicationActivities:nil];
-//    
-//    
-//    
-//    [self presentViewController:self.activityViewController
-//                       animated:YES
-//                     completion:nil];
     
 }
 
@@ -586,25 +566,29 @@
             [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:self.item.urlString
                                                                        forSize:CGSizeMake(self.view.bounds.size.width*2, self.view.bounds.size.height*2)
                                                                     atDuration:MHImageGenerationStart
-                                                                  successBlock:^(UIImage *image,NSUInteger videoDuration) {
-                                                                      self.wholeTimeMovie = videoDuration;
-                                                                      NSNumber *minutes = @(videoDuration / 60);
-                                                                      NSNumber *seconds = @(videoDuration % 60);
-                                                                      
-                                                                      self.rightSliderLabel.text = [NSString stringWithFormat:@"-%@:%@",
-                                                                                                            [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
-                                                                      
-                                                                      
-                                                                      [self.slider setMaximumValue:videoDuration];
-                                                                      [[self.view viewWithTag:508]setHidden:NO];
-                                                                      self.imageView.image = image;
-                                                                      
-                                                                      self.playButton.frame = CGRectMake(self.vc.view.frame.size.width/2-36, self.vc.view.frame.size.height/2-36, 72, 72);
-                                                                      [self.playButton setHidden:NO];
-                                                                      [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
-                                                                      [UIView animateWithDuration:0.3 animations:^{
-                                                                          self.moviePlayerToolBarTop.alpha =1;
-                                                                      }];
+                                                                  successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
+                                                                      if (!error) {
+                                                                          self.wholeTimeMovie = videoDuration;
+                                                                          NSNumber *minutes = @(videoDuration / 60);
+                                                                          NSNumber *seconds = @(videoDuration % 60);
+                                                                          
+                                                                          self.rightSliderLabel.text = [NSString stringWithFormat:@"-%@:%@",
+                                                                                                        [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
+                                                                          
+                                                                          
+                                                                          [self.slider setMaximumValue:videoDuration];
+                                                                          [[self.view viewWithTag:508]setHidden:NO];
+                                                                          self.imageView.image = image;
+                                                                          
+                                                                          self.playButton.frame = CGRectMake(self.vc.view.frame.size.width/2-36, self.vc.view.frame.size.height/2-36, 72, 72);
+                                                                          [self.playButton setHidden:NO];
+                                                                          [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
+                                                                          [UIView animateWithDuration:0.3 animations:^{
+                                                                              self.moviePlayerToolBarTop.alpha =1;
+                                                                          }];
+                                                                      }else{
+                                                                          self.imageView.image = [UIImage imageNamed:@"error"];
+                                                                      }
                                                                   }];
         }
            }

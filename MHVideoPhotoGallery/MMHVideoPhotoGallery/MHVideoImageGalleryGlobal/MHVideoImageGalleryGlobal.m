@@ -95,14 +95,14 @@
 -(void)startDownloadingThumbImage:(NSString*)urlString
                           forSize:(CGSize)size
                        atDuration:(MHImageGeneration)duration
-                     successBlock:(void (^)(UIImage *image,NSUInteger videoDuration))succeedBlock{
+                     successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error))succeedBlock{
     UIImage *image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:urlString];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc]initWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"MHGalleryData"]];
     if (!dict) {
         dict = [NSMutableDictionary new];
     }
     if (image) {
-        succeedBlock(image,[dict[urlString] integerValue]);
+        succeedBlock(image,[dict[urlString] integerValue],nil);
     }else{
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
             NSURL *url = [NSURL URLWithString:urlString];
@@ -136,10 +136,14 @@
                 NSLog(@"Requested: %@; actual %@", requestedTimeString, actualTimeString);
                 
                 if (result != AVAssetImageGeneratorSucceeded) {
+                    dispatch_async(dispatch_get_main_queue(), ^(void){
+                        succeedBlock(nil,0,error);
+                    });
+
                 }else{
                     [[SDImageCache sharedImageCache] storeImage:[UIImage imageWithCGImage:im]  forKey:urlString];
                     dispatch_async(dispatch_get_main_queue(), ^(void){
-                        succeedBlock([UIImage imageWithCGImage:im],videoDurationTimeInSeconds);
+                        succeedBlock([UIImage imageWithCGImage:im],videoDurationTimeInSeconds,nil);
                     });
                 }
             };

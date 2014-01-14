@@ -52,6 +52,7 @@
 		F58F65321883DCE500D3A8F9 /* mailMH.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F652D1883DCE500D3A8F9 /* mailMH.png */; };
 		F58F65331883DCE500D3A8F9 /* messageMH.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F652E1883DCE500D3A8F9 /* messageMH.png */; };
 		F58F65341883DCE500D3A8F9 /* twitterMH.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F652F1883DCE500D3A8F9 /* twitterMH.png */; };
+		F58F6539188510AA00D3A8F9 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F6538188510AA00D3A8F9 /* Reveal.framework */; };
 		F5B2EC8017F9D68C000ADC51 /* ExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5B2EC7F17F9D68C000ADC51 /* ExampleViewController.m */; };
 		F5B2EC8217F9D70C000ADC51 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */; };
 		F5DBBF20187D573C00BEFE29 /* AnimatorShowDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF1B187D573C00BEFE29 /* AnimatorShowDetail.m */; };
@@ -129,6 +130,7 @@
 		F58F652D1883DCE500D3A8F9 /* mailMH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mailMH.png; path = MMHVideoPhotoGallery/Images/mailMH.png; sourceTree = "<group>"; };
 		F58F652E1883DCE500D3A8F9 /* messageMH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = messageMH.png; path = MMHVideoPhotoGallery/Images/messageMH.png; sourceTree = "<group>"; };
 		F58F652F1883DCE500D3A8F9 /* twitterMH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = twitterMH.png; path = MMHVideoPhotoGallery/Images/twitterMH.png; sourceTree = "<group>"; };
+		F58F6538188510AA00D3A8F9 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		F5B2EC7E17F9D68C000ADC51 /* ExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleViewController.h; sourceTree = "<group>"; };
 		F5B2EC7F17F9D68C000ADC51 /* ExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleViewController.m; sourceTree = "<group>"; };
 		F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F58F6539188510AA00D3A8F9 /* Reveal.framework in Frameworks */,
 				F58F652A1882F97B00D3A8F9 /* MessageUI.framework in Frameworks */,
 				F58F65281882F97600D3A8F9 /* Social.framework in Frameworks */,
 				F53F924617EB008100A9FE6A /* CoreGraphics.framework in Frameworks */,
@@ -182,6 +185,7 @@
 		F53F923717EB008100A9FE6A = {
 			isa = PBXGroup;
 			children = (
+				F58F6538188510AA00D3A8F9 /* Reveal.framework */,
 				F53F924917EB008100A9FE6A /* MHVideoPhotoGallery */,
 				F53F926817EB008100A9FE6A /* MHVideoPhotoGalleryTests */,
 				F53F924217EB008100A9FE6A /* Frameworks */,
@@ -216,6 +220,7 @@
 		F53F924917EB008100A9FE6A /* MHVideoPhotoGallery */ = {
 			isa = PBXGroup;
 			children = (
+				F58F65351883FC0B00D3A8F9 /* iPad */,
 				F53F925217EB008100A9FE6A /* AppDelegate.h */,
 				F53F925317EB008100A9FE6A /* AppDelegate.m */,
 				F5506EDE187DA02D00DFD178 /* Images */,
@@ -325,6 +330,13 @@
 			name = MHShareViewController;
 			sourceTree = "<group>";
 		};
+		F58F65351883FC0B00D3A8F9 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
 		F5DBBF14187D568100BEFE29 /* MHGalleryCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -428,6 +440,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Mario Hahn";
 				TargetAttributes = {
+					F53F923F17EB008100A9FE6A = {
+						DevelopmentTeam = 22DEN472RY;
+					};
 					F53F926017EB008100A9FE6A = {
 						TestTargetID = F53F923F17EB008100A9FE6A;
 					};
@@ -673,12 +688,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/mario_hahn/Documents/Development/MHGallery,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MHVideoPhotoGallery/MHVideoPhotoGallery-Prefix.pch";
 				INFOPLIST_FILE = "MHVideoPhotoGallery/MHVideoPhotoGallery-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -690,12 +711,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/mario_hahn/Documents/Development/MHGallery,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MHVideoPhotoGallery/MHVideoPhotoGallery-Prefix.pch";
 				INFOPLIST_FILE = "MHVideoPhotoGallery/MHVideoPhotoGallery-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -86,10 +86,10 @@
                 toViewController.view.alpha = 1.0;
                 
             } completion:^(BOOL finished) {
-                [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
                 [cellImageSnapshot removeFromSuperview];
                 cell.iv.hidden =NO;
                 
+                [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
             }];
         });
         
@@ -151,11 +151,12 @@
         } completion:^(BOOL finished) {
             
             toViewController.view.alpha =1;
-
-            [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
             [cellImageSnapshot removeFromSuperview];
             [viewWhite removeFromSuperview];
             cell.iv.hidden =NO;
+            
+            [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
+            
             
         }];
         

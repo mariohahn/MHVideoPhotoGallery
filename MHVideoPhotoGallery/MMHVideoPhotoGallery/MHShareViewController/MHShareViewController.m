@@ -26,6 +26,8 @@
 @property(nonatomic,strong) MHShareItem *twitterObject;
 @property(nonatomic,strong) MHShareItem *faceBookObject;
 @property(nonatomic,getter = isShowingShareViewInLandscapeMode) BOOL showingShareViewInLandscapeMode;
+@property (nonatomic, strong)                   NSNumberFormatter *numberFormatter;
+
 
 @end
 
@@ -107,6 +109,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.numberFormatter = [NSNumberFormatter new];
+    [self.numberFormatter setMinimumIntegerDigits:2];
     
     self.navigationItem.title = @"1 ausgewählt";
     
@@ -280,8 +285,40 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     cell.backgroundColor = [UIColor clearColor];
 }
 -(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
+    __block MHGalleryOverViewCell *blockCell = cell;
+
     MHGalleryItem *item = self.galleryDataSource[indexPath.row];
-    [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]];
+    cell.videoDurationLength.text = @"";
+    
+    if (item.galleryType == MHGalleryTypeImage) {
+        [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            if (!image) {
+                blockCell.iv.image = [UIImage imageNamed:@"error"];
+            }
+        }];
+    }else{
+        [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
+                                                                   forSize:CGSizeMake(cell.iv.frame.size.width*2, cell.iv.frame.size.height*2)
+                                                                atDuration:MHImageGenerationStart
+                                                              successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
+                                                                  if (error) {
+                                                                      cell.iv.image = [UIImage imageNamed:@"error"];
+                                                                  }else{
+                                                                      
+                                                                      NSNumber *minutes = @(videoDuration / 60);
+                                                                      NSNumber *seconds = @(videoDuration % 60);
+                                                                      
+                                                                      blockCell.videoDurationLength.text = [NSString stringWithFormat:@"%@:%@",
+                                                                                                            [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
+                                                                      [blockCell.iv setImage:image];
+                                                                      [blockCell.videoIcon setHidden:NO];
+                                                                      [blockCell.videoGradient setHidden:NO];
+                                                                  }
+                                                              }];
+    }
+
+    
+    
     [cell.iv setContentMode:UIViewContentModeScaleAspectFill];
     cell.selectionImageView.hidden =NO;
 
@@ -321,10 +358,8 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
         for (MHGalleryOverViewCell *cellOther in visibleCells) {
             cellOther.selectionImageView.frame = CGRectMake(cellOther.bounds.size.width-30,  cellOther.bounds.size.height-30, 22, 22);
         }
-        NSLog(@"%@",visibleCells);
 
         MHGalleryOverViewCell *cell = [visibleCells lastObject];
-        NSLog(@"%@",cell);
         CGRect rect = [self.view convertRect:cell.iv.frame fromView:cell.iv.superview];
         cell.selectionImageView.frame = CGRectMake(self.view.frame.size.width-rect.origin.x-30, cell.bounds.size.height-30, 22, 22);
         if (cell.selectionImageView.frame.origin.x < 5) {
@@ -421,9 +456,11 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
                              mimeType:@"image/jpeg"
                              fileName:@"image"];
         }
-        [self presentViewController:picker
-                           animated:YES
-                         completion:NULL];
+        if([MFMailComposeViewController canSendMail]){
+            [self presentViewController:picker
+                               animated:YES
+                             completion:NULL];
+        }
     }];
 }
 -(void)messageComposeViewController:(MFMessageComposeViewController *)controller
