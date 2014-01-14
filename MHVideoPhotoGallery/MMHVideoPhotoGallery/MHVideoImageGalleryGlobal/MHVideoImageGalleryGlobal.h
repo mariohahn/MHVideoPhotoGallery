@@ -9,6 +9,8 @@
 #import "AnimatorShowDetailForDismissMHGallery.h"
 #import "AnimatorShowDetailForPresentingMHGallery.h"
 
+#define MHISIPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+
 @class AnimatorShowDetailForDismissMHGallery;
 
 typedef NS_ENUM(NSUInteger, MHImageGeneration) {

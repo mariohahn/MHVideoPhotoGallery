@@ -90,6 +90,12 @@
     [self.view addSubview:[self.pvc view]];
     
     self.tb = [[UIToolbar alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
+    if([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight){
+        if (self.view.bounds.size.height > self.view.bounds.size.width) {
+            self.tb.frame = CGRectMake(0, self.view.frame.size.width-44, self.view.frame.size.height, 44);
+        }
+    }
+    
     self.tb.tag = 307;
     self.tb.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     

@@ -89,7 +89,12 @@
     }else{
         cell = [visibleCells firstObject];
     }
-    *targetContentOffset = CGPointMake((cell.tag * 250+20), targetContentOffset->y);
+    if (MHISIPAD) {
+        *targetContentOffset = CGPointMake((cell.tag * 330+20), targetContentOffset->y);
+
+    }else{
+        *targetContentOffset = CGPointMake((cell.tag * 250+20), targetContentOffset->y);
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -126,7 +131,11 @@
     
     UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    flowLayout.itemSize = CGSizeMake(240, self.view.frame.size.height-330);
+    if (MHISIPAD) {
+        flowLayout.itemSize = CGSizeMake(320, self.view.frame.size.height-330);
+    }else{
+        flowLayout.itemSize = CGSizeMake(240, self.view.frame.size.height-330);
+    }
     flowLayout.minimumInteritemSpacing =20;
     flowLayout.sectionInset = UIEdgeInsetsMake(0, 60, 0, 0);
     self.cv = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-240)
@@ -289,7 +298,8 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
 
     MHGalleryItem *item = self.galleryDataSource[indexPath.row];
     cell.videoDurationLength.text = @"";
-    
+    [cell.videoIcon setHidden:YES];
+    [cell.videoGradient setHidden:YES];
     if (item.galleryType == MHGalleryTypeImage) {
         [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
             if (!image) {
@@ -356,18 +366,28 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     if ([scrollView isEqual:self.cv]) {
         NSArray *visibleCells = [self sortObjectsWithFrame:self.cv.visibleCells];
         for (MHGalleryOverViewCell *cellOther in visibleCells) {
-            cellOther.selectionImageView.frame = CGRectMake(cellOther.bounds.size.width-30,  cellOther.bounds.size.height-30, 22, 22);
+            if (!cellOther.videoIcon.isHidden){
+                cellOther.selectionImageView.frame = CGRectMake(cellOther.bounds.size.width-30,  cellOther.bounds.size.height-45, 22, 22);
+            }else{
+                cellOther.selectionImageView.frame = CGRectMake(cellOther.bounds.size.width-30,  cellOther.bounds.size.height-30, 22, 22);
+            }
         }
 
         MHGalleryOverViewCell *cell = [visibleCells lastObject];
         CGRect rect = [self.view convertRect:cell.iv.frame fromView:cell.iv.superview];
-        cell.selectionImageView.frame = CGRectMake(self.view.frame.size.width-rect.origin.x-30, cell.bounds.size.height-30, 22, 22);
+        
+        NSInteger valueToAddYForVideoType =0;
+        if (!cell.videoIcon.isHidden){
+            valueToAddYForVideoType+=15;
+        }
+        
+        cell.selectionImageView.frame = CGRectMake(self.view.frame.size.width-rect.origin.x-30, cell.bounds.size.height-(30+valueToAddYForVideoType), 22, 22);
         if (cell.selectionImageView.frame.origin.x < 5) {
-            cell.selectionImageView.frame = CGRectMake(5,  cell.bounds.size.height-30, 22, 22);
+            cell.selectionImageView.frame = CGRectMake(5,  cell.bounds.size.height-(30+valueToAddYForVideoType), 22, 22);
         }
         
         if (cell.selectionImageView.frame.origin.x > cell.bounds.size.width-30 ) {
-            cell.selectionImageView.frame = CGRectMake(cell.bounds.size.width-30,  cell.bounds.size.height-30, 22, 22);
+            cell.selectionImageView.frame = CGRectMake(cell.bounds.size.width-30,  cell.bounds.size.height-(30+valueToAddYForVideoType), 22, 22);
         }
     }
 }
