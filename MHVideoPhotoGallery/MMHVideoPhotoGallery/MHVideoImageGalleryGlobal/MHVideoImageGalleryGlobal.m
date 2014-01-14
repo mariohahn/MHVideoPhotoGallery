@@ -114,10 +114,7 @@
             NSUInteger videoDurationTimeInSeconds = CMTimeGetSeconds(videoDurationTime);
             
             dict[urlString] = @(videoDurationTimeInSeconds);
-            
-            [[NSUserDefaults standardUserDefaults]setObject:dict forKey:@"MHGalleryData"];
-            [[NSUserDefaults standardUserDefaults]synchronize];
-            
+
             
             if (duration == MHImageGenerationMiddle || duration == MHImageGenerationEnd) {
                 if(duration == MHImageGenerationMiddle){
@@ -141,6 +138,9 @@
                     });
 
                 }else{
+                    [[NSUserDefaults standardUserDefaults]setObject:dict forKey:@"MHGalleryData"];
+                    [[NSUserDefaults standardUserDefaults]synchronize];
+                    
                     [[SDImageCache sharedImageCache] storeImage:[UIImage imageWithCGImage:im]  forKey:urlString];
                     dispatch_async(dispatch_get_main_queue(), ^(void){
                         succeedBlock([UIImage imageWithCGImage:im],videoDurationTimeInSeconds,nil);
