@@ -19,10 +19,10 @@
             </objects>
             <point key="canvasLocation" x="-1074" y="-90"/>
         </scene>
-        <!--Example View Controller-->
+        <!--Example View Controller Collection View In Table View-->
         <scene sceneID="Q7z-Sv-nmu">
             <objects>
-                <viewController restorationIdentifier="ExampleViewController" storyboardIdentifier="ExampleViewController" id="WTF-am-qxF" customClass="ExampleViewController" sceneMemberID="viewController">
+                <viewController restorationIdentifier="ExampleViewController" storyboardIdentifier="ExampleViewController" id="WTF-am-qxF" customClass="ExampleViewControllerCollectionViewInTableView" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="o3o-Qe-hPk"/>
                         <viewControllerLayoutGuide type="bottom" id="vzP-bm-4Vr"/>

@@ -6,23 +6,23 @@
 //  Copyright (c) 2013 Mario Hahn. All rights reserved.
 //
 
-#import "ExampleViewController.h"
+#import "ExampleViewControllerCollectionViewInTableView.h"
 #import "MHGalleryOverViewController.h"
 
-@interface ExampleViewController ()
+@interface ExampleViewControllerCollectionViewInTableView ()
 @property(nonatomic,strong)NSArray *galleryDataSource;
 @property(nonatomic,strong) UIImageView *imageViewForPresentingMHGallery;
 @property(nonatomic,strong) AnimatorShowDetailForDismissMHGallery *interactive;
 @end
 
-@implementation ExampleViewController
+@implementation ExampleViewControllerCollectionViewInTableView
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     
-    self.title = @"Gallery";
+    self.title = @"TableViewInCollectionView";
     
     
     
@@ -171,13 +171,7 @@
     });
     
 }
--(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
-    if ([animator isKindOfClass:[AnimatorShowDetailForDismissMHGallery class]]) {
-        return self.interactive;
-    }else {
-        return nil;
-    }
-}
+
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
     self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
@@ -204,7 +198,13 @@
     return NO;
 }
 
-
+-(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
+    if ([animator isKindOfClass:[AnimatorShowDetailForDismissMHGallery class]]) {
+        return self.interactive;
+    }else {
+        return nil;
+    }
+}
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
     AnimatorShowDetailForDismissMHGallery *detail = [AnimatorShowDetailForDismissMHGallery new];
     detail.iv = self.imageViewForPresentingMHGallery;

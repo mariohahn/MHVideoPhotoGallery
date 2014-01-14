@@ -68,6 +68,15 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
 
 + (MHGallerySharedManager *)sharedManager;
 
+
+/**
+ *  You can create
+ *
+ *  @param urlString    <#urlString description#>
+ *  @param size         <#size description#>
+ *  @param duration     <#duration description#>
+ *  @param succeedBlock <#succeedBlock description#>
+ */
 -(void)startDownloadingThumbImage:(NSString*)urlString
                           forSize:(CGSize)size
                        atDuration:(MHImageGeneration)duration

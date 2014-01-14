@@ -12,6 +12,6 @@
 @interface UINavigationController (Rotation)
 @end
 
-@interface ExampleViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIViewControllerTransitioningDelegate>
+@interface ExampleViewControllerCollectionViewInTableView : UIViewController<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIViewControllerTransitioningDelegate>
 @property (strong,nonatomic) IBOutlet UITableView *tableView;
 @end
