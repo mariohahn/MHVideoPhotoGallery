@@ -5,6 +5,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <QuartzCore/QuartzCore.h>
 #import "SDImageCache.h"
+#import "UIImageView+WebCache.h"
 
 #import "AnimatorShowDetailForDismissMHGallery.h"
 #import "AnimatorShowDetailForPresentingMHGallery.h"
@@ -87,7 +88,7 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
         andCurrentViewController:(id)viewcontroller
-                  finishCallback:(void(^)(NSInteger pageIndex, AnimatorShowDetailForDismissMHGallery *interactiveTransition)
+                  finishCallback:(void(^)(NSInteger pageIndex, AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image)
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated;
 

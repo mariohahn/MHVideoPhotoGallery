@@ -126,7 +126,7 @@
         [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
                                                                  forIndex:indexPath.row
                                                  andCurrentViewController:self
-                                                           finishCallback:^(NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition) {
+                                                           finishCallback:^(NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
                                                                self.interactive = interactiveTransition;
                                                                [self dismissGalleryForIndexPath:[NSIndexPath indexPathForRow:pageIndex inSection:0]];
                                                                

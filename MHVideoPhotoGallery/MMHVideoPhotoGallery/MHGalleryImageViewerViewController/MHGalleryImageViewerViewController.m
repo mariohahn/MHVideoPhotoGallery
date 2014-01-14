@@ -54,7 +54,7 @@
 
 -(void)donePressed{
     MHGalleryOverViewController *overView  =[self.navigationController.viewControllers firstObject];
-    overView.finishedCallback(self.pageIndex,nil);
+    overView.finishedCallback(self.pageIndex,nil,nil);
 }
 
 -(void)viewDidLoad{
@@ -439,7 +439,7 @@
 
             self.interactiveTransition = [AnimatorShowDetailForDismissMHGallery new];
             MHGalleryOverViewController *overView  =[self.navigationController.viewControllers firstObject];
-            overView.finishedCallback(self.pageIndex,self.interactiveTransition);
+            overView.finishedCallback(self.pageIndex,self.interactiveTransition,self.imageView.image);
         }else{
             self.interactiveTransition.changedPoint = self.lastPoint.y - [(UIPanGestureRecognizer*)recognizer translationInView:self.view].y;
             progress = [self checkProgressValue:progress];

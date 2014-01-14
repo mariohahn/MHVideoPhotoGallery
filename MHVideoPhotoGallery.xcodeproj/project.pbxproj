@@ -57,6 +57,7 @@
 		F5B2EC8017F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5B2EC7F17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m */; };
 		F5B2EC8217F9D70C000ADC51 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */; };
 		F5D24FFD1885CDDD004D97CA /* ExampleViewControllerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D24FFC1885CDDD004D97CA /* ExampleViewControllerTableView.m */; };
+		F5D250001885D3D7004D97CA /* ExampleViewControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5D24FFF1885D3D7004D97CA /* ExampleViewControllerImageView.m */; };
 		F5DBBF20187D573C00BEFE29 /* AnimatorShowDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF1B187D573C00BEFE29 /* AnimatorShowDetail.m */; };
 		F5DBBF21187D573C00BEFE29 /* AnimatorShowDetailForPresentingMHGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF1D187D573C00BEFE29 /* AnimatorShowDetailForPresentingMHGallery.m */; };
 		F5DBBF22187D573C00BEFE29 /* AnimatorShowOverView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF1F187D573C00BEFE29 /* AnimatorShowOverView.m */; };
@@ -139,6 +140,8 @@
 		F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		F5D24FFB1885CDDD004D97CA /* ExampleViewControllerTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleViewControllerTableView.h; sourceTree = "<group>"; };
 		F5D24FFC1885CDDD004D97CA /* ExampleViewControllerTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleViewControllerTableView.m; sourceTree = "<group>"; };
+		F5D24FFE1885D3D7004D97CA /* ExampleViewControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleViewControllerImageView.h; sourceTree = "<group>"; };
+		F5D24FFF1885D3D7004D97CA /* ExampleViewControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleViewControllerImageView.m; sourceTree = "<group>"; };
 		F5DBBF1A187D573C00BEFE29 /* AnimatorShowDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatorShowDetail.h; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetail.h; sourceTree = "<group>"; };
 		F5DBBF1B187D573C00BEFE29 /* AnimatorShowDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimatorShowDetail.m; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetail.m; sourceTree = "<group>"; };
 		F5DBBF1C187D573C00BEFE29 /* AnimatorShowDetailForPresentingMHGallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatorShowDetailForPresentingMHGallery.h; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetailForPresentingMHGallery.h; sourceTree = "<group>"; };
@@ -241,6 +244,8 @@
 				F5B2EC7F17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m */,
 				F5D24FFB1885CDDD004D97CA /* ExampleViewControllerTableView.h */,
 				F5D24FFC1885CDDD004D97CA /* ExampleViewControllerTableView.m */,
+				F5D24FFE1885D3D7004D97CA /* ExampleViewControllerImageView.h */,
+				F5D24FFF1885D3D7004D97CA /* ExampleViewControllerImageView.m */,
 				F58F653C18852F6500D3A8F9 /* Storyboard-iPad.storyboard */,
 				F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */,
 				F53F925B17EB008100A9FE6A /* Images.xcassets */,
@@ -563,6 +568,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5DBBF28187D57DD00BEFE29 /* MHGalleryOverViewController.m in Sources */,
+				F5D250001885D3D7004D97CA /* ExampleViewControllerImageView.m in Sources */,
 				F5DBBF34187D5B8600BEFE29 /* UIImage+ImageEffects.m in Sources */,
 				F5D24FFD1885CDDD004D97CA /* ExampleViewControllerTableView.m in Sources */,
 				F58F65261882C1A100D3A8F9 /* AnimatorShowShareView.m in Sources */,

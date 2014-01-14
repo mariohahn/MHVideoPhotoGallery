@@ -66,7 +66,7 @@
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
         andCurrentViewController:(id)viewcontroller
-                  finishCallback:(void(^)(NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition)
+                  finishCallback:(void(^)(NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image)
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated{
     
@@ -76,8 +76,8 @@
     
     MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
     [gallery viewDidLoad];
-    gallery.finishedCallback = ^(NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition) {
-        FinishBlock(photoIndex,interactiveTransition);
+    gallery.finishedCallback = ^(NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
+        FinishBlock(photoIndex,interactiveTransition,image);
     };
     
     MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
