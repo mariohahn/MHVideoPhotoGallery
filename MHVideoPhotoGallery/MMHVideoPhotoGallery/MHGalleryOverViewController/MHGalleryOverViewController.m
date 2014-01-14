@@ -109,16 +109,15 @@
                                                                   if (error) {
                                                                       cell.iv.backgroundColor = [UIColor whiteColor];
                                                                       cell.iv.image = [UIImage imageNamed:@"error"];
-                                                                  }else{
-                                                                      
+                                                                  }else{                                                                      
                                                                       NSNumber *minutes = @(videoDuration / 60);
                                                                       NSNumber *seconds = @(videoDuration % 60);
                                                                       
-                                                                      blockCell.videoDurationLength.text = [NSString stringWithFormat:@"%@:%@",
+                                                                      cell.videoDurationLength.text = [NSString stringWithFormat:@"%@:%@",
                                                                                                             [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
-                                                                      [blockCell.iv setImage:image];
-                                                                      [blockCell.videoIcon setHidden:NO];
-                                                                      [blockCell.videoGradient setHidden:NO];
+                                                                      [cell.iv setImage:image];
+                                                                      [cell.videoIcon setHidden:NO];
+                                                                      [cell.videoGradient setHidden:NO];
 
 
                                                                   }

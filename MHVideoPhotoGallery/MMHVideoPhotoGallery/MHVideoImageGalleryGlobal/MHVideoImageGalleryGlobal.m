@@ -109,12 +109,16 @@
             AVURLAsset *asset=[[AVURLAsset alloc] initWithURL:url options:nil];
             
             AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-            CMTime thumbTime = CMTimeMakeWithSeconds(0,30);
+            CMTime thumbTime = CMTimeMakeWithSeconds(0,40);
             CMTime videoDurationTime = asset.duration;
             NSUInteger videoDurationTimeInSeconds = CMTimeGetSeconds(videoDurationTime);
             
-            dict[urlString] = @(videoDurationTimeInSeconds);
-
+            NSMutableDictionary *dictToSave = [[NSMutableDictionary alloc]initWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"MHGalleryData"]];
+            if (videoDurationTimeInSeconds !=0) {
+                dictToSave[urlString] = @(videoDurationTimeInSeconds);
+                [[NSUserDefaults standardUserDefaults]setObject:dictToSave forKey:@"MHGalleryData"];
+                [[NSUserDefaults standardUserDefaults]synchronize];
+            }
             
             if (duration == MHImageGenerationMiddle || duration == MHImageGenerationEnd) {
                 if(duration == MHImageGenerationMiddle){
@@ -126,22 +130,16 @@
             
             AVAssetImageGeneratorCompletionHandler handler = ^(CMTime requestedTime, CGImageRef im, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error){
                 
-                NSString *requestedTimeString = (NSString *)
-                CFBridgingRelease(CMTimeCopyDescription(NULL, requestedTime));
-                NSString *actualTimeString = (NSString *)
-                CFBridgingRelease(CMTimeCopyDescription(NULL, actualTime));
-                NSLog(@"Requested: %@; actual %@", requestedTimeString, actualTimeString);
-                
                 if (result != AVAssetImageGeneratorSucceeded) {
                     dispatch_async(dispatch_get_main_queue(), ^(void){
                         succeedBlock(nil,0,error);
                     });
 
                 }else{
-                    [[NSUserDefaults standardUserDefaults]setObject:dict forKey:@"MHGalleryData"];
-                    [[NSUserDefaults standardUserDefaults]synchronize];
                     
-                    [[SDImageCache sharedImageCache] storeImage:[UIImage imageWithCGImage:im]  forKey:urlString];
+                    [[SDImageCache sharedImageCache] storeImage:[UIImage imageWithCGImage:im]
+                                                         forKey:urlString];
+                    
                     dispatch_async(dispatch_get_main_queue(), ^(void){
                         succeedBlock([UIImage imageWithCGImage:im],videoDurationTimeInSeconds,nil);
                     });

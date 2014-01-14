@@ -58,14 +58,11 @@
     MHGalleryItem *item14 = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/ipad-air/built-in-apps/images/safari_screen_2x.jpg"
                                                   galleryType:MHGalleryTypeImage];
     
-    MHGalleryItem *item15 = [[MHGalleryItem alloc]initWithURL:@"http://mcms.tailored-apps.com/videos/42/1374753780Reuters_Peru.mp4"
+    MHGalleryItem *item15 = [[MHGalleryItem alloc]initWithURL:@"http://mcms.tailored-apps.com/videos/42/1389279847huhe_Thema.mp4"
                                                  galleryType:MHGalleryTypeVideo];
     
     MHGalleryItem *item16 = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/media/us/iphone-5c/2013/10ba527a-1a10-3f70-aae814f8/feature/iphone5c-feature-cc-us-20131003_r848-9dwc.mov?width=848&height=480"
                                                   galleryType:MHGalleryTypeVideo];
-    
-
-    
     
     MHGalleryItem *item17 = [[MHGalleryItem alloc]initWithURL:@"http://store.storeimages.cdn-apple.com/3769/as-images.apple.com/is/image/AppleInc/H4825_FV2?wid=1204&hei=306&fmt=jpeg&qlt=95&op_sharpen=0&resMode=bicub&op_usm=0.5,0.5,0,0&iccEmbed=0&layer=comp&.v=1367279419213"
                                                   galleryType:MHGalleryTypeImage];
@@ -88,8 +85,8 @@
     
     
     self.galleryDataSource = @[
-                               @[item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item15,item16,item17,item18,errorImage],
-                               @[item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item15,item16,item17,item18,errorImage]
+                               @[item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage],
+                               @[item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage]
                                ];
     [self.tableView setBackgroundColor:[UIColor whiteColor]];
     [self.tableView registerClass:[MHGalleryCollectionViewCell class]
@@ -185,7 +182,7 @@
     
     self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
     
-    NSArray *galleryData = self.galleryDataSource[indexPath.section];
+    NSArray *galleryData = self.galleryDataSource[collectionView.tag];
     
     [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
                                                              forIndex:indexPath.row
@@ -224,7 +221,16 @@
 
 -(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     MHGalleryItem *item = self.galleryDataSource[indexPath.section][indexPath.row];
-    [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]];
+    if (item.galleryType == MHGalleryTypeImage) {
+        [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]];
+    }else{
+        [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
+                                                                   forSize:CGSizeMake(cell.frame.size.width*2, cell.frame.size.height*2)
+                                                                atDuration:MHImageGenerationStart
+                                                              successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
+                                                                  cell.iv.image = image;
+        }];
+    }
 }
 
 

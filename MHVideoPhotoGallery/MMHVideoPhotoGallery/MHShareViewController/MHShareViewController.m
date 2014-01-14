@@ -367,7 +367,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
         NSArray *visibleCells = [self sortObjectsWithFrame:self.cv.visibleCells];
         for (MHGalleryOverViewCell *cellOther in visibleCells) {
             if (!cellOther.videoIcon.isHidden){
-                cellOther.selectionImageView.frame = CGRectMake(cellOther.bounds.size.width-30,  cellOther.bounds.size.height-45, 22, 22);
+                cellOther.selectionImageView.frame = CGRectMake(cellOther.bounds.size.width-30,  cellOther.bounds.size.height-50, 22, 22);
             }else{
                 cellOther.selectionImageView.frame = CGRectMake(cellOther.bounds.size.width-30,  cellOther.bounds.size.height-30, 22, 22);
             }
@@ -378,7 +378,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
         
         NSInteger valueToAddYForVideoType =0;
         if (!cell.videoIcon.isHidden){
-            valueToAddYForVideoType+=15;
+            valueToAddYForVideoType+=20;
         }
         
         cell.selectionImageView.frame = CGRectMake(self.view.frame.size.width-rect.origin.x-30, cell.bounds.size.height-(30+valueToAddYForVideoType), 22, 22);

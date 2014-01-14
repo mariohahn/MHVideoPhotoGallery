@@ -21,6 +21,7 @@
 @property (nonatomic, getter = isUserScrolling)          BOOL userScrolls;
 @property(nonatomic,getter = isHiddingToolBarAndNavigationBar)BOOL hiddingToolBarAndNavigationBar;
 
+-(void)updateToolBarForItem:(MHGalleryItem*)item;
 -(void)playStopButtonPressed;
 -(void)changeToPauseButton;
 -(void)changeToPlayButton;

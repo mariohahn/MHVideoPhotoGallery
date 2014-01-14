@@ -98,7 +98,7 @@
         MHGalleryImageViewerViewController *toViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
         UIView *containerView = [transitionContext containerView];
         NSTimeInterval duration = [self transitionDuration:transitionContext];
-        [containerView addSubview:toViewController.view];
+        
         MHGalleryOverViewCell *cell;
         if (fromViewController.cv.visibleCells.count ==3) {
             NSArray *visible = fromViewController.cv.visibleCells;
@@ -107,10 +107,18 @@
         }else{
             cell = [fromViewController.cv.visibleCells firstObject];
         }
+        
         toViewController.pageIndex = cell.tag;
+
+        [containerView addSubview:toViewController.view];
+        
+        
+        
+        
         toViewController.tb.frame = CGRectMake(0, fromViewController.view.frame.size.height-44, fromViewController.view.frame.size.width, 44);
         MHGalleryItem *item = [MHGallerySharedManager sharedManager].galleryItems[toViewController.pageIndex];
-        
+        [toViewController updateToolBarForItem:item];
+
         ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:item];
         ivC.pageIndex = toViewController.pageIndex;
         [ivC setValue:toViewController forKey:@"vc"];
@@ -149,7 +157,6 @@
             fromViewController.gradientView.frame = CGRectMake(0, toViewController.view.frame.size.height, toViewController.view.frame.size.width,240);
             fromViewController.tableViewShare.frame = CGRectMake(0, toViewController.view.frame.size.height, toViewController.view.frame.size.width, 240);
         } completion:^(BOOL finished) {
-            
             toViewController.view.alpha =1;
             [cellImageSnapshot removeFromSuperview];
             [viewWhite removeFromSuperview];
