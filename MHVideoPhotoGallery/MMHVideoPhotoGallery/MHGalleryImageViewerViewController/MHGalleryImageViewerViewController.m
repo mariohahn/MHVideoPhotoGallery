@@ -151,7 +151,12 @@
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-        return ([touch.view isKindOfClass:[UIControl class]] == NO);
+    if ([touch.view isKindOfClass:[UIButton class]]) {
+        if (touch.view.tag != 508) {
+            return YES;
+        }
+    }
+    return ([touch.view isKindOfClass:[UIControl class]] == NO);
 }
 
 -(void)changeToPlayButton{
