@@ -16,6 +16,13 @@
 
 
 /**
+ *  Set the ViewModes for MHGallery, by default all ViewModes are on.
+ */
+extern NSString *const MHGalleryViewModeOverView;
+extern NSString *const MHGalleryViewModeShare;
+
+
+/**
  *  Is used to create Thumbnails from a video
  */
 typedef NS_ENUM(NSUInteger, MHImageGeneration) {
@@ -33,15 +40,21 @@ typedef NS_ENUM(NSUInteger, MHImageGeneration) {
     MHImageGenerationEnd
 };
 
+
+/**
+ *  The Type of the urlString from MHGalleryItem
+ */
 typedef NS_ENUM(NSUInteger, MHGalleryType) {
+    /**
+     *  Image
+     */
     MHGalleryTypeImage,
+    /**
+     *  Video
+     */
     MHGalleryTypeVideo
 };
 
-typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
-    MHGalleryViewModeOverView,
-    MHGalleryViewModeShare
-};
 
 @interface MHShareItem : NSObject
 @property (nonatomic,strong) NSString *imageName;

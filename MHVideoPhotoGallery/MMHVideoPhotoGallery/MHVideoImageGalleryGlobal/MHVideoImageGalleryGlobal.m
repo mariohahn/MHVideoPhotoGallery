@@ -2,6 +2,11 @@
 #import "MHVideoImageGalleryGlobal.h"
 #import "MHGalleryOverViewController.h"
 
+
+NSString * const MHGalleryViewModeOverView = @"MHGalleryViewModeOverView";
+NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
+
+
 @interface MHNavigationController : UINavigationController
 @end
 
@@ -70,9 +75,10 @@
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated{
     
-    [self.viewModes enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        NSLog(@"%@",obj);
-    }];
+    if(![MHGallerySharedManager sharedManager].viewModes){
+        [MHGallerySharedManager sharedManager].viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
+                                                            MHGalleryViewModeShare, nil];
+    }
     
     self.oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
 
@@ -86,9 +92,19 @@
     
     MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
     detail.pageIndex = index;
+    detail.finishedCallback = ^(NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
+        FinishBlock(photoIndex,interactiveTransition,image);
+    };
     
     UINavigationController *nav = [MHNavigationController new];
-    nav.viewControllers = @[gallery,detail];
+    
+    
+    if ([[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeOverView]) {
+        nav.viewControllers = @[gallery,detail];
+    }else{
+        nav.viewControllers = @[detail];
+    }
+    
     if (animated) {
         nav.transitioningDelegate = viewcontroller;
         nav.modalPresentationStyle = UIModalPresentationFullScreen;

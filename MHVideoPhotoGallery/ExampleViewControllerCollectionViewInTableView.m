@@ -22,8 +22,7 @@
     [super viewDidLoad];
     
     
-    self.title = @"TableInCollection";
-    
+    self.title = @"CollectionInTable";
     
     MHGalleryItem *item0 = [[MHGalleryItem alloc]initWithURL:@"https://dl.dropboxusercontent.com/u/17911939/UIViewios7.png"
                                                  galleryType:MHGalleryTypeImage];
@@ -177,7 +176,6 @@
     self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
     
     NSArray *galleryData = self.galleryDataSource[collectionView.tag];
-    
     
     [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
                                                              forIndex:indexPath.row
