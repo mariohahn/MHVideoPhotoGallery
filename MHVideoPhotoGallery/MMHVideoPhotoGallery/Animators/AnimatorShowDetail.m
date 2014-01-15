@@ -13,8 +13,6 @@
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     
-    self.context = transitionContext;
-    
     MHGalleryOverViewController *fromViewController = (MHGalleryOverViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     MHGalleryImageViewerViewController *toViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *containerView = [transitionContext containerView];

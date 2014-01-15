@@ -178,6 +178,7 @@
     
     NSArray *galleryData = self.galleryDataSource[collectionView.tag];
     
+    
     [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
                                                              forIndex:indexPath.row
                                              andCurrentViewController:self
@@ -194,6 +195,8 @@
 -(NSUInteger)supportedInterfaceOrientations{
     return UIInterfaceOrientationPortrait;
 }
+
+
 -(BOOL)shouldAutorotate{
     return NO;
 }

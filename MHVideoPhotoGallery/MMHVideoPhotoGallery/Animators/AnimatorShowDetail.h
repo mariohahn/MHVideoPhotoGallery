@@ -12,6 +12,4 @@
 #import "MHUIImageViewContentViewAnimation.h"
 
 @interface AnimatorShowDetail : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
-@property (nonatomic, assign) BOOL interactionInProgress;
-@property (nonatomic,assign) id <UIViewControllerContextTransitioning> context;
 @end

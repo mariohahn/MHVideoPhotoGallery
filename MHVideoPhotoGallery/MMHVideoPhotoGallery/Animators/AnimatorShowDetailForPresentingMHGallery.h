@@ -11,6 +11,4 @@
 
 @interface AnimatorShowDetailForPresentingMHGallery : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
 @property (nonatomic, strong) UIImageView *iv;
-@property (nonatomic, assign) BOOL interactionInProgress;
-@property (nonatomic,assign) id <UIViewControllerContextTransitioning> context;
 @end

@@ -70,6 +70,10 @@
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated{
     
+    [self.viewModes enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        NSLog(@"%@",obj);
+    }];
+    
     self.oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
 
     [[MHGallerySharedManager sharedManager] setGalleryItems:galleryItems];

@@ -13,9 +13,7 @@
 
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
-    
-    self.context = transitionContext;
-    
+        
     UINavigationController *toViewController = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     UIView *containerView = [transitionContext containerView];

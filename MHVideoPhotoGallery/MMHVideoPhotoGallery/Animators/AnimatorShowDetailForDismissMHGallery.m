@@ -13,6 +13,7 @@
 @property (nonatomic) CGRect startFrame;
 @property (nonatomic,strong)UIView *viewWhite;
 @property (nonatomic,strong) UIView *containerView;
+@property (nonatomic, strong) MHUIImageViewContentViewAnimation *cellImageSnapshot;
 @end
 
 @implementation AnimatorShowDetailForDismissMHGallery
