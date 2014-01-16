@@ -195,9 +195,6 @@
         [self presentViewController:act animated:YES completion:nil];
         
     }
-    
-  
-    
 }
 
 -(void)updateDescriptionLabelForIndex:(NSInteger)index{
@@ -251,9 +248,6 @@
        didFinishAnimating:(BOOL)finished
   previousViewControllers:(NSArray *)previousViewControllers
       transitionCompleted:(BOOL)completed{
-    
-    
-    
     self.pageIndex = [[pageViewController.viewControllers firstObject] pageIndex];
     if (completed) {
         [self changeToPlayButton];
@@ -472,6 +466,7 @@
                     [[self statusBarObject] setAlpha:1];
                     [self.interactiveTransition finishInteractiveTransition];
                 }else {
+                    [self setNeedsStatusBarAppearanceUpdate];
                     [self.interactiveTransition cancelInteractiveTransition];
                 }
                 self.interactiveTransition = nil;

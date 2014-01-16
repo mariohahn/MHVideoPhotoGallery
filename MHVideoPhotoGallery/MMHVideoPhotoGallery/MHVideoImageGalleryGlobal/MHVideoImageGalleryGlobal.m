@@ -112,6 +112,14 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     [viewcontroller presentViewController:nav animated:YES completion:nil];
 }
 
+-(BOOL)isUIVCBasedStatusBarAppearance{
+    NSNumber *isUIVCBasedStatusBarAppearance = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIViewControllerBasedStatusBarAppearance"];
+    if (isUIVCBasedStatusBarAppearance) {
+        return  isUIVCBasedStatusBarAppearance.boolValue;
+    }
+    return YES;
+}
+
 -(void)startDownloadingThumbImage:(NSString*)urlString
                           forSize:(CGSize)size
                        atDuration:(MHImageGeneration)duration

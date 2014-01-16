@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F15E40C9FF174E88ADA680C7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95CB513D1E2A4AD798D33CC6 /* libPods.a */; };
-		F505811B1887F8C3001B2A4C /* MHGalleryImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F505811A1887F8C3001B2A4C /* MHGalleryImages.xcassets */; };
+		F505811D18884C47001B2A4C /* Images.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F505811C18884C47001B2A4C /* Images.bundle */; };
 		F53F924417EB008100A9FE6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924317EB008100A9FE6A /* Foundation.framework */; };
 		F53F924617EB008100A9FE6A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924517EB008100A9FE6A /* CoreGraphics.framework */; };
 		F53F924817EB008100A9FE6A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924717EB008100A9FE6A /* UIKit.framework */; };
@@ -56,7 +56,7 @@
 /* Begin PBXFileReference section */
 		74E134CE6C764BDCAF73F292 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		95CB513D1E2A4AD798D33CC6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		F505811A1887F8C3001B2A4C /* MHGalleryImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = MHGalleryImages.xcassets; path = MMHVideoPhotoGallery/MHGalleryImages.xcassets; sourceTree = "<group>"; };
+		F505811C18884C47001B2A4C /* Images.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Images.bundle; path = MMHVideoPhotoGallery/Images.bundle; sourceTree = "<group>"; };
 		F53F924017EB008100A9FE6A /* MHVideoPhotoGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHVideoPhotoGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F53F924317EB008100A9FE6A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F53F924517EB008100A9FE6A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -193,7 +193,7 @@
 				F5D24FFC1885CDDD004D97CA /* ExampleViewControllerTableView.m */,
 				F5D24FFE1885D3D7004D97CA /* ExampleViewControllerImageView.h */,
 				F5D24FFF1885D3D7004D97CA /* ExampleViewControllerImageView.m */,
-				F505811A1887F8C3001B2A4C /* MHGalleryImages.xcassets */,
+				F505811C18884C47001B2A4C /* Images.bundle */,
 				F58F653C18852F6500D3A8F9 /* Storyboard-iPad.storyboard */,
 				F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */,
 				F53F925B17EB008100A9FE6A /* Images.xcassets */,
@@ -401,8 +401,8 @@
 			files = (
 				F53F925C17EB008100A9FE6A /* Images.xcassets in Resources */,
 				F58F653D18852F6500D3A8F9 /* Storyboard-iPad.storyboard in Resources */,
-				F505811B1887F8C3001B2A4C /* MHGalleryImages.xcassets in Resources */,
 				F5B2EC8217F9D70C000ADC51 /* Storyboard.storyboard in Resources */,
+				F505811D18884C47001B2A4C /* Images.bundle in Resources */,
 				F53F924E17EB008100A9FE6A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -133,6 +133,6 @@ typedef NS_ENUM(NSUInteger, MHGalleryType) {
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated;
 
-
+-(BOOL)isUIVCBasedStatusBarAppearance;
 
 @end

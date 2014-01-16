@@ -7,6 +7,7 @@
 //
 
 #import "MHUIImageViewContentViewAnimation.h"
+#import "MHVideoImageGalleryGlobal.h"
 
 @interface MHUIImageViewContentViewAnimation ()
 
@@ -27,26 +28,6 @@
         self.clipsToBounds = YES;
     }
     return self;
-}
-
-- (UIImage *)imageByRenderingView:(UIView*)view{
-    CGFloat scale = 1.0;
-    if([[UIScreen mainScreen]respondsToSelector:@selector(scale)]) {
-        CGFloat tmp = [[UIScreen mainScreen]scale];
-        if (tmp > 1.5) {
-            scale = 2.0;
-        }
-    }
-    if(scale > 1.5) {
-        UIGraphicsBeginImageContextWithOptions([view bounds].size, NO, scale);
-    } else {
-        UIGraphicsBeginImageContext([view bounds].size);
-    }
-    
-    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *resultingImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return resultingImage;
 }
 
 - (id)initWithFrame:(CGRect)frame{
@@ -98,7 +79,7 @@
     if (!self.iv.image) {
         UIView *view = [[UIView alloc]initWithFrame:self.iv.frame];
         view.backgroundColor = [UIColor whiteColor];
-        self.iv.image = [self imageByRenderingView:view];
+        self.iv.image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
     }
 }
 
