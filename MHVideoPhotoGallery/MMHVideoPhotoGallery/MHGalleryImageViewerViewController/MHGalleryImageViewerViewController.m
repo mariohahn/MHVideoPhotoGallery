@@ -282,6 +282,12 @@
                                   animationControllerForOperation:(UINavigationControllerOperation)operation
                                                fromViewController:(UIViewController *)fromVC
                                                  toViewController:(UIViewController *)toVC {
+    
+    ImageViewController *theCurrentViewController = [self.pvc.viewControllers firstObject];
+    if (theCurrentViewController.moviePlayer) {
+        [theCurrentViewController removeAllMoviePlayerViewsAndNotifications];
+    }
+    
     if ([toVC isKindOfClass:[MHShareViewController class]]) {
         AnimatorShowShareView *present = [AnimatorShowShareView new];
         present.present = YES;
@@ -389,7 +395,6 @@
 
 @interface ImageViewController ()
 @property(nonatomic,strong)MHGalleryImageViewerViewController *vc;
-@property (nonatomic, strong) MPMoviePlayerController *moviePlayer;
 @property (nonatomic, strong) UIButton *moviewPlayerButtonBehinde;
 @property (nonatomic, strong) UIToolbar *moviePlayerToolBarTop;
 @property (nonatomic, strong) UISlider *slider;
@@ -632,7 +637,6 @@
             return NO;
         }
     }
-    
     if ([gestureRecognizer isEqual:self.pan] && self.scrollView.zoomScale !=1) {
         return NO;
     }
