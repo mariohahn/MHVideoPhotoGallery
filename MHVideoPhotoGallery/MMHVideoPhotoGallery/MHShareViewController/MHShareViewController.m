@@ -621,14 +621,19 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
         } completion:^(BOOL finished) {
             [self.cv.delegate scrollViewDidScroll:self.cv];
         }];
-       
+        
         [self updateCollectionView];
         [self updateTitle];
     }else{
         MHShareItem *item = self.shareDataSource[collectionView.tag][indexPath.row];
+        
         SEL selector = NSSelectorFromString(item.selectorName);
-        [item.onViewController performSelector:selector
-                                    withObject:self.selectedRows];
+        
+        SuppressPerformSelectorLeakWarning(
+                                           [item.onViewController performSelector:selector
+                                                                       withObject:self.selectedRows];
+                                           );
+        
         
     }
 }
