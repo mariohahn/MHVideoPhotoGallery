@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'MHVideoPhotoGallery'
-  s.version      = '1.0'
+  s.version      = '1.1'
   s.license      = 'MIT'
   s.homepage     = 'https://github.com/mariohahn/MHVideoPhotoGallery'
   s.author = {
@@ -10,10 +10,15 @@ Pod::Spec.new do |s|
   s.platform     =  :ios
   s.source = {
     :git => 'https://github.com/mariohahn/MHVideoPhotoGallery.git',
-    :tag => 'v1.0'
+    :tag => 'v1.1'
   }
   s.dependency "SDWebImage", "~> 3.5.2"
-  s.source_files = ['MHVideoPhotoGallery/MMHVideoPhotoGallery/**/*.{h,m,png}']
+
+  s.resources = "MHVideoPhotoGallery/MHVideoPhotoGallery/MHGalleryImages.xcassets"
+
+  s.frameworks = 'MessageUI','Social', 'ImageIO', 'QuartzCore', 'Accelerate','CoreMedia', 'AVFoundation','MediaPlayer'
+
+  s.source_files = ['MHVideoPhotoGallery/MMHVideoPhotoGallery/**/*.{h,m}']
   s.ios.deployment_target = '7.0'
   s.requires_arc = true
 end

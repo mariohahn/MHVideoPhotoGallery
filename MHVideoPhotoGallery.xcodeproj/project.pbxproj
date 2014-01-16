@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F15E40C9FF174E88ADA680C7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95CB513D1E2A4AD798D33CC6 /* libPods.a */; };
+		F505811B1887F8C3001B2A4C /* MHGalleryImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F505811A1887F8C3001B2A4C /* MHGalleryImages.xcassets */; };
 		F53F924417EB008100A9FE6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924317EB008100A9FE6A /* Foundation.framework */; };
 		F53F924617EB008100A9FE6A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924517EB008100A9FE6A /* CoreGraphics.framework */; };
 		F53F924817EB008100A9FE6A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924717EB008100A9FE6A /* UIKit.framework */; };
@@ -21,37 +22,10 @@
 		F53F926D17EB008100A9FE6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F53F926B17EB008100A9FE6A /* InfoPlist.strings */; };
 		F53F926F17EB008100A9FE6A /* MHVideoPhotoGalleryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F53F926E17EB008100A9FE6A /* MHVideoPhotoGalleryTests.m */; };
 		F5506EDD187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = F5506EDC187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m */; };
-		F5506F03187DA0C500DFD178 /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = F5506EF7187DA0C500DFD178 /* error.png */; };
-		F5506F04187DA0C500DFD178 /* error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5506EF8187DA0C500DFD178 /* error@2x.png */; };
-		F5506F05187DA0C500DFD178 /* left_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F5506EF9187DA0C500DFD178 /* left_arrow.png */; };
-		F5506F06187DA0C500DFD178 /* left_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5506EFA187DA0C500DFD178 /* left_arrow@2x.png */; };
-		F5506F07187DA0C500DFD178 /* playButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F5506EFB187DA0C500DFD178 /* playButton.png */; };
-		F5506F08187DA0C500DFD178 /* playButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5506EFC187DA0C500DFD178 /* playButton@2x.png */; };
-		F5506F09187DA0C500DFD178 /* right_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F5506EFD187DA0C500DFD178 /* right_arrow.png */; };
-		F5506F0A187DA0C500DFD178 /* right_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5506EFE187DA0C500DFD178 /* right_arrow@2x.png */; };
-		F5506F0B187DA0C500DFD178 /* sliderPoint.png in Resources */ = {isa = PBXBuildFile; fileRef = F5506EFF187DA0C500DFD178 /* sliderPoint.png */; };
-		F5506F0C187DA0C500DFD178 /* sliderPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5506F00187DA0C500DFD178 /* sliderPoint@2x.png */; };
-		F5506F0D187DA0C500DFD178 /* videoIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F5506F01187DA0C500DFD178 /* videoIcon.png */; };
-		F5506F0E187DA0C500DFD178 /* videoIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5506F02187DA0C500DFD178 /* videoIcon@2x.png */; };
 		F58F65051880899200D3A8F9 /* MHShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F58F65041880899200D3A8F9 /* MHShareViewController.m */; };
-		F58F65121880942700D3A8F9 /* EditControl.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F650E1880942700D3A8F9 /* EditControl.png */; };
-		F58F65131880942700D3A8F9 /* EditControl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F650F1880942700D3A8F9 /* EditControl@2x.png */; };
-		F58F65141880942700D3A8F9 /* EditControlSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F65101880942700D3A8F9 /* EditControlSelected.png */; };
-		F58F65151880942700D3A8F9 /* EditControlSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F65111880942700D3A8F9 /* EditControlSelected@2x.png */; };
-		F58F651C1880B00C00D3A8F9 /* facebookMH@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F65181880B00C00D3A8F9 /* facebookMH@2x.png */; };
-		F58F651D1880B00C00D3A8F9 /* mailMH@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F65191880B00C00D3A8F9 /* mailMH@2x.png */; };
-		F58F651E1880B00C00D3A8F9 /* saveMH@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F651A1880B00C00D3A8F9 /* saveMH@2x.png */; };
-		F58F651F1880B00C00D3A8F9 /* twitterMH@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F651B1880B00C00D3A8F9 /* twitterMH@2x.png */; };
-		F58F65211880BC6500D3A8F9 /* messageMH@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F65201880BC6500D3A8F9 /* messageMH@2x.png */; };
-		F58F65231880BD0000D3A8F9 /* activtyMH@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F65221880BD0000D3A8F9 /* activtyMH@2x.png */; };
 		F58F65261882C1A100D3A8F9 /* AnimatorShowShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = F58F65251882C1A100D3A8F9 /* AnimatorShowShareView.m */; };
 		F58F65281882F97600D3A8F9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65271882F97600D3A8F9 /* Social.framework */; };
 		F58F652A1882F97B00D3A8F9 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65291882F97B00D3A8F9 /* MessageUI.framework */; };
-		F58F65301883DCE500D3A8F9 /* activityMH.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F652B1883DCE500D3A8F9 /* activityMH.png */; };
-		F58F65311883DCE500D3A8F9 /* facebookMH.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F652C1883DCE500D3A8F9 /* facebookMH.png */; };
-		F58F65321883DCE500D3A8F9 /* mailMH.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F652D1883DCE500D3A8F9 /* mailMH.png */; };
-		F58F65331883DCE500D3A8F9 /* messageMH.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F652E1883DCE500D3A8F9 /* messageMH.png */; };
-		F58F65341883DCE500D3A8F9 /* twitterMH.png in Resources */ = {isa = PBXBuildFile; fileRef = F58F652F1883DCE500D3A8F9 /* twitterMH.png */; };
 		F58F6539188510AA00D3A8F9 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F6538188510AA00D3A8F9 /* Reveal.framework */; };
 		F58F653D18852F6500D3A8F9 /* Storyboard-iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F58F653C18852F6500D3A8F9 /* Storyboard-iPad.storyboard */; };
 		F5B2EC8017F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5B2EC7F17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m */; };
@@ -82,6 +56,7 @@
 /* Begin PBXFileReference section */
 		74E134CE6C764BDCAF73F292 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		95CB513D1E2A4AD798D33CC6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F505811A1887F8C3001B2A4C /* MHGalleryImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = MHGalleryImages.xcassets; path = MMHVideoPhotoGallery/MHGalleryImages.xcassets; sourceTree = "<group>"; };
 		F53F924017EB008100A9FE6A /* MHVideoPhotoGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHVideoPhotoGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F53F924317EB008100A9FE6A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F53F924517EB008100A9FE6A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -100,39 +75,12 @@
 		F53F926E17EB008100A9FE6A /* MHVideoPhotoGalleryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MHVideoPhotoGalleryTests.m; sourceTree = "<group>"; };
 		F5506EDB187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatorShowDetailForDismissMHGallery.h; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetailForDismissMHGallery.h; sourceTree = "<group>"; };
 		F5506EDC187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimatorShowDetailForDismissMHGallery.m; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetailForDismissMHGallery.m; sourceTree = "<group>"; };
-		F5506EF7187DA0C500DFD178 /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = error.png; path = MMHVideoPhotoGallery/Images/error.png; sourceTree = "<group>"; };
-		F5506EF8187DA0C500DFD178 /* error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "error@2x.png"; path = "MMHVideoPhotoGallery/Images/error@2x.png"; sourceTree = "<group>"; };
-		F5506EF9187DA0C500DFD178 /* left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = left_arrow.png; path = MMHVideoPhotoGallery/Images/left_arrow.png; sourceTree = "<group>"; };
-		F5506EFA187DA0C500DFD178 /* left_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "left_arrow@2x.png"; path = "MMHVideoPhotoGallery/Images/left_arrow@2x.png"; sourceTree = "<group>"; };
-		F5506EFB187DA0C500DFD178 /* playButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playButton.png; path = MMHVideoPhotoGallery/Images/playButton.png; sourceTree = "<group>"; };
-		F5506EFC187DA0C500DFD178 /* playButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "playButton@2x.png"; path = "MMHVideoPhotoGallery/Images/playButton@2x.png"; sourceTree = "<group>"; };
-		F5506EFD187DA0C500DFD178 /* right_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = right_arrow.png; path = MMHVideoPhotoGallery/Images/right_arrow.png; sourceTree = "<group>"; };
-		F5506EFE187DA0C500DFD178 /* right_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "right_arrow@2x.png"; path = "MMHVideoPhotoGallery/Images/right_arrow@2x.png"; sourceTree = "<group>"; };
-		F5506EFF187DA0C500DFD178 /* sliderPoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderPoint.png; path = MMHVideoPhotoGallery/Images/sliderPoint.png; sourceTree = "<group>"; };
-		F5506F00187DA0C500DFD178 /* sliderPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sliderPoint@2x.png"; path = "MMHVideoPhotoGallery/Images/sliderPoint@2x.png"; sourceTree = "<group>"; };
-		F5506F01187DA0C500DFD178 /* videoIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = videoIcon.png; path = MMHVideoPhotoGallery/Images/videoIcon.png; sourceTree = "<group>"; };
-		F5506F02187DA0C500DFD178 /* videoIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "videoIcon@2x.png"; path = "MMHVideoPhotoGallery/Images/videoIcon@2x.png"; sourceTree = "<group>"; };
 		F58F65031880899200D3A8F9 /* MHShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHShareViewController.h; path = MMHVideoPhotoGallery/MHShareViewController/MHShareViewController.h; sourceTree = "<group>"; };
 		F58F65041880899200D3A8F9 /* MHShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHShareViewController.m; path = MMHVideoPhotoGallery/MHShareViewController/MHShareViewController.m; sourceTree = "<group>"; };
-		F58F650E1880942700D3A8F9 /* EditControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EditControl.png; path = MMHVideoPhotoGallery/Images/EditControl.png; sourceTree = "<group>"; };
-		F58F650F1880942700D3A8F9 /* EditControl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EditControl@2x.png"; path = "MMHVideoPhotoGallery/Images/EditControl@2x.png"; sourceTree = "<group>"; };
-		F58F65101880942700D3A8F9 /* EditControlSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EditControlSelected.png; path = MMHVideoPhotoGallery/Images/EditControlSelected.png; sourceTree = "<group>"; };
-		F58F65111880942700D3A8F9 /* EditControlSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "EditControlSelected@2x.png"; path = "MMHVideoPhotoGallery/Images/EditControlSelected@2x.png"; sourceTree = "<group>"; };
-		F58F65181880B00C00D3A8F9 /* facebookMH@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "facebookMH@2x.png"; path = "MMHVideoPhotoGallery/Images/facebookMH@2x.png"; sourceTree = "<group>"; };
-		F58F65191880B00C00D3A8F9 /* mailMH@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mailMH@2x.png"; path = "MMHVideoPhotoGallery/Images/mailMH@2x.png"; sourceTree = "<group>"; };
-		F58F651A1880B00C00D3A8F9 /* saveMH@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "saveMH@2x.png"; path = "MMHVideoPhotoGallery/Images/saveMH@2x.png"; sourceTree = "<group>"; };
-		F58F651B1880B00C00D3A8F9 /* twitterMH@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "twitterMH@2x.png"; path = "MMHVideoPhotoGallery/Images/twitterMH@2x.png"; sourceTree = "<group>"; };
-		F58F65201880BC6500D3A8F9 /* messageMH@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "messageMH@2x.png"; path = "MMHVideoPhotoGallery/Images/messageMH@2x.png"; sourceTree = "<group>"; };
-		F58F65221880BD0000D3A8F9 /* activtyMH@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "activtyMH@2x.png"; path = "MMHVideoPhotoGallery/Images/activtyMH@2x.png"; sourceTree = "<group>"; };
 		F58F65241882C1A100D3A8F9 /* AnimatorShowShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatorShowShareView.h; path = MMHVideoPhotoGallery/Animators/AnimatorShowShareView.h; sourceTree = "<group>"; };
 		F58F65251882C1A100D3A8F9 /* AnimatorShowShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimatorShowShareView.m; path = MMHVideoPhotoGallery/Animators/AnimatorShowShareView.m; sourceTree = "<group>"; };
 		F58F65271882F97600D3A8F9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		F58F65291882F97B00D3A8F9 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		F58F652B1883DCE500D3A8F9 /* activityMH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = activityMH.png; path = MMHVideoPhotoGallery/Images/activityMH.png; sourceTree = "<group>"; };
-		F58F652C1883DCE500D3A8F9 /* facebookMH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = facebookMH.png; path = MMHVideoPhotoGallery/Images/facebookMH.png; sourceTree = "<group>"; };
-		F58F652D1883DCE500D3A8F9 /* mailMH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mailMH.png; path = MMHVideoPhotoGallery/Images/mailMH.png; sourceTree = "<group>"; };
-		F58F652E1883DCE500D3A8F9 /* messageMH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = messageMH.png; path = MMHVideoPhotoGallery/Images/messageMH.png; sourceTree = "<group>"; };
-		F58F652F1883DCE500D3A8F9 /* twitterMH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = twitterMH.png; path = MMHVideoPhotoGallery/Images/twitterMH.png; sourceTree = "<group>"; };
 		F58F6538188510AA00D3A8F9 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		F58F653C18852F6500D3A8F9 /* Storyboard-iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Storyboard-iPad.storyboard"; sourceTree = "<group>"; };
 		F5B2EC7E17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleViewControllerCollectionViewInTableView.h; sourceTree = "<group>"; };
@@ -231,7 +179,6 @@
 				F58F65351883FC0B00D3A8F9 /* iPad */,
 				F53F925217EB008100A9FE6A /* AppDelegate.h */,
 				F53F925317EB008100A9FE6A /* AppDelegate.m */,
-				F5506EDE187DA02D00DFD178 /* Images */,
 				F58F65021880896300D3A8F9 /* MHShareViewController */,
 				F5DBBF18187D56CD00BEFE29 /* MHGalleryImageViewerViewController */,
 				F5DBBF17187D56B700BEFE29 /* MHUIImageViewContentViewAnimation */,
@@ -246,6 +193,7 @@
 				F5D24FFC1885CDDD004D97CA /* ExampleViewControllerTableView.m */,
 				F5D24FFE1885D3D7004D97CA /* ExampleViewControllerImageView.h */,
 				F5D24FFF1885D3D7004D97CA /* ExampleViewControllerImageView.m */,
+				F505811A1887F8C3001B2A4C /* MHGalleryImages.xcassets */,
 				F58F653C18852F6500D3A8F9 /* Storyboard-iPad.storyboard */,
 				F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */,
 				F53F925B17EB008100A9FE6A /* Images.xcassets */,
@@ -298,40 +246,6 @@
 				F5506EDC187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m */,
 			);
 			name = Animators;
-			sourceTree = "<group>";
-		};
-		F5506EDE187DA02D00DFD178 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				F58F652B1883DCE500D3A8F9 /* activityMH.png */,
-				F58F65221880BD0000D3A8F9 /* activtyMH@2x.png */,
-				F58F652E1883DCE500D3A8F9 /* messageMH.png */,
-				F58F65201880BC6500D3A8F9 /* messageMH@2x.png */,
-				F58F652C1883DCE500D3A8F9 /* facebookMH.png */,
-				F58F65181880B00C00D3A8F9 /* facebookMH@2x.png */,
-				F58F652D1883DCE500D3A8F9 /* mailMH.png */,
-				F58F65191880B00C00D3A8F9 /* mailMH@2x.png */,
-				F58F651A1880B00C00D3A8F9 /* saveMH@2x.png */,
-				F58F652F1883DCE500D3A8F9 /* twitterMH.png */,
-				F58F651B1880B00C00D3A8F9 /* twitterMH@2x.png */,
-				F58F650E1880942700D3A8F9 /* EditControl.png */,
-				F58F650F1880942700D3A8F9 /* EditControl@2x.png */,
-				F58F65101880942700D3A8F9 /* EditControlSelected.png */,
-				F58F65111880942700D3A8F9 /* EditControlSelected@2x.png */,
-				F5506EF7187DA0C500DFD178 /* error.png */,
-				F5506EF8187DA0C500DFD178 /* error@2x.png */,
-				F5506EF9187DA0C500DFD178 /* left_arrow.png */,
-				F5506EFA187DA0C500DFD178 /* left_arrow@2x.png */,
-				F5506EFB187DA0C500DFD178 /* playButton.png */,
-				F5506EFC187DA0C500DFD178 /* playButton@2x.png */,
-				F5506EFD187DA0C500DFD178 /* right_arrow.png */,
-				F5506EFE187DA0C500DFD178 /* right_arrow@2x.png */,
-				F5506EFF187DA0C500DFD178 /* sliderPoint.png */,
-				F5506F00187DA0C500DFD178 /* sliderPoint@2x.png */,
-				F5506F01187DA0C500DFD178 /* videoIcon.png */,
-				F5506F02187DA0C500DFD178 /* videoIcon@2x.png */,
-			);
-			name = Images;
 			sourceTree = "<group>";
 		};
 		F58F65021880896300D3A8F9 /* MHShareViewController */ = {
@@ -485,37 +399,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5506F09187DA0C500DFD178 /* right_arrow.png in Resources */,
-				F58F65301883DCE500D3A8F9 /* activityMH.png in Resources */,
-				F5506F0A187DA0C500DFD178 /* right_arrow@2x.png in Resources */,
-				F58F65331883DCE500D3A8F9 /* messageMH.png in Resources */,
-				F5506F07187DA0C500DFD178 /* playButton.png in Resources */,
-				F5506F0B187DA0C500DFD178 /* sliderPoint.png in Resources */,
-				F58F65341883DCE500D3A8F9 /* twitterMH.png in Resources */,
-				F58F65141880942700D3A8F9 /* EditControlSelected.png in Resources */,
-				F58F651C1880B00C00D3A8F9 /* facebookMH@2x.png in Resources */,
 				F53F925C17EB008100A9FE6A /* Images.xcassets in Resources */,
 				F58F653D18852F6500D3A8F9 /* Storyboard-iPad.storyboard in Resources */,
-				F5506F05187DA0C500DFD178 /* left_arrow.png in Resources */,
-				F5506F03187DA0C500DFD178 /* error.png in Resources */,
-				F58F651D1880B00C00D3A8F9 /* mailMH@2x.png in Resources */,
-				F5506F06187DA0C500DFD178 /* left_arrow@2x.png in Resources */,
-				F5506F0E187DA0C500DFD178 /* videoIcon@2x.png in Resources */,
-				F58F65321883DCE500D3A8F9 /* mailMH.png in Resources */,
-				F58F651E1880B00C00D3A8F9 /* saveMH@2x.png in Resources */,
-				F5506F04187DA0C500DFD178 /* error@2x.png in Resources */,
-				F58F65121880942700D3A8F9 /* EditControl.png in Resources */,
-				F58F65151880942700D3A8F9 /* EditControlSelected@2x.png in Resources */,
-				F58F651F1880B00C00D3A8F9 /* twitterMH@2x.png in Resources */,
-				F58F65311883DCE500D3A8F9 /* facebookMH.png in Resources */,
-				F5506F08187DA0C500DFD178 /* playButton@2x.png in Resources */,
-				F58F65231880BD0000D3A8F9 /* activtyMH@2x.png in Resources */,
-				F58F65131880942700D3A8F9 /* EditControl@2x.png in Resources */,
+				F505811B1887F8C3001B2A4C /* MHGalleryImages.xcassets in Resources */,
 				F5B2EC8217F9D70C000ADC51 /* Storyboard.storyboard in Resources */,
-				F5506F0C187DA0C500DFD178 /* sliderPoint@2x.png in Resources */,
-				F5506F0D187DA0C500DFD178 /* videoIcon.png in Resources */,
 				F53F924E17EB008100A9FE6A /* InfoPlist.strings in Resources */,
-				F58F65211880BC6500D3A8F9 /* messageMH@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
