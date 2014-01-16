@@ -1012,10 +1012,40 @@
         [self.rightSliderLabel setFrame:CGRectMake(self.view.frame.size.width-20, 0, 50, 43)];
     }
     self.playButton.frame = CGRectMake(self.vc.view.frame.size.width/2-36, self.vc.view.frame.size.height/2-36, 72, 72);
+    
+   self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width*self.scrollView.zoomScale, self.view.bounds.size.height*self.scrollView.zoomScale);
+    
+    self.imageView.frame =CGRectMake(0,0 , self.scrollView.contentSize.width,self.scrollView.contentSize.height);
 }
+
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [self prepareToResize];
     [self recoverFromResizing];
+    [self centerImageView];
+}
+
+-(void)centerImageView{
+    
+    CGRect frame  = AVMakeRectWithAspectRatioInsideRect(self.imageView.image.size,CGRectMake(0, 0, self.scrollView.contentSize.width, self.scrollView.contentSize.height));
+    
+    CGSize boundsSize = self.scrollView.bounds.size;
+    CGRect frameToCenter = CGRectMake(0,0 , frame.size.width, frame.size.height);
+    
+    if (frameToCenter.size.width < boundsSize.width)
+        frameToCenter.origin.x = (boundsSize.width - frameToCenter.size.width) / 2;
+    else
+        frameToCenter.origin.x = 0;
+    
+    if (frameToCenter.size.height < boundsSize.height)
+        frameToCenter.origin.y = (boundsSize.height - frameToCenter.size.height) / 2;
+    else
+        frameToCenter.origin.y = 0;
+    
+    self.imageView.frame = frameToCenter;
+    
+}
+-(void)scrollViewDidZoom:(UIScrollView *)scrollView{
+    [self centerImageView];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{

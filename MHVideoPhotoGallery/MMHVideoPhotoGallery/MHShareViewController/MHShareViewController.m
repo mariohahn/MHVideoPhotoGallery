@@ -151,7 +151,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     self.cv.decelerationRate = UIScrollViewDecelerationRateNormal;
     [self.view addSubview:self.cv];
     
-    
+
     [self.selectedRows addObject:[NSIndexPath indexPathForRow:self.pageIndex inSection:0]];
     
     [self.cv scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.pageIndex inSection:0]
