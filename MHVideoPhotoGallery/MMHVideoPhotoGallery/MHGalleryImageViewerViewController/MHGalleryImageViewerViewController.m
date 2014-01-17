@@ -198,7 +198,7 @@
 }
 
 -(void)updateDescriptionLabelForIndex:(NSInteger)index{
-    if (index < self.galleryItems.count-1 ) {
+    if (index < self.galleryItems.count) {
         MHGalleryItem *item = self.galleryItems[index];
         self.descriptionView.text = item.description;
         CGSize size = [self.descriptionView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
