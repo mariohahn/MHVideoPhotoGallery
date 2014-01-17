@@ -551,6 +551,8 @@
             self.progressVideo = [[UIProgressView alloc]initWithFrame:CGRectMake(57, 21, self.view.frame.size.width-114, 3)];
             [self.progressVideo setTrackTintColor:[UIColor colorWithWhite:0 alpha:0.3]];
             [self.progressVideo setProgressTintColor:[UIColor colorWithWhite:0 alpha:0.3]];
+            [self.progressVideo setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+
             [self.moviePlayerToolBarTop addSubview:self.progressVideo];
             
             self.slider = [[UISlider alloc]initWithFrame:CGRectMake(55, 0, self.view.frame.size.width-110, 44)];
@@ -785,6 +787,9 @@
     [self.playButton setHidden:YES];
     [self.playButton addTarget:self action:@selector(playButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.playButton];
+    
+}
+-(void)stopMoviePlayerDownloaded{
     
 }
 
