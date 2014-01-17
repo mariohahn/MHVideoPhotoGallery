@@ -44,6 +44,9 @@
 
 @property (nonatomic,getter = isPlayingVideo)        BOOL playingVideo;
 @property (nonatomic,getter = isPausingVideo)        BOOL pausingVideo;
+@property (nonatomic)                                BOOL videoWasPlayable;
+@property (nonatomic)                                BOOL videoDownloaded;
+
 
 -(void)stopMovie;
 -(void)removeAllMoviePlayerViewsAndNotifications;
