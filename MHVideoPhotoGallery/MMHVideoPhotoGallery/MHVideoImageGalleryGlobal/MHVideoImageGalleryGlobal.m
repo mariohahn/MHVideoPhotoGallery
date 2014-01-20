@@ -5,6 +5,7 @@
 
 NSString * const MHGalleryViewModeOverView = @"MHGalleryViewModeOverView";
 NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
+NSString * const MHUserAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3";
 
 
 @interface MHNavigationController : UINavigationController
@@ -120,10 +121,11 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     return YES;
 }
 
--(void)startDownloadingThumbImage:(NSString*)urlString
-                          forSize:(CGSize)size
-                       atDuration:(MHImageGeneration)duration
-                     successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error))succeedBlock{
+-(void)createThumbURL:(NSString*)urlString
+              forSize:(CGSize)size
+           atDuration:(MHImageGeneration)duration
+         successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error))succeedBlock{
+    
     UIImage *image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:urlString];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc]initWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"MHGalleryData"]];
     if (!dict) {
@@ -132,53 +134,134 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     if (image) {
         succeedBlock(image,[dict[urlString] integerValue],nil);
     }else{
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            NSURL *url = [NSURL URLWithString:urlString];
-            AVURLAsset *asset=[[AVURLAsset alloc] initWithURL:url options:nil];
-            
-            AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-            CMTime thumbTime = CMTimeMakeWithSeconds(0,40);
-            CMTime videoDurationTime = asset.duration;
-            NSUInteger videoDurationTimeInSeconds = CMTimeGetSeconds(videoDurationTime);
-            
-            NSMutableDictionary *dictToSave = [[NSMutableDictionary alloc]initWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"MHGalleryData"]];
-            if (videoDurationTimeInSeconds !=0) {
-                dictToSave[urlString] = @(videoDurationTimeInSeconds);
-                [[NSUserDefaults standardUserDefaults]setObject:dictToSave forKey:@"MHGalleryData"];
-                [[NSUserDefaults standardUserDefaults]synchronize];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        NSURL *url = [NSURL URLWithString:urlString];
+        AVURLAsset *asset=[[AVURLAsset alloc] initWithURL:url options:nil];
+        
+        AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+        CMTime thumbTime = CMTimeMakeWithSeconds(0,40);
+        CMTime videoDurationTime = asset.duration;
+        NSUInteger videoDurationTimeInSeconds = CMTimeGetSeconds(videoDurationTime);
+        
+        NSMutableDictionary *dictToSave = [[NSMutableDictionary alloc]initWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"MHGalleryData"]];
+        if (videoDurationTimeInSeconds !=0) {
+            dictToSave[urlString] = @(videoDurationTimeInSeconds);
+            [[NSUserDefaults standardUserDefaults]setObject:dictToSave forKey:@"MHGalleryData"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+        }
+        
+        if (duration == MHImageGenerationMiddle || duration == MHImageGenerationEnd) {
+            if(duration == MHImageGenerationMiddle){
+                thumbTime = CMTimeMakeWithSeconds(videoDurationTimeInSeconds/2,30);
+            }else{
+                thumbTime = CMTimeMakeWithSeconds(videoDurationTimeInSeconds,30);
             }
+        }
+        
+        AVAssetImageGeneratorCompletionHandler handler = ^(CMTime requestedTime, CGImageRef im, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error){
             
-            if (duration == MHImageGenerationMiddle || duration == MHImageGenerationEnd) {
-                if(duration == MHImageGenerationMiddle){
-                    thumbTime = CMTimeMakeWithSeconds(videoDurationTimeInSeconds/2,30);
-                }else{
-                    thumbTime = CMTimeMakeWithSeconds(videoDurationTimeInSeconds,30);
-                }
-            }
-            
-            AVAssetImageGeneratorCompletionHandler handler = ^(CMTime requestedTime, CGImageRef im, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error){
+            if (result != AVAssetImageGeneratorSucceeded) {
+                dispatch_async(dispatch_get_main_queue(), ^(void){
+                    succeedBlock(nil,0,error);
+                });
+            }else{
+                [[SDImageCache sharedImageCache] storeImage:[UIImage imageWithCGImage:im]
+                                                     forKey:urlString];
                 
-                if (result != AVAssetImageGeneratorSucceeded) {
-                    dispatch_async(dispatch_get_main_queue(), ^(void){
-                        succeedBlock(nil,0,error);
-                    });
-
-                }else{
-                    
-                    [[SDImageCache sharedImageCache] storeImage:[UIImage imageWithCGImage:im]
-                                                         forKey:urlString];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^(void){
-                        succeedBlock([UIImage imageWithCGImage:im],videoDurationTimeInSeconds,nil);
-                    });
-                }
-            };
-            CGSize maxSize = size;
-            generator.maximumSize = maxSize;
-            [generator generateCGImagesAsynchronouslyForTimes:@[[NSValue valueWithCMTime:thumbTime]]
-                                            completionHandler:handler];
-        });
+                dispatch_async(dispatch_get_main_queue(), ^(void){
+                    succeedBlock([UIImage imageWithCGImage:im],videoDurationTimeInSeconds,nil);
+                });
+            }
+        };
+        CGSize maxSize = size;
+        generator.maximumSize = maxSize;
+        [generator generateCGImagesAsynchronouslyForTimes:@[[NSValue valueWithCMTime:thumbTime]]
+                                        completionHandler:handler];
+    });
     }
+}
+
+
+
+-(NSString*)extractYouTubeURL:(NSString *)HTML{
+    
+    NSError *error =nil;
+    NSString *string = HTML;
+    NSString  *extractionExpression = @"(?!\\\\\")http[^\"]*?itag=[^\"]*?(?=\\\\\")";
+    
+    NSRegularExpression* regex = [[NSRegularExpression alloc] initWithPattern:extractionExpression
+                                                                      options:NSRegularExpressionCaseInsensitive error:&error];
+    
+    NSArray* videos = [regex matchesInString:string options:0 range:NSMakeRange(0, [string length])];
+    if (videos.count > 0) {
+        NSTextCheckingResult* checkingResult = nil;
+        checkingResult = [videos firstObject];
+        NSMutableString* streamURL = [NSMutableString stringWithString: [string substringWithRange:checkingResult.range]];
+    
+        [streamURL replaceOccurrencesOfString:@"\\\\u0026"
+                                   withString:@"&"
+                                      options:NSCaseInsensitiveSearch
+                                        range:NSMakeRange(0, streamURL.length)];
+        
+        [streamURL replaceOccurrencesOfString:@"\\\\\\"
+                                   withString:@""
+                                      options:NSCaseInsensitiveSearch
+                                        range:NSMakeRange(0, streamURL.length)];
+        
+        return streamURL;
+    }
+    return nil;
+}
+
+-(void)getYoutTubeURLforThumbAndMediaPlayer:(NSString*)URL
+                               successBlock:(void (^)(NSString *URL,NSError *error))succeedBlock{
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *cookies = [cookieStorage cookies];
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([cookie.domain rangeOfString:@"youtube"].location != NSNotFound) {
+            [cookieStorage deleteCookie:cookie];
+        }
+    }
+    
+    NSMutableURLRequest *httpRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+    [httpRequest setValue:MHUserAgent forHTTPHeaderField:@"User-Agent"];
+    
+    [NSURLConnection sendAsynchronousRequest:httpRequest queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        NSString* html = [[NSString alloc] initWithData:data
+                                               encoding:NSUTF8StringEncoding];
+        
+        
+        if ([self extractYouTubeURL:html]) {
+            succeedBlock([self extractYouTubeURL:html],nil);
+        }else{
+            succeedBlock([self extractYouTubeURL:html],nil);
+        }
+    }];
+}
+
+-(void)startDownloadingThumbImage:(NSString*)urlString
+                          forSize:(CGSize)size
+                       atDuration:(MHImageGeneration)duration
+                     successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL))succeedBlock{
+    
+        if ([urlString rangeOfString:@"youtube.com"].location == NSNotFound) {
+            [self createThumbURL:urlString
+                         forSize:size
+                      atDuration:duration
+                    successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
+                        succeedBlock(image,videoDuration,error,urlString);
+                    }];
+        }else{
+            [self getYoutTubeURLforThumbAndMediaPlayer:urlString
+                                          successBlock:^(NSString *URL, NSError *error) {
+                                              [self createThumbURL:URL
+                                                           forSize:size
+                                                        atDuration:MHImageGenerationMiddle
+                                                      successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
+                                                          succeedBlock(image,videoDuration,error,URL);
+                                                      }];
+            }];
+        }
 }
 
 

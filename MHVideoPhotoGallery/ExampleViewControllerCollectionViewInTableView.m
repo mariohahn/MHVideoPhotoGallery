@@ -24,8 +24,13 @@
     
     self.title = @"CollectionInTable";
     
+    
+    MHGalleryItem *keynote = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/media/de/mac-pro/2013/16C1b6b5-1d91-4fef-891e-ff2fc1c1bb58/tour/assembly/macpro-assembly-de-20131022_r848-9dwc.mov?width=848&height=480&expectingMovieJson=true"
+                                                 galleryType:MHGalleryTypeVideo];
+    
     MHGalleryItem *item0 = [[MHGalleryItem alloc]initWithURL:@"https://dl.dropboxusercontent.com/u/17911939/UIViewios7.png"
                                                  galleryType:MHGalleryTypeImage];
+    
     MHGalleryItem *item1 = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/ipad-air/built-in-apps/images/reminders_screen_2x.jpg"
                                                                               galleryType:MHGalleryTypeImage];
     MHGalleryItem *item2 = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/ipad-air/built-in-apps/images/videos_screen_2x.jpg"
@@ -83,9 +88,10 @@
     
     
     self.galleryDataSource = @[
-                               @[item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage],
-                               @[item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage]
+                               @[keynote,item18,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage],
+                               @[keynote,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage]
                                ];
+    
     [self.tableView setBackgroundColor:[UIColor whiteColor]];
     [self.tableView registerClass:[MHGalleryCollectionViewCell class]
            forCellReuseIdentifier:@"MHGalleryCollectionViewCell"];
@@ -228,7 +234,7 @@
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
                                                                    forSize:CGSizeMake(cell.frame.size.width*2, cell.frame.size.height*2)
                                                                 atDuration:MHImageGenerationStart
-                                                              successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
+                                                              successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error,NSString *newURL) {
                                                                   cell.iv.image = image;
         }];
     }

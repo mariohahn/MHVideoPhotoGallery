@@ -104,11 +104,11 @@
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
                                                                    forSize:CGSizeMake(cell.iv.frame.size.width*2, cell.iv.frame.size.height*2)
                                                                 atDuration:MHImageGenerationStart
-                                                              successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
+                                                              successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
                                                                   
                                                                   if (error) {
                                                                       cell.iv.backgroundColor = [UIColor whiteColor];
-                                                                      cell.iv.image = [UIImage imageNamed:@"error"];
+                                                                      cell.iv.image = [UIImage imageNamed:@"Images.bundle/error"];
                                                                   }else{                                                                      
                                                                       NSNumber *minutes = @(videoDuration / 60);
                                                                       NSNumber *seconds = @(videoDuration % 60);
@@ -131,7 +131,7 @@
                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                            if (!image) {
                                blockCell.iv.backgroundColor = [UIColor whiteColor];
-                               blockCell.iv.image = [UIImage imageNamed:@"error"];
+                               blockCell.iv.image = [UIImage imageNamed:@"Images.bundle/error"];
                            }
                            [[blockCell.contentView viewWithTag:405] setHidden:YES];
                        }];

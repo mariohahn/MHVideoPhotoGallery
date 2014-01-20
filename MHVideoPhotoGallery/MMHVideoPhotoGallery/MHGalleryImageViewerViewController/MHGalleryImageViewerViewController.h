@@ -41,6 +41,7 @@
 @property (nonatomic, strong) MPMoviePlayerController *moviePlayer;
 
 @property (nonatomic)        NSInteger pageIndex;
+@property (nonatomic)        NSInteger currentTimeMovie;
 
 @property (nonatomic,getter = isPlayingVideo)        BOOL playingVideo;
 @property (nonatomic,getter = isPausingVideo)        BOOL pausingVideo;

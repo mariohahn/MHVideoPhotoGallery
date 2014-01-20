@@ -25,7 +25,7 @@
         [[self contentView] addSubview:self.act];
         
         _playButton = [[UIButton alloc]initWithFrame:self.bounds];
-        [self.playButton setImage:[UIImage imageNamed:@"playButton"] forState:UIControlStateNormal];
+        [self.playButton setImage:[UIImage imageNamed:@"Images.bundle/playButton"] forState:UIControlStateNormal];
         self.playButton.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
         [self.playButton setTag:406];
         [self.playButton setHidden:YES];
@@ -52,13 +52,13 @@
         
 
         _videoIcon = [[UIImageView alloc]initWithFrame:CGRectMake(5,  self.bounds.size.height-20, 15, 20)];
-        self.videoIcon.image = [UIImage imageNamed:@"videoIcon"];
+        self.videoIcon.image = [UIImage imageNamed:@"Images.bundle/videoIcon"];
         [self.videoIcon setContentMode:UIViewContentModeScaleAspectFit];
         [self.videoIcon setHidden:YES];
         [[self contentView] addSubview:self.videoIcon];
         
         _selectionImageView = [[UIImageView alloc]initWithFrame:CGRectMake(self.bounds.size.width-30,  self.bounds.size.height-30, 22, 22)];
-        self.selectionImageView.image = [UIImage imageNamed:@"videoIcon"];
+        self.selectionImageView.image = [UIImage imageNamed:@"Images.bundle/videoIcon"];
         [self.selectionImageView setContentMode:UIViewContentModeScaleAspectFit];
         [self.selectionImageView setHidden:YES];
         [[self contentView] addSubview:self.selectionImageView];

@@ -20,6 +20,7 @@
  */
 extern NSString *const MHGalleryViewModeOverView;
 extern NSString *const MHGalleryViewModeShare;
+extern NSString* const MHUserAgent;
 
 
 /**
@@ -112,7 +113,7 @@ typedef NS_ENUM(NSUInteger, MHGalleryType) {
 -(void)startDownloadingThumbImage:(NSString*)urlString
                           forSize:(CGSize)size
                        atDuration:(MHImageGeneration)duration
-                     successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error))succeedBlock;
+                     successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL))succeedBlock;
 
 - (UIImage *)imageByRenderingView:(id)view;
 
