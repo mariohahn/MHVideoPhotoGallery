@@ -131,6 +131,8 @@
     self.descriptionView.textColor = [UIColor blackColor];
     self.descriptionView.scrollEnabled = NO;
     [self.descriptionView setUserInteractionEnabled:NO];
+   
+    
     if([MHGallerySharedManager sharedManager].barColor){
         [self.tb setBarTintColor:[MHGallerySharedManager sharedManager].barColor];
         [self.navigationController.navigationBar setBarTintColor:[MHGallerySharedManager sharedManager].barColor];

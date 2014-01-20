@@ -230,6 +230,7 @@
 
 -(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     MHGalleryItem *item = self.galleryDataSource[indexPath.section][indexPath.row];
+    [cell.iv setContentMode:UIViewContentModeScaleAspectFill];
     if (item.galleryType == MHGalleryTypeImage) {
         [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]];
     }else{

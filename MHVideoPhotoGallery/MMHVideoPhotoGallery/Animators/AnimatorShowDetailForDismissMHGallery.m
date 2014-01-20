@@ -83,11 +83,18 @@
             [toViewControllerNC view].alpha = 1;
             [fromViewController view].alpha =0;
             cellImageSnapshot.frame =[containerView convertRect:self.iv.frame fromView:self.iv.superview];
-            cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
+
+            if (self.iv.contentMode == UIViewContentModeScaleAspectFit) {
+                cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
+            }
+            if (self.iv.contentMode == UIViewContentModeScaleAspectFill) {
+                cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
+
+            }
         } completion:^(BOOL finished) {
             self.iv.hidden = NO;
             [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
-           
+            
             [[UIApplication sharedApplication] setStatusBarStyle:[MHGallerySharedManager sharedManager].oldStatusBarStyle];
         }];
         
@@ -123,7 +130,7 @@
     self.cellImageSnapshot.image = image;
     [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.image.size,fromViewController.view.bounds)];
     self.startFrame = self.cellImageSnapshot.frame;
-
+    
     [imageViewer.pvc.view setHidden:YES];
     
     [toViewControllerNC view].frame = [transitionContext finalFrameForViewController:toViewControllerNC];
@@ -154,9 +161,22 @@
 }
 
 -(void)finishInteractiveTransition{
-    [self.cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFill forFrame:[self.containerView convertRect:self.iv.frame fromView:self.iv.superview] withDuration:0.3 afterDelay:0 finished:^(BOOL finished) {
-    }];
+    if (self.iv.contentMode == UIViewContentModeScaleAspectFill) {
+        [self.cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFill
+                                         forFrame:[self.containerView convertRect:self.iv.frame fromView:self.iv.superview]
+                                     withDuration:0.3
+                                       afterDelay:0
+                                         finished:^(BOOL finished) {
+                                         }];
+        
+    }
+    
     [UIView animateWithDuration:0.3 animations:^{
+        
+        if (self.iv.contentMode == UIViewContentModeScaleAspectFit) {
+            self.cellImageSnapshot.frame = [self.containerView convertRect:self.iv.frame fromView:self.iv.superview];
+        }
+        
         self.viewWhite.alpha = 0;
     } completion:^(BOOL finished) {
         self.iv.hidden = NO;

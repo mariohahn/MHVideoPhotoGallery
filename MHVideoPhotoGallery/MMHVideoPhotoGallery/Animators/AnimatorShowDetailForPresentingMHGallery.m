@@ -34,14 +34,24 @@
     [containerView addSubview:view];
     [containerView addSubview:cellImageSnapshot];
     [containerView addSubview:toViewController.view];
-    
-    [cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFit
-                                forFrame:toViewController.view.bounds
-                            withDuration:duration
-                              afterDelay:0
-                                finished:^(BOOL finished) {
-                                }];
+
+    if (self.iv.contentMode == UIViewContentModeScaleAspectFill) {
+        [cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFit
+                                    forFrame:toViewController.view.bounds
+                                withDuration:duration
+                                  afterDelay:0
+                                    finished:^(BOOL finished) {
+                                    }];
+    }
+    if(self.iv.contentMode == UIViewContentModeScaleAspectFit){
+        cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
+    }
+
     [UIView animateWithDuration:duration animations:^{
+        if(self.iv.contentMode == UIViewContentModeScaleAspectFit){
+            cellImageSnapshot.frame = toViewController.view.bounds;
+        }
+        
         view.alpha =1;
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.1 animations:^{
