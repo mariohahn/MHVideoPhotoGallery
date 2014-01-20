@@ -178,11 +178,15 @@
         self.iv.hidden = NO;
         [self.cellImageSnapshot removeFromSuperview];
         [self.viewWhite removeFromSuperview];
+        CGRect endFrame = [[self.context containerView] bounds];
+        
         UINavigationController *fromViewController = (UINavigationController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
+        fromViewController.view.frame = endFrame;
         [fromViewController view].alpha =1;
+        
         MHGalleryImageViewerViewController *imageViewer  = (MHGalleryImageViewerViewController*)fromViewController.visibleViewController;
         [imageViewer.pvc.view setHidden:NO];
-
+        
         [self.context completeTransition:NO];
     }];
     

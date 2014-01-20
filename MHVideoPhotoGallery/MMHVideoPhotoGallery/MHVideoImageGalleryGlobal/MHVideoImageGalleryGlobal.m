@@ -18,6 +18,17 @@ NSString * const MHUserAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac
     vc = self.topViewController;
     return vc;
 }
+-(BOOL)shouldAutorotate{
+    return [[self.viewControllers lastObject] shouldAutorotate];
+}
+
+-(NSUInteger)supportedInterfaceOrientations{
+    return [[self.viewControllers lastObject] supportedInterfaceOrientations];
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return [[self.viewControllers lastObject] preferredInterfaceOrientationForPresentation];
+}
 
 @end
 
@@ -100,12 +111,11 @@ NSString * const MHUserAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac
     UINavigationController *nav = [MHNavigationController new];
     
     
-    if ([[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeOverView]) {
-        nav.viewControllers = @[gallery,detail];
-    }else{
+    if (![[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeOverView] || galleryItems.count ==1) {
         nav.viewControllers = @[detail];
+    }else{
+        nav.viewControllers = @[gallery,detail];
     }
-    
     if (animated) {
         nav.transitioningDelegate = viewcontroller;
         nav.modalPresentationStyle = UIModalPresentationFullScreen;
