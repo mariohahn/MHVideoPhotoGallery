@@ -252,7 +252,7 @@
         }
     }
     if (completed) {
-        [self changeToPlayButton];
+        [self updateToolBarForItem:self.galleryItems[self.pageIndex]];
     }
 }
 
@@ -272,6 +272,7 @@
 -(void)updateToolBarForItem:(MHGalleryItem*)item{
     UIBarButtonItem *flex = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     if (item.galleryType == MHGalleryTypeVideo) {
+        [self changeToPlayButton];
         [self.tb setItems:@[self.share,flex,self.left,flex,self.playStopButton,flex,self.right,flex]];
     }else{
         [self.tb setItems:@[self.share,flex,self.left,flex,self.right,flex]];
