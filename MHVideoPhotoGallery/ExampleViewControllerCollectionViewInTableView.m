@@ -25,6 +25,10 @@
     self.title = @"CollectionInTable";
     
     
+    
+    MHGalleryItem *youtube = [[MHGalleryItem alloc]initWithURL:@"http://www.youtube.com/watch?v=YSdJtNen-EA"
+                                                  galleryType:MHGalleryTypeVideo];
+    
     MHGalleryItem *vimeo0 = [[MHGalleryItem alloc]initWithURL:@"http://vimeo.com/35515926"
                                                    galleryType:MHGalleryTypeVideo];
     MHGalleryItem *vimeo1 = [[MHGalleryItem alloc]initWithURL:@"http://vimeo.com/50006726"
@@ -94,7 +98,7 @@
     
     
     self.galleryDataSource = @[
-                               @[vimeo0,vimeo1,keynote,item18,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage],
+                               @[youtube,vimeo0,vimeo1,keynote,item18,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage],
                                @[keynote,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage]
                                ];
     

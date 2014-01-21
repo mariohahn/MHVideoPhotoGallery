@@ -20,10 +20,10 @@
  */
 extern NSString *const MHGalleryViewModeOverView;
 extern NSString *const MHGalleryViewModeShare;
-extern NSString *const MHUserAgent;
 extern NSString *const MHVimeoBaseURL;
 extern NSString *const MHVimeoThumbBaseURL;
-
+extern NSString *const MHYoutubeInfoBaseURL;
+extern NSString *const MHYoutubePlayBaseURL;
 /**
  *  Is used to create Thumbnails from a video
  */
@@ -140,6 +140,9 @@ typedef NS_ENUM(NSUInteger, MHGalleryType) {
 
 
 -(void)getVimeoURLforMediaPlayer:(NSString*)URL
-                    successBlock:(void (^)(NSString *URL,NSError *error))succeedBlock;
+                    successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock;
+
+-(void)getYoutubeURLforMediaPlayer:(NSString*)URL
+                      successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock;
 
 @end

@@ -2,12 +2,12 @@
 #import "MHVideoImageGalleryGlobal.h"
 #import "MHGalleryOverViewController.h"
 
+NSString * const MHYoutubePlayBaseURL = @"https://www.youtube.com/get_video_info?video_id=%@&el=embedded&ps=default&eurl=&gl=US&hl=%@";
+NSString * const MHYoutubeInfoBaseURL = @"http://gdata.youtube.com/feeds/api/videos/%@?v=2&alt=jsonc";
 NSString * const MHVimeoThumbBaseURL = @"http://vimeo.com/api/v2/video/%@.json";
 NSString * const MHVimeoBaseURL = @"http://player.vimeo.com/v2/video/%@/config";
 NSString * const MHGalleryViewModeOverView = @"MHGalleryViewModeOverView";
 NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
-NSString * const MHUserAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3";
-
 
 @interface MHNavigationController : UINavigationController
 @end
@@ -191,15 +191,93 @@ NSString * const MHUserAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac
     }
 }
 
+-(NSString*)languageIdentifier{
+	static NSString *applicationLanguageIdentifier;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		applicationLanguageIdentifier = @"en";
+		NSArray *preferredLocalizations = [[NSBundle mainBundle] preferredLocalizations];
+		if (preferredLocalizations.count > 0)
+			applicationLanguageIdentifier = [NSLocale canonicalLanguageIdentifierFromString:preferredLocalizations[0]] ?: applicationLanguageIdentifier;
+	});
+	return applicationLanguageIdentifier;
+}
+
+-(NSDictionary*)getURLParFromURL:(NSString*)URL{
+	NSMutableDictionary *dict = [NSMutableDictionary new];
+	NSArray *fields = [URL componentsSeparatedByString:@"&"];
+	for (NSString *field in fields){
+		NSArray *pair = [field componentsSeparatedByString:@"="];
+		if (pair.count == 2){
+			NSString *key = pair[0];
+			NSString *value = [pair[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+			value = [value stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+			dict[key] = value;
+		}
+	}
+	return dict;
+}
+
+-(void)getYoutubeURLforMediaPlayer:(NSString*)URL
+                      successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock{
+    
+    NSString *videoID = [[URL componentsSeparatedByString:@"?v="] lastObject];
+    NSURL *videoInfoURL = [NSURL URLWithString:[NSString stringWithFormat:MHYoutubePlayBaseURL, videoID ?: @"", [self languageIdentifier]]];
+    NSMutableURLRequest *httpRequest = [[NSMutableURLRequest alloc] initWithURL:videoInfoURL
+                                                                    cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                                timeoutInterval:10];
+    [httpRequest setValue:[self languageIdentifier] forHTTPHeaderField:@"Accept-Language"];
+    [NSURLConnection sendAsynchronousRequest:httpRequest
+                                       queue:[[NSOperationQueue alloc] init]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                               dispatch_async(dispatch_get_main_queue(), ^(void){
+                               NSURL *playURL = [self getYoutubeURLWithData:data];
+                                   if (playURL) {
+                                       succeedBlock(playURL,nil);
+                                   }else{
+                                       succeedBlock(nil,nil);
+                                   }
+                               });
+                           }];
+}
+
+
+
+- (NSURL *)getYoutubeURLWithData:(NSData *)data{
+    
+	NSString *videoData = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+    
+	NSDictionary *video = [self getURLParFromURL:videoData];
+	NSArray *videoURLS = [video[@"url_encoded_fmt_stream_map"] componentsSeparatedByString:@","];
+	
+	NSMutableDictionary *streamURLs = [NSMutableDictionary new];
+	for (NSString *videoURL in videoURLS){
+		NSDictionary *stream = [self getURLParFromURL:videoURL];
+		NSString *type = stream[@"type"];
+		NSString *urlString = stream[@"url"];
+		NSString *signatureString = stream[@"sig"];
+		if (urlString && signatureString && [AVURLAsset isPlayableExtendedMIMEType:type]){
+			NSURL *streamURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@&signature=%@", urlString, signatureString]];
+			streamURLs[@([stream[@"itag"] integerValue])] = streamURL;
+		}
+	}
+    if (streamURLs[@(22)]) {
+        return streamURLs[@(22)];
+    }
+    if (streamURLs[@(18)]) {
+        return streamURLs[@(18)];
+    }
+	return nil;
+}
 -(void)getVimeoURLforMediaPlayer:(NSString*)URL
-                    successBlock:(void (^)(NSString *URL,NSError *error))succeedBlock{
+                    successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock{
     
     NSString *videoID = [[URL componentsSeparatedByString:@"/"] lastObject];
     NSURL *vimdeoURL= [NSURL URLWithString:[NSString stringWithFormat:MHVimeoBaseURL, videoID]];
     
     NSMutableURLRequest *httpRequest = [NSMutableURLRequest requestWithURL:vimdeoURL
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                           timeoutInterval:5];
+                                                           timeoutInterval:10];
     
     [httpRequest setValue:@"application/json"
        forHTTPHeaderField:@"Content-Type"];
@@ -222,7 +300,7 @@ NSString * const MHUserAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac
                                    if (!videoInfo[@"url"]) {
                                        succeedBlock(nil,nil);
                                    }
-                                   succeedBlock(videoInfo[@"url"],nil);
+                                   succeedBlock([NSURL URLWithString:videoInfo[@"url"]],nil);
                                });
                            }];
 }
@@ -234,6 +312,53 @@ NSString * const MHUserAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac
 -(NSMutableDictionary*)durationDict{
     return [[NSMutableDictionary alloc]initWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"MHGalleryData"]];
 }
+
+
+-(void)getYoutubeThumbImage:(NSString*)URL
+               successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error))succeedBlock{
+    UIImage *image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:URL];
+    if (image) {
+        NSMutableDictionary *dict = [self durationDict];
+        succeedBlock(image,[dict[URL] integerValue],nil);
+    }else{
+        NSString *videoID = [[URL componentsSeparatedByString:@"?v="] lastObject];
+        NSString *infoURL = [NSString stringWithFormat:MHYoutubeInfoBaseURL,videoID];
+        NSMutableURLRequest *httpRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:infoURL]
+                                                                   cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                               timeoutInterval:10];
+        [NSURLConnection sendAsynchronousRequest:httpRequest
+                                           queue:[[NSOperationQueue alloc] init]
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                                   NSError *error;
+                                   NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data
+                                                                                            options:NSJSONReadingAllowFragments
+                                                                                              error:&error];
+                                   dispatch_async(dispatch_get_main_queue(), ^(void){
+                                       if (jsonData.count) {
+                                           NSMutableDictionary *dictToSave = [self durationDict];
+                                           dictToSave[URL] = @([jsonData[@"data"][@"duration"] integerValue]);
+                                           [self setObjectToUserDefaults:dictToSave];
+                                           
+                                           NSString *thumbURL = jsonData[@"data"][@"thumbnail"][@"hqDefault"];
+                                           
+                                           [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:thumbURL]
+                                                                                      options:SDWebImageContinueInBackground
+                                                                                     progress:nil
+                                                                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                                                        
+                                                                                        [[SDImageCache sharedImageCache] removeImageForKey:thumbURL];
+                                                                                        [[SDImageCache sharedImageCache] storeImage:image
+                                                                                                                             forKey:URL];
+                                                                                        
+                                                                                        succeedBlock(image,[jsonData[@"data"][@"duration"] integerValue],nil);
+                                                                                    }];
+                                       }
+                                   });
+                               }];
+    }
+    
+}
+
 
 -(void)getVimdeoThumbImage:(NSString*)URL
               successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error))succeedBlock{
@@ -248,7 +373,7 @@ NSString * const MHUserAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac
     }else{
         NSMutableURLRequest *httpRequest = [NSMutableURLRequest requestWithURL:vimdeoURL
                                                                    cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                               timeoutInterval:5];
+                                                               timeoutInterval:10];
         [NSURLConnection sendAsynchronousRequest:httpRequest
                                            queue:[[NSOperationQueue alloc] init]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -296,6 +421,12 @@ NSString * const MHUserAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac
                      successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
                          succeedBlock(image,videoDuration,error,urlString);
                      }];
+        
+    }else if([urlString rangeOfString:@"youtube.com"].location != NSNotFound) {
+        [self getYoutubeThumbImage:urlString
+                      successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
+                          succeedBlock(image,videoDuration,error,urlString);
+                      }];
         
     }else{
         [self createThumbURL:urlString

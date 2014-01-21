@@ -638,11 +638,16 @@
     if (!self.moviePlayer && self.item.galleryType == MHGalleryTypeVideo) {
         if ([self.item.urlString rangeOfString:@"vimeo.com"].location != NSNotFound) {
             [[MHGallerySharedManager sharedManager] getVimeoURLforMediaPlayer:self.item.urlString
-                                                                 successBlock:^(NSString *URL, NSError *error) {                                                                     
+                                                                 successBlock:^(NSURL *URL, NSError *error) {
                                                                      [self addMoviePlayerToViewWithURL:URL];
             }];
+        }else if ([self.item.urlString rangeOfString:@"youtube.com"].location != NSNotFound) {
+            [[MHGallerySharedManager sharedManager] getYoutubeURLforMediaPlayer:self.item.urlString
+                                                                 successBlock:^(NSURL *URL, NSError *error) {
+                                                                     [self addMoviePlayerToViewWithURL:URL];
+                                                                 }];
         }else{
-            [self addMoviePlayerToViewWithURL:self.item.urlString];
+            [self addMoviePlayerToViewWithURL:[NSURL  URLWithString:self.item.urlString]];
         }
     }
 }
@@ -887,7 +892,7 @@
     self.movieTimer = nil;
 }
 
--(void)addMoviePlayerToViewWithURL:(NSString*)url{
+-(void)addMoviePlayerToViewWithURL:(NSURL*)url{
     self.videoWasPlayable = NO;
     
     self.moviePlayer = [MPMoviePlayerController new];
@@ -898,7 +903,7 @@
     }
     self.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
     self.moviePlayer.controlStyle = MPMovieControlStyleNone;
-    [self.moviePlayer setContentURL:[NSURL URLWithString:url]];
+    [self.moviePlayer setContentURL:url];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadStateDidChange:)
