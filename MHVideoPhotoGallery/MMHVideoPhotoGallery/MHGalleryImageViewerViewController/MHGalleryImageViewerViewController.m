@@ -636,7 +636,14 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if (!self.moviePlayer && self.item.galleryType == MHGalleryTypeVideo) {
-        [self addMoviePlayerToViewWithURL:self.item.urlString];
+        if ([self.item.urlString rangeOfString:@"vimeo.com"].location != NSNotFound) {
+            [[MHGallerySharedManager sharedManager] getVimeoURLforMediaPlayer:self.item.urlString
+                                                                 successBlock:^(NSString *URL, NSError *error) {                                                                     
+                                                                     [self addMoviePlayerToViewWithURL:URL];
+            }];
+        }else{
+            [self addMoviePlayerToViewWithURL:self.item.urlString];
+        }
     }
 }
 
@@ -879,8 +886,8 @@
     [self.movieTimer invalidate];
     self.movieTimer = nil;
 }
+
 -(void)addMoviePlayerToViewWithURL:(NSString*)url{
-    
     self.videoWasPlayable = NO;
     
     self.moviePlayer = [MPMoviePlayerController new];
@@ -903,11 +910,6 @@
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:self.moviePlayer];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(moviePlayBackStateDidChange:)
-                                                 name:MPMoviePlayerPlaybackStateDidChangeNotification
-                                               object:self.moviePlayer];
-    
     if (self.vc.isHiddingToolBarAndNavigationBar) {
         self.moviePlayer.view.backgroundColor = [UIColor blackColor];
     }else{
@@ -924,18 +926,9 @@
     self.movieDownloadedTimer = [NSTimer timerWithTimeInterval:0.06f target:self selector:@selector(changeProgressBehinde:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:self.movieDownloadedTimer forMode:NSRunLoopCommonModes];
     
+    [self changeToPlayable];
 }
--(void)moviePlayBackStateDidChange:(NSNotification*)notification{
-    
-    MPMoviePlayerController *player = notification.object;
-    
-	if (player.playbackState == MPMoviePlaybackStateStopped){
-	}else if (player.playbackState == MPMoviePlaybackStatePlaying){
-	}else if (player.playbackState == MPMoviePlaybackStatePaused){
-	}else if (player.playbackState == MPMoviePlaybackStateInterrupted){
 
-	}
-}
 
 -(void)playButtonPressed{
     if (!self.playingVideo) {
@@ -978,7 +971,9 @@
         }
         if (self.moviePlayerToolBarTop) {
             if (self.item.galleryType == MHGalleryTypeVideo) {
-                [self.moviePlayerToolBarTop setAlpha:1];
+                if (self.videoWasPlayable) {
+                    [self.moviePlayerToolBarTop setAlpha:1];
+                }
             }
         }
         

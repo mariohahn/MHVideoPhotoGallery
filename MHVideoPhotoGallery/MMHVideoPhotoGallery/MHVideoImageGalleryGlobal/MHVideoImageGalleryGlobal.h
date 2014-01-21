@@ -20,8 +20,9 @@
  */
 extern NSString *const MHGalleryViewModeOverView;
 extern NSString *const MHGalleryViewModeShare;
-extern NSString* const MHUserAgent;
-
+extern NSString *const MHUserAgent;
+extern NSString *const MHVimeoBaseURL;
+extern NSString *const MHVimeoThumbBaseURL;
 
 /**
  *  Is used to create Thumbnails from a video
@@ -136,5 +137,9 @@ typedef NS_ENUM(NSUInteger, MHGalleryType) {
         withImageViewTransiation:(BOOL)animated;
 
 -(BOOL)isUIVCBasedStatusBarAppearance;
+
+
+-(void)getVimeoURLforMediaPlayer:(NSString*)URL
+                    successBlock:(void (^)(NSString *URL,NSError *error))succeedBlock;
 
 @end

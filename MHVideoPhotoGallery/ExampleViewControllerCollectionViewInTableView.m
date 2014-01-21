@@ -25,6 +25,9 @@
     self.title = @"CollectionInTable";
     
     
+    MHGalleryItem *videmo = [[MHGalleryItem alloc]initWithURL:@"http://vimeo.com/35515926"
+                                                   galleryType:MHGalleryTypeVideo];
+    
     MHGalleryItem *keynote = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/media/de/mac-pro/2013/16C1b6b5-1d91-4fef-891e-ff2fc1c1bb58/tour/assembly/macpro-assembly-de-20131022_r848-9dwc.mov?width=848&height=480&expectingMovieJson=true"
                                                  galleryType:MHGalleryTypeVideo];
     
@@ -88,7 +91,7 @@
     
     
     self.galleryDataSource = @[
-                               @[keynote,item18,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage],
+                               @[videmo,keynote,item18,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage],
                                @[keynote,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage]
                                ];
     
