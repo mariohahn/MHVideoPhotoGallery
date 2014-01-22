@@ -789,7 +789,6 @@
 -(void)updateTimerLabels{
     
     if (self.currentTimeMovie && self.wholeTimeMovie) {
-        
         NSNumber *minutesGo = @(self.currentTimeMovie / 60);
         NSNumber *secondsGo = @(self.currentTimeMovie % 60);
         
@@ -807,10 +806,12 @@
 }
 
 -(void)changeProgressBehinde:(NSTimer*)timer{
-    [self.progressVideo setProgress:self.moviePlayer.playableDuration/self.moviePlayer.duration];
-    if ((self.moviePlayer.playableDuration == self.moviePlayer.duration)&& (self.moviePlayer.duration !=0)) {
-        [self.movieDownloadedTimer invalidate];
-        self.movieDownloadedTimer = nil;
+    if (self.moviePlayer.playableDuration !=0) {
+        [self.progressVideo setProgress:self.moviePlayer.playableDuration/self.moviePlayer.duration];
+        if ((self.moviePlayer.playableDuration == self.moviePlayer.duration)&& (self.moviePlayer.duration !=0)) {
+            [self.movieDownloadedTimer invalidate];
+            self.movieDownloadedTimer = nil;
+        }
     }
 }
 
@@ -984,6 +985,11 @@
         self.act.color = [UIColor blackColor];
     }
     if (self.item.galleryType == MHGalleryTypeVideo) {
+        
+        if (self.moviePlayer) {
+            [self.slider setValue:self.moviePlayer.currentPlaybackTime animated:NO];
+        }
+        
         if (self.imageView.image) {
             self.playButton.frame = CGRectMake(self.vc.view.frame.size.width/2-36, self.vc.view.frame.size.height/2-36, 72, 72);
         }
