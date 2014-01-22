@@ -8,7 +8,13 @@ OverView
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/OverView.gif)
 
-Dismiss
+Dismiss Video
+--------------------
+
+
+![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissvideoMH.gif)
+
+Dismiss Image
 --------------------
 
 
