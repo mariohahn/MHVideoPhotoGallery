@@ -737,9 +737,7 @@
 -(void)changeToPlayable{
     self.videoWasPlayable = YES;
     if(!self.vc.isHiddingToolBarAndNavigationBar){
-        [UIView animateWithDuration:0.3 animations:^{
             self.moviePlayerToolBarTop.alpha =1;
-        }];
     }
     
     [self.moviePlayer.view setHidden:NO];
@@ -1066,6 +1064,7 @@
         
     }
 }
+
 - (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer {
     if ([self.imageView.image isEqual:[UIImage imageNamed:@"Images.bundle/error"]]) {
         return;
@@ -1073,18 +1072,17 @@
     if (self.item.galleryType == MHGalleryTypeVideo) {
         return;
     }
-    float newScale =  [self.scrollView zoomScale] * 1.5;
-    CGRect zoomRect = [self zoomRectForScale:newScale withCenter:[gestureRecognizer locationInView:gestureRecognizer.view]];
-    [self.scrollView zoomToRect:zoomRect animated:YES];
+    if (self.scrollView.zoomScale >1) {
+        [self.scrollView setZoomScale:1 animated:YES];
+        return;
+    }
+    CGFloat newZoomScale = (self.scrollView.maximumZoomScale);
+    CGFloat xsize = self.scrollView.bounds.size.width / newZoomScale;
+    CGFloat ysize = self.scrollView.bounds.size.height / newZoomScale;
+    CGPoint touchPoint = [gestureRecognizer locationInView:gestureRecognizer.view];
+    [self.scrollView zoomToRect:CGRectMake(touchPoint.x - xsize/2, touchPoint.y - ysize/2, xsize, ysize) animated:YES];
 }
-- (CGRect)zoomRectForScale:(float)scale withCenter:(CGPoint)center {
-    CGRect zoomRect;
-    zoomRect.size.height = [self.scrollView frame].size.height / scale;
-    zoomRect.size.width  = [self.scrollView frame].size.width  / scale;
-    zoomRect.origin.x    = center.x - (zoomRect.size.width  / 2.0);
-    zoomRect.origin.y    = center.y - (zoomRect.size.height / 2.0);
-    return zoomRect;
-}
+
 
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return [scrollView.subviews firstObject];

@@ -15,8 +15,7 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 @implementation MHNavigationController
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    UIViewController *vc = [super childViewControllerForStatusBarStyle];
-    vc = self.topViewController;
+    UIViewController *vc = self.topViewController;
     return vc;
 }
 -(BOOL)shouldAutorotate{
