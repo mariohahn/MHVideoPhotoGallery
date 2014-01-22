@@ -398,36 +398,40 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     NSArray *storedData = [NSArray arrayWithArray:self.shareDataSource];
     
     self.shareDataSource = [NSMutableArray new];
+    
+    
     for (NSArray *array in self.shareDataSourceStart) {
-        NSMutableArray *new  = [NSMutableArray new];
-        NSMutableArray *indexPathsToInsert = [NSMutableArray new];
-        NSMutableArray *indexPathsToDelete = [NSMutableArray new];
+        NSLog(@"%@",array);
         
-        NSInteger rowIndex = 0;
+        NSMutableArray *newObjects  = [NSMutableArray new];
         
         for (MHShareItem *item in array) {
             if (self.selectedRows.count <= item.maxNumberOfItems) {
                 if (![storedData[index] containsObject:item]) {
-                    [new addObject:item];
-                    [indexPathsToInsert addObject:[NSIndexPath indexPathForRow:rowIndex inSection:0]];
+                    [newObjects addObject:item];
                 }else{
-                    [new addObject:item];
-
-                }
-            }else{
-                if (![storedData containsObject:item]) {
-                    [indexPathsToDelete addObject:[NSIndexPath indexPathForRow:rowIndex inSection:0]];
+                    [newObjects addObject:item];
                 }
             }
-            rowIndex++;
+            
         }
-        [self.shareDataSource addObject:new];
+            for (NSIndexPath *indexPath in self.selectedRows) {
+                MHGalleryItem *item =self.galleryDataSource[indexPath.row];
+                if (item.galleryType == MHGalleryTypeVideo) {
+                    if ([newObjects containsObject:self.saveObject] ) {
+                        [newObjects removeObject:self.saveObject];
+                    }
+                }
+            }
+        
+        [self.shareDataSource addObject:newObjects];
         MHGalleryCollectionViewCell *cell = (MHGalleryCollectionViewCell*)[self.tableViewShare cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index]];
         [cell.collectionView reloadData];
         index++;
     }
 }
 -(void)presentSLComposeForServiceType:(NSString*)serviceType{
+    
     [self getAllImagesForSelectedRows:^(NSArray *images) {
         SLComposeViewController *shareconntroller=[SLComposeViewController composeViewControllerForServiceType:serviceType];
         SLComposeViewControllerCompletionHandler __block completionHandler=^(SLComposeViewControllerResult result){
@@ -435,9 +439,15 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
             [shareconntroller dismissViewControllerAnimated:YES
                                                  completion:nil];
         };
-        for (UIImage *image in images) {
-            [shareconntroller addImage:image];
+        NSString *videoURLS = [NSString new];
+        for (id data in images) {
+            if ([data isKindOfClass:[UIImage class]]) {
+                [shareconntroller addImage:data];
+            }else{
+                videoURLS = [videoURLS stringByAppendingString:[NSString stringWithFormat: @"%@ \n",data]];
+            }
         }
+        [shareconntroller setInitialText:videoURLS];
         [shareconntroller setCompletionHandler:completionHandler];
         [self presentViewController:shareconntroller
                            animated:YES
@@ -456,11 +466,21 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     [self getAllImagesForSelectedRows:^(NSArray *images) {
         MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
         picker.messageComposeDelegate = self;
-        for (UIImage *image in images) {
-            [picker addAttachmentData:UIImageJPEGRepresentation(image, 1.0)
+        NSString *videoURLS = [NSString new];
+
+        for (id data in images) {
+            if ([data isKindOfClass:[UIImage class]]) {
+
+            [picker addAttachmentData:UIImageJPEGRepresentation(data, 1.0)
                        typeIdentifier:@"public.image"
                              filename:@"image.JPG"];
+            }else{
+                videoURLS = [videoURLS stringByAppendingString:[NSString stringWithFormat: @"%@ \n",data]];
+            }
         }
+        picker.body = videoURLS;
+
+        
         [self presentViewController:picker
                            animated:YES
                          completion:NULL];
@@ -471,11 +491,20 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     [self getAllImagesForSelectedRows:^(NSArray *images) {
         MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
         picker.mailComposeDelegate = self;
-        for (UIImage *image in images) {
-            [picker addAttachmentData:UIImageJPEGRepresentation(image, 1.0)
-                             mimeType:@"image/jpeg"
-                             fileName:@"image"];
+        NSString *videoURLS = [NSString new];
+        
+        for (id data in images) {
+            if ([data isKindOfClass:[UIImage class]]) {
+                [picker addAttachmentData:UIImageJPEGRepresentation(data, 1.0)
+                                 mimeType:@"image/jpeg"
+                                 fileName:@"image"];
+            }else{
+                videoURLS = [videoURLS stringByAppendingString:[NSString stringWithFormat: @"%@ \n",data]];
+                
+            }
         }
+        [picker setMessageBody:videoURLS isHTML:NO];
+
         if([MFMailComposeViewController canSendMail]){
             [self presentViewController:picker
                                animated:YES
@@ -500,7 +529,6 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
 }
 
 -(void)getAllImagesForSelectedRows:(void(^)(NSArray *images))SuccessBlock{
-    __block NSInteger dataSendCounter =0;
     __block NSMutableArray *imagesData = [NSMutableArray new];
     
     for (NSIndexPath *indexPath in self.selectedRows) {
@@ -511,11 +539,16 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
                                                       progress:nil
                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
                                                          [imagesData addObject:image];
-                                                         if (dataSendCounter == self.selectedRows.count-1) {
+                                                         if (imagesData.count == self.selectedRows.count) {
                                                              SuccessBlock([NSArray arrayWithArray:imagesData]);
                                                          }
-                                                         dataSendCounter++;
                                                      }];
+        }
+        if (item.galleryType == MHGalleryTypeVideo) {
+            [imagesData addObject:item.urlString];
+        }
+        if (imagesData.count == self.selectedRows.count) {
+            SuccessBlock([NSArray arrayWithArray:imagesData]);
         }
     }
 }

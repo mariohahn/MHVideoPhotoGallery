@@ -46,8 +46,6 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated{
-}
 -(void)donePressed{
     self.navigationController.transitioningDelegate = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
