@@ -12,6 +12,7 @@
 
 @interface AnimatorShowDetailForDismissMHGallery : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
 
+@property (nonatomic, strong)   MPMoviePlayerController *moviePlayer;
 @property (nonatomic, strong)   UIImageView *iv;
 @property (nonatomic,assign)    CGFloat changedPoint;
 @property (nonatomic,assign)    id <UIViewControllerContextTransitioning> context;

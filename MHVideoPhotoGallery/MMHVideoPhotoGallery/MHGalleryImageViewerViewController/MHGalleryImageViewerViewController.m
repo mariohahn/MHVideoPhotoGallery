@@ -55,6 +55,7 @@
 -(void)donePressed{
     MHGalleryOverViewController *overView  =[self.navigationController.viewControllers firstObject];
     ImageViewController *imageViewer = self.pvc.viewControllers.firstObject;
+    
     overView.finishedCallback(self.pageIndex,nil,imageViewer.imageView.image);
 }
 
@@ -460,7 +461,6 @@
                 if ([[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeOverView]) {
                     MHGalleryOverViewController *overView  =[self.navigationController.viewControllers firstObject];
                     overView.finishedCallback(self.pageIndex,self.interactiveTransition,self.imageView.image);
-                    
                 }else{
                     self.vc.finishedCallback(self.pageIndex,self.interactiveTransition,self.imageView.image);
                 }
@@ -753,6 +753,8 @@
     [self.view bringSubviewToFront:self.moviePlayerToolBarTop];
     [self.view bringSubviewToFront:self.playButton];
     
+    [self.moviewPlayerButtonBehinde addGestureRecognizer:self.pan];
+
     if(self.playingVideo){
         [self.view bringSubviewToFront:self.moviePlayer.view];
         [self.view bringSubviewToFront:self.moviewPlayerButtonBehinde];

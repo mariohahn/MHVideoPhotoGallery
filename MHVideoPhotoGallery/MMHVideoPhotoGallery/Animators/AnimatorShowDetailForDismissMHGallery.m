@@ -11,6 +11,7 @@
 
 @interface AnimatorShowDetailForDismissMHGallery()
 @property (nonatomic) CGRect startFrame;
+@property (nonatomic) BOOL hasActiveVideo;
 @property (nonatomic,strong)UIView *viewWhite;
 @property (nonatomic,strong) UIView *containerView;
 @property (nonatomic, strong) MHUIImageViewContentViewAnimation *cellImageSnapshot;
@@ -117,8 +118,12 @@
     UIImage *image;
     UIView *snapShot;
     __block NSNumber *pageIndex;
+    
+    ImageViewController *imageViewerCurrent;
+    
     for (ImageViewController *imageViewerIndex in imageViewer.pvc.viewControllers) {
         if (imageViewerIndex.pageIndex == imageViewer.pageIndex) {
+            imageViewerCurrent = imageViewerIndex;
             pageIndex = @(imageViewerIndex.pageIndex);
             image = imageViewerIndex.imageView.image;
             snapShot = [imageViewerIndex.imageView snapshotViewAfterScreenUpdates:NO];
@@ -145,36 +150,57 @@
     
     [self.containerView addSubview:[toViewControllerNC view]];
     [self.containerView addSubview:self.viewWhite];
-    [self.containerView addSubview:self.cellImageSnapshot];
-    [self.containerView addSubview:snapShot];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.iv.hidden = YES;
-        [snapShot removeFromSuperview];
-    });
+    
+    if (imageViewerCurrent.isPlayingVideo && imageViewerCurrent.moviePlayer) {
+        
+            self.moviePlayer = imageViewerCurrent.moviePlayer;
+            [self.moviePlayer.view setFrame:AVMakeRectWithAspectRatioInsideRect(imageViewerCurrent.moviePlayer.naturalSize,fromViewController.view.bounds)];
+            
+            self.startFrame = self.moviePlayer.view.frame;
+            
+            [self.containerView addSubview:self.moviePlayer.view];
+            self.iv.hidden = YES;
+    }else{
+        [self.containerView addSubview:self.cellImageSnapshot];
+        [self.containerView addSubview:snapShot];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.iv.hidden = YES;
+            [snapShot removeFromSuperview];
+        });
+    }
 }
 
 
 -(void)updateInteractiveTransition:(CGFloat)percentComplete{
     self.viewWhite.alpha = 1.1-percentComplete;
-    self.cellImageSnapshot.frame = CGRectMake(self.startFrame.origin.x, self.cellImageSnapshot.frame.origin.y-self.changedPoint, self.cellImageSnapshot.frame.size.width, self.cellImageSnapshot.frame.size.height);
+
+    if (self.moviePlayer) {
+        self.moviePlayer.view.frame = CGRectMake(self.startFrame.origin.x, self.moviePlayer.view.frame.origin.y-self.changedPoint, self.moviePlayer.view.frame.size.width, self.moviePlayer.view.frame.size.height);
+    }else{
+        self.cellImageSnapshot.frame = CGRectMake(self.startFrame.origin.x, self.cellImageSnapshot.frame.origin.y-self.changedPoint, self.cellImageSnapshot.frame.size.width, self.cellImageSnapshot.frame.size.height);
+    }
 }
 
 -(void)finishInteractiveTransition{
-    if (self.iv.contentMode == UIViewContentModeScaleAspectFill) {
+
+        if (self.iv.contentMode == UIViewContentModeScaleAspectFill) {
         [self.cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFill
                                          forFrame:[self.containerView convertRect:self.iv.frame fromView:self.iv.superview]
                                      withDuration:0.3
                                        afterDelay:0
                                          finished:^(BOOL finished) {
                                          }];
-        
-    }
+        }
     
     [UIView animateWithDuration:0.3 animations:^{
         
-        if (self.iv.contentMode == UIViewContentModeScaleAspectFit) {
-            self.cellImageSnapshot.frame = [self.containerView convertRect:self.iv.frame fromView:self.iv.superview];
+        if (self.moviePlayer) {
+            self.moviePlayer.view.frame = [self.containerView convertRect:self.iv.frame fromView:self.iv.superview];
+        }else{
+            if (self.iv.contentMode == UIViewContentModeScaleAspectFit) {
+                self.cellImageSnapshot.frame = [self.containerView convertRect:self.iv.frame fromView:self.iv.superview];
+            }
         }
         
         self.viewWhite.alpha = 0;
@@ -192,7 +218,13 @@
 
 -(void)cancelInteractiveTransition{
     [UIView animateWithDuration:0.3 animations:^{
-        self.cellImageSnapshot.frame = self.startFrame;
+        
+        if (self.moviePlayer) {
+            self.moviePlayer.view.frame = self.startFrame;
+        }else{
+            self.cellImageSnapshot.frame = self.startFrame;
+        }
+        
         self.viewWhite.alpha = 1;
     } completion:^(BOOL finished) {
         self.iv.hidden = NO;
@@ -206,6 +238,11 @@
         
         MHGalleryImageViewerViewController *imageViewer  = (MHGalleryImageViewerViewController*)fromViewController.visibleViewController;
         [imageViewer.pvc.view setHidden:NO];
+        
+        if (self.moviePlayer) {
+           ImageViewController *imageViewController = (ImageViewController*)[imageViewer.pvc.viewControllers firstObject];
+            [imageViewController.view insertSubview:self.moviePlayer.view atIndex:2];
+        }
         
         [self.context completeTransition:NO];
     }];

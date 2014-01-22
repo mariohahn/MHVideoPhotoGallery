@@ -10,7 +10,7 @@
 #import "MHGalleryOverViewController.h"
 
 @interface ExampleViewControllerCollectionViewInTableView ()
-@property(nonatomic,strong)NSArray *galleryDataSource;
+@property(nonatomic,strong) NSArray *galleryDataSource;
 @property(nonatomic,strong) UIImageView *imageViewForPresentingMHGallery;
 @property(nonatomic,strong) AnimatorShowDetailForDismissMHGallery *interactive;
 @end
@@ -178,11 +178,18 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [collectionView reloadItemsAtIndexPaths:@[indexPath]];
-        self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
+        MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+        
+        self.imageViewForPresentingMHGallery = cell.iv;
         if (self.interactive) {
             self.interactive.iv = self.imageViewForPresentingMHGallery;
         }
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:^{
+            MPMoviePlayerController *player = self.interactive.moviePlayer;
+            player.view.frame = cell.bounds;
+            player.scalingMode = MPMovieScalingModeAspectFill;
+            [cell.contentView addSubview:player.view];
+        }];
     });
     
 }
