@@ -9,28 +9,6 @@ NSString * const MHVimeoBaseURL = @"http://player.vimeo.com/v2/video/%@/config";
 NSString * const MHGalleryViewModeOverView = @"MHGalleryViewModeOverView";
 NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 
-@interface MHNavigationController : UINavigationController
-@end
-
-@implementation MHNavigationController
-
-- (UIViewController *)childViewControllerForStatusBarStyle {
-    UIViewController *vc = self.topViewController;
-    return vc;
-}
--(BOOL)shouldAutorotate{
-    return [[self.viewControllers lastObject] shouldAutorotate];
-}
-
--(NSUInteger)supportedInterfaceOrientations{
-    return [[self.viewControllers lastObject] supportedInterfaceOrientations];
-}
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
-    return [[self.viewControllers lastObject] preferredInterfaceOrientationForPresentation];
-}
-
-@end
 
 @implementation MHShareItem
 
@@ -83,7 +61,7 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
         andCurrentViewController:(id)viewcontroller
-                  finishCallback:(void(^)(NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image)
+                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image)
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated{
     
@@ -98,19 +76,17 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     
     MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
     [gallery viewDidLoad];
-    gallery.finishedCallback = ^(NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
-        FinishBlock(photoIndex,interactiveTransition,image);
+    gallery.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
+        FinishBlock(galleryNavMH,photoIndex,interactiveTransition,image);
     };
     
     MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
     detail.pageIndex = index;
-    detail.finishedCallback = ^(NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
-        FinishBlock(photoIndex,interactiveTransition,image);
+    detail.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
+        FinishBlock(galleryNavMH,photoIndex,interactiveTransition,image);
     };
     
-    UINavigationController *nav = [MHNavigationController new];
-    
-    
+    UINavigationController *nav = [UINavigationController new];
     if (![[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeOverView] || galleryItems.count ==1) {
         nav.viewControllers = @[detail];
     }else{
@@ -120,6 +96,8 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
         nav.transitioningDelegate = viewcontroller;
         nav.modalPresentationStyle = UIModalPresentationFullScreen;
     }
+    
+    
     [viewcontroller presentViewController:nav animated:YES completion:nil];
 }
 

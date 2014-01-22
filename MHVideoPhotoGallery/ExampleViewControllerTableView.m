@@ -126,15 +126,16 @@
         [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
                                                                  forIndex:indexPath.row
                                                  andCurrentViewController:self
-                                                           finishCallback:^(NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
+                                                           finishCallback:^(UINavigationController *galleryNavMH,NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
                                                                self.interactive = interactiveTransition;
-                                                               [self dismissGalleryForIndexPath:[NSIndexPath indexPathForRow:pageIndex inSection:0]];
+                                                               [self dismissGalleryForIndexPath:[NSIndexPath indexPathForRow:pageIndex inSection:0]
+                                                                                  navController:galleryNavMH];
                                                                
                                                            }
                                                  withImageViewTransiation:YES];
 }
 
--(void)dismissGalleryForIndexPath:(NSIndexPath*)indexPath{
+-(void)dismissGalleryForIndexPath:(NSIndexPath*)indexPath navController:(UINavigationController*)nav{
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -142,7 +143,7 @@
         if (self.interactive) {
             self.interactive.iv = self.imageViewForPresentingMHGallery;
         }
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [nav dismissViewControllerAnimated:YES completion:nil];
     });
     
 }

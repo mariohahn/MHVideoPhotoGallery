@@ -102,12 +102,12 @@
 
 
 
--(void)dismissGalleryForIndexPath:(NSIndexPath*)indexPath{
+-(void)dismissGalleryForIndexPath:(NSIndexPath*)indexPath navController:(UINavigationController*)nav{
         self.imageViewForPresentingMHGallery = self.iv;
         if (self.interactive) {
             self.interactive.iv = self.imageViewForPresentingMHGallery;
         }
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [nav dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)imageTapped{
     self.imageViewForPresentingMHGallery = self.iv;
@@ -117,11 +117,12 @@
     [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
                                                              forIndex:self.currentIndex
                                              andCurrentViewController:self
-                                                       finishCallback:^(NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
+                                                       finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
                                                            self.currentIndex = pageIndex;
                                                            self.iv.image = image;
                                                            self.interactive = interactiveTransition;
-                                                           [self dismissGalleryForIndexPath:[NSIndexPath indexPathForRow:pageIndex inSection:0]];
+                                                           [self dismissGalleryForIndexPath:[NSIndexPath indexPathForRow:pageIndex inSection:0]
+                                                                              navController:galleryNavMH];
                                                            
                                                        }
                                              withImageViewTransiation:YES];

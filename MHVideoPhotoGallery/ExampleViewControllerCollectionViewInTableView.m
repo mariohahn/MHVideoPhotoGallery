@@ -171,7 +171,9 @@
 }
 
 -(void)dismissGalleryForIndexPath:(NSIndexPath*)indexPath
-                andCollectionView:(UICollectionView*)collectionView{
+                andCollectionView:(UICollectionView*)collectionView
+                    navController:(UINavigationController*)nav{
+    
     CGRect cellFrame  = [[collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:indexPath].frame;
     [collectionView scrollRectToVisible:cellFrame
                                animated:NO];
@@ -184,7 +186,7 @@
         if (self.interactive) {
             self.interactive.iv = self.imageViewForPresentingMHGallery;
         }
-        [self dismissViewControllerAnimated:YES completion:^{
+        [nav dismissViewControllerAnimated:YES completion:^{
             MPMoviePlayerController *player = self.interactive.moviePlayer;
             player.view.frame = cell.bounds;
             player.scalingMode = MPMovieScalingModeAspectFill;
@@ -203,10 +205,11 @@
     [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
                                                              forIndex:indexPath.row
                                              andCurrentViewController:self
-                                                       finishCallback:^(NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
+                                                       finishCallback:^(UINavigationController *galleryNavMH,NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
                                                            self.interactive = interactiveTransition;
                                                            [self dismissGalleryForIndexPath:[NSIndexPath indexPathForRow:pageIndex inSection:0]
-                                                                          andCollectionView:collectionView];
+                                                                          andCollectionView:collectionView
+                                                                              navController:galleryNavMH];
                                                            
                                                        }
                                              withImageViewTransiation:YES];

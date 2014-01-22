@@ -56,7 +56,7 @@
     MHGalleryOverViewController *overView  =[self.navigationController.viewControllers firstObject];
     ImageViewController *imageViewer = self.pvc.viewControllers.firstObject;
     
-    overView.finishedCallback(self.pageIndex,nil,imageViewer.imageView.image);
+    overView.finishedCallback(self.navigationController,self.pageIndex,nil,imageViewer.imageView.image);
 }
 
 -(void)viewDidLoad{
@@ -460,9 +460,9 @@
                 
                 if ([[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeOverView]) {
                     MHGalleryOverViewController *overView  =[self.navigationController.viewControllers firstObject];
-                    overView.finishedCallback(self.pageIndex,self.interactiveTransition,self.imageView.image);
+                    overView.finishedCallback(self.navigationController,self.pageIndex,self.interactiveTransition,self.imageView.image);
                 }else{
-                    self.vc.finishedCallback(self.pageIndex,self.interactiveTransition,self.imageView.image);
+                    self.vc.finishedCallback(self.navigationController,self.pageIndex,self.interactiveTransition,self.imageView.image);
                 }
             }else{
                 self.interactiveTransition.changedPoint = self.lastPoint.y - [(UIPanGestureRecognizer*)recognizer translationInView:self.view].y;
