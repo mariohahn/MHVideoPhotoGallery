@@ -99,7 +99,8 @@ typedef NS_ENUM(NSUInteger, MHGalleryType) {
 @property (nonatomic,strong) UIColor *barColor;
 @property (nonatomic,strong) NSSet *viewModes;
 @property (nonatomic,strong) NSArray *galleryItems;
-@property (nonatomic)        UIStatusBarStyle oldStatusBarStyle;
+@property (nonatomic,assign) UIStatusBarStyle oldStatusBarStyle;
+@property (nonatomic,assign) BOOL isAnimatingWithCustomTransition;
 
 + (MHGallerySharedManager *)sharedManager;
 

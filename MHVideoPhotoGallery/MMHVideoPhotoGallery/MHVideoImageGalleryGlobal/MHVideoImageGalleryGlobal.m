@@ -91,7 +91,7 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
         [MHGallerySharedManager sharedManager].viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
                                                             MHGalleryViewModeShare, nil];
     }
-    
+    [MHGallerySharedManager sharedManager].isAnimatingWithCustomTransition =animated;
     self.oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
     
     [[MHGallerySharedManager sharedManager] setGalleryItems:galleryItems];

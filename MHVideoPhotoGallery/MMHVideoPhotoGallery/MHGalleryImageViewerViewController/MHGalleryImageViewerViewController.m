@@ -532,8 +532,9 @@
         
         
         self.pan.delegate = self;
-        
-        [self.imageView addGestureRecognizer:self.pan];
+        if([MHGallerySharedManager sharedManager].isAnimatingWithCustomTransition){
+            [self.imageView addGestureRecognizer:self.pan];
+        }
         
         [self.view addGestureRecognizer:imageTap];
         
@@ -752,8 +753,9 @@
     [self.view addSubview:self.moviewPlayerButtonBehinde];
     [self.view bringSubviewToFront:self.moviePlayerToolBarTop];
     [self.view bringSubviewToFront:self.playButton];
-    
-    [self.moviewPlayerButtonBehinde addGestureRecognizer:self.pan];
+    if([MHGallerySharedManager sharedManager].isAnimatingWithCustomTransition){
+        [self.moviewPlayerButtonBehinde addGestureRecognizer:self.pan];
+    }
 
     if(self.playingVideo){
         [self.view bringSubviewToFront:self.moviePlayer.view];

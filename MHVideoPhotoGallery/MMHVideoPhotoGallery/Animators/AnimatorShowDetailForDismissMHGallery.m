@@ -109,8 +109,14 @@
     id toViewControllerNC = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     UINavigationController *fromViewController = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    
-    
+
+    CGAffineTransform finalRotationNav = [fromViewController.viewControllers.lastObject view].transform;
+    CGAffineTransform finalRotation = [fromViewController view].transform;
+
+    NSLog(@"%@",NSStringFromCGAffineTransform(finalRotation));
+    NSLog(@"%@",NSStringFromCGAffineTransform(finalRotationNav));
+
+
     MHGalleryImageViewerViewController *imageViewer  = (MHGalleryImageViewerViewController*)fromViewController.visibleViewController;
     
     self.containerView = [transitionContext containerView];
@@ -217,6 +223,7 @@
 
 
 -(void)cancelInteractiveTransition{
+
     [UIView animateWithDuration:0.3 animations:^{
         
         if (self.moviePlayer) {
@@ -227,12 +234,17 @@
         
         self.viewWhite.alpha = 1;
     } completion:^(BOOL finished) {
+        
         self.iv.hidden = NO;
         [self.cellImageSnapshot removeFromSuperview];
         [self.viewWhite removeFromSuperview];
         CGRect endFrame = [[self.context containerView] bounds];
         
         UINavigationController *fromViewController = (UINavigationController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
+        if (self.moviePlayer) {
+            self.moviePlayer.view.frame = fromViewController.view.bounds;
+        }
+        
         fromViewController.view.frame = endFrame;
         [fromViewController view].alpha =1;
         
@@ -245,6 +257,13 @@
         }
         
         [self.context completeTransition:NO];
+        
+        CGAffineTransform finalRotation = [fromViewController.viewControllers.lastObject view].transform;
+        fromViewController.view.transform = CGAffineTransformMake(1, 0, 0, 1, 0, 0);
+        NSLog(@"%@",NSStringFromCGAffineTransform(finalRotation));
+        NSLog(@"%@",NSStringFromCGAffineTransform(fromViewController.view.transform));
+        
+        
     }];
     
 }
