@@ -249,6 +249,8 @@
 -(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     MHGalleryItem *item = self.galleryDataSource[indexPath.section][indexPath.row];
     [cell.iv setContentMode:UIViewContentModeScaleAspectFill];
+    [cell.iv.layer setBorderColor:[UIColor colorWithWhite:0 alpha:0.6].CGColor];
+    [cell.iv.layer setBorderWidth:0.5];
     if (item.galleryType == MHGalleryTypeImage) {
         [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]];
     }else{
