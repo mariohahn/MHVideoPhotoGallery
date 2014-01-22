@@ -54,7 +54,8 @@
 
 -(void)donePressed{
     MHGalleryOverViewController *overView  =[self.navigationController.viewControllers firstObject];
-    overView.finishedCallback(self.pageIndex,nil,nil);
+    ImageViewController *imageViewer = self.pvc.viewControllers.firstObject;
+    overView.finishedCallback(self.pageIndex,nil,imageViewer.imageView.image);
 }
 
 -(void)viewDidLoad{
