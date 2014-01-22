@@ -9,6 +9,9 @@
 #import "ExampleViewControllerCollectionViewInTableView.h"
 #import "MHGalleryOverViewController.h"
 
+@implementation TestCell
+@end
+
 @interface ExampleViewControllerCollectionViewInTableView ()
 @property(nonatomic,strong) NSArray *galleryDataSource;
 @property(nonatomic,strong) UIImageView *imageViewForPresentingMHGallery;
@@ -102,9 +105,6 @@
                                @[keynote,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage]
                                ];
     
-    [self.tableView setBackgroundColor:[UIColor whiteColor]];
-    [self.tableView registerClass:[MHGalleryCollectionViewCell class]
-           forCellReuseIdentifier:@"MHGalleryCollectionViewCell"];
     [self.tableView reloadData];
 }
 
@@ -115,45 +115,41 @@
     return [self.galleryDataSource[collectionView.tag] count];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 210;
-    
+    return 315;
 }
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
 }
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
-    view.backgroundColor = [UIColor clearColor];
-    
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(25, 0, 320, 30)];
-    label.textColor = [UIColor blackColor];
-    label.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:20];
-    label.text = [NSString stringWithFormat:@"Gallery %@",@(section)];
-    label.backgroundColor = [UIColor clearColor];
-    
-    [view addSubview:label];
-    return view;
-}
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 30;
-}
+
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cellIdentifier = nil;
-    cellIdentifier = @"MHGalleryCollectionViewCell";
+    cellIdentifier = @"TestCell";
 
-    MHGalleryCollectionViewCell *cell = (MHGalleryCollectionViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    TestCell *cell = (TestCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (!cell){
-        cell = [[MHGalleryCollectionViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[TestCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.sectionInset = UIEdgeInsetsMake(0, 25, 0, 25);
+    layout.itemSize = CGSizeMake(270, 225);
+    layout.minimumLineSpacing = 15;
+    layout.minimumInteritemSpacing = 15;
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    cell.collectionView.collectionViewLayout = layout;
+    
+    [cell.collectionView registerClass:[MHGalleryOverViewCell class] forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
+    
+    cell.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    
     [cell.collectionView setShowsHorizontalScrollIndicator:NO];
     [cell.collectionView setDelegate:self];
     [cell.collectionView setDataSource:self];
-    [cell.collectionView setBackgroundColor:[UIColor whiteColor]];
     [cell.collectionView setTag:indexPath.section];
     [cell.collectionView reloadData];
     
@@ -180,6 +176,8 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+        
         MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
         
         self.imageViewForPresentingMHGallery = cell.iv;

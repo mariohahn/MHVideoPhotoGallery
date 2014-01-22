@@ -41,6 +41,7 @@
 		F5DBBF2E187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF2D187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m */; };
 		F5DBBF31187D584C00BEFE29 /* MHGalleryImageViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF30187D584C00BEFE29 /* MHGalleryImageViewerViewController.m */; };
 		F5DBBF34187D5B8600BEFE29 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF33187D5B8600BEFE29 /* UIImage+ImageEffects.m */; };
+		F5EE8DA61890393D002E5734 /* testIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5EE8DA51890393D002E5734 /* testIcon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,7 @@
 		F5DBBF30187D584C00BEFE29 /* MHGalleryImageViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHGalleryImageViewerViewController.m; path = MMHVideoPhotoGallery/MHGalleryImageViewerViewController/MHGalleryImageViewerViewController.m; sourceTree = "<group>"; };
 		F5DBBF32187D5B8600BEFE29 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ImageEffects.h"; path = "MMHVideoPhotoGallery/UIImage+ImageEffects/UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		F5DBBF33187D5B8600BEFE29 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageEffects.m"; path = "MMHVideoPhotoGallery/UIImage+ImageEffects/UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		F5EE8DA51890393D002E5734 /* testIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testIcon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +207,7 @@
 		F53F924A17EB008100A9FE6A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F5EE8DA51890393D002E5734 /* testIcon@2x.png */,
 				F53F924B17EB008100A9FE6A /* MHVideoPhotoGallery-Info.plist */,
 				F53F924C17EB008100A9FE6A /* InfoPlist.strings */,
 				F53F924F17EB008100A9FE6A /* main.m */,
@@ -404,6 +407,7 @@
 				F5B2EC8217F9D70C000ADC51 /* Storyboard.storyboard in Resources */,
 				F505811D18884C47001B2A4C /* Images.bundle in Resources */,
 				F53F924E17EB008100A9FE6A /* InfoPlist.strings in Resources */,
+				F5EE8DA61890393D002E5734 /* testIcon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

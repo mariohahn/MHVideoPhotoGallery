@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "MHVideoImageGalleryGlobal.h"
 
-@interface UINavigationController (Rotation)
+@interface TestCell : UITableViewCell
+@property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @end
 
 @interface ExampleViewControllerCollectionViewInTableView : UIViewController<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIViewControllerTransitioningDelegate>
