@@ -55,7 +55,9 @@
 -(void)donePressed{
     MHGalleryOverViewController *overView  =[self.navigationController.viewControllers firstObject];
     ImageViewController *imageViewer = self.pvc.viewControllers.firstObject;
-    
+    if (imageViewer.moviePlayer) {
+        [imageViewer removeAllMoviePlayerViewsAndNotifications];
+    }
     overView.finishedCallback(self.navigationController,self.pageIndex,nil,imageViewer.imageView.image);
 }
 
