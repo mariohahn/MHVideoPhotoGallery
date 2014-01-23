@@ -29,7 +29,7 @@
         <scene sceneID="QnV-m6-ttl">
             <objects>
                 <navigationController definesPresentationContext="YES" id="ArV-Ym-2Pg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="CollectionInTable" id="IrB-Ca-xZ2"/>
+                    <tabBarItem key="tabBarItem" title="CollectionInTable" image="707-albums-selected.png" id="IrB-Ca-xZ2"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="YQp-gm-s5D">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -137,7 +137,7 @@
         <scene sceneID="hoo-t6-jeb">
             <objects>
                 <navigationController definesPresentationContext="YES" id="U0s-rc-PRC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="TableView" id="NgA-QK-M6F"/>
+                    <tabBarItem key="tabBarItem" title="TableView" image="729-top-list-selected.png" id="NgA-QK-M6F"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="HhE-vW-WCa">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -213,7 +213,7 @@
         <scene sceneID="ho1-MV-vUh">
             <objects>
                 <navigationController definesPresentationContext="YES" id="zZs-rD-Jb9" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="ImageView" id="dMk-7d-dKa"/>
+                    <tabBarItem key="tabBarItem" title="ImageView" image="705-photos-selected.png" id="dMk-7d-dKa"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zJl-Hf-rDo">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -255,6 +255,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="705-photos-selected.png" width="28" height="22"/>
+        <image name="707-albums-selected.png" width="28" height="23"/>
+        <image name="729-top-list-selected.png" width="28" height="22"/>
         <image name="testIcon.png" width="50" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

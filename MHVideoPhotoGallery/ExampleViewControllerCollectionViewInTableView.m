@@ -163,7 +163,7 @@
     [cell.collectionView setDataSource:self];
     [cell.collectionView setTag:indexPath.section];
     [cell.collectionView reloadData];
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
