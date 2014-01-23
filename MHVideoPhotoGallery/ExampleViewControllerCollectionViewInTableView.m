@@ -108,7 +108,7 @@
                                @[vimeo3,youtube,vimeo0,vimeo1,keynote,item18,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage],
                                @[keynote,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage]
                                ];
-    
+    self.tableView.backgroundColor = [UIColor colorWithRed:0.83 green:0.84 blue:0.86 alpha:1];
     [self.tableView reloadData];
 }
 
@@ -119,7 +119,7 @@
     return [self.galleryDataSource[collectionView.tag] count];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 315;
+    return 330;
 }
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
@@ -138,7 +138,14 @@
     if (!cell){
         cell = [[TestCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    
+    cell.backView.layer.masksToBounds = NO;
+    cell.backView.layer.shadowOffset = CGSizeMake(0, 0);
+    cell.backView.layer.shadowRadius = 1.0;
+    cell.backView.layer.shadowColor = [UIColor blackColor].CGColor;
+    cell.backView.layer.shadowOpacity = 0.5;
+    cell.backView.layer.shadowPath = [UIBezierPath bezierPathWithRect:cell.backView.bounds].CGPath;
+    cell.backView.layer.cornerRadius = 2.0;
+
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.sectionInset = UIEdgeInsetsMake(0, 25, 0, 25);
     layout.itemSize = CGSizeMake(270, 225);
@@ -189,10 +196,12 @@
             self.interactive.iv = self.imageViewForPresentingMHGallery;
         }
         [nav dismissViewControllerAnimated:YES completion:^{
+            
             MPMoviePlayerController *player = self.interactive.moviePlayer;
+            player.controlStyle = MPMovieControlStyleEmbedded;
             player.view.frame = cell.bounds;
             player.scalingMode = MPMovieScalingModeAspectFill;
-            [cell.contentView addSubview:player.view];
+            [cell.contentView addSubview:player.view];            
         }];
     });
     
@@ -253,8 +262,14 @@
 -(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     MHGalleryItem *item = self.galleryDataSource[indexPath.section][indexPath.row];
     [cell.iv setContentMode:UIViewContentModeScaleAspectFill];
-    [cell.iv.layer setBorderColor:[UIColor colorWithWhite:0 alpha:0.6].CGColor];
-    [cell.iv.layer setBorderWidth:0.5];
+
+    cell.iv.layer.shadowOffset = CGSizeMake(0, 0);
+    cell.iv.layer.shadowRadius = 1.0;
+    cell.iv.layer.shadowColor = [UIColor blackColor].CGColor;
+    cell.iv.layer.shadowOpacity = 0.5;
+    cell.iv.layer.shadowPath = [UIBezierPath bezierPathWithRect:cell.iv.bounds].CGPath;
+    cell.iv.layer.cornerRadius = 2.0;
+
     if (item.galleryType == MHGalleryTypeImage) {
         [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]];
     }else{

@@ -768,8 +768,7 @@
     
 }
 
-- (void)loadStateDidChange:(NSNotification *)notification
-{
+- (void)loadStateDidChange:(NSNotification *)notification{
 	MPMoviePlayerController *player = notification.object;
 	MPMovieLoadState loadState = player.loadState;
 	if (loadState & MPMovieLoadStatePlayable){
@@ -795,29 +794,41 @@
 
 -(void)updateTimerLabels{
     
-    if (self.currentTimeMovie && self.wholeTimeMovie) {
+    if (self.currentTimeMovie <=0) {
+        self.leftSliderLabel.text =@"00:00";
+        
+        NSNumber *minutes = @(self.wholeTimeMovie / 60);
+        NSNumber *seconds = @(self.wholeTimeMovie % 60);
+        
+        self.rightSliderLabel.text = [NSString stringWithFormat:@"-%@:%@",
+                                      [self.numberFormatter stringFromNumber:minutes] ,
+                                      [self.numberFormatter stringFromNumber:seconds]];
+        
+    }else{
         NSNumber *minutesGo = @(self.currentTimeMovie / 60);
         NSNumber *secondsGo = @(self.currentTimeMovie % 60);
-        
+    
         self.leftSliderLabel.text = [NSString stringWithFormat:@"%@:%@",
-                                     [self.numberFormatter stringFromNumber:minutesGo] ,[self.numberFormatter stringFromNumber:secondsGo]];
+                                     [self.numberFormatter stringFromNumber:minutesGo] ,
+                                     [self.numberFormatter stringFromNumber:secondsGo]];
         
         NSNumber *minutes = @((self.wholeTimeMovie-self.currentTimeMovie) / 60);
         NSNumber *seconds = @((self.wholeTimeMovie-self.currentTimeMovie) % 60);
         
         
         self.rightSliderLabel.text = [NSString stringWithFormat:@"-%@:%@",
-                                      [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
+                                      [self.numberFormatter stringFromNumber:minutes] ,
+                                      [self.numberFormatter stringFromNumber:seconds]];
     }
-    
 }
+
+
 
 -(void)changeProgressBehinde:(NSTimer*)timer{
     if (self.moviePlayer.playableDuration !=0) {
         [self.progressVideo setProgress:self.moviePlayer.playableDuration/self.moviePlayer.duration];
         if ((self.moviePlayer.playableDuration == self.moviePlayer.duration)&& (self.moviePlayer.duration !=0)) {
-            [self.movieDownloadedTimer invalidate];
-            self.movieDownloadedTimer = nil;
+            [self stopMovieDownloadTimer];
         }
     }
 }
@@ -843,8 +854,9 @@
     [self.view addSubview:self.playButton];
     
 }
--(void)stopMoviePlayerDownloaded{
-    
+-(void)stopMovieDownloadTimer{
+    [self.movieDownloadedTimer invalidate];
+    self.movieDownloadedTimer = nil;
 }
 
 -(void)removeAllMoviePlayerViewsAndNotifications{
@@ -852,8 +864,7 @@
     self.videoDownloaded = NO;
     self.currentTimeMovie =0;
     [self stopTimer];
-    [self.movieDownloadedTimer invalidate];
-    self.movieDownloadedTimer = nil;
+    [self stopMovieDownloadTimer];
     
     
     self.playingVideo =NO;
@@ -888,10 +899,13 @@
     self.playingVideo = NO;
     [self.vc changeToPlayButton];
     [self.playButton setHidden:NO];
+    [self.view bringSubviewToFront:self.playButton];
     [self stopTimer];
     
     self.moviePlayer.currentPlaybackTime =0;
     [self movieTimerChanged:nil];
+    [self updateTimerLabels];
+    
 }
 -(void)stopTimer{
     [self.movieTimer invalidate];
@@ -1123,21 +1137,18 @@
 
 
 
-- (CGPoint)maximumContentOffset
-{
+- (CGPoint)maximumContentOffset{
     CGSize contentSize = self.scrollView.contentSize;
     CGSize boundsSize = self.scrollView.bounds.size;
     return CGPointMake(contentSize.width - boundsSize.width, contentSize.height - boundsSize.height);
 }
 
-- (CGPoint)minimumContentOffset
-{
+- (CGPoint)minimumContentOffset{
     return CGPointZero;
 }
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                         duration:(NSTimeInterval)duration{
-    
     if (self.moviePlayerToolBarTop) {
         [self.moviePlayerToolBarTop setFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height+20, self.view.frame.size.width,44)];
         [self.leftSliderLabel setFrame:CGRectMake(8, 0, 40, 43)];
@@ -1163,15 +1174,17 @@
     CGSize boundsSize = self.scrollView.bounds.size;
     CGRect frameToCenter = CGRectMake(0,0 , frame.size.width, frame.size.height);
     
-    if (frameToCenter.size.width < boundsSize.width)
+    if (frameToCenter.size.width < boundsSize.width){
         frameToCenter.origin.x = (boundsSize.width - frameToCenter.size.width) / 2;
-    else
+    }else{
         frameToCenter.origin.x = 0;
+    }
     
-    if (frameToCenter.size.height < boundsSize.height)
+    if (frameToCenter.size.height < boundsSize.height){
         frameToCenter.origin.y = (boundsSize.height - frameToCenter.size.height) / 2;
-    else
+    }else{
         frameToCenter.origin.y = 0;
+    }
     
     self.imageView.frame = frameToCenter;
     
