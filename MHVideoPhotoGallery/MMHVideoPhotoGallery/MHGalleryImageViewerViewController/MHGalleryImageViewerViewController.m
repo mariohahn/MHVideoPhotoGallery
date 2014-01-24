@@ -426,8 +426,8 @@
 @property (nonatomic) CGFloat   scaleToRestoreAfterResize;
 @property (nonatomic) CGPoint   startPoint;
 @property (nonatomic) CGPoint   lastPoint;
-
-@property (nonatomic)UIPanGestureRecognizer *pan;
+@property (nonatomic) BOOL shouldPlayVideo;
+@property (nonatomic) UIPanGestureRecognizer *pan;
 @end
 
 @implementation ImageViewController
@@ -504,6 +504,8 @@
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         self.view.backgroundColor = [UIColor blackColor];
+        
+        self.shouldPlayVideo = NO;
         
         self.numberFormatter = [NSNumberFormatter new];
         [self.numberFormatter setMinimumIntegerDigits:2];
@@ -734,6 +736,9 @@
 }
 
 -(void)stopMovie{
+    
+    self.shouldPlayVideo = NO;
+    
     [self stopTimer];
     
     self.playingVideo = NO;
@@ -747,7 +752,7 @@
 -(void)changeToPlayable{
     self.videoWasPlayable = YES;
     if(!self.vc.isHiddingToolBarAndNavigationBar){
-            self.moviePlayerToolBarTop.alpha =1;
+        self.moviePlayerToolBarTop.alpha =1;
     }
     
     [self.moviePlayer.view setHidden:NO];
@@ -769,6 +774,13 @@
         [self.view bringSubviewToFront:self.moviePlayer.view];
         [self.view bringSubviewToFront:self.moviewPlayerButtonBehinde];
         [self.view bringSubviewToFront:self.moviePlayerToolBarTop];
+    }
+    if (self.shouldPlayVideo) {
+        self.shouldPlayVideo = NO;
+        if (self.pageIndex == self.vc.pageIndex) {
+            [self playButtonPressed];
+            [self.view viewWithTag:304];
+        }
     }
     
     
@@ -969,13 +981,26 @@
         
         [self.playButton setHidden:YES];
         self.playingVideo =YES;
-        [self.moviePlayer play];
+       
+        if (self.moviePlayer) {
+            [self.moviePlayer play];
+            [self.vc changeToPauseButton];
+
+        }else{
+            UIActivityIndicatorView *act = [[UIActivityIndicatorView alloc]initWithFrame:self.view.bounds];
+            act.tag = 304;
+            [self.view addSubview:act];
+            [act startAnimating];
+            self.shouldPlayVideo = YES;
+        }
+        
+        
+        
         
         if (!self.movieTimer) {
             self.movieTimer = [NSTimer timerWithTimeInterval:0.01f target:self selector:@selector(movieTimerChanged:) userInfo:nil repeats:YES];
             [[NSRunLoop currentRunLoop] addTimer:self.movieTimer forMode:NSRunLoopCommonModes];
         }
-        [self.vc changeToPauseButton];
         
     }else{
         [self stopMovie];
