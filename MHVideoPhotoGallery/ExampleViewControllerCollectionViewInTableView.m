@@ -269,6 +269,7 @@
     cell.iv.layer.shadowPath = [UIBezierPath bezierPathWithRect:cell.iv.bounds].CGPath;
     cell.iv.layer.cornerRadius = 2.0;
 
+    cell.iv.image = nil;
     if (item.galleryType == MHGalleryTypeImage) {
         [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]];
     }else{

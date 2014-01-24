@@ -97,7 +97,7 @@
     [cell.videoIcon setHidden:YES];
     cell.videoDurationLength.text = @"";
     cell.iv.backgroundColor = [UIColor lightGrayColor];
-    __weak MHGalleryOverViewCell *blockCell = cell;
+    __block MHGalleryOverViewCell *blockCell = cell;
     
     if (item.galleryType == MHGalleryTypeVideo) {
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
