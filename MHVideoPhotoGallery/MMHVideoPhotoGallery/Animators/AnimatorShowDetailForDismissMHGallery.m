@@ -10,6 +10,7 @@
 #import "MHGalleryOverViewController.h"
 
 @interface AnimatorShowDetailForDismissMHGallery()
+@property (nonatomic) CGFloat startTransform;
 @property (nonatomic) CGRect startFrame;
 @property (nonatomic) BOOL hasActiveVideo;
 @property (nonatomic,strong)UIView *viewWhite;
@@ -151,8 +152,10 @@
     [self.containerView addSubview:self.viewWhite];
     
     
+
+    
+    
     if (imageViewerCurrent.isPlayingVideo && imageViewerCurrent.moviePlayer) {
-        
             self.moviePlayer = imageViewerCurrent.moviePlayer;
             [self.moviePlayer.view setFrame:AVMakeRectWithAspectRatioInsideRect(imageViewerCurrent.moviePlayer.naturalSize,fromViewController.view.bounds)];
             
@@ -168,6 +171,20 @@
             [snapShot removeFromSuperview];
         });
     }
+    
+    
+    CGFloat toTransform= [(NSNumber *)[[toViewControllerNC view] valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    
+    
+    self.startTransform = [(NSNumber *)[self.containerView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    
+    if (toTransform != self.orientationTransformBeforeDismiss) {
+        
+        self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);;
+        self.startTransform = self.orientationTransformBeforeDismiss;
+        
+    }
+    
 }
 
 
@@ -218,13 +235,11 @@
 -(void)cancelInteractiveTransition{
 
     [UIView animateWithDuration:0.3 animations:^{
-        
         if (self.moviePlayer) {
             self.moviePlayer.view.frame = self.startFrame;
         }else{
             self.cellImageSnapshot.frame = self.startFrame;
         }
-        
         self.viewWhite.alpha = 1;
     } completion:^(BOOL finished) {
         
@@ -248,9 +263,10 @@
            ImageViewController *imageViewController = (ImageViewController*)[imageViewer.pvc.viewControllers firstObject];
             [imageViewController.view insertSubview:self.moviePlayer.view atIndex:2];
         }
-        
         [self.context completeTransition:NO];
         
+        fromViewController.view.transform = CGAffineTransformMakeRotation(self.startTransform);
+        fromViewController.view.center = [UIApplication sharedApplication].keyWindow.center;
     }];
     
 }

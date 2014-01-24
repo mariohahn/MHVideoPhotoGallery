@@ -64,7 +64,6 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    
     self.galleryItems = [MHGallerySharedManager sharedManager].galleryItems;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
@@ -459,6 +458,7 @@
                 self.lastPoint = [(UIPanGestureRecognizer*)recognizer translationInView:self.view];
                 
                 self.interactiveTransition = [AnimatorShowDetailForDismissMHGallery new];
+                self.interactiveTransition.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
                 
                 if ([[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeOverView]) {
                     MHGalleryOverViewController *overView  =[self.navigationController.viewControllers firstObject];
@@ -1114,9 +1114,9 @@
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return [scrollView.subviews firstObject];
 }
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-    return YES;
-}
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
+//    return YES;
+//}
 
 - (void)prepareToResize{
     CGPoint boundsCenter = CGPointMake(CGRectGetMidX(self.scrollView.bounds), CGRectGetMidY(self.scrollView.bounds));

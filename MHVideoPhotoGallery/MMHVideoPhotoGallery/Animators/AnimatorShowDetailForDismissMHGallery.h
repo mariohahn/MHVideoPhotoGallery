@@ -15,5 +15,7 @@
 @property (nonatomic, strong)   MPMoviePlayerController *moviePlayer;
 @property (nonatomic, strong)   UIImageView *iv;
 @property (nonatomic,assign)    CGFloat changedPoint;
+@property (nonatomic,assign)    CGFloat orientationTransformBeforeDismiss;
+
 @property (nonatomic,assign)    id <UIViewControllerContextTransitioning> context;
 @end

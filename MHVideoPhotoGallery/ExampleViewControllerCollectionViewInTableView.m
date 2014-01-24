@@ -226,14 +226,13 @@
                                              withImageViewTransiation:YES];
 }
 
-
 -(NSUInteger)supportedInterfaceOrientations{
-    return UIInterfaceOrientationPortrait;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 
 -(BOOL)shouldAutorotate{
-    return NO;
+    return YES;
 }
 
 -(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
