@@ -665,8 +665,7 @@
                                                                      if (error) {
                                                                          [self changePlayButtonToUnPlay];
                                                                      }else{
-                                                                         [self performSelectorInBackground:@selector(addMoviePlayerToViewWithURL:)
-                                                                                                withObject:URL];
+                                                                         [self addMoviePlayerToViewWithURL:URL];
                                                                      }
             }];
         }else if ([self.item.urlString rangeOfString:@"youtube.com"].location != NSNotFound) {
@@ -675,15 +674,11 @@
                                                                      if (error) {
                                                                          [self changePlayButtonToUnPlay];
                                                                      }else{
-                                                                         [self performSelectorInBackground:@selector(addMoviePlayerToViewWithURL:)
-                                                                                                withObject:URL];
-
+                                                                         [self addMoviePlayerToViewWithURL:URL];
                                                                      }
                                                                  }];
         }else{
-            [self performSelectorInBackground:@selector(addMoviePlayerToViewWithURL:)
-                                   withObject:[NSURL  URLWithString:self.item.urlString]];
-
+            [self addMoviePlayerToViewWithURL:[NSURL  URLWithString:self.item.urlString]];
         }
     }
 }
