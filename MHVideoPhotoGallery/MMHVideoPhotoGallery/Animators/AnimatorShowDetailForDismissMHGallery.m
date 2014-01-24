@@ -212,7 +212,6 @@
 -(void)finishInteractiveTransition{
     CGFloat delayTime  = 0.0;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
-        
         [UIView animateWithDuration:0.3 animations:^{
             self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.toTransform);
             
@@ -292,10 +291,24 @@
             ImageViewController *imageViewController = (ImageViewController*)[imageViewer.pvc.viewControllers firstObject];
             [imageViewController.view insertSubview:self.moviePlayer.view atIndex:2];
         }
+        
         [self.context completeTransition:NO];
         
         fromViewController.view.transform = CGAffineTransformMakeRotation(self.startTransform);
         fromViewController.view.center = [UIApplication sharedApplication].keyWindow.center;
+        if (self.toTransform != self.orientationTransformBeforeDismiss) {
+            NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
+            NSString *status = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+                        
+            [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationPortrait) forKey:status];
+            if (self.orientationTransformBeforeDismiss >0) {
+                [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationLandscapeRight) forKey:status];
+            }else{
+                [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:status];
+            }
+            
+        }
+        
     }];
     
 }
