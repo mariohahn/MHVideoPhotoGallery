@@ -10,6 +10,7 @@
 #import "MHGalleryOverViewController.h"
 
 @interface AnimatorShowDetailForDismissMHGallery()
+@property (nonatomic) CGFloat toTransform;
 @property (nonatomic) CGFloat startTransform;
 @property (nonatomic) CGRect startFrame;
 @property (nonatomic) BOOL hasActiveVideo;
@@ -85,13 +86,13 @@
             [toViewControllerNC view].alpha = 1;
             [fromViewController view].alpha =0;
             cellImageSnapshot.frame =[containerView convertRect:self.iv.frame fromView:self.iv.superview];
-
+            
             if (self.iv.contentMode == UIViewContentModeScaleAspectFit) {
                 cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
             }
             if (self.iv.contentMode == UIViewContentModeScaleAspectFill) {
                 cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
-
+                
             }
         } completion:^(BOOL finished) {
             self.iv.hidden = NO;
@@ -110,7 +111,7 @@
     id toViewControllerNC = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     UINavigationController *fromViewController = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-
+    
     MHGalleryImageViewerViewController *imageViewer  = (MHGalleryImageViewerViewController*)fromViewController.visibleViewController;
     
     self.containerView = [transitionContext containerView];
@@ -152,17 +153,17 @@
     [self.containerView addSubview:self.viewWhite];
     
     
-
+    
     
     
     if (imageViewerCurrent.isPlayingVideo && imageViewerCurrent.moviePlayer) {
-            self.moviePlayer = imageViewerCurrent.moviePlayer;
-            [self.moviePlayer.view setFrame:AVMakeRectWithAspectRatioInsideRect(imageViewerCurrent.moviePlayer.naturalSize,fromViewController.view.bounds)];
-            
-            self.startFrame = self.moviePlayer.view.frame;
-            
-            [self.containerView addSubview:self.moviePlayer.view];
-            self.iv.hidden = YES;
+        self.moviePlayer = imageViewerCurrent.moviePlayer;
+        [self.moviePlayer.view setFrame:AVMakeRectWithAspectRatioInsideRect(imageViewerCurrent.moviePlayer.naturalSize,fromViewController.view.bounds)];
+        
+        self.startFrame = self.moviePlayer.view.frame;
+        
+        [self.containerView addSubview:self.moviePlayer.view];
+        self.iv.hidden = YES;
     }else{
         [self.containerView addSubview:self.cellImageSnapshot];
         [self.containerView addSubview:snapShot];
@@ -173,72 +174,100 @@
     }
     
     
-    CGFloat toTransform= [(NSNumber *)[[toViewControllerNC view] valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    self.toTransform= [(NSNumber *)[[toViewControllerNC view] valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     
     
     self.startTransform = [(NSNumber *)[self.containerView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
-    
-    if (toTransform != self.orientationTransformBeforeDismiss) {
-        
-        self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);;
+    NSLog(@"%f",self.orientationTransformBeforeDismiss);
+    if (self.toTransform != self.orientationTransformBeforeDismiss) {
+        [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.image.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
+        self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
+        self.cellImageSnapshot.center = [UIApplication sharedApplication].keyWindow.center;
         self.startTransform = self.orientationTransformBeforeDismiss;
-        
+        self.startFrame = self.cellImageSnapshot.bounds;
     }
     
 }
 
 
 -(void)updateInteractiveTransition:(CGFloat)percentComplete{
+    
     self.viewWhite.alpha = 1.1-percentComplete;
-
+    
     if (self.moviePlayer) {
         self.moviePlayer.view.frame = CGRectMake(self.startFrame.origin.x, self.moviePlayer.view.frame.origin.y-self.changedPoint, self.moviePlayer.view.frame.size.width, self.moviePlayer.view.frame.size.height);
     }else{
-        self.cellImageSnapshot.frame = CGRectMake(self.startFrame.origin.x, self.cellImageSnapshot.frame.origin.y-self.changedPoint, self.cellImageSnapshot.frame.size.width, self.cellImageSnapshot.frame.size.height);
+        if (self.toTransform != self.orientationTransformBeforeDismiss) {
+            if (self.orientationTransformBeforeDismiss <0) {
+                self.cellImageSnapshot.center = CGPointMake(self.cellImageSnapshot.center.x-self.changedPoint, self.cellImageSnapshot.center.y);
+            }else{
+                self.cellImageSnapshot.center = CGPointMake(self.cellImageSnapshot.center.x+self.changedPoint, self.cellImageSnapshot.center.y);
+            }
+        }else{
+            self.cellImageSnapshot.frame = CGRectMake(self.startFrame.origin.x, self.cellImageSnapshot.frame.origin.y-self.changedPoint, self.cellImageSnapshot.frame.size.width, self.cellImageSnapshot.frame.size.height);
+        }
     }
 }
 
 -(void)finishInteractiveTransition{
-
+    CGFloat delayTime  = 0.0;
+    if (self.toTransform != self.orientationTransformBeforeDismiss) {
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.toTransform);
+            
+        }];
+        delayTime =0.2;
+    }
+    double delayInSeconds = 0.3;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        
         if (self.iv.contentMode == UIViewContentModeScaleAspectFill) {
-        [self.cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFill
-                                         forFrame:[self.containerView convertRect:self.iv.frame fromView:self.iv.superview]
-                                     withDuration:0.3
-                                       afterDelay:0
-                                         finished:^(BOOL finished) {
-                                         }];
+            [self.cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFill
+                                             forFrame:[self.containerView convertRect:self.iv.frame fromView:self.iv.superview]
+                                         withDuration:0.3
+                                           afterDelay:0
+                                             finished:^(BOOL finished) {
+                                                 
+                                             }];
         }
-    
-    [UIView animateWithDuration:0.3 animations:^{
         
-        if (self.moviePlayer) {
-            self.moviePlayer.view.frame = [self.containerView convertRect:self.iv.frame fromView:self.iv.superview];
-        }else{
-            if (self.iv.contentMode == UIViewContentModeScaleAspectFit) {
-                self.cellImageSnapshot.frame = [self.containerView convertRect:self.iv.frame fromView:self.iv.superview];
+        [UIView animateWithDuration:0.3 animations:^{
+            
+            if (self.moviePlayer) {
+                self.moviePlayer.view.frame = [self.containerView convertRect:self.iv.frame fromView:self.iv.superview];
+            }else{
+                if (self.iv.contentMode == UIViewContentModeScaleAspectFit) {
+                    self.cellImageSnapshot.frame = [self.containerView convertRect:self.iv.frame fromView:self.iv.superview];
+                }
             }
-        }
-        
-        self.viewWhite.alpha = 0;
-    } completion:^(BOOL finished) {
-        self.iv.hidden = NO;
-        [self.cellImageSnapshot removeFromSuperview];
-        [self.viewWhite removeFromSuperview];
-        [self.context completeTransition:!self.context.transitionWasCancelled];
-        self.context = nil;
-        [[UIApplication sharedApplication] setStatusBarStyle:[MHGallerySharedManager sharedManager].oldStatusBarStyle];
-    }];
+            
+            self.viewWhite.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.iv.hidden = NO;
+            [self.cellImageSnapshot removeFromSuperview];
+            [self.viewWhite removeFromSuperview];
+            [self.context completeTransition:!self.context.transitionWasCancelled];
+            self.context = nil;
+            [[UIApplication sharedApplication] setStatusBarStyle:[MHGallerySharedManager sharedManager].oldStatusBarStyle];
+        }];
+    });
     
 }
 
 
 -(void)cancelInteractiveTransition{
-
+    
     [UIView animateWithDuration:0.3 animations:^{
         if (self.moviePlayer) {
             self.moviePlayer.view.frame = self.startFrame;
         }else{
-            self.cellImageSnapshot.frame = self.startFrame;
+            if (self.toTransform != self.orientationTransformBeforeDismiss) {
+                self.cellImageSnapshot.center = [UIApplication sharedApplication].keyWindow.center;
+            }else{
+                self.cellImageSnapshot.frame = self.startFrame;
+            }
         }
         self.viewWhite.alpha = 1;
     } completion:^(BOOL finished) {
@@ -260,7 +289,7 @@
         [imageViewer.pvc.view setHidden:NO];
         
         if (self.moviePlayer) {
-           ImageViewController *imageViewController = (ImageViewController*)[imageViewer.pvc.viewControllers firstObject];
+            ImageViewController *imageViewController = (ImageViewController*)[imageViewer.pvc.viewControllers firstObject];
             [imageViewController.view insertSubview:self.moviePlayer.view atIndex:2];
         }
         [self.context completeTransition:NO];
