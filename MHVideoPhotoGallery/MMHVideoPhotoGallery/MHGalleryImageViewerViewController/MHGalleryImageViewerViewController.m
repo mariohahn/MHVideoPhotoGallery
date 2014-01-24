@@ -34,10 +34,16 @@
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
+    if (![self.descriptionViewBackground isDescendantOfView:self.view]) {
+        [self.view addSubview:self.descriptionViewBackground];
+    }
+    if (![self.descriptionView isDescendantOfView:self.view]) {
+        [self.view addSubview:self.descriptionView];
+    }
+    if (![self.tb isDescendantOfView:self.view]) {
+        [self.view addSubview:self.tb];
+    }
     
-    [self.view addSubview:self.descriptionViewBackground];
-    [self.view addSubview:self.descriptionView];
-    [self.view addSubview:self.tb];
     [[self.pvc.view.subviews firstObject] setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
 }
 

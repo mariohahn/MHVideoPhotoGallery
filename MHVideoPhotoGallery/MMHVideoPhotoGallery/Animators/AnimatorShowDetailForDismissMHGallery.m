@@ -153,7 +153,8 @@
     [self.containerView addSubview:self.viewWhite];
     
     
-    
+    self.toTransform= [(NSNumber *)[[toViewControllerNC view] valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    self.startTransform = [(NSNumber *)[self.containerView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     
     
     if (imageViewerCurrent.isPlayingVideo && imageViewerCurrent.moviePlayer) {
@@ -166,19 +167,15 @@
         self.iv.hidden = YES;
     }else{
         [self.containerView addSubview:self.cellImageSnapshot];
-        [self.containerView addSubview:snapShot];
+        if (self.toTransform == self.orientationTransformBeforeDismiss) {
+            [self.containerView addSubview:snapShot];
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
             self.iv.hidden = YES;
             [snapShot removeFromSuperview];
         });
     }
     
-    
-    self.toTransform= [(NSNumber *)[[toViewControllerNC view] valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
-    
-    
-    self.startTransform = [(NSNumber *)[self.containerView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
-    NSLog(@"%f",self.orientationTransformBeforeDismiss);
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
         [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.image.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
         self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
@@ -214,11 +211,10 @@
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
         [UIView animateWithDuration:0.3 animations:^{
             self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.toTransform);
-            
         }];
-        delayTime =0.2;
+        delayTime =0.3;
     }
-    double delayInSeconds = 0.3;
+    double delayInSeconds = delayTime;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         
@@ -299,7 +295,8 @@
         if (self.toTransform != self.orientationTransformBeforeDismiss) {
             NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
             NSString *status = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
-                        
+            
+            
             [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationPortrait) forKey:status];
             if (self.orientationTransformBeforeDismiss >0) {
                 [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationLandscapeRight) forKey:status];
