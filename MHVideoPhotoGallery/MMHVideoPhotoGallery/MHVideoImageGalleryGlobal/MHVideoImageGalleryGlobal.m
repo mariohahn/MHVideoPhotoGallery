@@ -321,7 +321,6 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                                                NSMutableDictionary *dictToSave = [self durationDict];
                                                dictToSave[URL] = @([jsonData[@"data"][@"duration"] integerValue]);
                                                [self setObjectToUserDefaults:dictToSave];
-                                               
                                                NSString *thumbURL = jsonData[@"data"][@"thumbnail"][@"hqDefault"];
                                                
                                                [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:thumbURL]
@@ -363,35 +362,41 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
         [NSURLConnection sendAsynchronousRequest:httpRequest
                                            queue:[[NSOperationQueue alloc] init]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                                   NSError *error;
-                                   NSArray *jsonData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                       options:NSJSONReadingAllowFragments
-                                                                                         error:&error];
-                                   dispatch_async(dispatch_get_main_queue(), ^(void){
-                                       if (jsonData.count) {
-                                           if ([jsonData firstObject][@"thumbnail_large"]) {
-                                               NSMutableDictionary *dictToSave = [self durationDict];
-                                               dictToSave[vimdeoURLString] = @([jsonData[0][@"duration"] integerValue]);
-                                               [self setObjectToUserDefaults:dictToSave];
+                                   if (connectionError) {
+                                       succeedBlock(nil,0,connectionError);
+                                   }else{
+                                       NSError *error;
+                                       NSArray *jsonData = [NSJSONSerialization JSONObjectWithData:data
+                                                                                           options:NSJSONReadingAllowFragments
+                                                                                             error:&error];
+                                       dispatch_async(dispatch_get_main_queue(), ^(void){
+                                           if (jsonData.count) {
+                                               if ([jsonData firstObject][@"thumbnail_large"]) {
+                                                   NSMutableDictionary *dictToSave = [self durationDict];
+                                                   dictToSave[vimdeoURLString] = @([jsonData[0][@"duration"] integerValue]);
+                                                   [self setObjectToUserDefaults:dictToSave];
+                                                   
+                                                   [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:jsonData[0][@"thumbnail_large"]]
+                                                                                              options:SDWebImageContinueInBackground
+                                                                                             progress:nil
+                                                                                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                                                                [[SDImageCache sharedImageCache] removeImageForKey:jsonData[0][@"thumbnail_large"]];
+                                                                                                [[SDImageCache sharedImageCache] storeImage:image
+                                                                                                                                     forKey:vimdeoURLString];
+                                                                                                
+                                                                                                succeedBlock(image,[jsonData[0][@"duration"] integerValue],nil);
+                                                                                            }];
+                                               }else{
+                                                   succeedBlock(nil,0,nil);
+                                               }
                                                
-                                               [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:jsonData[0][@"thumbnail_large"]]
-                                                                                          options:SDWebImageContinueInBackground
-                                                                                         progress:nil
-                                                                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                                                            [[SDImageCache sharedImageCache] removeImageForKey:jsonData[0][@"thumbnail_large"]];
-                                                                                            [[SDImageCache sharedImageCache] storeImage:image
-                                                                                                                                 forKey:vimdeoURLString];
-                                                                                            
-                                                                                            succeedBlock(image,[jsonData[0][@"duration"] integerValue],nil);
-                                                                                        }];
                                            }else{
                                                succeedBlock(nil,0,nil);
                                            }
-                                           
-                                       }else{
-                                           succeedBlock(nil,0,nil);
-                                       }
-                                   });
+                                       });
+                                   }
+                                   
+                                   
                                }];
     }
     

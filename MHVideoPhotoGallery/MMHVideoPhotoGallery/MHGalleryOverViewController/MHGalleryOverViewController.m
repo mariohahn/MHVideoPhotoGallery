@@ -82,7 +82,8 @@
     NSString *cellIdentifier = nil;
     cellIdentifier = @"MHGalleryOverViewCell";
     cell = (MHGalleryOverViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    [self makeMHGalleryOverViewCell:(MHGalleryOverViewCell*)cell atIndexPath:indexPath];
+    [self makeMHGalleryOverViewCell:(MHGalleryOverViewCell*)cell
+                        atIndexPath:indexPath];
     
     return cell;
 }
@@ -96,7 +97,7 @@
     [cell.videoIcon setHidden:YES];
     cell.videoDurationLength.text = @"";
     cell.iv.backgroundColor = [UIColor lightGrayColor];
-    __block MHGalleryOverViewCell *blockCell = cell;
+    __weak MHGalleryOverViewCell *blockCell = cell;
     
     if (item.galleryType == MHGalleryTypeVideo) {
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
@@ -105,19 +106,17 @@
                                                               successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
                                                                   
                                                                   if (error) {
-                                                                      cell.iv.backgroundColor = [UIColor whiteColor];
-                                                                      cell.iv.image = [UIImage imageNamed:@"Images.bundle/error"];
+                                                                      blockCell.iv.backgroundColor = [UIColor whiteColor];
+                                                                      blockCell.iv.image = [UIImage imageNamed:@"error"];
                                                                   }else{                                                                      
                                                                       NSNumber *minutes = @(videoDuration / 60);
                                                                       NSNumber *seconds = @(videoDuration % 60);
                                                                       
-                                                                      cell.videoDurationLength.text = [NSString stringWithFormat:@"%@:%@",
+                                                                      blockCell.videoDurationLength.text = [NSString stringWithFormat:@"%@:%@",
                                                                                                             [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
-                                                                      [cell.iv setImage:image];
-                                                                      [cell.videoIcon setHidden:NO];
-                                                                      [cell.videoGradient setHidden:NO];
-
-
+                                                                      [blockCell.iv setImage:image];
+                                                                      [blockCell.videoIcon setHidden:NO];
+                                                                      [blockCell.videoGradient setHidden:NO];
                                                                   }
                                                                   [[blockCell.contentView viewWithTag:405] setHidden:YES];
                                                               }];
@@ -129,7 +128,7 @@
                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                            if (!image) {
                                blockCell.iv.backgroundColor = [UIColor whiteColor];
-                               blockCell.iv.image = [UIImage imageNamed:@"Images.bundle/error"];
+                               blockCell.iv.image = [UIImage imageNamed:@"error"];
                            }
                            [[blockCell.contentView viewWithTag:405] setHidden:YES];
                        }];

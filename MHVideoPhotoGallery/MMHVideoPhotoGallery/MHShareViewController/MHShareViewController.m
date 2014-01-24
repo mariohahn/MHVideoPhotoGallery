@@ -34,29 +34,29 @@
 @implementation MHShareViewController
 
 -(void)initShareObjects{
-    self.saveObject = [[MHShareItem alloc]initWithImageName:@"Images.bundle/activtyMH"
+    self.saveObject = [[MHShareItem alloc]initWithImageName:@"activtyMH"
                                                       title:@"In \"Aufnahmen\" sichern"
                                        withMaxNumberOfItems:MAXFLOAT
                                                withSelector:@"saveImages:"
                                            onViewController:self];
     
-    self.mailObject = [[MHShareItem alloc]initWithImageName:@"Images.bundle/mailMH"
+    self.mailObject = [[MHShareItem alloc]initWithImageName:@"mailMH"
                                                       title:@"Mail"
                                        withMaxNumberOfItems:10
                                                withSelector:@"mailImages:"
                                            onViewController:self];
-    self.messageObject = [[MHShareItem alloc]initWithImageName:@"Images.bundle/messageMH"
+    self.messageObject = [[MHShareItem alloc]initWithImageName:@"messageMH"
                                                          title:@"Nachrichten"
                                           withMaxNumberOfItems:15
                                                   withSelector:@"smsImages:"
                                               onViewController:self];
-    self.twitterObject = [[MHShareItem alloc]initWithImageName:@"Images.bundle/twitterMH"
+    self.twitterObject = [[MHShareItem alloc]initWithImageName:@"twitterMH"
                                                          title:@"Twitter"
                                           withMaxNumberOfItems:2
                                                   withSelector:@"twShareImages:"
                                               onViewController:self] ;
     
-    self.faceBookObject = [[MHShareItem alloc]initWithImageName:@"Images.bundle/facebookMH"
+    self.faceBookObject = [[MHShareItem alloc]initWithImageName:@"facebookMH"
                                                           title:@"Facebook"
                                            withMaxNumberOfItems:10
                                                    withSelector:@"fbShareImages:"
@@ -303,7 +303,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     if (item.galleryType == MHGalleryTypeImage) {
         [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
             if (!image) {
-                blockCell.iv.image = [UIImage imageNamed:@"Images.bundle/error"];
+                blockCell.iv.image = [UIImage imageNamed:@"error"];
             }
         }];
     }else{
@@ -312,7 +312,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
                                                                 atDuration:MHImageGenerationStart
                                                               successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
                                                                   if (error) {
-                                                                      cell.iv.image = [UIImage imageNamed:@"Images.bundle/error"];
+                                                                      cell.iv.image = [UIImage imageNamed:@"error"];
                                                                   }else{
                                                                       
                                                                       NSNumber *minutes = @(videoDuration / 60);
@@ -341,7 +341,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     if ([self.selectedRows containsObject:indexPath]) {
         cell.selectionImageView.backgroundColor = [UIColor whiteColor];
         cell.selectionImageView.tintColor = [UIColor colorWithRed:0 green:0.46 blue:1 alpha:1];
-        cell.selectionImageView.image =  [[UIImage imageNamed:@"Images.bundle/EditControlSelected"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        cell.selectionImageView.image =  [[UIImage imageNamed:@"EditControlSelected"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
     
     cell.tag = indexPath.row;

@@ -108,12 +108,12 @@
     self.tb.tag = 307;
     self.tb.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     
-    self.playStopButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Images.bundle/play"] style:UIBarButtonItemStyleBordered target:self action:@selector(playStopButtonPressed)];
+    self.playStopButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"play"] style:UIBarButtonItemStyleBordered target:self action:@selector(playStopButtonPressed)];
 
     
-    self.left = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Images.bundle/left_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(leftPressed:)];
+    self.left = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"left_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(leftPressed:)];
     
-    self.right = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Images.bundle/right_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(rightPressed:)];
+    self.right = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"right_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(rightPressed:)];
     
     self.share = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sharePressed)];
     
@@ -173,11 +173,11 @@
 }
 
 -(void)changeToPlayButton{
-    [self.playStopButton setImage:[UIImage imageNamed:@"Images.bundle/play"]];
+    [self.playStopButton setImage:[UIImage imageNamed:@"play"]];
 }
 
 -(void)changeToPauseButton{
-    [self.playStopButton setImage:[UIImage imageNamed:@"Images.bundle/pause"]];
+    [self.playStopButton setImage:[UIImage imageNamed:@"pause"]];
 }
 
 -(void)playStopButtonPressed{
@@ -194,7 +194,6 @@
 }
 
 -(void)sharePressed{
-    
     if ([[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeShare]) {
         MHShareViewController *share = [MHShareViewController new];
         share.pageIndex = self.pageIndex;
@@ -210,15 +209,17 @@
 -(void)updateDescriptionLabelForIndex:(NSInteger)index{
     if (index < self.galleryItems.count) {
         MHGalleryItem *item = self.galleryItems[index];
-        self.descriptionView.text = item.description;
-        CGSize size = [self.descriptionView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
-        
-        self.descriptionView.frame = CGRectMake(10, self.view.frame.size.height -size.height-44, self.view.frame.size.width-20, size.height);
-        if (self.descriptionView.text.length >0) {
-            [self.descriptionViewBackground setHidden:NO];
-            self.descriptionViewBackground.frame = CGRectMake(0, self.view.frame.size.height -size.height-44, self.view.frame.size.width, size.height);
-        }else{
-            [self.descriptionViewBackground setHidden:YES];
+        if (![self.descriptionView.text isEqualToString:item.description]) {
+            self.descriptionView.text = item.description;
+            CGSize size = [self.descriptionView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
+            
+            self.descriptionView.frame = CGRectMake(10, self.view.frame.size.height -size.height-44, self.view.frame.size.width-20, size.height);
+            if (self.descriptionView.text.length >0) {
+                [self.descriptionViewBackground setHidden:NO];
+                self.descriptionViewBackground.frame = CGRectMake(0, self.view.frame.size.height -size.height-44, self.view.frame.size.width, size.height);
+            }else{
+                [self.descriptionViewBackground setHidden:YES];
+            }
         }
     }
 }
@@ -235,6 +236,7 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
     NSInteger pageIndex =self.pageIndex;
+    
     [self updateDescriptionLabelForIndex:pageIndex];
     
     if (scrollView.contentOffset.x > (self.view.frame.size.width+self.view.frame.size.width/2)) {
@@ -581,7 +583,7 @@
             [self.slider setMinimumValue:0];
             [self.slider setMinimumTrackTintColor:[UIColor blackColor]];
             [self.slider setMaximumTrackTintColor:[UIColor clearColor]];
-            [self.slider setThumbImage:[UIImage imageNamed:@"Images.bundle/sliderPoint"] forState:UIControlStateNormal];
+            [self.slider setThumbImage:[UIImage imageNamed:@"sliderPoint"] forState:UIControlStateNormal];
             [self.slider addTarget:self action:@selector(sliderDidChange:) forControlEvents:UIControlEventValueChanged];
             [self.slider addTarget:self action:@selector(sliderDidDragExit:) forControlEvents:UIControlEventTouchUpInside];
             [self.slider setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
@@ -615,7 +617,8 @@
                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
                                                          if (!image) {
                                                              [self.scrollView setMaximumZoomScale:1];
-                                                             self.imageView.image = [UIImage imageNamed:@"Images.bundle/error"];
+                                                             [self changeToErrorImage];
+
                                                          }else{
                                                              self.imageView.image = image;
                                                          }
@@ -635,15 +638,23 @@
                                                                                        videoDuration:videoDuration
                                                                                            urlString:newURL];
                                                                       }else{
-                                                                          self.imageView.image = [UIImage imageNamed:@"Images.bundle/error"];
+                                                                          [self changeToErrorImage];
                                                                       }
+                                                                      [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
                                                                   }];
         }
     }
     
     return self;
 }
+-(void)changeToErrorImage{
+    self.imageView.image = [UIImage imageNamed:@"error"];
+}
 
+-(void)changePlayButtonToUnPlay{
+    [self.playButton setImage:[UIImage imageNamed:@"unplay"]
+                     forState:UIControlStateNormal];
+}
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -652,23 +663,27 @@
             [[MHGallerySharedManager sharedManager] getVimeoURLforMediaPlayer:self.item.urlString
                                                                  successBlock:^(NSURL *URL, NSError *error) {
                                                                      if (error) {
-                                                                         
-                                                                         NSLog(@"%@",error);
+                                                                         [self changePlayButtonToUnPlay];
                                                                      }else{
-                                                                         [self addMoviePlayerToViewWithURL:URL];
+                                                                         [self performSelectorInBackground:@selector(addMoviePlayerToViewWithURL:)
+                                                                                                withObject:URL];
                                                                      }
             }];
         }else if ([self.item.urlString rangeOfString:@"youtube.com"].location != NSNotFound) {
             [[MHGallerySharedManager sharedManager] getYoutubeURLforMediaPlayer:self.item.urlString
                                                                  successBlock:^(NSURL *URL, NSError *error) {
                                                                      if (error) {
-                                                                         NSLog(@"%@",error);
+                                                                         [self changePlayButtonToUnPlay];
                                                                      }else{
-                                                                         [self addMoviePlayerToViewWithURL:URL];
+                                                                         [self performSelectorInBackground:@selector(addMoviePlayerToViewWithURL:)
+                                                                                                withObject:URL];
+
                                                                      }
                                                                  }];
         }else{
-            [self addMoviePlayerToViewWithURL:[NSURL  URLWithString:self.item.urlString]];
+            [self performSelectorInBackground:@selector(addMoviePlayerToViewWithURL:)
+                                   withObject:[NSURL  URLWithString:self.item.urlString]];
+
         }
     }
 }
@@ -874,7 +889,7 @@
     }
     self.playButton = [[UIButton alloc]initWithFrame:self.vc.view.bounds];
     self.playButton.frame = CGRectMake(self.vc.view.frame.size.width/2-36, self.vc.view.frame.size.height/2-36, 72, 72);
-    [self.playButton setImage:[UIImage imageNamed:@"Images.bundle/playButton"] forState:UIControlStateNormal];
+    [self.playButton setImage:[UIImage imageNamed:@"playButton"] forState:UIControlStateNormal];
     [self.playButton setTag:508];
     [self.playButton setHidden:YES];
     [self.playButton addTarget:self action:@selector(playButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -940,6 +955,7 @@
 }
 
 -(void)addMoviePlayerToViewWithURL:(NSURL*)url{
+    
     self.videoWasPlayable = NO;
     
     self.moviePlayer = [MPMoviePlayerController new];
@@ -973,11 +989,12 @@
     [self.moviePlayer.view setHidden:YES];
     
     [self.view addSubview: self.moviePlayer.view];
+   
     self.playingVideo =NO;
     
     self.movieDownloadedTimer = [NSTimer timerWithTimeInterval:0.06f target:self selector:@selector(changeProgressBehinde:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:self.movieDownloadedTimer forMode:NSRunLoopCommonModes];
-    
+   
     [self changeToPlayable];
 }
 
@@ -1022,9 +1039,6 @@
         if (self.moviePlayer) {
             self.moviePlayer.backgroundView.backgroundColor = [UIColor blackColor];
         }
-        if (self.moviePlayerToolBarTop) {
-            [self.moviePlayerToolBarTop setAlpha:0];
-        }
         
         self.scrollView.backgroundColor = [UIColor blackColor];
         self.act.color = [UIColor whiteColor];
@@ -1036,7 +1050,7 @@
         }
         if (self.moviePlayerToolBarTop) {
             if (self.item.galleryType == MHGalleryTypeVideo) {
-                if (self.videoWasPlayable) {
+                if (self.videoWasPlayable && self.wholeTimeMovie >0) {
                     [self.moviePlayerToolBarTop setAlpha:1];
                 }
             }
@@ -1133,7 +1147,7 @@
 }
 
 - (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer {
-    if ([self.imageView.image isEqual:[UIImage imageNamed:@"Images.bundle/error"]]) {
+    if ([self.imageView.image isEqual:[UIImage imageNamed:@"error"]]) {
         return;
     }
     if (self.item.galleryType == MHGalleryTypeVideo) {
@@ -1154,9 +1168,6 @@
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return [scrollView.subviews firstObject];
 }
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-//    return YES;
-//}
 
 - (void)prepareToResize{
     CGPoint boundsCenter = CGPointMake(CGRectGetMidX(self.scrollView.bounds), CGRectGetMidY(self.scrollView.bounds));
@@ -1208,26 +1219,26 @@
 }
 
 -(void)centerImageView{
-    
-    CGRect frame  = AVMakeRectWithAspectRatioInsideRect(self.imageView.image.size,CGRectMake(0, 0, self.scrollView.contentSize.width, self.scrollView.contentSize.height));
-    
-    CGSize boundsSize = self.scrollView.bounds.size;
-    CGRect frameToCenter = CGRectMake(0,0 , frame.size.width, frame.size.height);
-    
-    if (frameToCenter.size.width < boundsSize.width){
-        frameToCenter.origin.x = (boundsSize.width - frameToCenter.size.width) / 2;
-    }else{
-        frameToCenter.origin.x = 0;
+    if(self.imageView.image){
+        CGRect frame  = AVMakeRectWithAspectRatioInsideRect(self.imageView.image.size,CGRectMake(0, 0, self.scrollView.contentSize.width, self.scrollView.contentSize.height));
+        
+        CGSize boundsSize = self.scrollView.bounds.size;
+        CGRect frameToCenter = CGRectMake(0,0 , frame.size.width, frame.size.height);
+        
+        if (frameToCenter.size.width < boundsSize.width){
+            frameToCenter.origin.x = (boundsSize.width - frameToCenter.size.width) / 2;
+        }else{
+            frameToCenter.origin.x = 0;
+        }
+        
+        if (frameToCenter.size.height < boundsSize.height){
+            frameToCenter.origin.y = (boundsSize.height - frameToCenter.size.height) / 2;
+        }else{
+            frameToCenter.origin.y = 0;
+        }
+        
+        self.imageView.frame = frameToCenter;
     }
-    
-    if (frameToCenter.size.height < boundsSize.height){
-        frameToCenter.origin.y = (boundsSize.height - frameToCenter.size.height) / 2;
-    }else{
-        frameToCenter.origin.y = 0;
-    }
-    
-    self.imageView.frame = frameToCenter;
-    
 }
 -(void)scrollViewDidZoom:(UIScrollView *)scrollView{
     [self centerImageView];
