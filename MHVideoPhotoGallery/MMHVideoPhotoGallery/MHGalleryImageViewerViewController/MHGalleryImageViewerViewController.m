@@ -651,12 +651,21 @@
         if ([self.item.urlString rangeOfString:@"vimeo.com"].location != NSNotFound) {
             [[MHGallerySharedManager sharedManager] getVimeoURLforMediaPlayer:self.item.urlString
                                                                  successBlock:^(NSURL *URL, NSError *error) {
-                                                                     [self addMoviePlayerToViewWithURL:URL];
+                                                                     if (error) {
+                                                                         
+                                                                         NSLog(@"%@",error);
+                                                                     }else{
+                                                                         [self addMoviePlayerToViewWithURL:URL];
+                                                                     }
             }];
         }else if ([self.item.urlString rangeOfString:@"youtube.com"].location != NSNotFound) {
             [[MHGallerySharedManager sharedManager] getYoutubeURLforMediaPlayer:self.item.urlString
                                                                  successBlock:^(NSURL *URL, NSError *error) {
-                                                                     [self addMoviePlayerToViewWithURL:URL];
+                                                                     if (error) {
+                                                                         NSLog(@"%@",error);
+                                                                     }else{
+                                                                         [self addMoviePlayerToViewWithURL:URL];
+                                                                     }
                                                                  }];
         }else{
             [self addMoviePlayerToViewWithURL:[NSURL  URLWithString:self.item.urlString]];

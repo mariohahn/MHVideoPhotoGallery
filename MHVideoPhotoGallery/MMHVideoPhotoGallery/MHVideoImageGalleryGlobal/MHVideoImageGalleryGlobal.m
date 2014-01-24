@@ -208,7 +208,7 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                                        queue:[[NSOperationQueue alloc] init]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                                dispatch_async(dispatch_get_main_queue(), ^(void){
-                               NSURL *playURL = [self getYoutubeURLWithData:data];
+                                   NSURL *playURL = [self getYoutubeURLWithData:data];
                                    if (playURL) {
                                        succeedBlock(playURL,nil);
                                    }else{
@@ -262,23 +262,28 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     [NSURLConnection sendAsynchronousRequest:httpRequest
                                        queue:[[NSOperationQueue alloc] init]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                               NSError *error;
+                               if (!connectionError) {
+                                   NSError *error;
+                                   
+                                   NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data
+                                                                                            options:NSJSONReadingAllowFragments
+                                                                                              error:&error];
+                                   
+                                   dispatch_async(dispatch_get_main_queue(), ^(void){
+                                       NSDictionary *filesInfo = [jsonData valueForKeyPath:@"request.files.h264"];
+                                       if (!filesInfo) {
+                                           succeedBlock(nil,nil);
+                                       }
+                                       NSDictionary *videoInfo =filesInfo[@"hd"];
+                                       if (!videoInfo[@"url"]) {
+                                           succeedBlock(nil,nil);
+                                       }
+                                       succeedBlock([NSURL URLWithString:videoInfo[@"url"]],nil);
+                                   });
+                               }else{
+                                   succeedBlock(nil,connectionError);
+                               }
                                
-                               NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                        options:NSJSONReadingAllowFragments
-                                                                                          error:&error];
-                               
-                               dispatch_async(dispatch_get_main_queue(), ^(void){
-                                   NSDictionary *filesInfo = [jsonData valueForKeyPath:@"request.files.h264"];
-                                   if (!filesInfo) {
-                                       succeedBlock(nil,nil);
-                                   }
-                                   NSDictionary *videoInfo =filesInfo[@"hd"];
-                                   if (!videoInfo[@"url"]) {
-                                       succeedBlock(nil,nil);
-                                   }
-                                   succeedBlock([NSURL URLWithString:videoInfo[@"url"]],nil);
-                               });
                            }];
 }
 
@@ -306,31 +311,35 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
         [NSURLConnection sendAsynchronousRequest:httpRequest
                                            queue:[[NSOperationQueue alloc] init]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                                   NSError *error;
-                                   NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                            options:NSJSONReadingAllowFragments
-                                                                                              error:&error];
-                                   dispatch_async(dispatch_get_main_queue(), ^(void){
-                                       if (jsonData.count) {
-                                           NSMutableDictionary *dictToSave = [self durationDict];
-                                           dictToSave[URL] = @([jsonData[@"data"][@"duration"] integerValue]);
-                                           [self setObjectToUserDefaults:dictToSave];
-                                           
-                                           NSString *thumbURL = jsonData[@"data"][@"thumbnail"][@"hqDefault"];
-                                           
-                                           [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:thumbURL]
-                                                                                      options:SDWebImageContinueInBackground
-                                                                                     progress:nil
-                                                                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                                                        
-                                                                                        [[SDImageCache sharedImageCache] removeImageForKey:thumbURL];
-                                                                                        [[SDImageCache sharedImageCache] storeImage:image
-                                                                                                                             forKey:URL];
-                                                                                        
-                                                                                        succeedBlock(image,[jsonData[@"data"][@"duration"] integerValue],nil);
-                                                                                    }];
-                                       }
-                                   });
+                                   if (!connectionError) {
+                                       NSError *error;
+                                       NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data
+                                                                                                options:NSJSONReadingAllowFragments
+                                                                                                  error:&error];
+                                       dispatch_async(dispatch_get_main_queue(), ^(void){
+                                           if (jsonData.count) {
+                                               NSMutableDictionary *dictToSave = [self durationDict];
+                                               dictToSave[URL] = @([jsonData[@"data"][@"duration"] integerValue]);
+                                               [self setObjectToUserDefaults:dictToSave];
+                                               
+                                               NSString *thumbURL = jsonData[@"data"][@"thumbnail"][@"hqDefault"];
+                                               
+                                               [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:thumbURL]
+                                                                                          options:SDWebImageContinueInBackground
+                                                                                         progress:nil
+                                                                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                                                            
+                                                                                            [[SDImageCache sharedImageCache] removeImageForKey:thumbURL];
+                                                                                            [[SDImageCache sharedImageCache] storeImage:image
+                                                                                                                                 forKey:URL];
+                                                                                            
+                                                                                            succeedBlock(image,[jsonData[@"data"][@"duration"] integerValue],nil);
+                                                                                        }];
+                                           }
+                                       });
+                                   }else{
+                                       succeedBlock(nil,0,connectionError);
+                                   }
                                }];
     }
     
