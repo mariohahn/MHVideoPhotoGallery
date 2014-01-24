@@ -177,11 +177,21 @@
     }
     
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
-        [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.image.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
-        self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
-        self.cellImageSnapshot.center = [UIApplication sharedApplication].keyWindow.center;
+        if (self.moviePlayer) {
+            [self.moviePlayer.view setFrame:AVMakeRectWithAspectRatioInsideRect(imageViewerCurrent.moviePlayer.naturalSize,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
+            self.moviePlayer.view.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
+            self.moviePlayer.view.center = [UIApplication sharedApplication].keyWindow.center;
+            self.startFrame = self.moviePlayer.view.bounds;
+            
+        }else{
+            [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.image.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
+            self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
+            self.cellImageSnapshot.center = [UIApplication sharedApplication].keyWindow.center;
+            self.startFrame = self.cellImageSnapshot.bounds;
+            
+        }
+        
         self.startTransform = self.orientationTransformBeforeDismiss;
-        self.startFrame = self.cellImageSnapshot.bounds;
     }
     
 }
@@ -192,7 +202,15 @@
     self.viewWhite.alpha = 1.1-percentComplete;
     
     if (self.moviePlayer) {
-        self.moviePlayer.view.frame = CGRectMake(self.startFrame.origin.x, self.moviePlayer.view.frame.origin.y-self.changedPoint, self.moviePlayer.view.frame.size.width, self.moviePlayer.view.frame.size.height);
+        if (self.toTransform != self.orientationTransformBeforeDismiss) {
+            if (self.orientationTransformBeforeDismiss <0) {
+                self.moviePlayer.view.center = CGPointMake(self.moviePlayer.view.center.x-self.changedPoint, self.moviePlayer.view.center.y);
+            }else{
+                self.moviePlayer.view.center = CGPointMake(self.moviePlayer.view.center.x+self.changedPoint, self.moviePlayer.view.center.y);
+            }
+        }else{
+            self.moviePlayer.view.frame = CGRectMake(self.startFrame.origin.x, self.moviePlayer.view.frame.origin.y-self.changedPoint, self.moviePlayer.view.frame.size.width, self.moviePlayer.view.frame.size.height);
+        }
     }else{
         if (self.toTransform != self.orientationTransformBeforeDismiss) {
             if (self.orientationTransformBeforeDismiss <0) {
@@ -210,7 +228,11 @@
     CGFloat delayTime  = 0.0;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
         [UIView animateWithDuration:0.3 animations:^{
-            self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.toTransform);
+            if (self.moviePlayer) {
+                self.moviePlayer.view.transform = CGAffineTransformMakeRotation(self.toTransform);
+            }else{
+                self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.toTransform);
+            }
         }];
         delayTime =0.3;
     }
@@ -256,7 +278,11 @@
     
     [UIView animateWithDuration:0.3 animations:^{
         if (self.moviePlayer) {
-            self.moviePlayer.view.frame = self.startFrame;
+            if (self.toTransform != self.orientationTransformBeforeDismiss) {
+                self.moviePlayer.view.center = CGPointMake(self.moviePlayer.view.bounds.size.height/2, self.moviePlayer.view.center.y);
+            }else{
+                self.moviePlayer.view.frame = self.startFrame;
+            }
         }else{
             if (self.toTransform != self.orientationTransformBeforeDismiss) {
                 self.cellImageSnapshot.center = [UIApplication sharedApplication].keyWindow.center;
@@ -274,7 +300,12 @@
         
         UINavigationController *fromViewController = (UINavigationController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
         if (self.moviePlayer) {
-            self.moviePlayer.view.frame = fromViewController.view.bounds;
+            if (self.toTransform != self.orientationTransformBeforeDismiss) {
+                self.moviePlayer.view.transform = CGAffineTransformMakeRotation(self.toTransform);
+                self.moviePlayer.view.center = CGPointMake(self.moviePlayer.view.bounds.size.width/2, self.moviePlayer.view.bounds.size.height/2);
+            }else{
+                self.moviePlayer.view.bounds = fromViewController.view.bounds;
+            }
         }
         
         fromViewController.view.frame = endFrame;
@@ -290,24 +321,34 @@
         
         [self.context completeTransition:NO];
         
-        fromViewController.view.transform = CGAffineTransformMakeRotation(self.startTransform);
-        fromViewController.view.center = [UIApplication sharedApplication].keyWindow.center;
-        if (self.toTransform != self.orientationTransformBeforeDismiss) {
-            NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
-            NSString *status = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
-            
-            
-            [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationPortrait) forKey:status];
-            if (self.orientationTransformBeforeDismiss >0) {
-                [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationLandscapeRight) forKey:status];
-            }else{
-                [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:status];
-            }
-            
+        if (self.moviePlayer) {
+            [UIView performWithoutAnimation:^{
+                [self doOrientation];
+            }];
+        }else{
+            [self doOrientation];
         }
         
     }];
     
+}
+
+-(void)doOrientation{
+    UINavigationController *fromViewController = (UINavigationController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
+    fromViewController.view.transform = CGAffineTransformMakeRotation(self.startTransform);
+    fromViewController.view.center = [UIApplication sharedApplication].keyWindow.center;
+    if (self.toTransform != self.orientationTransformBeforeDismiss) {
+        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
+        NSString *status = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+        
+        [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationPortrait) forKey:status];
+        if (self.orientationTransformBeforeDismiss >0) {
+            [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationLandscapeRight) forKey:status];
+            
+        }else{
+            [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:status];
+        }
+    }
 }
 
 
