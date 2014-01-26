@@ -68,8 +68,11 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     if (!self.youtubeQuality) {
         self.youtubeQuality = MHYoutubeThumbQualityHQ;
     }
-    if (!self.vimeoQuality) {
-        self.youtubeQuality = MHVimeoThumbQualityLarge;
+    if (!self.vimeoThumbQuality) {
+        self.vimeoThumbQuality = MHVimeoThumbQualityLarge;
+    }
+    if (!self.vimeoVideoQuality) {
+        self.vimeoVideoQuality = MHVimeoVideoQualityHD;
     }
     
     if(![MHGallerySharedManager sharedManager].viewModes){
@@ -275,13 +278,20 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                                    NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data
                                                                                             options:NSJSONReadingAllowFragments
                                                                                               error:&error];
-                                   
                                    dispatch_async(dispatch_get_main_queue(), ^(void){
                                        NSDictionary *filesInfo = [jsonData valueForKeyPath:@"request.files.h264"];
                                        if (!filesInfo) {
                                            succeedBlock(nil,nil);
                                        }
-                                       NSDictionary *videoInfo =filesInfo[@"hd"];
+                                       NSString *quality = [NSString new];
+                                       if (self.vimeoVideoQuality == MHVimeoVideoQualityHD) {
+                                           quality = @"hd";
+                                       } else if (self.vimeoVideoQuality == MHVimeoVideoQualityMobile){
+                                           quality = @"mobile";
+                                       }else if(self.vimeoVideoQuality == MHVimeoVideoQualitySD){
+                                           quality = @"sd";
+                                       }
+                                       NSDictionary *videoInfo =filesInfo[quality];
                                        if (!videoInfo[@"url"]) {
                                            succeedBlock(nil,nil);
                                        }
@@ -384,11 +394,11 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                                            if (jsonData.count) {
                                                
                                                __block NSString *quality = [NSString new];
-                                               if (self.vimeoQuality == MHVimeoThumbQualityLarge) {
+                                               if (self.vimeoThumbQuality == MHVimeoThumbQualityLarge) {
                                                    quality = @"thumbnail_large";
-                                               } else if (self.vimeoQuality == MHVimeoThumbQualityMedium){
+                                               } else if (self.vimeoThumbQuality == MHVimeoThumbQualityMedium){
                                                    quality = @"thumbnail_medium";
-                                               }else if(self.vimeoQuality == MHVimeoThumbQualitySmall){
+                                               }else if(self.vimeoThumbQuality == MHVimeoThumbQualitySmall){
                                                    quality = @"thumbnail_small";
                                                }
                                                if ([jsonData firstObject][quality]) {
