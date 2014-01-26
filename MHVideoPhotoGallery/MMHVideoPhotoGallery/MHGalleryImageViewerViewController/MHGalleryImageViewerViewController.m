@@ -209,7 +209,6 @@
 -(void)updateDescriptionLabelForIndex:(NSInteger)index{
     if (index < self.galleryItems.count) {
         MHGalleryItem *item = self.galleryItems[index];
-        if (![self.descriptionView.text isEqualToString:item.description]) {
             self.descriptionView.text = item.description;
             CGSize size = [self.descriptionView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
             
@@ -220,7 +219,6 @@
             }else{
                 [self.descriptionViewBackground setHidden:YES];
             }
-        }
     }
 }
 

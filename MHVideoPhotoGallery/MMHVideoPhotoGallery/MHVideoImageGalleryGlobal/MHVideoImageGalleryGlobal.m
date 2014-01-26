@@ -65,6 +65,13 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated{
     
+    if (!self.youtubeQuality) {
+        self.youtubeQuality = MHYoutubeThumbQualityHQ;
+    }
+    if (!self.vimeoQuality) {
+        self.youtubeQuality = MHVimeoThumbQualityLarge;
+    }
+    
     if(![MHGallerySharedManager sharedManager].viewModes){
         [MHGallerySharedManager sharedManager].viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
                                                             MHGalleryViewModeShare, nil];
@@ -321,8 +328,12 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                                                NSMutableDictionary *dictToSave = [self durationDict];
                                                dictToSave[URL] = @([jsonData[@"data"][@"duration"] integerValue]);
                                                [self setObjectToUserDefaults:dictToSave];
-                                               NSString *thumbURL = jsonData[@"data"][@"thumbnail"][@"hqDefault"];
-                                               
+                                               NSString *thumbURL = [NSString new];
+                                               if (self.youtubeQuality == MHYoutubeThumbQualityHQ) {
+                                                   thumbURL = jsonData[@"data"][@"thumbnail"][@"hqDefault"];
+                                               }else if (self.youtubeQuality == MHYoutubeThumbQualitySQ){
+                                                   thumbURL = jsonData[@"data"][@"thumbnail"][@"sqDefault"];
+                                               }
                                                [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:thumbURL]
                                                                                           options:SDWebImageContinueInBackground
                                                                                          progress:nil
@@ -371,16 +382,25 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                                                                                              error:&error];
                                        dispatch_async(dispatch_get_main_queue(), ^(void){
                                            if (jsonData.count) {
-                                               if ([jsonData firstObject][@"thumbnail_large"]) {
+                                               
+                                               __block NSString *quality = [NSString new];
+                                               if (self.vimeoQuality == MHVimeoThumbQualityLarge) {
+                                                   quality = @"thumbnail_large";
+                                               } else if (self.vimeoQuality == MHVimeoThumbQualityMedium){
+                                                   quality = @"thumbnail_medium";
+                                               }else if(self.vimeoQuality == MHVimeoThumbQualitySmall){
+                                                   quality = @"thumbnail_small";
+                                               }
+                                               if ([jsonData firstObject][quality]) {
                                                    NSMutableDictionary *dictToSave = [self durationDict];
                                                    dictToSave[vimdeoURLString] = @([jsonData[0][@"duration"] integerValue]);
                                                    [self setObjectToUserDefaults:dictToSave];
                                                    
-                                                   [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:jsonData[0][@"thumbnail_large"]]
+                                                   [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:jsonData[0][quality]]
                                                                                               options:SDWebImageContinueInBackground
                                                                                              progress:nil
                                                                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                                                                [[SDImageCache sharedImageCache] removeImageForKey:jsonData[0][@"thumbnail_large"]];
+                                                                                                [[SDImageCache sharedImageCache] removeImageForKey:jsonData[0][quality]];
                                                                                                 [[SDImageCache sharedImageCache] storeImage:image
                                                                                                                                      forKey:vimdeoURLString];
                                                                                                 

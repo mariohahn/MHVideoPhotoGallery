@@ -57,6 +57,18 @@ typedef NS_ENUM(NSUInteger, MHGalleryType) {
     MHGalleryTypeVideo
 };
 
+typedef NS_ENUM(NSUInteger, MHVimeoThumbQuality) {
+    MHVimeoThumbQualityLarge, //Default
+    MHVimeoThumbQualityMedium,
+    MHVimeoThumbQualitySmall
+};
+
+typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
+    MHYoutubeThumbQualityHQ, //Default 
+    MHYoutubeThumbQualitySQ
+};
+
+
 
 @interface MHShareItem : NSObject
 @property (nonatomic,strong) NSString *imageName;
@@ -101,6 +113,8 @@ typedef NS_ENUM(NSUInteger, MHGalleryType) {
 @property (nonatomic,strong) NSArray *galleryItems;
 @property (nonatomic,assign) UIStatusBarStyle oldStatusBarStyle;
 @property (nonatomic,assign) BOOL isAnimatingWithCustomTransition;
+@property (nonatomic,assign) MHYoutubeThumbQuality youtubeQuality;
+@property (nonatomic,assign) MHVimeoThumbQuality vimeoQuality;
 
 + (MHGallerySharedManager *)sharedManager;
 

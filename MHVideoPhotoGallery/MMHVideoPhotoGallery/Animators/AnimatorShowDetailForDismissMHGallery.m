@@ -323,18 +323,17 @@
         
         if (self.moviePlayer) {
             [UIView performWithoutAnimation:^{
-                [self doOrientation];
+                [self doOrientationwithFromViewController:fromViewController];
             }];
         }else{
-            [self doOrientation];
+            [self doOrientationwithFromViewController:fromViewController];
         }
         
     }];
     
 }
 
--(void)doOrientation{
-    UINavigationController *fromViewController = (UINavigationController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
+-(void)doOrientationwithFromViewController:(UINavigationController*)fromViewController{
     fromViewController.view.transform = CGAffineTransformMakeRotation(self.startTransform);
     fromViewController.view.center = [UIApplication sharedApplication].keyWindow.center;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {

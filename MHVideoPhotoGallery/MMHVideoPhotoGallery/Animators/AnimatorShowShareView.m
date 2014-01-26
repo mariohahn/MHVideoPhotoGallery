@@ -14,10 +14,11 @@
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     
     self.context = transitionContext;
+    
     if(self.present){
-        
         MHGalleryImageViewerViewController *fromViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
         MHShareViewController *toViewController = (MHShareViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+        
         UIView *containerView = [transitionContext containerView];
         NSTimeInterval duration = [self transitionDuration:transitionContext];
         
