@@ -104,7 +104,6 @@
     
     if (item.galleryType == MHGalleryTypeVideo) {
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
-                                                                atDuration:MHImageGenerationStart
                                                               successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
                                                                   
                                                                   if (error) {

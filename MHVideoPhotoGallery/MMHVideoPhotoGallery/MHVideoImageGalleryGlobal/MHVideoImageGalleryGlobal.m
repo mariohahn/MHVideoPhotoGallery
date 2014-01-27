@@ -65,8 +65,8 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated{
     
-    if (!self.youtubeQuality) {
-        self.youtubeQuality = MHYoutubeThumbQualityHQ;
+    if (!self.youtubeThumbQuality) {
+        self.youtubeThumbQuality = MHYoutubeThumbQualityHQ;
     }
     if (!self.vimeoThumbQuality) {
         self.vimeoThumbQuality = MHVimeoThumbQualityLarge;
@@ -80,7 +80,10 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     if(!self.webThumbQuality){
         self.webThumbQuality = MHWebThumbQualityHD720;
     }
-        
+    if (!self.webPointForThumb) {
+        self.webPointForThumb = MHWebPointForThumbStart;
+    }
+    
     
     if(![MHGallerySharedManager sharedManager].viewModes){
         [MHGallerySharedManager sharedManager].viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
@@ -127,7 +130,6 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 }
 
 -(void)createThumbURL:(NSString*)urlString
-           atDuration:(MHImageGeneration)duration
          successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error))succeedBlock{
     
     UIImage *image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:urlString];
@@ -152,13 +154,12 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                 dictToSave[urlString] = @(videoDurationTimeInSeconds);
                 [self setObjectToUserDefaults:dictToSave];
             }
-            
-            if (duration == MHImageGenerationMiddle || duration == MHImageGenerationEnd) {
-                if(duration == MHImageGenerationMiddle){
-                    thumbTime = CMTimeMakeWithSeconds(videoDurationTimeInSeconds/2,30);
-                }else{
-                    thumbTime = CMTimeMakeWithSeconds(videoDurationTimeInSeconds,30);
-                }
+            if(self.webPointForThumb == MHWebPointForThumbStart){
+                thumbTime = CMTimeMakeWithSeconds(0,40);
+            }else if(self.webPointForThumb == MHWebPointForThumbMiddle){
+                thumbTime = CMTimeMakeWithSeconds(videoDurationTimeInSeconds/2,40);
+            }else if(self.webPointForThumb == MHWebPointForThumbEnd){
+                thumbTime = CMTimeMakeWithSeconds(videoDurationTimeInSeconds,40);
             }
             
             AVAssetImageGeneratorCompletionHandler handler = ^(CMTime requestedTime, CGImageRef im, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error){
@@ -274,7 +275,7 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
             return streamURLs[@(36)];
         }
     }
-
+    
 	return nil;
 }
 -(void)getVimeoURLforMediaPlayer:(NSString*)URL
@@ -363,9 +364,9 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                                                dictToSave[URL] = @([jsonData[@"data"][@"duration"] integerValue]);
                                                [self setObjectToUserDefaults:dictToSave];
                                                NSString *thumbURL = [NSString new];
-                                               if (self.youtubeQuality == MHYoutubeThumbQualityHQ) {
+                                               if (self.youtubeThumbQuality == MHYoutubeThumbQualityHQ) {
                                                    thumbURL = jsonData[@"data"][@"thumbnail"][@"hqDefault"];
-                                               }else if (self.youtubeQuality == MHYoutubeThumbQualitySQ){
+                                               }else if (self.youtubeThumbQuality == MHYoutubeThumbQualitySQ){
                                                    thumbURL = jsonData[@"data"][@"thumbnail"][@"sqDefault"];
                                                }
                                                [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:thumbURL]
@@ -457,7 +458,6 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 }
 
 -(void)startDownloadingThumbImage:(NSString*)urlString
-                       atDuration:(MHImageGeneration)duration
                      successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL))succeedBlock{
     
     if ([urlString rangeOfString:@"vimeo.com"].location != NSNotFound) {
@@ -474,7 +474,6 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
         
     }else{
         [self createThumbURL:urlString
-                  atDuration:duration
                 successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
                     succeedBlock(image,videoDuration,error,urlString);
                 }];

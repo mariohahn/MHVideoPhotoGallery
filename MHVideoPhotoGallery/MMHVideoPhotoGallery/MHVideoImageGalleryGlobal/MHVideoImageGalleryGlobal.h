@@ -28,19 +28,19 @@ extern NSString *const MHYoutubePlayBaseURL;
 /**
  *  Is used to create Thumbnails from a video
  */
-typedef NS_ENUM(NSUInteger, MHImageGeneration) {
+typedef NS_ENUM(NSUInteger, MHWebPointForThumb) {
     /**
      *  on postion 0 sec.
      */
-    MHImageGenerationStart,
+    MHWebPointForThumbStart,
     /**
      *  on postion - videoDuration/2 sec.
      */
-    MHImageGenerationMiddle,
+    MHWebPointForThumbMiddle,
     /**
      *  on postion - videoDuration sec.
      */
-    MHImageGenerationEnd
+    MHWebPointForThumbEnd
 };
 
 
@@ -127,11 +127,14 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic,assign) UIStatusBarStyle oldStatusBarStyle;
 @property (nonatomic,assign) BOOL isAnimatingWithCustomTransition;
 
-@property (nonatomic,assign) MHYoutubeThumbQuality youtubeQuality;
+@property (nonatomic,assign) MHYoutubeThumbQuality youtubeThumbQuality;
 @property (nonatomic,assign) MHVimeoThumbQuality vimeoThumbQuality;
+@property (nonatomic,assign) MHWebThumbQuality webThumbQuality;
+@property (nonatomic,assign) MHWebPointForThumb webPointForThumb;
+
+
 @property (nonatomic,assign) MHVimeoVideoQuality vimeoVideoQuality;
 @property (nonatomic,assign) MHYoutubeVideoQuality youtubeVideoQuality;
-@property (nonatomic,assign) MHWebThumbQuality webThumbQuality;
 
 
 + (MHGallerySharedManager *)sharedManager;
@@ -145,7 +148,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  *  @param succeedBlock returns the image the duration of the video and an error
  */
 -(void)startDownloadingThumbImage:(NSString*)urlString
-                       atDuration:(MHImageGeneration)duration
                      successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL))succeedBlock;
 
 - (UIImage *)imageByRenderingView:(id)view;
@@ -169,9 +171,22 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 -(BOOL)isUIVCBasedStatusBarAppearance;
 
+
+/**
+ *  To get the absolute URL for Vimeo Videos. To change the Quality check vimeoVideoQuality
+ *
+ *  @param URL          The URL as a String
+ *  @param succeedBlock you will get the absolute URL
+ */
 -(void)getVimeoURLforMediaPlayer:(NSString*)URL
                     successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock;
 
+/**
+ *  To get the absolute URL for Youtube Videos. To change the Quality check youtubeVideoQuality
+ *
+ *  @param URL          The URL as a String
+ *  @param succeedBlock you will get the absolute URL
+ */
 -(void)getYoutubeURLforMediaPlayer:(NSString*)URL
                       successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock;
 
