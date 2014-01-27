@@ -14,6 +14,11 @@
 #import "UIImageView+WebCache.h"
 #import "MHGalleryCells.h"
 
+
+@interface MHIndexPinchGestureRecognizer : UIPinchGestureRecognizer
+@property (strong, nonatomic) NSIndexPath *indexPath;
+@end
+
 @interface MHGalleryOverViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic)           UICollectionView *cv;
 

@@ -74,6 +74,9 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     if (!self.vimeoVideoQuality) {
         self.vimeoVideoQuality = MHVimeoVideoQualityHD;
     }
+    if (!self.youtubeVideoQuality) {
+        self.youtubeVideoQuality = MHYoutubeVideoQualityHD720;
+    }
     
     if(![MHGallerySharedManager sharedManager].viewModes){
         [MHGallerySharedManager sharedManager].viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
@@ -236,7 +239,6 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     
 	NSDictionary *video = [self getURLParFromURL:videoData];
 	NSArray *videoURLS = [video[@"url_encoded_fmt_stream_map"] componentsSeparatedByString:@","];
-	
 	NSMutableDictionary *streamURLs = [NSMutableDictionary new];
 	for (NSString *videoURL in videoURLS){
 		NSDictionary *stream = [self getURLParFromURL:videoURL];
@@ -248,12 +250,23 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 			streamURLs[@([stream[@"itag"] integerValue])] = streamURL;
 		}
 	}
-    if (streamURLs[@(22)]) {
-        return streamURLs[@(22)];
+    if (self.youtubeVideoQuality == MHYoutubeVideoQualityHD720) {
+        if (streamURLs[@(22)]) {
+            return streamURLs[@(22)];
+        }
     }
-    if (streamURLs[@(18)]) {
-        return streamURLs[@(18)];
+    
+    if (self.youtubeVideoQuality == MHYoutubeVideoQualityHD720 || self.youtubeVideoQuality == MHYoutubeVideoQualityMedium) {
+        if (streamURLs[@(18)]) {
+            return streamURLs[@(18)];
+        }
     }
+    if(self.youtubeVideoQuality == MHYoutubeVideoQualitySmall){
+        if (streamURLs[@(36)]) {
+            return streamURLs[@(36)];
+        }
+    }
+
 	return nil;
 }
 -(void)getVimeoURLforMediaPlayer:(NSString*)URL
@@ -286,6 +299,9 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                                        NSString *quality = [NSString new];
                                        if (self.vimeoVideoQuality == MHVimeoVideoQualityHD) {
                                            quality = @"hd";
+                                           if(!filesInfo[quality]){
+                                               quality = @"sd";
+                                           }
                                        } else if (self.vimeoVideoQuality == MHVimeoVideoQualityMobile){
                                            quality = @"mobile";
                                        }else if(self.vimeoVideoQuality == MHVimeoVideoQualitySD){

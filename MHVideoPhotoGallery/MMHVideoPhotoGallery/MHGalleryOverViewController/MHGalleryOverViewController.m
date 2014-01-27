@@ -8,8 +8,10 @@
 
 #import "MHGalleryOverViewController.h"
 
+@implementation MHIndexPinchGestureRecognizer
+@end
+
 @interface MHGalleryOverViewController ()
-@property (nonatomic,getter = isStartAnimation) BOOL startAnimation;
 @property (nonatomic, strong)                   AnimatorShowDetail *interactivePushTransition;
 @property (nonatomic, strong)                   NSArray *galleryItems;
 @property (nonatomic, strong)                   NSNumberFormatter *numberFormatter;
@@ -93,6 +95,7 @@
     MHGalleryItem *item =  self.galleryItems[indexPath.row];
     cell.iv.image = nil;
     
+    
     [cell.videoGradient setHidden:YES];
     [cell.videoIcon setHidden:YES];
     cell.videoDurationLength.text = @"";
@@ -121,6 +124,7 @@
                                                                   [[blockCell.contentView viewWithTag:405] setHidden:YES];
                                                               }];
     }else{
+        
         [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]
                 placeholderImage:nil
                          options:SDWebImageContinueInBackground
@@ -131,9 +135,46 @@
                                blockCell.iv.image = [UIImage imageNamed:@"error"];
                            }
                            [[blockCell.contentView viewWithTag:405] setHidden:YES];
+                           
+                           
                        }];
     }
+    [cell.iv setUserInteractionEnabled:YES];
+//    
+//    MHIndexPinchGestureRecognizer *pinch = [[MHIndexPinchGestureRecognizer alloc]initWithTarget:self
+//                                                                                         action:@selector(userDidPinch:)];
+//    pinch.indexPath = indexPath;
+//    [cell.iv addGestureRecognizer:pinch];
+    
 }
+
+-(void)userDidPinch:(MHIndexPinchGestureRecognizer*)recognizer{
+    
+    CGFloat scale = recognizer.scale/7;
+    
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        self.interactivePushTransition = [AnimatorShowDetail new];
+        self.interactivePushTransition.indexPath = recognizer.indexPath;
+        
+        MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
+        detail.pageIndex = recognizer.indexPath.row;
+        
+        [self.navigationController pushViewController:detail
+                                             animated:YES];
+        
+    }else if (recognizer.state == UIGestureRecognizerStateChanged) {
+        [self.interactivePushTransition updateInteractiveTransition:scale];
+    }else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
+        if (scale > 0.5) {
+            [self.interactivePushTransition finishInteractiveTransition];
+        }else {
+            [self.interactivePushTransition cancelInteractiveTransition];
+        }
+        self.interactivePushTransition = nil;
+    }
+    
+}
+
 
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
                          interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
@@ -172,12 +213,7 @@
     
     MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
     detail.pageIndex = indexPath.row;
-    if (self.isStartAnimation) {
-        self.startAnimation = NO;
-        [self.navigationController pushViewController:detail animated:NO];
-    }else{
-        [self.navigationController pushViewController:detail animated:YES];
-    }
+    [self.navigationController pushViewController:detail animated:YES];
 }
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     [self.cv.collectionViewLayout invalidateLayout];

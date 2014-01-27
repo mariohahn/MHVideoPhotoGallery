@@ -12,4 +12,6 @@
 #import "MHUIImageViewContentViewAnimation.h"
 
 @interface AnimatorShowDetail : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
+@property (nonatomic,strong)    NSIndexPath *indexPath;
+@property (nonatomic,assign)    id <UIViewControllerContextTransitioning> context;
 @end

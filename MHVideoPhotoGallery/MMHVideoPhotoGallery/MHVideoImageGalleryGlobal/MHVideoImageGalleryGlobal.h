@@ -57,11 +57,18 @@ typedef NS_ENUM(NSUInteger, MHGalleryType) {
     MHGalleryTypeVideo
 };
 
+typedef NS_ENUM(NSUInteger, MHYoutubeVideoQuality) {
+    MHYoutubeVideoQualityHD720, //Default
+    MHYoutubeVideoQualityMedium,
+    MHYoutubeVideoQualitySmall
+};
+
 typedef NS_ENUM(NSUInteger, MHVimeoVideoQuality) {
     MHVimeoVideoQualityHD, //Default
     MHVimeoVideoQualityMobile,
     MHVimeoVideoQualitySD
 };
+
 typedef NS_ENUM(NSUInteger, MHVimeoThumbQuality) {
     MHVimeoThumbQualityLarge, //Default
     MHVimeoThumbQualityMedium,
@@ -121,7 +128,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic,assign) MHYoutubeThumbQuality youtubeQuality;
 @property (nonatomic,assign) MHVimeoThumbQuality vimeoThumbQuality;
 @property (nonatomic,assign) MHVimeoVideoQuality vimeoVideoQuality;
-
+@property (nonatomic,assign) MHYoutubeVideoQuality youtubeVideoQuality;
 
 
 + (MHGallerySharedManager *)sharedManager;
@@ -160,7 +167,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
         withImageViewTransiation:(BOOL)animated;
 
 -(BOOL)isUIVCBasedStatusBarAppearance;
-
 
 -(void)getVimeoURLforMediaPlayer:(NSString*)URL
                     successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock;
