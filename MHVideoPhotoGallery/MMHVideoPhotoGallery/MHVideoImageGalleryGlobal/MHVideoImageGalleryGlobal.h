@@ -15,9 +15,6 @@
 @class AnimatorShowDetailForDismissMHGallery;
 
 
-/**
- *  Set the ViewModes for MHGallery, by default all ViewModes are on.
- */
 extern NSString *const MHGalleryViewModeOverView;
 extern NSString *const MHGalleryViewModeShare;
 extern NSString *const MHVimeoBaseURL;
@@ -25,28 +22,13 @@ extern NSString *const MHVimeoThumbBaseURL;
 extern NSString *const MHYoutubeInfoBaseURL;
 extern NSString *const MHYoutubePlayBaseURL;
 
-/**
- *  Is used to create Thumbnails from a video
- */
+
 typedef NS_ENUM(NSUInteger, MHWebPointForThumb) {
-    /**
-     *  on postion 0 sec.
-     */
-    MHWebPointForThumbStart,
-    /**
-     *  on postion - videoDuration/2 sec.
-     */
-    MHWebPointForThumbMiddle,
-    /**
-     *  on postion - videoDuration sec.
-     */
-    MHWebPointForThumbEnd
+    MHWebPointForThumbStart, // Default
+    MHWebPointForThumbMiddle, // videoDuration/2
+    MHWebPointForThumbEnd //videoDuration
 };
 
-
-/**
- *  The Type of the urlString from MHGalleryItem
- */
 typedef NS_ENUM(NSUInteger, MHGalleryType) {
     MHGalleryTypeImage,
     MHGalleryTypeVideo
