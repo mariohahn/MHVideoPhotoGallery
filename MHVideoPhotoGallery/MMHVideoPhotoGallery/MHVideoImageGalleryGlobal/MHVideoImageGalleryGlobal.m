@@ -77,6 +77,10 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     if (!self.youtubeVideoQuality) {
         self.youtubeVideoQuality = MHYoutubeVideoQualityHD720;
     }
+    if(!self.webThumbQuality){
+        self.webThumbQuality = MHWebThumbQualityHD720;
+    }
+        
     
     if(![MHGallerySharedManager sharedManager].viewModes){
         [MHGallerySharedManager sharedManager].viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
@@ -123,7 +127,6 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 }
 
 -(void)createThumbURL:(NSString*)urlString
-              forSize:(CGSize)size
            atDuration:(MHImageGeneration)duration
          successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error))succeedBlock{
     
@@ -173,8 +176,13 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                     });
                 }
             };
-            CGSize maxSize = size;
-            generator.maximumSize = maxSize;
+            if (self.webThumbQuality == MHWebThumbQualityHD720) {
+                generator.maximumSize = CGSizeMake(720, 720);
+            }else if (self.webThumbQuality == MHWebThumbQualityMedium) {
+                generator.maximumSize = CGSizeMake(420 ,420);
+            }else if(self.webThumbQuality == MHWebThumbQualitySmall) {
+                generator.maximumSize = CGSizeMake(220 ,220);
+            }
             [generator generateCGImagesAsynchronouslyForTimes:@[[NSValue valueWithCMTime:thumbTime]]
                                             completionHandler:handler];
         });
@@ -449,7 +457,6 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 }
 
 -(void)startDownloadingThumbImage:(NSString*)urlString
-                          forSize:(CGSize)size
                        atDuration:(MHImageGeneration)duration
                      successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL))succeedBlock{
     
@@ -467,7 +474,6 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
         
     }else{
         [self createThumbURL:urlString
-                     forSize:size
                   atDuration:duration
                 successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
                     succeedBlock(image,videoDuration,error,urlString);

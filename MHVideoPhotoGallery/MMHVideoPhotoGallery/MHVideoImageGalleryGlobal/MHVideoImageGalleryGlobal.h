@@ -70,6 +70,12 @@ typedef NS_ENUM(NSUInteger, MHVimeoThumbQuality) {
     MHVimeoThumbQualitySmall
 };
 
+typedef NS_ENUM(NSUInteger, MHWebThumbQuality) {
+    MHWebThumbQualityHD720, //Default
+    MHWebThumbQualityMedium,
+    MHWebThumbQualitySmall
+};
+
 typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
     MHYoutubeThumbQualityHQ, //Default 
     MHYoutubeThumbQualitySQ
@@ -125,21 +131,20 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic,assign) MHVimeoThumbQuality vimeoThumbQuality;
 @property (nonatomic,assign) MHVimeoVideoQuality vimeoVideoQuality;
 @property (nonatomic,assign) MHYoutubeVideoQuality youtubeVideoQuality;
+@property (nonatomic,assign) MHWebThumbQuality webThumbQuality;
 
 
 + (MHGallerySharedManager *)sharedManager;
 
 
 /**
- *  You can create a Thumbnail from a Image
+ *  You can create a Thumbnail from a Video, you can create it from Videos from a Webserver, Youtube and Vimeo
  *
  *  @param urlString    URL as a string
- *  @param size         image size to return
  *  @param duration     the position on whicht the Thumbnail should be created
  *  @param succeedBlock returns the image the duration of the video and an error
  */
 -(void)startDownloadingThumbImage:(NSString*)urlString
-                          forSize:(CGSize)size
                        atDuration:(MHImageGeneration)duration
                      successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL))succeedBlock;
 

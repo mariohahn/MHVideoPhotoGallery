@@ -628,7 +628,6 @@
         }else{
             
             [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:self.item.urlString
-                                                                       forSize:CGSizeMake(self.view.bounds.size.width*2, self.view.bounds.size.height*2)
                                                                     atDuration:MHImageGenerationStart
                                                                   successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
                                                                       if (!error) {

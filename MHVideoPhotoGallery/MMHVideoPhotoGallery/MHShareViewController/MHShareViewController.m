@@ -308,7 +308,6 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
         }];
     }else{
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
-                                                                   forSize:CGSizeMake(cell.iv.frame.size.width*2, cell.iv.frame.size.height*2)
                                                                 atDuration:MHImageGenerationStart
                                                               successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
                                                                   if (error) {
