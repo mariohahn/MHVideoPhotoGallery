@@ -24,6 +24,7 @@ extern NSString *const MHVimeoBaseURL;
 extern NSString *const MHVimeoThumbBaseURL;
 extern NSString *const MHYoutubeInfoBaseURL;
 extern NSString *const MHYoutubePlayBaseURL;
+
 /**
  *  Is used to create Thumbnails from a video
  */
@@ -47,13 +48,7 @@ typedef NS_ENUM(NSUInteger, MHImageGeneration) {
  *  The Type of the urlString from MHGalleryItem
  */
 typedef NS_ENUM(NSUInteger, MHGalleryType) {
-    /**
-     *  Image
-     */
     MHGalleryTypeImage,
-    /**
-     *  Video
-     */
     MHGalleryTypeVideo
 };
 
@@ -125,6 +120,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic,strong) NSArray *galleryItems;
 @property (nonatomic,assign) UIStatusBarStyle oldStatusBarStyle;
 @property (nonatomic,assign) BOOL isAnimatingWithCustomTransition;
+
 @property (nonatomic,assign) MHYoutubeThumbQuality youtubeQuality;
 @property (nonatomic,assign) MHVimeoThumbQuality vimeoThumbQuality;
 @property (nonatomic,assign) MHVimeoVideoQuality vimeoVideoQuality;
