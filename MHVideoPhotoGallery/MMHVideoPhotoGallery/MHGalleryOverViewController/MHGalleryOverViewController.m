@@ -122,8 +122,12 @@
                                                                   [[blockCell.contentView viewWithTag:405] setHidden:YES];
                                                               }];
     }else{
-        
-        [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]
+        if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound) {
+            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString assetType:MHAssetImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
+                cell.iv.image = image;
+            }];
+        }else{
+            [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]
                 placeholderImage:nil
                          options:SDWebImageContinueInBackground
                         progress:nil
@@ -136,6 +140,7 @@
                            
                            
                        }];
+        }
     }
     [cell.iv setUserInteractionEnabled:YES];
 //    
@@ -206,12 +211,33 @@
         self.navigationController.delegate = nil;
     }
 }
-
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
+-(void)pushToImageViewerForIndexPath:(NSIndexPath*)indexPath{
     MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
     detail.pageIndex = indexPath.row;
     [self.navigationController pushViewController:detail animated:YES];
+    
+}
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    MHGalleryItem *item =  self.galleryItems[indexPath.row];
+
+    if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound) {
+        
+        [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString
+                                                               assetType:MHAssetImageTypeFull
+                                                            successBlock:^(UIImage *image, NSError *error) {
+                                                                cell.iv.image = image;
+                                                                [self pushToImageViewerForIndexPath:indexPath];
+
+                                                            }];
+    }else{
+        [self pushToImageViewerForIndexPath:indexPath];
+    }
+    
+    
+    
+
 }
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     [self.cv.collectionViewLayout invalidateLayout];

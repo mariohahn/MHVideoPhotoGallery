@@ -109,7 +109,7 @@
     self.tb.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     
     self.playStopButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"play"] style:UIBarButtonItemStyleBordered target:self action:@selector(playStopButtonPressed)];
-
+    
     
     self.left = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"left_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(leftPressed:)];
     
@@ -140,7 +140,7 @@
     self.descriptionView.textColor = [UIColor blackColor];
     self.descriptionView.scrollEnabled = NO;
     [self.descriptionView setUserInteractionEnabled:NO];
-   
+    
     
     if([MHGallerySharedManager sharedManager].barColor){
         [self.tb setBarTintColor:[MHGallerySharedManager sharedManager].barColor];
@@ -209,16 +209,16 @@
 -(void)updateDescriptionLabelForIndex:(NSInteger)index{
     if (index < self.galleryItems.count) {
         MHGalleryItem *item = self.galleryItems[index];
-            self.descriptionView.text = item.description;
-            CGSize size = [self.descriptionView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
-            
-            self.descriptionView.frame = CGRectMake(10, self.view.frame.size.height -size.height-44, self.view.frame.size.width-20, size.height);
-            if (self.descriptionView.text.length >0) {
-                [self.descriptionViewBackground setHidden:NO];
-                self.descriptionViewBackground.frame = CGRectMake(0, self.view.frame.size.height -size.height-44, self.view.frame.size.width, size.height);
-            }else{
-                [self.descriptionViewBackground setHidden:YES];
-            }
+        self.descriptionView.text = item.description;
+        CGSize size = [self.descriptionView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
+        
+        self.descriptionView.frame = CGRectMake(10, self.view.frame.size.height -size.height-44, self.view.frame.size.width-20, size.height);
+        if (self.descriptionView.text.length >0) {
+            [self.descriptionViewBackground setHidden:NO];
+            self.descriptionViewBackground.frame = CGRectMake(0, self.view.frame.size.height -size.height-44, self.view.frame.size.width, size.height);
+        }else{
+            [self.descriptionViewBackground setHidden:YES];
+        }
     }
 }
 
@@ -607,37 +607,47 @@
         [self.imageView setUserInteractionEnabled:YES];
         
         [imageTap requireGestureRecognizerToFail: doubleTap];
-        
-        if (self.item.galleryType == MHGalleryTypeImage) {
-            [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:self.item.urlString]
-                                                       options:SDWebImageContinueInBackground
-                                                      progress:nil
-                                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                         if (!image) {
-                                                             [self.scrollView setMaximumZoomScale:1];
-                                                             [self changeToErrorImage];
-
-                                                         }else{
-                                                             self.imageView.image = image;
-                                                         }
-                                                         [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
-                                                         
-                                                         
-                                                     }];
+        if ([self.item.urlString rangeOfString:@"assets-library"].location != NSNotFound) {
             
+            [self.act stopAnimating];
+            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:self.item.urlString
+                                                                   assetType:MHAssetImageTypeFull
+                                                                successBlock:^(UIImage *image, NSError *error) {
+                                                                    self.imageView.image = image;
+                                                                }];
         }else{
-            
-            [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:self.item.urlString
-                                                                  successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
-                                                                      if (!error) {
-                                                                          [self handleGeneratedThumb:image
-                                                                                       videoDuration:videoDuration
-                                                                                           urlString:newURL];
-                                                                      }else{
-                                                                          [self changeToErrorImage];
-                                                                      }
-                                                                      [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
-                                                                  }];
+            if (self.item.galleryType == MHGalleryTypeImage) {
+                
+                
+                [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:self.item.urlString]
+                                                           options:SDWebImageContinueInBackground
+                                                          progress:nil
+                                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                             if (!image) {
+                                                                 [self.scrollView setMaximumZoomScale:1];
+                                                                 [self changeToErrorImage];
+                                                                 
+                                                             }else{
+                                                                 self.imageView.image = image;
+                                                             }
+                                                             [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
+                                                             
+                                                             
+                                                         }];
+            }else{
+                
+                [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:self.item.urlString
+                                                                      successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
+                                                                          if (!error) {
+                                                                              [self handleGeneratedThumb:image
+                                                                                           videoDuration:videoDuration
+                                                                                               urlString:newURL];
+                                                                          }else{
+                                                                              [self changeToErrorImage];
+                                                                          }
+                                                                          [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
+                                                                      }];
+            }
         }
     }
     
@@ -663,16 +673,16 @@
                                                                      }else{
                                                                          [self addMoviePlayerToViewWithURL:URL];
                                                                      }
-            }];
+                                                                 }];
         }else if ([self.item.urlString rangeOfString:@"youtube.com"].location != NSNotFound) {
             [[MHGallerySharedManager sharedManager] getYoutubeURLforMediaPlayer:self.item.urlString
-                                                                 successBlock:^(NSURL *URL, NSError *error) {
-                                                                     if (error) {
-                                                                         [self changePlayButtonToUnPlay];
-                                                                     }else{
-                                                                         [self addMoviePlayerToViewWithURL:URL];
-                                                                     }
-                                                                 }];
+                                                                   successBlock:^(NSURL *URL, NSError *error) {
+                                                                       if (error) {
+                                                                           [self changePlayButtonToUnPlay];
+                                                                       }else{
+                                                                           [self addMoviePlayerToViewWithURL:URL];
+                                                                       }
+                                                                   }];
         }else{
             [self addMoviePlayerToViewWithURL:[NSURL  URLWithString:self.item.urlString]];
         }
@@ -784,7 +794,7 @@
     if([MHGallerySharedManager sharedManager].isAnimatingWithCustomTransition){
         [self.moviewPlayerButtonBehinde addGestureRecognizer:self.pan];
     }
-
+    
     if(self.playingVideo){
         [self.view bringSubviewToFront:self.moviePlayer.view];
         [self.view bringSubviewToFront:self.moviewPlayerButtonBehinde];
@@ -840,7 +850,7 @@
     }else{
         NSNumber *minutesGo = @(self.currentTimeMovie / 60);
         NSNumber *secondsGo = @(self.currentTimeMovie % 60);
-    
+        
         self.leftSliderLabel.text = [NSString stringWithFormat:@"%@:%@",
                                      [self.numberFormatter stringFromNumber:minutesGo] ,
                                      [self.numberFormatter stringFromNumber:secondsGo]];
@@ -980,12 +990,12 @@
     [self.moviePlayer.view setHidden:YES];
     
     [self.view addSubview: self.moviePlayer.view];
-   
+    
     self.playingVideo =NO;
     
     self.movieDownloadedTimer = [NSTimer timerWithTimeInterval:0.06f target:self selector:@selector(changeProgressBehinde:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:self.movieDownloadedTimer forMode:NSRunLoopCommonModes];
-   
+    
     [self changeToPlayable];
 }
 
@@ -998,11 +1008,11 @@
         
         [self.playButton setHidden:YES];
         self.playingVideo =YES;
-       
+        
         if (self.moviePlayer) {
             [self.moviePlayer play];
             [self.vc changeToPauseButton];
-
+            
         }else{
             UIActivityIndicatorView *act = [[UIActivityIndicatorView alloc]initWithFrame:self.view.bounds];
             act.tag = 304;

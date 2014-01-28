@@ -22,6 +22,10 @@ extern NSString *const MHVimeoThumbBaseURL;
 extern NSString *const MHYoutubeInfoBaseURL;
 extern NSString *const MHYoutubePlayBaseURL;
 
+typedef NS_ENUM(NSUInteger, MHAssetImageType) {
+    MHAssetImageTypeFull,
+    MHAssetImageTypeThumb
+};
 
 typedef NS_ENUM(NSUInteger, MHWebPointForThumb) {
     MHWebPointForThumbStart, // Default
@@ -59,7 +63,7 @@ typedef NS_ENUM(NSUInteger, MHWebThumbQuality) {
 };
 
 typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
-    MHYoutubeThumbQualityHQ, //Default 
+    MHYoutubeThumbQualityHQ, //Default
     MHYoutubeThumbQualitySQ
 };
 
@@ -81,6 +85,8 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 @end
 
+
+
 @interface MHGalleryItem : NSObject
 @property (nonatomic, strong) NSString *urlString;
 @property (nonatomic) MHGalleryType galleryType;
@@ -95,6 +101,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  *  @param galleryType select to Type, video or image
  *
  */
+
 - (id)initWithURL:(NSString*)urlString
       galleryType:(MHGalleryType)galleryType;
 
@@ -171,5 +178,9 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  */
 -(void)getYoutubeURLforMediaPlayer:(NSString*)URL
                       successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock;
+
+-(void)getImageFromAssetLibrary:(NSString*)urlString
+                      assetType:(MHAssetImageType)type
+                   successBlock:(void (^)(UIImage *image,NSError *error))succeedBlock;
 
 @end

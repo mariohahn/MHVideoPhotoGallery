@@ -88,8 +88,6 @@
     return self;
 }
 @end
-
-
 @implementation MHGalleryCollectionViewCell
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
@@ -108,7 +106,7 @@
                                          collectionViewLayout:layout];
     
     [self.collectionView registerClass:[MHGalleryOverViewCell class] forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
-
+    
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     [[self contentView] addSubview:self.collectionView];
     return self;
@@ -119,7 +117,7 @@
     if (self) {
         _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds];
         self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-        [[self contentView] addSubview:self.collectionView];        
+        [[self contentView] addSubview:self.collectionView];
     }
     return self;
 }
@@ -128,4 +126,5 @@
 }
 
 @end
+
 

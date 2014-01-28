@@ -1,6 +1,8 @@
 
 #import "MHVideoImageGalleryGlobal.h"
 #import "MHGalleryOverViewController.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "SDWebImageDecoder.h"
 
 NSString * const MHYoutubePlayBaseURL = @"https://www.youtube.com/get_video_info?video_id=%@&el=embedded&ps=default&eurl=&gl=US&hl=%@";
 NSString * const MHYoutubeInfoBaseURL = @"http://gdata.youtube.com/feeds/api/videos/%@?v=2&alt=jsonc";
@@ -29,6 +31,7 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     return self;
 }
 @end
+
 
 @implementation MHGalleryItem
 
@@ -116,9 +119,40 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
         nav.transitioningDelegate = viewcontroller;
         nav.modalPresentationStyle = UIModalPresentationFullScreen;
     }
-    
-    
     [viewcontroller presentViewController:nav animated:YES completion:nil];
+}
+
+-(void)getImageFromAssetLibrary:(NSString*)urlString
+                      assetType:(MHAssetImageType)type
+                   successBlock:(void (^)(UIImage *image,NSError *error))succeedBlock{
+    
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        ALAssetsLibrary *assetslibrary = [ALAssetsLibrary new];
+        [assetslibrary assetForURL:[NSURL URLWithString:urlString]
+                       resultBlock:^(ALAsset *asset){
+                           
+                           if (type == MHAssetImageTypeThumb) {
+                               dispatch_sync(dispatch_get_main_queue(), ^(void){
+                                   UIImage *image = [[UIImage alloc]initWithCGImage:asset.thumbnail];
+                                   succeedBlock(image,nil);
+                               });
+                           }else{
+                               ALAssetRepresentation *rep = [asset defaultRepresentation];
+                               CGImageRef iref = [rep fullScreenImage];
+                               if (iref) {
+                                   dispatch_sync(dispatch_get_main_queue(), ^(void){
+                                       UIImage *image = [[UIImage alloc]initWithCGImage:iref];
+                                       succeedBlock(image,nil);
+                                   });
+                               }
+                           }
+                       }
+                      failureBlock:^(NSError *error) {
+                          dispatch_sync(dispatch_get_main_queue(), ^(void){
+                              succeedBlock(nil,error);
+                          });
+                      }];
+    });
 }
 
 -(BOOL)isUIVCBasedStatusBarAppearance{

@@ -212,7 +212,7 @@
     self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
     
     NSArray *galleryData = self.galleryDataSource[collectionView.tag];
-    
+
     [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
                                                              forIndex:indexPath.row
                                              andCurrentViewController:self
