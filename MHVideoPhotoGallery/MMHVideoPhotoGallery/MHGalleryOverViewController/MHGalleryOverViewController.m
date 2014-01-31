@@ -15,6 +15,9 @@
 @property (nonatomic, strong)                   AnimatorShowDetail *interactivePushTransition;
 @property (nonatomic, strong)                   NSArray *galleryItems;
 @property (nonatomic, strong)                   NSNumberFormatter *numberFormatter;
+@property (nonatomic)                           CGPoint   lastPoint;
+@property (nonatomic)                           CGFloat   startScale;
+
 
 @end
 
@@ -46,6 +49,14 @@
     self.numberFormatter = [NSNumberFormatter new];
     [self.numberFormatter setMinimumIntegerDigits:2];
     
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wundeclared-selector"
+    
+    UIMenuItem *saveItem = [[UIMenuItem alloc] initWithTitle:@"Save"
+                                                      action:@selector(saveImage:)];
+    #pragma clang diagnostic pop
+
+    [[UIMenuController sharedMenuController] setMenuItems:@[saveItem]];
 }
 
 -(void)donePressed{
@@ -98,6 +109,14 @@
     
     [cell.videoGradient setHidden:YES];
     [cell.videoIcon setHidden:YES];
+    
+    
+    cell.saveImage = ^(BOOL shouldSave){
+        [self getImageForItem:item
+               finishCallback:^(UIImage *image) {
+                   UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+        }];
+    };
     cell.videoDurationLength.text = @"";
     cell.iv.backgroundColor = [UIColor lightGrayColor];
     __block MHGalleryOverViewCell *blockCell = cell;
@@ -143,30 +162,51 @@
         }
     }
     [cell.iv setUserInteractionEnabled:YES];
-//    
-//    MHIndexPinchGestureRecognizer *pinch = [[MHIndexPinchGestureRecognizer alloc]initWithTarget:self
-//                                                                                         action:@selector(userDidPinch:)];
-//    pinch.indexPath = indexPath;
-//    [cell.iv addGestureRecognizer:pinch];
+    
+    MHIndexPinchGestureRecognizer *pinch = [[MHIndexPinchGestureRecognizer alloc]initWithTarget:self
+                                                                                         action:@selector(userDidPinch:)];
+    pinch.indexPath = indexPath;
+    [cell.iv addGestureRecognizer:pinch];
+    
+    UIRotationGestureRecognizer *rotate = [[UIRotationGestureRecognizer alloc]initWithTarget:self
+                                                                                      action:@selector(userDidRoate:)];
+    rotate.delegate = self;
+    [cell.iv addGestureRecognizer:rotate];
+
     
 }
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
 
+
+-(void)userDidRoate:(UIRotationGestureRecognizer*)recognizer{
+    if (self.interactivePushTransition) {
+        CGFloat angle = recognizer.rotation;
+        self.interactivePushTransition.angle = angle;
+    }
+}
 -(void)userDidPinch:(MHIndexPinchGestureRecognizer*)recognizer{
     
-    CGFloat scale = recognizer.scale/7;
+    CGFloat scale = recognizer.scale/5;
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         self.interactivePushTransition = [AnimatorShowDetail new];
         self.interactivePushTransition.indexPath = recognizer.indexPath;
-        
+        self.lastPoint = [recognizer locationInView:self.view];
         MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
         detail.pageIndex = recognizer.indexPath.row;
-        
+        self.startScale = recognizer.scale/8;
         [self.navigationController pushViewController:detail
                                              animated:YES];
         
     }else if (recognizer.state == UIGestureRecognizerStateChanged) {
+        CGPoint point = [recognizer locationInView:self.view];
+        self.interactivePushTransition.scale = recognizer.scale/8-self.startScale;
+        self.interactivePushTransition.changedPoint = CGPointMake(self.lastPoint.x - point.x, self.lastPoint.y - point.y) ;
         [self.interactivePushTransition updateInteractiveTransition:scale];
+        self.lastPoint = point;
     }else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
         if (scale > 0.5) {
             [self.interactivePushTransition finishInteractiveTransition];
@@ -234,11 +274,49 @@
     }else{
         [self pushToImageViewerForIndexPath:indexPath];
     }
-    
-    
-    
-
 }
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+    MHGalleryItem *item =  self.galleryItems[indexPath.row];
+    if (item.galleryType == MHGalleryTypeImage) {
+        if ([NSStringFromSelector(action) isEqualToString:@"copy:"] || [NSStringFromSelector(action) isEqualToString:@"saveImage:"]){
+            return YES;
+
+        }
+    }
+    return NO;
+}
+
+-(void)getImageForItem:(MHGalleryItem*)item
+        finishCallback:(void(^)(UIImage *image))FinishBlock{
+    [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:item.urlString]
+                                               options:SDWebImageContinueInBackground
+                                              progress:nil
+                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                 FinishBlock(image);
+                                             }];
+}
+
+
+- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+    if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
+        UIPasteboard *pasteBoard = [UIPasteboard pasteboardWithName:UIPasteboardNameGeneral create:NO];
+        pasteBoard.persistent = YES;
+        MHGalleryItem *item =  self.galleryItems[indexPath.row];
+        [self getImageForItem:item finishCallback:^(UIImage *image) {
+            if (image) {
+                UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+                NSData *data = UIImagePNGRepresentation(image);
+                [pasteboard setData:data forPasteboardType:@"public.jpeg"];
+            }
+        }];
+    }
+}
+
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     [self.cv.collectionViewLayout invalidateLayout];
 }

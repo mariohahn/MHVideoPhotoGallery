@@ -66,6 +66,11 @@
     }
     return self;
 }
+
+- (void)saveImage:(id)sender {
+    self.saveImage(YES);
+}
+
 @end
 
 @implementation MHShareCell

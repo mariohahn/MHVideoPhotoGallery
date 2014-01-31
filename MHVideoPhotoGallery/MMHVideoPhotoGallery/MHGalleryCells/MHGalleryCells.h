@@ -17,6 +17,7 @@
 @property (nonatomic, strong)UIView *videoGradient;
 @property (nonatomic, strong)UIImageView *selectionImageView;
 
+@property (nonatomic, copy) void (^saveImage)(BOOL shouldSave);
 @end
 
 @interface MHShareCell : UICollectionViewCell

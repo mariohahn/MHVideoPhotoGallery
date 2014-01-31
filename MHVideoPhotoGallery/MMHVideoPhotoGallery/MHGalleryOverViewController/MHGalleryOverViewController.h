@@ -19,7 +19,7 @@
 @property (strong, nonatomic) NSIndexPath *indexPath;
 @end
 
-@interface MHGalleryOverViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UINavigationControllerDelegate>
+@interface MHGalleryOverViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 @property (strong, nonatomic)           UICollectionView *cv;
 
 @property (nonatomic)                   NSInteger currentPage;

@@ -66,10 +66,12 @@
     }
     overView.finishedCallback(self.navigationController,self.pageIndex,nil,imageViewer.imageView.image);
 }
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar{
+    return UIBarPositionTopAttached;
+}
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    
     self.galleryItems = [MHGallerySharedManager sharedManager].galleryItems;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
@@ -449,6 +451,7 @@
     }
     return progressChecked;
 }
+
 
 -(void)userDidPan:(UIPanGestureRecognizer*)recognizer{
     
@@ -1020,10 +1023,6 @@
             [act startAnimating];
             self.shouldPlayVideo = YES;
         }
-        
-        
-        
-        
         if (!self.movieTimer) {
             self.movieTimer = [NSTimer timerWithTimeInterval:0.01f target:self selector:@selector(movieTimerChanged:) userInfo:nil repeats:YES];
             [[NSRunLoop currentRunLoop] addTimer:self.movieTimer forMode:NSRunLoopCommonModes];
@@ -1080,7 +1079,13 @@
                 }
             }
         }
-        self.moviePlayerToolBarTop.frame =CGRectMake(0, self.navigationController.navigationBar.bounds.size.height+20, self.view.frame.size.width, 44);
+        
+        self.moviePlayerToolBarTop.frame =CGRectMake(0,64, self.view.frame.size.width, 44);
+        if (!MHISIPAD) {
+            if ([UIApplication sharedApplication].statusBarOrientation != UIInterfaceOrientationPortrait) {
+                self.moviePlayerToolBarTop.frame =CGRectMake(0,52, self.view.frame.size.width, 44);
+            }
+        }
     }
 }
 

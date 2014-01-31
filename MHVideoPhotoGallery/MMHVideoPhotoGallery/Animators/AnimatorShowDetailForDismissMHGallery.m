@@ -13,6 +13,8 @@
 @property (nonatomic) CGFloat toTransform;
 @property (nonatomic) CGFloat startTransform;
 @property (nonatomic) CGRect startFrame;
+@property (nonatomic) CGRect navFrame;
+
 @property (nonatomic) BOOL hasActiveVideo;
 @property (nonatomic,strong)UIView *viewWhite;
 @property (nonatomic,strong) UIView *containerView;
@@ -156,6 +158,9 @@
     self.toTransform= [(NSNumber *)[[toViewControllerNC view] valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     self.startTransform = [(NSNumber *)[self.containerView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     
+    if ([toViewControllerNC view].frame.size.width >[toViewControllerNC view].frame.size.height && self.toTransform ==0) {
+        self.toTransform = self.startTransform;
+    }
     
     if (imageViewerCurrent.isPlayingVideo && imageViewerCurrent.moviePlayer) {
         self.moviePlayer = imageViewerCurrent.moviePlayer;
@@ -175,7 +180,7 @@
             [snapShot removeFromSuperview];
         });
     }
-    
+    self.navFrame = fromViewController.navigationBar.frame;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
         if (self.moviePlayer) {
             [self.moviePlayer.view setFrame:AVMakeRectWithAspectRatioInsideRect(imageViewerCurrent.moviePlayer.naturalSize,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
@@ -190,7 +195,6 @@
             self.startFrame = self.cellImageSnapshot.bounds;
             
         }
-        
         self.startTransform = self.orientationTransformBeforeDismiss;
     }
     
@@ -328,7 +332,6 @@
         }else{
             [self doOrientationwithFromViewController:fromViewController];
         }
-        
     }];
     
 }
@@ -343,9 +346,15 @@
         [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationPortrait) forKey:status];
         if (self.orientationTransformBeforeDismiss >0) {
             [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationLandscapeRight) forKey:status];
-            
         }else{
             [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:status];
+        }
+    }else{
+        fromViewController.navigationBar.frame = CGRectMake(0, 0, fromViewController.navigationBar.frame.size.width, 64);
+        if (!MHISIPAD) {
+            if (self.orientationTransformBeforeDismiss!=0) {
+                fromViewController.navigationBar.frame = CGRectMake(0, 0, fromViewController.navigationBar.frame.size.width, 52);
+            }
         }
     }
 }

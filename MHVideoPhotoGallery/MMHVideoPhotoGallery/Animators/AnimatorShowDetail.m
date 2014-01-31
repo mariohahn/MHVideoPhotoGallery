@@ -43,8 +43,8 @@
         cell.videoIcon.hidden = YES;
         videoIconsHidden = NO;
     }
-   
-
+    
+    
     
     toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
     toViewController.view.alpha = 0;
@@ -61,14 +61,14 @@
     descriptionViewBackground.alpha =0;
     descriptionViewBackground.frame = CGRectMake(0, toViewController.view.frame.size.height-110, toViewController.view.frame.size.width, 110);
     
-
+    
     [containerView addSubview:toViewController.view];
     [containerView addSubview:cellImageSnapshot];
     [containerView addSubview:descriptionViewBackground];
     [containerView addSubview:tb];
     [containerView addSubview:descriptionLabel];
     
-
+    
     [UIView animateWithDuration:duration animations:^{
         
         [cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFit
@@ -117,7 +117,7 @@
 
 -(void)startInteractiveTransition:(id<UIViewControllerContextTransitioning>)transitionContext{
     self.context = transitionContext;
-
+    
     MHGalleryOverViewController *fromViewController = (MHGalleryOverViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     MHGalleryImageViewerViewController *toViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *containerView = [transitionContext containerView];
@@ -164,7 +164,7 @@
     [containerView addSubview:self.descriptionViewBackground];
     [containerView addSubview:self.tb];
     [containerView addSubview:self.descriptionLabel];
-
+    
     BOOL imageIsLand = self.cellImageSnapshot.image.size.width > self.cellImageSnapshot.image.size.height;
     
     
@@ -178,74 +178,99 @@
     }
     
     self.newFrame = newFrame;
-
+    
     [self.cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFit
-                                forFrame:newFrame
-                            withDuration:0.2
+                                     forFrame:newFrame
+                                 withDuration:0.2
                                    afterDelay:0
                                      finished:^(BOOL finished) {
-                                
-                            }];
+                                         
+                                     }];
 }
 
 -(void)finishInteractiveTransition{
     [super finishInteractiveTransition];
-
     
     MHGalleryImageViewerViewController *toViewController = (MHGalleryImageViewerViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
     
-    CGRect rect = self.cellImageSnapshot.frame;
-    self.cellImageSnapshot.transform = CGAffineTransformIdentity;
-    self.cellImageSnapshot.frame =rect;
+    CGFloat scaleForToViewControllerSize = toViewController.view.bounds.size.height/self.newFrame.size.height;
+    BOOL imageIsLand = self.cellImageSnapshot.image.size.width > self.cellImageSnapshot.image.size.height;
+    if (imageIsLand) {
+        scaleForToViewControllerSize = toViewController.view.bounds.size.width/self.newFrame.size.width;
+    }
+    
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    transform = CGAffineTransformScale(transform,scaleForToViewControllerSize,scaleForToViewControllerSize);
+    transform = CGAffineTransformRotate(transform, 0);
     
     [UIView animateWithDuration:0.3 animations:^{
-        toViewController.view.alpha = 1;
-        self.cellImageSnapshot.frame = toViewController.view.bounds;
-        self.descriptionViewBackground.alpha = 1;
-        self.tb.alpha = 1;
-        self.descriptionLabel.alpha = 1;
-        
+        self.cellImageSnapshot.transform =transform;
     } completion:^(BOOL finished) {
-        self.cell.iv.hidden = NO;
-        toViewController.pvc.view.hidden = NO;
-        toViewController.tb = self.tb;
-        toViewController.descriptionViewBackground = self.descriptionViewBackground;
-        toViewController.descriptionView = self.descriptionLabel;
-        [self.cellImageSnapshot removeFromSuperview];
-        [self.whiteView removeFromSuperview];
-        [self.context completeTransition:YES];
+        
+        CGRect rect = self.cellImageSnapshot.frame;
+        
+        self.cellImageSnapshot.transform = CGAffineTransformIdentity;
+        self.cellImageSnapshot.frame =rect;
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            toViewController.view.alpha = 1;
+            self.cellImageSnapshot.frame = toViewController.view.bounds;
+            self.descriptionViewBackground.alpha = 1;
+            self.tb.alpha = 1;
+            self.descriptionLabel.alpha = 1;
+            
+        } completion:^(BOOL finished) {
+            self.cell.iv.hidden = NO;
+            toViewController.pvc.view.hidden = NO;
+            toViewController.tb = self.tb;
+            toViewController.descriptionViewBackground = self.descriptionViewBackground;
+            toViewController.descriptionView = self.descriptionLabel;
+            [self.cellImageSnapshot removeFromSuperview];
+            [self.whiteView removeFromSuperview];
+            [self.context completeTransition:YES];
+        }];
     }];
+    
 }
 
 -(void)cancelInteractiveTransition{
     [super cancelInteractiveTransition];
     
-    CGRect rect = self.cellImageSnapshot.frame;
-    self.cellImageSnapshot.transform = CGAffineTransformIdentity;
-    self.cellImageSnapshot.frame =rect;
     
-    [UIView animateWithDuration:0.25 animations:^{
-        self.descriptionViewBackground.alpha = 0;
-        self.tb.alpha = 0;
-        self.descriptionLabel.alpha = 0;
-        self.whiteView.alpha =0;
-        self.cellImageSnapshot.frame =self.newFrame;
-        self.cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    transform = CGAffineTransformScale(transform,1+self.scale*3, 1+self.scale*3);
+    transform = CGAffineTransformRotate(transform, 0);
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        self.cellImageSnapshot.transform =transform;
     } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.2 animations:^{
-            self.cellImageSnapshot.frame =self.startFrame;
-            self.cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
-        }completion:^(BOOL finished) {
-            [self.descriptionViewBackground removeFromSuperview];
-            [self.tb removeFromSuperview];
-            [self.descriptionLabel removeFromSuperview];
-            [self.whiteView removeFromSuperview];
-            [self.cellImageSnapshot removeFromSuperview];
-            self.cell.iv.hidden = NO;
-            [self.context completeTransition:NO];
+        CGRect rect = self.cellImageSnapshot.frame;
+        self.cellImageSnapshot.transform = CGAffineTransformIdentity;
+        self.cellImageSnapshot.frame =rect;
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            self.descriptionViewBackground.alpha = 0;
+            self.tb.alpha = 0;
+            self.descriptionLabel.alpha = 0;
+            self.whiteView.alpha =0;
+            self.cellImageSnapshot.frame =self.newFrame;
+            self.cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.2 animations:^{
+                self.cellImageSnapshot.frame =self.startFrame;
+                self.cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
+            }completion:^(BOOL finished) {
+                [self.descriptionViewBackground removeFromSuperview];
+                [self.tb removeFromSuperview];
+                [self.descriptionLabel removeFromSuperview];
+                [self.whiteView removeFromSuperview];
+                [self.cellImageSnapshot removeFromSuperview];
+                self.cell.iv.hidden = NO;
+                [self.context completeTransition:NO];
+            }];
         }];
     }];
-
+    
 }
 
 -(void)updateInteractiveTransition:(CGFloat)percentComplete{
@@ -254,8 +279,11 @@
     self.descriptionViewBackground.alpha = percentComplete;
     self.tb.alpha = percentComplete;
     self.descriptionLabel.alpha = percentComplete;
-
-    self.cellImageSnapshot.transform = CGAffineTransformMakeScale(1+percentComplete*3, 1+percentComplete*3);
+    self.cellImageSnapshot.center = CGPointMake(self.cellImageSnapshot.center.x-self.changedPoint.x, self.cellImageSnapshot.center.y-self.changedPoint.y);
+    
+    self.cellImageSnapshot.transform = CGAffineTransformMakeScale(1+self.scale*3, 1+self.scale*3);
+    self.cellImageSnapshot.transform = CGAffineTransformRotate(self.cellImageSnapshot.transform, self.angle);
+    
 }
 
 @end

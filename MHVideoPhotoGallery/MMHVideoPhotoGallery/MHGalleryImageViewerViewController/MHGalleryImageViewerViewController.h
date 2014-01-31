@@ -11,7 +11,7 @@
 #import "MHVideoImageGalleryGlobal.h"
 #import "MHShareViewController.h"
 
-@interface MHGalleryImageViewerViewController : UIViewController<UIPageViewControllerDelegate,UIPageViewControllerDataSource,UINavigationControllerDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate>
+@interface MHGalleryImageViewerViewController : UIViewController<UIPageViewControllerDelegate,UIPageViewControllerDataSource,UINavigationControllerDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate,UINavigationBarDelegate>
 
 @property (nonatomic, strong)          UIToolbar *tb;
 @property (nonatomic, strong)          UITextView *descriptionView;
