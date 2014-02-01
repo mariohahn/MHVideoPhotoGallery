@@ -192,15 +192,18 @@
     CGFloat scale = recognizer.scale/5;
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        self.interactivePushTransition = [AnimatorShowDetail new];
-        self.interactivePushTransition.indexPath = recognizer.indexPath;
-        self.lastPoint = [recognizer locationInView:self.view];
-        MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
-        detail.pageIndex = recognizer.indexPath.row;
-        self.startScale = recognizer.scale/8;
-        [self.navigationController pushViewController:detail
-                                             animated:YES];
-        
+        if (recognizer.scale>1) {
+            self.interactivePushTransition = [AnimatorShowDetail new];
+            self.interactivePushTransition.indexPath = recognizer.indexPath;
+            self.lastPoint = [recognizer locationInView:self.view];
+            MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
+            detail.pageIndex = recognizer.indexPath.row;
+            self.startScale = recognizer.scale/8;
+            [self.navigationController pushViewController:detail
+                                                 animated:YES];
+        }else{
+            [recognizer setCancelsTouchesInView:YES];
+        }
     }else if (recognizer.state == UIGestureRecognizerStateChanged) {
         CGPoint point = [recognizer locationInView:self.view];
         self.interactivePushTransition.scale = recognizer.scale/8-self.startScale;

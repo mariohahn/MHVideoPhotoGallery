@@ -11,6 +11,10 @@
 #import "MHVideoImageGalleryGlobal.h"
 #import "MHShareViewController.h"
 
+@interface MHPinchGestureRecognizer : UIPinchGestureRecognizer
+@property (nonatomic)NSInteger tag;
+@end
+
 @interface MHGalleryImageViewerViewController : UIViewController<UIPageViewControllerDelegate,UIPageViewControllerDataSource,UINavigationControllerDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate,UINavigationBarDelegate>
 
 @property (nonatomic, strong)          UIToolbar *tb;
@@ -34,6 +38,8 @@
 @interface ImageViewController : UIViewController<UIScrollViewDelegate,UIGestureRecognizerDelegate>
 
 @property (nonatomic,strong)        AnimatorShowDetailForDismissMHGallery *interactiveTransition;
+@property (nonatomic,strong)        AnimatorShowOverView *interactiveOverView;
+
 @property (nonatomic,strong)        MHGalleryItem *item;
 @property (nonatomic,strong)        UIScrollView *scrollView;
 @property (nonatomic,strong)        UIButton *playButton;

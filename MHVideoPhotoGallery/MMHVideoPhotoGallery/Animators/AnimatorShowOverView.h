@@ -12,5 +12,9 @@
 #import "MHVideoImageGalleryGlobal.h"
 
 @interface AnimatorShowOverView : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
-@property (nonatomic, assign) BOOL interactionInProgress;
+@property (nonatomic, assign)    BOOL interactionInProgress;
+@property (nonatomic, assign)    CGFloat scale;
+@property (nonatomic, assign)    CGPoint changedPoint;
+@property (nonatomic, assign)    id <UIViewControllerContextTransitioning> context;
+
 @end

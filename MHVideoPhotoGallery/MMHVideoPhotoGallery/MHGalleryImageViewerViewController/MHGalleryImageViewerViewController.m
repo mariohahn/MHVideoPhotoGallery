@@ -10,6 +10,10 @@
 #import "MHGalleryImageViewerViewController.h"
 #import "MHGalleryOverViewController.h"
 #import "AnimatorShowShareView.h"
+#import "AnimatorShowOverView.h"
+
+@implementation MHPinchGestureRecognizer
+@end
 
 @interface MHGalleryImageViewerViewController()
 @property (nonatomic, strong) NSArray *galleryItems;
@@ -296,6 +300,18 @@
     }
 }
 
+
+
+- (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
+                         interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
+    if ([animationController isKindOfClass:[AnimatorShowOverView class]]) {
+        ImageViewController *imageViewController = [self.pvc.viewControllers firstObject];
+        return imageViewController.interactiveOverView;
+    }else {
+        return nil;
+    }
+}
+
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
                                   animationControllerForOperation:(UINavigationControllerOperation)operation
                                                fromViewController:(UIViewController *)fromVC
@@ -428,8 +444,10 @@
 @property (nonatomic) CGFloat   scaleToRestoreAfterResize;
 @property (nonatomic) CGPoint   startPoint;
 @property (nonatomic) CGPoint   lastPoint;
+@property (nonatomic) CGPoint   lastPointPop;
 @property (nonatomic) BOOL shouldPlayVideo;
-@property (nonatomic) UIPanGestureRecognizer *pan;
+@property (nonatomic,strong) UIPanGestureRecognizer *pan;
+@property (nonatomic,strong) MHPinchGestureRecognizer *pinch;
 @end
 
 @implementation ImageViewController
@@ -452,6 +470,32 @@
     return progressChecked;
 }
 
+-(void)userDidPinch:(UIPinchGestureRecognizer*)recognizer{
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        if (recognizer.scale <1) {
+            self.lastPointPop = [recognizer locationInView:self.view];
+            self.interactiveOverView = [AnimatorShowOverView new];
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            [recognizer setCancelsTouchesInView:YES];
+        }
+        
+    }else if (recognizer.state == UIGestureRecognizerStateChanged) {
+        CGPoint point = [recognizer locationInView:self.view];
+        self.interactiveOverView.scale = recognizer.scale;
+        self.interactiveOverView.changedPoint = CGPointMake(self.lastPointPop.x - point.x, self.lastPointPop.y - point.y) ;
+        [self.interactiveOverView updateInteractiveTransition:recognizer.scale];
+        self.lastPointPop = point;
+    }else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
+        if (recognizer.scale < 0.65) {
+            [self.interactiveOverView finishInteractiveTransition];
+        }else{
+            [self.interactiveOverView cancelInteractiveTransition];
+        }
+        self.interactiveOverView = nil;
+    }
+    
+}
 
 -(void)userDidPan:(UIPanGestureRecognizer*)recognizer{
     
@@ -532,9 +576,11 @@
         self.imageView.clipsToBounds = YES;
         self.imageView.tag = 506;
         [self.scrollView addSubview:self.imageView];
+        
+        self.pinch = [[MHPinchGestureRecognizer alloc]initWithTarget:self action:@selector(userDidPinch:)];
+        self.pinch.delegate = self;
+        
         self.pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(userDidPan:)];
-        
-        
         UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
         [doubleTap setNumberOfTapsRequired:2];
         
@@ -547,6 +593,13 @@
         self.pan.delegate = self;
         if([MHGallerySharedManager sharedManager].isAnimatingWithCustomTransition){
             [self.imageView addGestureRecognizer:self.pan];
+            [self.scrollView addGestureRecognizer:self.pinch];
+            [self.scrollView setBounces:NO];
+            [self.scrollView setAlwaysBounceHorizontal:NO];
+            [self.scrollView setAlwaysBounceVertical:NO];
+            
+            [self.pan setDelaysTouchesBegan:YES];
+            
         }
         
         [self.view addGestureRecognizer:imageTap];
@@ -711,6 +764,13 @@
     [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
 }
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    
+    if (self.interactiveOverView) {
+        if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]) {
+            return YES;
+        }
+        return NO;
+    }
     if (self.interactiveTransition) {
         if ([gestureRecognizer isEqual:self.pan]) {
             return YES;
@@ -720,6 +780,23 @@
     return NO;
 }
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+    
+    if (self.interactiveOverView) {
+        if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]] ) {
+            return YES;
+        }else{
+            return NO;
+        }
+    }else{
+        if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]) {
+            if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]] && self.scrollView.zoomScale ==1) {
+                return YES;
+            }else{
+                return NO;
+            }
+        }
+        
+    }
     if (self.vc.isUserScrolling) {
         if ([gestureRecognizer isEqual:self.pan]) {
             return NO;
@@ -739,11 +816,16 @@
 
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    if (self.interactiveOverView) {
+        return NO;
+    }
     if (self.interactiveTransition) {
         return NO;
     }
-    
     if ([otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewDelayedTouchesBeganGestureRecognizer")]|| [otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewPanGestureRecognizer")] ) {
+        return YES;
+    }
+    if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]) {
         return YES;
     }
     return NO;
