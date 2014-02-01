@@ -241,8 +241,6 @@
         iv.hidden = NO;
         [self.context completeTransition:NO];
     }];
-    
-    
 }
 
 -(void)updateInteractiveTransition:(CGFloat)percentComplete{

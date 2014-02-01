@@ -327,7 +327,10 @@
         present.present = YES;
         return present;
     }
-    return [AnimatorShowOverView new];
+    if ([toVC isKindOfClass:[MHGalleryOverViewController class]]) {
+        return [AnimatorShowOverView new];
+    }
+    return nil;
 }
 
 -(void)leftPressed:(id)sender{
