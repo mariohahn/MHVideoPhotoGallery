@@ -205,6 +205,7 @@
     
     [UIView animateWithDuration:0.3 animations:^{
         self.cellImageSnapshot.transform =transform;
+        self.cellImageSnapshot.center = toViewController.view.center;
     } completion:^(BOOL finished) {
         
         CGRect rect = self.cellImageSnapshot.frame;

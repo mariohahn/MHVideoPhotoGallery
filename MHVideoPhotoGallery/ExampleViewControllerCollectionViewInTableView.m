@@ -226,14 +226,14 @@
                                              withImageViewTransiation:YES];
 }
 
--(NSUInteger)supportedInterfaceOrientations{
-    return UIInterfaceOrientationMaskPortrait;
-}
-
-
--(BOOL)shouldAutorotate{
-    return YES;
-}
+//-(NSUInteger)supportedInterfaceOrientations{
+//    return UIInterfaceOrientationMaskPortrait;
+//}
+//
+//
+//-(BOOL)shouldAutorotate{
+//    return YES;
+//}
 
 -(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
     if ([animator isKindOfClass:[AnimatorShowDetailForDismissMHGallery class]]) {
