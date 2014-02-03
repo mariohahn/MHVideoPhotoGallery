@@ -487,7 +487,7 @@
         CGPoint point = [recognizer locationInView:self.view];
         self.interactiveOverView.scale = recognizer.scale;
         self.interactiveOverView.changedPoint = CGPointMake(self.lastPointPop.x - point.x, self.lastPointPop.y - point.y) ;
-        [self.interactiveOverView updateInteractiveTransition:recognizer.scale];
+        [self.interactiveOverView updateInteractiveTransition:1-recognizer.scale];
         self.lastPointPop = point;
     }else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
         if (recognizer.scale < 0.65) {

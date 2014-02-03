@@ -267,14 +267,14 @@
 -(void)updateInteractiveTransition:(CGFloat)percentComplete{
     [super updateInteractiveTransition:percentComplete];
     if (!self.isHiddingToolBarAndNavigationBar) {
-        self.tbInteractive.alpha = percentComplete;
-        self.descriptionLabelInteractive.alpha = percentComplete;
-        self.descriptionViewBackgroundInteractive.alpha = percentComplete;
+        self.tbInteractive.alpha = 1-percentComplete;
+        self.descriptionLabelInteractive.alpha = 1-percentComplete;
+        self.descriptionViewBackgroundInteractive.alpha = 1-percentComplete;
     }else{
         MHGalleryOverViewController *toViewController = (MHGalleryOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
-        toViewController.navigationController.navigationBar.alpha = 1-percentComplete;
+        toViewController.navigationController.navigationBar.alpha = percentComplete;
     }
-    self.whiteView.alpha = percentComplete;
+    self.whiteView.alpha = 1-percentComplete;
     self.imageForAnimation.transform = CGAffineTransformMakeScale(self.scale, self.scale);
     self.imageForAnimation.center = CGPointMake(self.imageForAnimation.center.x-self.changedPoint.x, self.imageForAnimation.center.y-self.changedPoint.y);
 
