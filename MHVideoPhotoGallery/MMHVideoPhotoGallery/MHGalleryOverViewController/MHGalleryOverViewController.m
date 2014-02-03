@@ -30,6 +30,8 @@
     self.galleryItems = [MHGallerySharedManager sharedManager].galleryItems;
     self.title = @"Overview";
 
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"ic_square"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStyleBordered target:self action:nil];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
     
     UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];

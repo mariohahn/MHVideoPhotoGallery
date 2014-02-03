@@ -237,7 +237,6 @@
 -(void)cancelInteractiveTransition{
     [super cancelInteractiveTransition];
     
-    
     CGAffineTransform transform = CGAffineTransformIdentity;
     transform = CGAffineTransformScale(transform,1+self.scale*3, 1+self.scale*3);
     transform = CGAffineTransformRotate(transform, 0);

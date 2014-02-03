@@ -17,6 +17,8 @@
 @property (nonatomic,strong) MHUIImageViewContentViewAnimation *imageForAnimation;
 @property (nonatomic,strong) UIView *whiteView;
 @property (nonatomic) CGRect startFrame;
+@property (nonatomic) BOOL isHiddingToolBarAndNavigationBar;
+
 @end
 
 @implementation AnimatorShowOverView
@@ -152,21 +154,26 @@
     UIView *snapShot = [iv snapshotViewAfterScreenUpdates:NO];
     
     [containerView addSubview:snapShot];
-    
-    self.descriptionLabelInteractive = fromViewController.descriptionView;
-    self.descriptionLabelInteractive.alpha =1;
-    
-    self.tbInteractive = fromViewController.tb;
-    self.tbInteractive.alpha =1;
-    
-    
-    self.descriptionViewBackgroundInteractive = fromViewController.descriptionViewBackground;
-    self.descriptionViewBackgroundInteractive.alpha =1;
-    
-    
-    [containerView addSubview:self.descriptionViewBackgroundInteractive];
-    [containerView addSubview:self.tbInteractive];
-    [containerView addSubview:self.descriptionLabelInteractive];
+    self.isHiddingToolBarAndNavigationBar = fromViewController.isHiddingToolBarAndNavigationBar;
+    if (!fromViewController.isHiddingToolBarAndNavigationBar) {
+        self.descriptionLabelInteractive = fromViewController.descriptionView;
+        self.descriptionLabelInteractive.alpha =1;
+        
+        self.tbInteractive = fromViewController.tb;
+        self.tbInteractive.alpha =1;
+        
+        
+        self.descriptionViewBackgroundInteractive = fromViewController.descriptionViewBackground;
+        self.descriptionViewBackgroundInteractive.alpha =1;
+        
+        
+        [containerView addSubview:self.descriptionViewBackgroundInteractive];
+        [containerView addSubview:self.tbInteractive];
+        [containerView addSubview:self.descriptionLabelInteractive];
+    }else{
+        [toViewController.navigationController.navigationBar setHidden:NO];
+        self.whiteView.backgroundColor = [UIColor blackColor];
+    }
     
     CGRect cellFrame  = [toViewController.cv.collectionViewLayout layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]].frame;
     
@@ -200,6 +207,10 @@
     self.imageForAnimation.frame = frame;
     
     [UIView animateWithDuration:0.3 animations:^{
+        if (self.isHiddingToolBarAndNavigationBar) {
+            MHGalleryOverViewController *toViewController = (MHGalleryOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
+            toViewController.navigationController.navigationBar.alpha = 1;
+        }
         self.tbInteractive.alpha = 0;
         self.descriptionLabelInteractive.alpha =0;
         self.whiteView.alpha =0;
@@ -227,6 +238,10 @@
     self.imageForAnimation.frame = frame;
     
     [UIView animateWithDuration:0.4 animations:^{
+        if (self.isHiddingToolBarAndNavigationBar) {
+            MHGalleryOverViewController *toViewController = (MHGalleryOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
+            toViewController.navigationController.navigationBar.alpha = 0;
+        }
         self.whiteView.alpha =1;
         self.tbInteractive.alpha = 1;
         self.descriptionLabelInteractive.alpha =1;
@@ -234,20 +249,31 @@
         self.descriptionViewBackgroundInteractive.alpha = 1;
         self.imageForAnimation.frame = self.startFrame;
     } completion:^(BOOL finished) {
+        if (self.isHiddingToolBarAndNavigationBar) {
+            MHGalleryOverViewController *toViewController = (MHGalleryOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
+            [toViewController.navigationController.navigationBar setHidden:YES];
+        }
         [self.cellInteractive.iv setHidden:NO];
         [self.whiteView removeFromSuperview];
         [self.imageForAnimation removeFromSuperview];
-        UIImageView *iv =  (UIImageView*)[[[fromViewController.pvc.viewControllers firstObject] view]viewWithTag:506];
-        iv.hidden = NO;
+        
+        ImageViewController *imageViewer = [fromViewController.pvc.viewControllers firstObject];
+        imageViewer.imageView.hidden = NO;
+        imageViewer.scrollView.zoomScale =1;
         [self.context completeTransition:NO];
     }];
 }
 
 -(void)updateInteractiveTransition:(CGFloat)percentComplete{
     [super updateInteractiveTransition:percentComplete];
-    self.tbInteractive.alpha = percentComplete;
-    self.descriptionLabelInteractive.alpha = percentComplete;
-    self.descriptionViewBackgroundInteractive.alpha = percentComplete;
+    if (!self.isHiddingToolBarAndNavigationBar) {
+        self.tbInteractive.alpha = percentComplete;
+        self.descriptionLabelInteractive.alpha = percentComplete;
+        self.descriptionViewBackgroundInteractive.alpha = percentComplete;
+    }else{
+        MHGalleryOverViewController *toViewController = (MHGalleryOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
+        toViewController.navigationController.navigationBar.alpha = 1-percentComplete;
+    }
     self.whiteView.alpha = percentComplete;
     self.imageForAnimation.transform = CGAffineTransformMakeScale(self.scale, self.scale);
     self.imageForAnimation.center = CGPointMake(self.imageForAnimation.center.x-self.changedPoint.x, self.imageForAnimation.center.y-self.changedPoint.y);
