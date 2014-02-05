@@ -484,6 +484,12 @@
         }
         
     }else if (recognizer.state == UIGestureRecognizerStateChanged) {
+        
+        if (recognizer.numberOfTouches <2) {
+            [recognizer setEnabled:NO];
+            [recognizer setEnabled:YES];
+        }
+        
         CGPoint point = [recognizer locationInView:self.view];
         self.interactiveOverView.scale = recognizer.scale;
         self.interactiveOverView.changedPoint = CGPointMake(self.lastPointPop.x - point.x, self.lastPointPop.y - point.y) ;
@@ -594,7 +600,7 @@
         
         
         self.pan.delegate = self;
-        if([MHGallerySharedManager sharedManager].isAnimatingWithCustomTransition){
+        if([MHGallerySharedManager sharedManager].animateWithCustomTransition){
             [self.imageView addGestureRecognizer:self.pan];
             [self.scrollView addGestureRecognizer:self.pinch];
             [self.scrollView setBounces:NO];
@@ -879,7 +885,7 @@
     [self.view addSubview:self.moviewPlayerButtonBehinde];
     [self.view bringSubviewToFront:self.moviePlayerToolBarTop];
     [self.view bringSubviewToFront:self.playButton];
-    if([MHGallerySharedManager sharedManager].isAnimatingWithCustomTransition){
+    if([MHGallerySharedManager sharedManager].animateWithCustomTransition){
         [self.moviewPlayerButtonBehinde addGestureRecognizer:self.pan];
     }
     

@@ -100,46 +100,15 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    self.imageViewForPresentingMHGallery = [(ImageTableViewCell*)[tableView cellForRowAtIndexPath:indexPath] iv];
-    MHGallerySectionItem *section = self.allData[indexPath.row];
 
+    MHGallerySectionItem *section = self.allData[indexPath.row];
     NSArray *galleryData = section.galleryItems;
-    
-    [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
-                                                             forIndex:indexPath.row
-                                             andCurrentViewController:self
-                                                       finishCallback:^(UINavigationController *galleryNavMH,NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
-                                                           self.interactive = interactiveTransition;
-                                                           [self dismissGalleryForIndexPath:[NSIndexPath indexPathForRow:pageIndex inSection:0]
-                                                                              navController:galleryNavMH];
-                                                           
-                                                       }
-                                             withImageViewTransiation:NO];
-    
-    
+    [self presentMHGalleryWithItems:galleryData forIndex:indexPath.row
+                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+        [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
+    } animated:NO];    
 }
--(void)dismissGalleryForIndexPath:(NSIndexPath*)indexPath navController:(UINavigationController*)nav{
-    [nav dismissViewControllerAnimated:YES completion:nil];
-}
--(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
-    if ([animator isKindOfClass:[AnimatorShowDetailForDismissMHGallery class]]) {
-        return self.interactive;
-    }else {
-        return nil;
-    }
-}
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
-    AnimatorShowDetailForDismissMHGallery *detail = [AnimatorShowDetailForDismissMHGallery new];
-    detail.iv = self.imageViewForPresentingMHGallery;
-    return detail;
-}
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
-                                                                  presentingController:(UIViewController *)presenting
-                                                                      sourceController:(UIViewController *)source {
-    AnimatorShowDetailForPresentingMHGallery *detail = [AnimatorShowDetailForPresentingMHGallery new];
-    detail.iv = self.imageViewForPresentingMHGallery;
-    return detail;
-}
+
 
 - (void)didReceiveMemoryWarning
 {

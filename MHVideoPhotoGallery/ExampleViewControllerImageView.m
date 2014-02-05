@@ -10,8 +10,6 @@
 
 @interface ExampleViewControllerImageView ()
 @property(nonatomic,strong)NSArray *galleryDataSource;
-@property(nonatomic,strong) UIImageView *imageViewForPresentingMHGallery;
-@property(nonatomic,strong) AnimatorShowDetailForDismissMHGallery *interactive;
 @property(nonatomic) NSInteger currentIndex;
 
 @end
@@ -102,52 +100,25 @@
 
 
 
--(void)dismissGalleryForIndexPath:(NSIndexPath*)indexPath navController:(UINavigationController*)nav{
-        self.imageViewForPresentingMHGallery = self.iv;
-        if (self.interactive) {
-            self.interactive.iv = self.imageViewForPresentingMHGallery;
-        }
-        [nav dismissViewControllerAnimated:YES completion:nil];
-}
 -(void)imageTapped{
-    self.imageViewForPresentingMHGallery = self.iv;
+    [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = self.iv;
     
     NSArray *galleryData = self.galleryDataSource;
     
-    [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
-                                                             forIndex:self.currentIndex
-                                             andCurrentViewController:self
-                                                       finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
-                                                           self.currentIndex = pageIndex;
-                                                           self.iv.image = image;
-                                                           self.interactive = interactiveTransition;
-                                                           [self dismissGalleryForIndexPath:[NSIndexPath indexPathForRow:pageIndex inSection:0]
-                                                                              navController:galleryNavMH];
-                                                           
-                                                       }
-                                             withImageViewTransiation:YES];
+    [self presentMHGalleryWithItems:galleryData
+                           forIndex:self.currentIndex
+                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+                         
+                         self.currentIndex = pageIndex;
+                         self.iv.image = image;
+                         [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = self.iv;
+                         [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
+                                                  
+                     } animated:YES];
+    
     
 }
 
--(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
-    if ([animator isKindOfClass:[AnimatorShowDetailForDismissMHGallery class]]) {
-        return self.interactive;
-    }else {
-        return nil;
-    }
-}
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
-    AnimatorShowDetailForDismissMHGallery *detail = [AnimatorShowDetailForDismissMHGallery new];
-    detail.iv = self.imageViewForPresentingMHGallery;
-    return detail;
-}
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
-                                                                  presentingController:(UIViewController *)presenting
-                                                                      sourceController:(UIViewController *)source {
-    AnimatorShowDetailForPresentingMHGallery *detail = [AnimatorShowDetailForPresentingMHGallery new];
-    detail.iv = self.imageViewForPresentingMHGallery;
-    return detail;
-}
 
 - (void)didReceiveMemoryWarning
 {

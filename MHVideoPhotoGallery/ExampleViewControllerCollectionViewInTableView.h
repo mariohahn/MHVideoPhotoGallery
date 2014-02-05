@@ -9,6 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "MHVideoImageGalleryGlobal.h"
 
+@interface UINavigationController (autoRotate)
+@end
+
+
+@interface UITabBarController (autoRotate)
+@end
+
 @interface TestCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) IBOutlet UIView *backView;

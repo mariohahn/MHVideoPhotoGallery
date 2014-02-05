@@ -207,6 +207,12 @@
             [recognizer setCancelsTouchesInView:YES];
         }
     }else if (recognizer.state == UIGestureRecognizerStateChanged) {
+        
+        if (recognizer.numberOfTouches <2) {
+            [recognizer setEnabled:NO];
+            [recognizer setEnabled:YES];
+        }
+        
         CGPoint point = [recognizer locationInView:self.view];
         self.interactivePushTransition.scale = recognizer.scale/8-self.startScale;
         self.interactivePushTransition.changedPoint = CGPointMake(self.lastPoint.x - point.x, self.lastPoint.y - point.y) ;

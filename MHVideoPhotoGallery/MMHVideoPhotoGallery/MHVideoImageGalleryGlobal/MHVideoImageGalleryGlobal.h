@@ -114,7 +114,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic,strong) NSSet *viewModes;
 @property (nonatomic,strong) NSArray *galleryItems;
 @property (nonatomic,assign) UIStatusBarStyle oldStatusBarStyle;
-@property (nonatomic,assign) BOOL isAnimatingWithCustomTransition;
+@property (nonatomic,assign) BOOL animateWithCustomTransition;
 
 @property (nonatomic,assign) MHYoutubeThumbQuality youtubeThumbQuality;
 @property (nonatomic,assign) MHVimeoThumbQuality vimeoThumbQuality;
@@ -125,10 +125,10 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic,assign) MHVimeoVideoQuality vimeoVideoQuality;
 @property (nonatomic,assign) MHYoutubeVideoQuality youtubeVideoQuality;
 
+@property (nonatomic,strong) AnimatorShowDetailForDismissMHGallery *interactiveMHGallery;
+@property (nonatomic,strong) UIImageView *ivForPresentingAndDismissingMHGallery;
 
 + (MHGallerySharedManager *)sharedManager;
-
-
 /**
  *  You can create a Thumbnail from a Video, you can create it from Videos from a Webserver, Youtube and Vimeo
  *
@@ -143,7 +143,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 
 /**
- *  Use this methode to present the MHGallery
+ *  DEPRECATED use presentMHGalleryWithItems:forIndex:finishCallback:animated:
  *
  *  @param galleryItems   An array of MHGalleryItems
  *  @param index          The start index
@@ -156,10 +156,9 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
         andCurrentViewController:(id)viewcontroller
                   finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex, AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image)
                                   )FinishBlock
-        withImageViewTransiation:(BOOL)animated;
+        withImageViewTransiation:(BOOL)animated __attribute__((deprecated));
 
 -(BOOL)isUIVCBasedStatusBarAppearance;
-
 
 /**
  *  To get the absolute URL for Vimeo Videos. To change the Quality check vimeoVideoQuality
@@ -184,3 +183,23 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
                    successBlock:(void (^)(UIImage *image,NSError *error))succeedBlock;
 
 @end
+
+@interface UIViewController(MHGalleryViewController)<UIViewControllerTransitioningDelegate>
+
+
+/**
+ *  Use this Methode to Present to MHGallery. If you want to animate it set the 'ivForPresentingAndDismissingMHGallery' from which you are presenting. In the FinishBlock you have to set ‘ivForPresentingAndDismissingMHGallery‘ again with the new ImageView.
+ *
+ *  @param galleryItems items you want to present
+ *  @param index        index from which you want to present
+ *  @param FinishBlock  returns the UINavigationController the currentPageIndex and the Image
+ *  @param animated     if you want the custom transition set it to Yes.
+ */
+-(void)presentMHGalleryWithItems:(NSArray*)galleryItems
+                        forIndex:(NSInteger)index
+                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
+                                  )FinishBlock
+                        animated:(BOOL)animated;
+
+@end
+

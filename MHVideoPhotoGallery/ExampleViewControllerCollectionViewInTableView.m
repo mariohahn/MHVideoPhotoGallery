@@ -9,13 +9,33 @@
 #import "ExampleViewControllerCollectionViewInTableView.h"
 #import "MHGalleryOverViewController.h"
 
+@implementation UITabBarController (autoRotate)
+- (BOOL)shouldAutorotate {
+    return [self.selectedViewController shouldAutorotate];
+}
+- (NSUInteger)supportedInterfaceOrientations {
+    return [self.selectedViewController supportedInterfaceOrientations];
+}
+@end
+
+
+@implementation UINavigationController (autoRotate)
+
+- (BOOL)shouldAutorotate {
+    return [self.viewControllers.lastObject shouldAutorotate];
+}
+- (NSUInteger)supportedInterfaceOrientations {
+    return [self.viewControllers.lastObject supportedInterfaceOrientations];
+}
+
+@end
+
+
 @implementation TestCell
 @end
 
 @interface ExampleViewControllerCollectionViewInTableView ()
 @property(nonatomic,strong) NSArray *galleryDataSource;
-@property(nonatomic,strong) UIImageView *imageViewForPresentingMHGallery;
-@property(nonatomic,strong) AnimatorShowDetailForDismissMHGallery *interactive;
 @end
 
 @implementation ExampleViewControllerCollectionViewInTableView
@@ -26,10 +46,6 @@
     
     
     self.title = @"CollectionInTable";
-    
-    
-    
-   
     
     MHGalleryItem *youtube = [[MHGalleryItem alloc]initWithURL:@"http://www.youtube.com/watch?v=YSdJtNen-EA"
                                                   galleryType:MHGalleryTypeVideo];
@@ -177,84 +193,48 @@
     return cell;
 }
 
--(void)dismissGalleryForIndexPath:(NSIndexPath*)indexPath
-                andCollectionView:(UICollectionView*)collectionView
-                    navController:(UINavigationController*)nav{
-    
-    CGRect cellFrame  = [[collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:indexPath].frame;
-    [collectionView scrollRectToVisible:cellFrame
-                               animated:NO];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [collectionView reloadItemsAtIndexPaths:@[indexPath]];
-        [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-        
-        MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
-        
-        self.imageViewForPresentingMHGallery = cell.iv;
-        if (self.interactive) {
-            self.interactive.iv = self.imageViewForPresentingMHGallery;
-        }
-        [nav dismissViewControllerAnimated:YES completion:^{
-            
-            MPMoviePlayerController *player = self.interactive.moviePlayer;
-            player.controlStyle = MPMovieControlStyleEmbedded;
-            player.view.frame = cell.bounds;
-            player.scalingMode = MPMovieScalingModeAspectFill;
-            [cell.contentView addSubview:player.view];            
-        }];
-    });
-    
-}
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    self.imageViewForPresentingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
+    [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
     
     NSArray *galleryData = self.galleryDataSource[collectionView.tag];
 
-    [[MHGallerySharedManager sharedManager] presentMHGalleryWithItems:galleryData
-                                                             forIndex:indexPath.row
-                                             andCurrentViewController:self
-                                                       finishCallback:^(UINavigationController *galleryNavMH,NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
-                                                           self.interactive = interactiveTransition;
-                                                           [self dismissGalleryForIndexPath:[NSIndexPath indexPathForRow:pageIndex inSection:0]
-                                                                          andCollectionView:collectionView
-                                                                              navController:galleryNavMH];
-                                                           
-                                                       }
-                                             withImageViewTransiation:YES];
+    
+    [self presentMHGalleryWithItems:galleryData
+                           forIndex:indexPath.row
+                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+                         
+                         NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:pageIndex inSection:0];
+                         CGRect cellFrame  = [[collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:newIndexPath].frame;
+                         [collectionView scrollRectToVisible:cellFrame
+                                                    animated:NO];
+                         
+                         dispatch_async(dispatch_get_main_queue(), ^{
+                             [collectionView reloadItemsAtIndexPaths:@[newIndexPath]];
+                             [collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+                             
+                             MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:newIndexPath];
+                             [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = cell.iv;
+                                                          
+                             [galleryNavMH dismissViewControllerAnimated:YES completion:^{
+                                 MPMoviePlayerController *player = [MHGallerySharedManager sharedManager].interactiveMHGallery.moviePlayer;
+                                 player.controlStyle = MPMovieControlStyleEmbedded;
+                                 player.view.frame = cell.bounds;
+                                 player.scalingMode = MPMovieScalingModeAspectFill;
+                                 [cell.contentView addSubview:player.view];            
+                             }];
+                         });
+                         
+                     } animated:YES];
 }
 
-//-(NSUInteger)supportedInterfaceOrientations{
-//    return UIInterfaceOrientationMaskPortrait;
-//}
-//
-//
-//-(BOOL)shouldAutorotate{
-//    return YES;
-//}
-
--(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
-    if ([animator isKindOfClass:[AnimatorShowDetailForDismissMHGallery class]]) {
-        return self.interactive;
-    }else {
-        return nil;
-    }
+-(NSUInteger)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
-    AnimatorShowDetailForDismissMHGallery *detail = [AnimatorShowDetailForDismissMHGallery new];
-    detail.iv = self.imageViewForPresentingMHGallery;
-    return detail;
-}
-
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
-                                                                  presentingController:(UIViewController *)presenting
-                                                                      sourceController:(UIViewController *)source {
-    AnimatorShowDetailForPresentingMHGallery *detail = [AnimatorShowDetailForPresentingMHGallery new];
-    detail.iv = self.imageViewForPresentingMHGallery;
-    return detail;
+-(BOOL)shouldAutorotate{
+    return YES;
 }
 
 

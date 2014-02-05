@@ -3,6 +3,7 @@
 #import "MHGalleryOverViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "SDWebImageDecoder.h"
+#import <objc/runtime.h>
 
 NSString * const MHYoutubePlayBaseURL = @"https://www.youtube.com/get_video_info?video_id=%@&el=embedded&ps=default&eurl=&gl=US&hl=%@";
 NSString * const MHYoutubeInfoBaseURL = @"http://gdata.youtube.com/feeds/api/videos/%@?v=2&alt=jsonc";
@@ -61,13 +62,7 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     return sharedManagerInstance;
 }
 
--(void)presentMHGalleryWithItems:(NSArray*)galleryItems
-                        forIndex:(NSInteger)index
-        andCurrentViewController:(id)viewcontroller
-                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image)
-                                  )FinishBlock
-        withImageViewTransiation:(BOOL)animated{
-    
+-(void)qualityForVideos{
     if (!self.youtubeThumbQuality) {
         self.youtubeThumbQuality = MHYoutubeThumbQualityHQ;
     }
@@ -86,16 +81,24 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     if (!self.webPointForThumb) {
         self.webPointForThumb = MHWebPointForThumbStart;
     }
+}
+
+-(void)presentMHGalleryWithItems:(NSArray*)galleryItems
+                        forIndex:(NSInteger)index
+        andCurrentViewController:(id)viewcontroller
+                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image)
+                                  )FinishBlock
+        withImageViewTransiation:(BOOL)animated{
+
     
-    
-    if(![MHGallerySharedManager sharedManager].viewModes){
-        [MHGallerySharedManager sharedManager].viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
+    if(!self.viewModes){
+        self.viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
                                                             MHGalleryViewModeShare, nil];
     }
-    [MHGallerySharedManager sharedManager].isAnimatingWithCustomTransition =animated;
+    self.animateWithCustomTransition =animated;
     self.oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
     
-    [[MHGallerySharedManager sharedManager] setGalleryItems:galleryItems];
+    self.galleryItems =galleryItems;
     
     MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
     [gallery viewDidLoad];
@@ -110,7 +113,7 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     };
     
     UINavigationController *nav = [UINavigationController new];
-    if (![[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeOverView] || galleryItems.count ==1) {
+    if (![self.viewModes containsObject:MHGalleryViewModeOverView] || galleryItems.count ==1) {
         nav.viewControllers = @[detail];
     }else{
         nav.viewControllers = @[gallery,detail];
@@ -121,7 +124,6 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     }
     [viewcontroller presentViewController:nav animated:YES completion:nil];
 }
-
 -(void)getImageFromAssetLibrary:(NSString*)urlString
                       assetType:(MHAssetImageType)type
                    successBlock:(void (^)(UIImage *image,NSError *error))succeedBlock{
@@ -154,6 +156,15 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                       }];
     });
 }
+
+
+-(void)setIvForPresentingAndDismissingMHGallery:(UIImageView *)ivForPresentingAndDismissingMHGallery{
+    if (self.interactiveMHGallery) {
+        self.interactiveMHGallery.iv = ivForPresentingAndDismissingMHGallery;
+    }
+    _ivForPresentingAndDismissingMHGallery = ivForPresentingAndDismissingMHGallery;
+}
+
 
 -(BOOL)isUIVCBasedStatusBarAppearance{
     NSNumber *isUIVCBasedStatusBarAppearance = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIViewControllerBasedStatusBarAppearance"];
@@ -536,5 +547,74 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 
 @end
 
+@implementation UIViewController(MHGalleryViewController)
+
+-(void)presentMHGalleryWithItems:(NSArray*)galleryItems
+                        forIndex:(NSInteger)index
+                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
+                                  )FinishBlock
+                        animated:(BOOL)animated{
+   
+    [[MHGallerySharedManager sharedManager] qualityForVideos];
+    if(![MHGallerySharedManager sharedManager].viewModes){
+        [MHGallerySharedManager sharedManager].viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
+                          MHGalleryViewModeShare, nil];
+    }
+    [MHGallerySharedManager sharedManager].animateWithCustomTransition =animated;
+    [MHGallerySharedManager sharedManager].oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
+    
+    [MHGallerySharedManager sharedManager].galleryItems =galleryItems;
+    
+    MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
+    [gallery viewDidLoad];
+    gallery.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
+        [MHGallerySharedManager sharedManager].interactiveMHGallery = interactiveTransition;
+        FinishBlock(galleryNavMH,photoIndex,image);
+    };
+    
+    MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
+    detail.pageIndex = index;
+    detail.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
+        [MHGallerySharedManager sharedManager].interactiveMHGallery = interactiveTransition;
+        FinishBlock(galleryNavMH,photoIndex,image);
+    };
+    
+    UINavigationController *nav = [UINavigationController new];
+    if (![[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeOverView] || galleryItems.count ==1) {
+        nav.viewControllers = @[detail];
+    }else{
+        nav.viewControllers = @[gallery,detail];
+    }
+    if (animated) {
+        nav.transitioningDelegate = self;
+        nav.modalPresentationStyle = UIModalPresentationFullScreen;
+    }
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
+
+-(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
+    if ([animator isKindOfClass:[AnimatorShowDetailForDismissMHGallery class]]) {
+        return [MHGallerySharedManager sharedManager].interactiveMHGallery;
+    }else {
+        return nil;
+    }
+}
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
+    AnimatorShowDetailForDismissMHGallery *detail = [AnimatorShowDetailForDismissMHGallery new];
+    detail.iv = [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery;
+    return detail;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source {
+    AnimatorShowDetailForPresentingMHGallery *detail = [AnimatorShowDetailForPresentingMHGallery new];
+    detail.iv = [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery;
+    return detail;
+}
+
+@end
 
 

@@ -34,6 +34,8 @@
 @implementation MHShareViewController
 
 -(void)initShareObjects{
+    
+    
     self.saveObject = [[MHShareItem alloc]initWithImageName:@"activtyMH"
                                                       title:@"In \"Aufnahmen\" sichern"
                                        withMaxNumberOfItems:MAXFLOAT
