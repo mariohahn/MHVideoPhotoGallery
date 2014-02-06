@@ -1,68 +1,60 @@
 MHVideoPhotoGallery
 ==================
 
+#### Podfile
 
-OverView 
---------------------
+```ruby
+platform :ios, '7.0'
+pod 'MHVideoPhotoGallery', '~> 1.2'
+```
 
+####OverView 
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/OverView.gif)
 
 
-OverView interactive (dismiss & present)
---------------------
-
+####OverView interactive (dismiss & present)
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/interactive.gif)
 
-Dismiss Video
---------------------
-
+####Dismiss Video
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissvideoMH.gif)
 
-Dismiss Image
---------------------
-
+####Dismiss Image
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissMH.gif)
 
-Share
---------------------
-
+####Share
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/ShareView.gif)
 
-Play Videos
---------------------
-
+####Play Videos
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/video.gif)
 
+####How to use
 
+```objective-c
+ /*MHGallery needs the ImageView from which you want to present the Gallery*/
 
-
-How to use
---------------------
-
-//MHGallery needs the ImageView from which you want to present the Gallery
-
- [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[tableView cellForRowAtIndexPath:indexPath] iv];
+[MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[tableView cellForRowAtIndexPath:indexPath] iv];
         
- NSArray *galleryData = self.galleryDataSource;
+NSArray *galleryData = self.galleryDataSource;
     
-    
- [self presentMHGalleryWithItems:galleryData
-                        forIndex:indexPath.row
-                  finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+[self presentMHGalleryWithItems:galleryData
+                       forIndex:indexPath.row
+                 finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+	
+			/*set the new ImageView for Dismiss MHGallery*/
 
-			     //set the new ImageView for Dismiss MHGallery 
-
-                             [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = iv;
+                       [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = iv;
                              
-                             [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
-                         });
+                       [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
+                	  });
                          
-                     } animated:YES];
+                   } animated:YES];
+```
 
+	
 
