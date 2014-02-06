@@ -27,6 +27,7 @@
 		F53F926517EB008100A9FE6A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924717EB008100A9FE6A /* UIKit.framework */; };
 		F53F926D17EB008100A9FE6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F53F926B17EB008100A9FE6A /* InfoPlist.strings */; };
 		F53F926F17EB008100A9FE6A /* MHVideoPhotoGalleryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F53F926E17EB008100A9FE6A /* MHVideoPhotoGalleryTests.m */; };
+		F54337CE18A3FA9100CA1DAB /* UIImageView+MHGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = F54337CD18A3FA9100CA1DAB /* UIImageView+MHGallery.m */; };
 		F5506EDD187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = F5506EDC187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m */; };
 		F553D2FC1892B58800BA4283 /* activityMH.png in Resources */ = {isa = PBXBuildFile; fileRef = F553D2DB1892B58800BA4283 /* activityMH.png */; };
 		F553D2FD1892B58800BA4283 /* activtyMH@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F553D2DC1892B58800BA4283 /* activtyMH@2x.png */; };
@@ -122,6 +123,8 @@
 		F53F926A17EB008100A9FE6A /* MHVideoPhotoGalleryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MHVideoPhotoGalleryTests-Info.plist"; sourceTree = "<group>"; };
 		F53F926C17EB008100A9FE6A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F53F926E17EB008100A9FE6A /* MHVideoPhotoGalleryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MHVideoPhotoGalleryTests.m; sourceTree = "<group>"; };
+		F54337CC18A3FA9100CA1DAB /* UIImageView+MHGallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+MHGallery.h"; path = "MMHVideoPhotoGallery/UIImageView+MHGallery/UIImageView+MHGallery.h"; sourceTree = "<group>"; };
+		F54337CD18A3FA9100CA1DAB /* UIImageView+MHGallery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+MHGallery.m"; path = "MMHVideoPhotoGallery/UIImageView+MHGallery/UIImageView+MHGallery.m"; sourceTree = "<group>"; };
 		F5506EDB187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatorShowDetailForDismissMHGallery.h; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetailForDismissMHGallery.h; sourceTree = "<group>"; };
 		F5506EDC187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimatorShowDetailForDismissMHGallery.m; path = MMHVideoPhotoGallery/Animators/AnimatorShowDetailForDismissMHGallery.m; sourceTree = "<group>"; };
 		F553D2DB1892B58800BA4283 /* activityMH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = activityMH.png; path = MMHVideoPhotoGallery/Images/activityMH.png; sourceTree = "<group>"; };
@@ -273,6 +276,7 @@
 				F5DBBF14187D568100BEFE29 /* MHGalleryCells */,
 				F5415D8A186DB65600BB8B52 /* Animators */,
 				F5B2EC7E17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.h */,
+				F54337CB18A3FA5700CA1DAB /* UIImageView+MHGallery */,
 				F5B2EC7F17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m */,
 				F5D24FFB1885CDDD004D97CA /* ExampleViewControllerTableView.h */,
 				F5D24FFC1885CDDD004D97CA /* ExampleViewControllerTableView.m */,
@@ -340,6 +344,15 @@
 				F5506EDC187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m */,
 			);
 			name = Animators;
+			sourceTree = "<group>";
+		};
+		F54337CB18A3FA5700CA1DAB /* UIImageView+MHGallery */ = {
+			isa = PBXGroup;
+			children = (
+				F54337CC18A3FA9100CA1DAB /* UIImageView+MHGallery.h */,
+				F54337CD18A3FA9100CA1DAB /* UIImageView+MHGallery.m */,
+			);
+			name = "UIImageView+MHGallery";
 			sourceTree = "<group>";
 		};
 		F553D2DA1892B57E00BA4283 /* Images */ = {
@@ -633,6 +646,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5DBBF28187D57DD00BEFE29 /* MHGalleryOverViewController.m in Sources */,
+				F54337CE18A3FA9100CA1DAB /* UIImageView+MHGallery.m in Sources */,
 				F5D250001885D3D7004D97CA /* ExampleViewControllerImageView.m in Sources */,
 				F5DBBF34187D5B8600BEFE29 /* UIImage+ImageEffects.m in Sources */,
 				F5D24FFD1885CDDD004D97CA /* ExampleViewControllerTableView.m in Sources */,

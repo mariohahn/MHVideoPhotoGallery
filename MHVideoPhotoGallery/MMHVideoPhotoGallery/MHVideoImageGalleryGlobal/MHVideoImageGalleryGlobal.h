@@ -6,7 +6,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SDImageCache.h"
 #import "UIImageView+WebCache.h"
-
+#import "UIImageView+MHGallery.h"
 #import "AnimatorShowDetailForDismissMHGallery.h"
 #import "AnimatorShowDetailForPresentingMHGallery.h"
 
