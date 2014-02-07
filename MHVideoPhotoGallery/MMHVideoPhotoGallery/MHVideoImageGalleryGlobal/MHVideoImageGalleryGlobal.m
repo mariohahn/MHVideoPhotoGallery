@@ -5,6 +5,7 @@
 #import "SDWebImageDecoder.h"
 #import <objc/runtime.h>
 
+NSString * const MHYoutubeChannel = @"https://gdata.youtube.com/feeds/api/users/%@/uploads?&max-results=50&alt=json";
 NSString * const MHYoutubePlayBaseURL = @"https://www.youtube.com/get_video_info?video_id=%@&el=embedded&ps=default&eurl=&gl=US&hl=%@";
 NSString * const MHYoutubeInfoBaseURL = @"http://gdata.youtube.com/feeds/api/videos/%@?v=2&alt=jsonc";
 NSString * const MHVimeoThumbBaseURL = @"http://vimeo.com/api/v2/video/%@.json";
@@ -89,11 +90,11 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                   finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image)
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated{
-
+    
     
     if(!self.viewModes){
         self.viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
-                                                            MHGalleryViewModeShare, nil];
+                          MHGalleryViewModeShare, nil];
     }
     self.animateWithCustomTransition =animated;
     self.oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
@@ -504,7 +505,6 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 
 -(void)startDownloadingThumbImage:(NSString*)urlString
                      successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL))succeedBlock{
-    
     if ([urlString rangeOfString:@"vimeo.com"].location != NSNotFound) {
         [self getVimdeoThumbImage:urlString
                      successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
@@ -525,6 +525,43 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     }
 }
 
+
+-(void)getMHGalleryObjectsForYoutubeChannel:(NSString*)channelName
+                                  withTitle:(BOOL)withTitle
+                               successBlock:(void (^)(NSArray *MHGalleryObjects,NSError *error))succeedBlock{
+    NSMutableURLRequest *httpRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:MHYoutubeChannel,channelName]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+    [NSURLConnection sendAsynchronousRequest:httpRequest queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (connectionError) {
+            succeedBlock(nil,connectionError);
+            
+        }else{
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                
+                NSError *error = nil;
+                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data
+                                                                     options: NSJSONReadingMutableContainers
+                                                                       error: &error];
+                if (!error) {
+                    NSMutableArray *galleryData = [NSMutableArray new];
+                    for (NSDictionary *dictionary in dict[@"feed"][@"entry"]) {
+                        NSString *string = [dictionary[@"link"] firstObject][@"href"];
+                        
+                        string = [string stringByReplacingOccurrencesOfString:@"&feature=youtube_gdata" withString:@""];
+                        MHGalleryItem *item = [[MHGalleryItem alloc]initWithURL:string galleryType:MHGalleryTypeVideo];
+                        if (withTitle) {
+                            item.description = dictionary[@"title"][@"$t"];
+                        }
+                        [galleryData addObject:item];
+                    }
+                    succeedBlock(galleryData,nil);
+                }else{
+                    succeedBlock(nil,error);
+                }
+            });
+        }
+    }];
+    
+}
 
 - (UIImage *)imageByRenderingView:(id)view{
     CGFloat scale = 1.0;
@@ -554,11 +591,11 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                   finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
                                   )FinishBlock
                         animated:(BOOL)animated{
-   
+    
     [[MHGallerySharedManager sharedManager] qualityForVideos];
     if(![MHGallerySharedManager sharedManager].viewModes){
         [MHGallerySharedManager sharedManager].viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
-                          MHGalleryViewModeShare, nil];
+                                                            MHGalleryViewModeShare, nil];
     }
     [MHGallerySharedManager sharedManager].animateWithCustomTransition =animated;
     [MHGallerySharedManager sharedManager].oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;

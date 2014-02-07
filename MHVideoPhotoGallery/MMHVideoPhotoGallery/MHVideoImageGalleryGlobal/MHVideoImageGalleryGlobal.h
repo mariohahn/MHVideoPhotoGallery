@@ -14,7 +14,7 @@
 
 @class AnimatorShowDetailForDismissMHGallery;
 
-
+extern NSString *const MHYoutubeChannel;
 extern NSString *const MHGalleryViewModeOverView;
 extern NSString *const MHGalleryViewModeShare;
 extern NSString *const MHVimeoBaseURL;
@@ -116,6 +116,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic,assign) UIStatusBarStyle oldStatusBarStyle;
 @property (nonatomic,assign) BOOL animateWithCustomTransition;
 
+@property (nonatomic,assign) BOOL shouldSetTextForYoutubeAndVimeoLinks;
 @property (nonatomic,assign) MHYoutubeThumbQuality youtubeThumbQuality;
 @property (nonatomic,assign) MHVimeoThumbQuality vimeoThumbQuality;
 @property (nonatomic,assign) MHWebThumbQuality webThumbQuality;
@@ -169,6 +170,8 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 -(void)getVimeoURLforMediaPlayer:(NSString*)URL
                     successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock;
 
+
+
 /**
  *  To get the absolute URL for Youtube Videos. To change the Quality check youtubeVideoQuality
  *
@@ -181,6 +184,17 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 -(void)getImageFromAssetLibrary:(NSString*)urlString
                       assetType:(MHAssetImageType)type
                    successBlock:(void (^)(UIImage *image,NSError *error))succeedBlock;
+
+/**
+ *  Returns all MHGalleryObjects for a Youtube channel
+ *
+ *  @param channelName  set the name of the channel
+ *  @param withTitle    if you want the title of the video set it to YES
+ *  @param succeedBlock returns the Gallery items
+ */
+-(void)getMHGalleryObjectsForYoutubeChannel:(NSString*)channelName
+                                  withTitle:(BOOL)withTitle
+                               successBlock:(void (^)(NSArray *MHGalleryObjects,NSError *error))succeedBlock;
 
 @end
 
