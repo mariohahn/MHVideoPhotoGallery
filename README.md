@@ -7,31 +7,35 @@ MHVideoPhotoGallery
 platform :ios, '7.0'
 pod 'MHVideoPhotoGallery', '~> 1.2'
 ```
+####Supported Videos
+
+-Youtube
+-Vimeo
+-Weblinks (.mov, .mp4, .mpv)
 
 ####OverView 
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/OverView.gif)
 
+####Dismiss Video (Like Paper App)
+
+![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissInteractiveVideo.gif)
+
+####Dismiss Image (Like Paper App)
+
+![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissInteractive.gif)
 
 ####OverView interactive (dismiss & present)
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/interactive.gif)
 
-####Dismiss Video
-
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissvideoMH.gif)
-
-####Dismiss Image
-
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissMH.gif)
-
 ####Share
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/ShareView.gif)
 
-####Play Videos
+####Dismiss at the end or start on ScrollDirection (Like Paper App)
 
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/video.gif)
+![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissAtTheEnd.gif)
 
 ####How to use
 

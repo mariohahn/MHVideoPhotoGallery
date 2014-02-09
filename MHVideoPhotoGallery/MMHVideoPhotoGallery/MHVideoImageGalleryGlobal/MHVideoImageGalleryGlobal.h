@@ -109,7 +109,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 
 @interface MHGallerySharedManager : NSObject
-
 /**
  *  By default the gallery will dismiss itself by scrolling to left at the pageIndex of 0 or scrolling right at the last pageindex here you can disbale it.
  */
