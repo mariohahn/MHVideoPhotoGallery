@@ -903,9 +903,7 @@
     if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]) {
         return YES;
     }
-    NSLog(@"%@",gestureRecognizer);
-    NSLog(@"%@",otherGestureRecognizer);
-    
+
     if (![MHGallerySharedManager sharedManager].disableToDismissGalleryWithScrollGestureOnStartOrEndPoint) {
         if ((self.pageIndex ==0 || self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
             return YES;
