@@ -657,6 +657,7 @@
             [self.scrollView setAlwaysBounceHorizontal:NO];
             [self.scrollView setAlwaysBounceVertical:NO];
             
+            [self.pan setMaximumNumberOfTouches:1];
             [self.pan setDelaysTouchesBegan:YES];
             
         }
@@ -837,7 +838,6 @@
     }
     if (![MHGallerySharedManager sharedManager].disableToDismissGalleryWithScrollGestureOnStartOrEndPoint) {
         if ((self.pageIndex ==0 || self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count -1)) {
-            
             if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]|| [otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewDelayedTouchesBeganGestureRecognizer")] ) {
                 return YES;
             }
@@ -848,14 +848,14 @@
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     
     if (self.interactiveOverView) {
-        if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]&& gestureRecognizer.numberOfTouches ==2 ) {
+        if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]) {
             return YES;
         }else{
             return NO;
         }
     }else{
         if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]) {
-            if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]] && self.scrollView.zoomScale ==1 && gestureRecognizer.numberOfTouches ==2) {
+            if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]] && self.scrollView.zoomScale ==1) {
                 return YES;
             }else{
                 return NO;
@@ -879,6 +879,7 @@
     }
     if (![MHGallerySharedManager sharedManager].disableToDismissGalleryWithScrollGestureOnStartOrEndPoint) {
         if ((self.pageIndex ==0 || self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+            
             return YES;
         }
     }
@@ -899,9 +900,12 @@
     if ([otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewDelayedTouchesBeganGestureRecognizer")]|| [otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewPanGestureRecognizer")] ) {
         return YES;
     }
-    if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]] && gestureRecognizer.numberOfTouches ==2) {
+    if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]) {
         return YES;
     }
+    NSLog(@"%@",gestureRecognizer);
+    NSLog(@"%@",otherGestureRecognizer);
+    
     if (![MHGallerySharedManager sharedManager].disableToDismissGalleryWithScrollGestureOnStartOrEndPoint) {
         if ((self.pageIndex ==0 || self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
             return YES;
