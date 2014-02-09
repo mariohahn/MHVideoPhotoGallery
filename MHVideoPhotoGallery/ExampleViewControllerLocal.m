@@ -57,9 +57,6 @@
             [self.allData addObject:section];
         }
         if (!group) {
-            
-            NSLog(@"%@",self.allData);
-            
             [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
         }
         

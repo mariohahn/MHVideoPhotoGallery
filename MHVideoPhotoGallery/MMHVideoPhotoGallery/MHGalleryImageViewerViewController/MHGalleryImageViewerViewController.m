@@ -507,10 +507,40 @@
 }
 
 -(void)userDidPan:(UIPanGestureRecognizer*)recognizer{
+    BOOL userScrolls = self.vc.userScrolls;
     
-    if (!self.vc.userScrolls || recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
-        CGFloat progress = (self.startPoint.y - [(UIPanGestureRecognizer*)recognizer translationInView:self.view].y)/220;
-        progress = [self checkProgressValue:progress];
+    if (![MHGallerySharedManager sharedManager].disableToDismissGalleryWithScrollGestureOnStartOrEndPoint) {
+        if (!self.interactiveTransition) {
+            if (self.pageIndex ==0) {
+                if ([(UIPanGestureRecognizer*)recognizer translationInView:self.view].x >=0) {
+                    userScrolls =NO;
+                    self.vc.userScrolls = NO;
+                }else{
+                    [recognizer setCancelsTouchesInView:YES];
+                    [recognizer setEnabled:NO];
+                    [recognizer setEnabled:YES];
+                }
+            }
+            if ((self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count-1)) {
+                if ([(UIPanGestureRecognizer*)recognizer translationInView:self.view].x <=0) {
+                    userScrolls =NO;
+                }else{
+                    [recognizer setCancelsTouchesInView:YES];
+                    [recognizer setEnabled:NO];
+                    [recognizer setEnabled:YES];
+                    
+                }
+            }
+        }else{
+            userScrolls = NO;
+        }
+    }
+    
+    if (!userScrolls || recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
+        CGFloat progressY = (self.startPoint.y - [(UIPanGestureRecognizer*)recognizer translationInView:self.view].y)/(self.view.frame.size.height/2);
+        progressY = [self checkProgressValue:progressY];
+        CGFloat progressX = (self.startPoint.x - [(UIPanGestureRecognizer*)recognizer translationInView:self.view].x)/(self.view.frame.size.width/2);
+        progressX = [self checkProgressValue:progressX];
         
         if (recognizer.state == UIGestureRecognizerStateBegan) {
             self.startPoint = [(UIPanGestureRecognizer*)recognizer translationInView:self.view];
@@ -529,9 +559,23 @@
                     self.vc.finishedCallback(self.navigationController,self.pageIndex,self.interactiveTransition,self.imageView.image);
                 }
             }else{
-                self.interactiveTransition.changedPoint = self.lastPoint.y - [(UIPanGestureRecognizer*)recognizer translationInView:self.view].y;
-                progress = [self checkProgressValue:progress];
-                [self.interactiveTransition updateInteractiveTransition:progress];
+                CGPoint currentPoint = [(UIPanGestureRecognizer*)recognizer translationInView:self.view];
+                
+                if ([MHGallerySharedManager sharedManager].shouldFixXValueForDismissMHGallery) {
+                    self.interactiveTransition.changedPoint = CGPointMake(self.startPoint.x, self.lastPoint.y-currentPoint.y);
+                }else{
+                    self.interactiveTransition.changedPoint = CGPointMake(self.lastPoint.x-currentPoint.x, self.lastPoint.y-currentPoint.y);
+                }
+                progressY = [self checkProgressValue:progressY];
+                progressX = [self checkProgressValue:progressX];
+                
+                if (![MHGallerySharedManager sharedManager].shouldFixXValueForDismissMHGallery) {
+                    if (progressX> progressY) {
+                        progressY = progressX;
+                    }
+                }
+                
+                [self.interactiveTransition updateInteractiveTransition:progressY];
                 self.lastPoint = [(UIPanGestureRecognizer*)recognizer translationInView:self.view];
             }
             
@@ -541,7 +585,13 @@
                 if (velocityY <0) {
                     velocityY = -velocityY;
                 }
-                if (progress > 0.35 || velocityY >700) {
+                if (![MHGallerySharedManager sharedManager].shouldFixXValueForDismissMHGallery) {
+                    if (progressX> progressY) {
+                        progressY = progressX;
+                    }
+                }
+                
+                if (progressY > 0.35 || velocityY >700) {
                     [[self statusBarObject] setAlpha:1];
                     [self.interactiveTransition finishInteractiveTransition];
                 }else {
@@ -773,7 +823,6 @@
     [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
 }
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
-    
     if (self.interactiveOverView) {
         if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]) {
             return YES;
@@ -786,19 +835,27 @@
         }
         return NO;
     }
+    if (![MHGallerySharedManager sharedManager].disableToDismissGalleryWithScrollGestureOnStartOrEndPoint) {
+        if ((self.pageIndex ==0 || self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count -1)) {
+            
+            if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]|| [otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewDelayedTouchesBeganGestureRecognizer")] ) {
+                return YES;
+            }
+        }
+    }
     return NO;
 }
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     
     if (self.interactiveOverView) {
-        if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]] ) {
+        if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]&& gestureRecognizer.numberOfTouches ==2 ) {
             return YES;
         }else{
             return NO;
         }
     }else{
         if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]) {
-            if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]] && self.scrollView.zoomScale ==1) {
+            if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]] && self.scrollView.zoomScale ==1 && gestureRecognizer.numberOfTouches ==2) {
                 return YES;
             }else{
                 return NO;
@@ -820,11 +877,19 @@
         }
         return NO;
     }
+    if (![MHGallerySharedManager sharedManager].disableToDismissGalleryWithScrollGestureOnStartOrEndPoint) {
+        if ((self.pageIndex ==0 || self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+            return YES;
+        }
+    }
+    
     return YES;
 }
 
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    
+    
     if (self.interactiveOverView) {
         return NO;
     }
@@ -834,9 +899,16 @@
     if ([otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewDelayedTouchesBeganGestureRecognizer")]|| [otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewPanGestureRecognizer")] ) {
         return YES;
     }
-    if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]) {
+    if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]] && gestureRecognizer.numberOfTouches ==2) {
         return YES;
     }
+    if (![MHGallerySharedManager sharedManager].disableToDismissGalleryWithScrollGestureOnStartOrEndPoint) {
+        if ((self.pageIndex ==0 || self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+            return YES;
+        }
+    }
+    
+    
     return NO;
 }
 

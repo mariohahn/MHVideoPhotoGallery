@@ -175,7 +175,6 @@
         if (self.toTransform == self.orientationTransformBeforeDismiss) {
             [self.containerView addSubview:snapShot];
         }
-        NSLog(@"%@",self.iv);
         dispatch_async(dispatch_get_main_queue(), ^{
             self.iv.hidden = YES;
             [snapShot removeFromSuperview];
@@ -209,22 +208,22 @@
     if (self.moviePlayer) {
         if (self.toTransform != self.orientationTransformBeforeDismiss) {
             if (self.orientationTransformBeforeDismiss <0) {
-                self.moviePlayer.view.center = CGPointMake(self.moviePlayer.view.center.x-self.changedPoint, self.moviePlayer.view.center.y);
+                self.moviePlayer.view.center = CGPointMake(self.moviePlayer.view.center.x-self.changedPoint.y, self.moviePlayer.view.center.y+self.changedPoint.x);
             }else{
-                self.moviePlayer.view.center = CGPointMake(self.moviePlayer.view.center.x+self.changedPoint, self.moviePlayer.view.center.y);
+                self.moviePlayer.view.center = CGPointMake(self.moviePlayer.view.center.x+self.changedPoint.y, self.moviePlayer.view.center.y-self.changedPoint.x);
             }
         }else{
-            self.moviePlayer.view.frame = CGRectMake(self.startFrame.origin.x, self.moviePlayer.view.frame.origin.y-self.changedPoint, self.moviePlayer.view.frame.size.width, self.moviePlayer.view.frame.size.height);
+            self.moviePlayer.view.frame = CGRectMake(self.moviePlayer.view.frame.origin.x-self.changedPoint.x, self.moviePlayer.view.frame.origin.y-self.changedPoint.y, self.moviePlayer.view.frame.size.width, self.moviePlayer.view.frame.size.height);
         }
     }else{
         if (self.toTransform != self.orientationTransformBeforeDismiss) {
             if (self.orientationTransformBeforeDismiss <0) {
-                self.cellImageSnapshot.center = CGPointMake(self.cellImageSnapshot.center.x-self.changedPoint, self.cellImageSnapshot.center.y);
+                self.cellImageSnapshot.center = CGPointMake(self.cellImageSnapshot.center.x-self.changedPoint.y, self.cellImageSnapshot.center.y+self.changedPoint.x);
             }else{
-                self.cellImageSnapshot.center = CGPointMake(self.cellImageSnapshot.center.x+self.changedPoint, self.cellImageSnapshot.center.y);
+                self.cellImageSnapshot.center = CGPointMake(self.cellImageSnapshot.center.x+self.changedPoint.y, self.cellImageSnapshot.center.y-self.changedPoint.x);
             }
         }else{
-            self.cellImageSnapshot.frame = CGRectMake(self.startFrame.origin.x, self.cellImageSnapshot.frame.origin.y-self.changedPoint, self.cellImageSnapshot.frame.size.width, self.cellImageSnapshot.frame.size.height);
+            self.cellImageSnapshot.frame = CGRectMake(self.cellImageSnapshot.frame.origin.x-self.changedPoint.x, self.cellImageSnapshot.frame.origin.y-self.changedPoint.y, self.cellImageSnapshot.frame.size.width, self.cellImageSnapshot.frame.size.height);
         }
     }
 }

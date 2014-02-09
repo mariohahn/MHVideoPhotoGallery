@@ -400,9 +400,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     self.shareDataSource = [NSMutableArray new];
     
     
-    for (NSArray *array in self.shareDataSourceStart) {
-        NSLog(@"%@",array);
-        
+    for (NSArray *array in self.shareDataSourceStart) {        
         NSMutableArray *newObjects  = [NSMutableArray new];
         
         for (MHShareItem *item in array) {

@@ -110,20 +110,49 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 @interface MHGallerySharedManager : NSObject
 
+/**
+ *  By default the gallery will dismiss itself by scrolling to left at the pageIndex of 0 or scrolling right at the last pageindex here you can disbale it.
+ */
+@property (nonatomic)       BOOL disableToDismissGalleryWithScrollGestureOnStartOrEndPoint;
+
+/**
+ *  By default the X Value is considered by dismissing the Gallery. You can disable it here.
+ */
+@property (nonatomic)       BOOL shouldFixXValueForDismissMHGallery;
+/**
+ *  sets the TintColor for the NavigationBar and the ToolBar
+ */
 @property (nonatomic,strong) UIColor *barColor;
+/**
+ *  you can set MHGalleryViewModeOverView and MHGalleryViewModeShare
+ */
 @property (nonatomic,strong) NSSet *viewModes;
 @property (nonatomic,strong) NSArray *galleryItems;
 @property (nonatomic,assign) UIStatusBarStyle oldStatusBarStyle;
 @property (nonatomic,assign) BOOL animateWithCustomTransition;
-
-@property (nonatomic,assign) BOOL shouldSetTextForYoutubeAndVimeoLinks;
+/**
+ *  default is MHYoutubeThumbQualityHQ
+ */
 @property (nonatomic,assign) MHYoutubeThumbQuality youtubeThumbQuality;
+/**
+ *  Default is MHVimeoThumbQualityLarge
+ */
 @property (nonatomic,assign) MHVimeoThumbQuality vimeoThumbQuality;
+/**
+ *  default is MHWebThumbQualityHD720
+ */
 @property (nonatomic,assign) MHWebThumbQuality webThumbQuality;
+/**
+ *  default is MHWebPointForThumbStart
+ */
 @property (nonatomic,assign) MHWebPointForThumb webPointForThumb;
-
-
+/**
+ *  default is MHVimeoVideoQualityHD
+ */
 @property (nonatomic,assign) MHVimeoVideoQuality vimeoVideoQuality;
+/**
+ *  default is MHYoutubeVideoQualityHD720
+ */
 @property (nonatomic,assign) MHYoutubeVideoQuality youtubeVideoQuality;
 
 @property (nonatomic,strong) AnimatorShowDetailForDismissMHGallery *interactiveMHGallery;
@@ -199,8 +228,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @end
 
 @interface UIViewController(MHGalleryViewController)<UIViewControllerTransitioningDelegate>
-
-
 /**
  *  Use this Methode to Present to MHGallery. If you want to animate it set the 'ivForPresentingAndDismissingMHGallery' from which you are presenting. In the FinishBlock you have to set ‘ivForPresentingAndDismissingMHGallery‘ again with the new ImageView.
  *

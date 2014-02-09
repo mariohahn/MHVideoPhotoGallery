@@ -48,24 +48,24 @@
     self.title = @"CollectionInTable";
     
     MHGalleryItem *youtube = [[MHGalleryItem alloc]initWithURL:@"http://www.youtube.com/watch?v=YSdJtNen-EA"
-                                                  galleryType:MHGalleryTypeVideo];
+                                                   galleryType:MHGalleryTypeVideo];
     
     MHGalleryItem *vimeo0 = [[MHGalleryItem alloc]initWithURL:@"http://vimeo.com/35515926"
-                                                   galleryType:MHGalleryTypeVideo];
+                                                  galleryType:MHGalleryTypeVideo];
     MHGalleryItem *vimeo1 = [[MHGalleryItem alloc]initWithURL:@"http://vimeo.com/50006726"
                                                   galleryType:MHGalleryTypeVideo];
     MHGalleryItem *vimeo3 = [[MHGalleryItem alloc]initWithURL:@"http://vimeo.com/66841007"
                                                   galleryType:MHGalleryTypeVideo];
-   
+    
     
     MHGalleryItem *keynote = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/media/de/mac-pro/2013/16C1b6b5-1d91-4fef-891e-ff2fc1c1bb58/tour/assembly/macpro-assembly-de-20131022_r848-9dwc.mov?width=848&height=480&expectingMovieJson=true"
-                                                 galleryType:MHGalleryTypeVideo];
+                                                   galleryType:MHGalleryTypeVideo];
     
     MHGalleryItem *item0 = [[MHGalleryItem alloc]initWithURL:@"https://dl.dropboxusercontent.com/u/17911939/UIViewios7.png"
                                                  galleryType:MHGalleryTypeImage];
     
     MHGalleryItem *item1 = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/ipad-air/built-in-apps/images/reminders_screen_2x.jpg"
-                                                                              galleryType:MHGalleryTypeImage];
+                                                 galleryType:MHGalleryTypeImage];
     MHGalleryItem *item2 = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/ipad-air/built-in-apps/images/videos_screen_2x.jpg"
                                                  galleryType:MHGalleryTypeImage];
     MHGalleryItem *item3 = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/ipad-air/built-in-apps/images/keynote_screen_2x.jpg"
@@ -95,7 +95,7 @@
                                                   galleryType:MHGalleryTypeImage];
     
     MHGalleryItem *item15 = [[MHGalleryItem alloc]initWithURL:@"http://mcms.tailored-apps.com/videos/42/1389279847huhe_Thema.mp4"
-                                                 galleryType:MHGalleryTypeVideo];
+                                                  galleryType:MHGalleryTypeVideo];
     
     MHGalleryItem *item16 = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/media/us/iphone-5c/2013/10ba527a-1a10-3f70-aae814f8/feature/iphone5c-feature-cc-us-20131003_r848-9dwc.mov?width=848&height=480"
                                                   galleryType:MHGalleryTypeVideo];
@@ -107,10 +107,10 @@
                                                   galleryType:MHGalleryTypeVideo];
     
     
-
+    
     MHGalleryItem *errorImage = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/ipad-air/bui"
-                                                 galleryType:MHGalleryTypeImage];
-
+                                                      galleryType:MHGalleryTypeImage];
+    
     item0.description = @"MHValidation Screenshot";
     item1.description = @"App Store App Screenshot from iOS7";
     item2.description = @"Calendar App Screenshot from iOS7";
@@ -120,7 +120,7 @@
     item6.description = @"Gamecenter App Screenshot from iOS7";
     
     
-    self.galleryDataSource = @[
+    self.galleryDataSource = @[@[item0,item1,item2,item3,item4,item5,item6,item7,item8,item9],
                                @[vimeo3,youtube,vimeo0,vimeo1,keynote,item18,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage],
                                @[keynote,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage]
                                ];
@@ -148,7 +148,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cellIdentifier = nil;
     cellIdentifier = @"TestCell";
-
+    
     TestCell *cell = (TestCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (!cell){
@@ -161,7 +161,7 @@
     cell.backView.layer.shadowOpacity = 0.5;
     cell.backView.layer.shadowPath = [UIBezierPath bezierPathWithRect:cell.backView.bounds].CGPath;
     cell.backView.layer.cornerRadius = 2.0;
-
+    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.sectionInset = UIEdgeInsetsMake(0, 25, 0, 25);
     layout.itemSize = CGSizeMake(270, 225);
@@ -199,7 +199,7 @@
     [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
     
     NSArray *galleryData = self.galleryDataSource[collectionView.tag];
-
+    
     
     [self presentMHGalleryWithItems:galleryData
                            forIndex:indexPath.row
@@ -216,13 +216,13 @@
                              
                              MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:newIndexPath];
                              [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = cell.iv;
-                                                          
+                             
                              [galleryNavMH dismissViewControllerAnimated:YES completion:^{
                                  MPMoviePlayerController *player = [MHGallerySharedManager sharedManager].interactiveMHGallery.moviePlayer;
                                  player.controlStyle = MPMovieControlStyleEmbedded;
                                  player.view.frame = cell.bounds;
                                  player.scalingMode = MPMovieScalingModeAspectFill;
-                                 [cell.contentView addSubview:player.view];            
+                                 [cell.contentView addSubview:player.view];
                              }];
                          });
                          
@@ -241,14 +241,14 @@
 -(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     MHGalleryItem *item = self.galleryDataSource[indexPath.section][indexPath.row];
     [cell.iv setContentMode:UIViewContentModeScaleAspectFill];
-
+    
     cell.iv.layer.shadowOffset = CGSizeMake(0, 0);
     cell.iv.layer.shadowRadius = 1.0;
     cell.iv.layer.shadowColor = [UIColor blackColor].CGColor;
     cell.iv.layer.shadowOpacity = 0.5;
     cell.iv.layer.shadowPath = [UIBezierPath bezierPathWithRect:cell.iv.bounds].CGPath;
     cell.iv.layer.cornerRadius = 2.0;
-
+    
     cell.iv.image = nil;
     if (item.galleryType == MHGalleryTypeImage) {
         [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]];
@@ -256,7 +256,7 @@
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
                                                               successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error,NSString *newURL) {
                                                                   cell.iv.image = image;
-        }];
+                                                              }];
     }
 }
 

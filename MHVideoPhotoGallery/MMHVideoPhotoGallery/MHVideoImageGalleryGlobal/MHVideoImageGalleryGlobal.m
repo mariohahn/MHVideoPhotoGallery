@@ -13,9 +13,7 @@ NSString * const MHVimeoBaseURL = @"http://player.vimeo.com/v2/video/%@/config";
 NSString * const MHGalleryViewModeOverView = @"MHGalleryViewModeOverView";
 NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 
-
 @implementation MHShareItem
-
 
 - (id)initWithImageName:(NSString*)imageName
                   title:(NSString*)title
