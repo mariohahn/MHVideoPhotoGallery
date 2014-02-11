@@ -584,13 +584,37 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 
 @implementation UIViewController(MHGalleryViewController)
 
+-(void)presentMHGalleryOverViewWithItems:(NSArray*)galleryItems
+                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
+                                  )FinishBlock
+                                customAnimationFromImage:(BOOL)animated{
+    [[MHGallerySharedManager sharedManager] qualityForVideos];
+    [MHGallerySharedManager sharedManager].animateWithCustomTransition =animated;
+    [MHGallerySharedManager sharedManager].oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
+    [MHGallerySharedManager sharedManager].galleryItems =galleryItems;
+   
+    MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
+    [gallery viewDidLoad];
+    gallery.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
+        [MHGallerySharedManager sharedManager].interactiveMHGallery = interactiveTransition;
+        FinishBlock(galleryNavMH,photoIndex,image);
+    };
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:gallery];
+    if (animated) {
+        nav.transitioningDelegate = self;
+        nav.modalPresentationStyle = UIModalPresentationFullScreen;
+    }
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
                   finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
                                   )FinishBlock
-                        animated:(BOOL)animated{
+                        customAnimationFromImage:(BOOL)animated{
     
     [[MHGallerySharedManager sharedManager] qualityForVideos];
+   
     if(![MHGallerySharedManager sharedManager].viewModes){
         [MHGallerySharedManager sharedManager].viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
                                                             MHGalleryViewModeShare, nil];
@@ -645,9 +669,13 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
                                                                   presentingController:(UIViewController *)presenting
                                                                       sourceController:(UIViewController *)source {
-    AnimatorShowDetailForPresentingMHGallery *detail = [AnimatorShowDetailForPresentingMHGallery new];
-    detail.iv = [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery;
-    return detail;
+    UINavigationController *nav = (UINavigationController*)presented;
+    if ([nav.viewControllers.lastObject  isKindOfClass:[MHGalleryImageViewerViewController class]]) {
+        AnimatorShowDetailForPresentingMHGallery *detail = [AnimatorShowDetailForPresentingMHGallery new];
+        detail.iv = [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery;
+        return detail;
+    }
+    return nil;
 }
 
 @end

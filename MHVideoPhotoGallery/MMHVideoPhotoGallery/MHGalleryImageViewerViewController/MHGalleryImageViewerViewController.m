@@ -552,7 +552,7 @@
                 self.interactiveTransition = [AnimatorShowDetailForDismissMHGallery new];
                 self.interactiveTransition.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
                 
-                if ([[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeOverView]) {
+                if (self.navigationController.viewControllers.count ==2) {
                     MHGalleryOverViewController *overView  =[self.navigationController.viewControllers firstObject];
                     overView.finishedCallback(self.navigationController,self.pageIndex,self.interactiveTransition,self.imageView.image);
                 }else{
@@ -652,15 +652,10 @@
         self.pan.delegate = self;
         if([MHGallerySharedManager sharedManager].animateWithCustomTransition){
             [self.imageView addGestureRecognizer:self.pan];
-            [self.scrollView addGestureRecognizer:self.pinch];
-            [self.scrollView setBounces:NO];
-            [self.scrollView setAlwaysBounceHorizontal:NO];
-            [self.scrollView setAlwaysBounceVertical:NO];
-            
             [self.pan setMaximumNumberOfTouches:1];
             [self.pan setDelaysTouchesBegan:YES];
-            
         }
+        [self.scrollView addGestureRecognizer:self.pinch];
         
         [self.view addGestureRecognizer:imageTap];
         

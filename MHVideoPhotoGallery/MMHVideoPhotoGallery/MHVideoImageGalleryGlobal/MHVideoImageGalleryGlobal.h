@@ -172,7 +172,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 
 /**
- *  DEPRECATED use presentMHGalleryWithItems:forIndex:finishCallback:animated:
+ *  DEPRECATED use presentMHGalleryWithItems:forIndex:finishCallback:customAnimationFromImage:
  *
  *  @param galleryItems   An array of MHGalleryItems
  *  @param index          The start index
@@ -239,7 +239,18 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
                         forIndex:(NSInteger)index
                   finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
                                   )FinishBlock
-                        animated:(BOOL)animated;
+                        customAnimationFromImage:(BOOL)animated;
+/**
+ *  With this methode you can Present the OverView
+ *
+ *  @param galleryItems tems you want to present
+ *  @param FinishBlock  returns the UINavigationController the currentPageIndex and the Image
+ *  @param animated     if you want the custom transition set it to Yes.
+ */
+-(void)presentMHGalleryOverViewWithItems:(NSArray*)galleryItems
+                          finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
+                                          )FinishBlock
+                                customAnimationFromImage:(BOOL)animated;
 
 @end
 

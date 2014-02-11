@@ -101,10 +101,14 @@
     MHGallerySectionItem *section = self.allData[indexPath.row];
     NSArray *galleryData = section.galleryItems;
     if (galleryData.count >0) {
-        [self presentMHGalleryWithItems:galleryData forIndex:indexPath.row
-                         finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
-                             [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
-                         } animated:NO];
+        [self presentMHGalleryOverViewWithItems:galleryData
+                                 finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+                                     ImageTableViewCell *cell = (ImageTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+                                     [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = cell.iv;
+                                     
+            [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
+        } customAnimationFromImage:NO];
+        
     }
 }
 

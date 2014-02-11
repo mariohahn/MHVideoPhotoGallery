@@ -226,7 +226,7 @@
                              }];
                          });
                          
-                     } animated:YES];
+                     } customAnimationFromImage:YES];
 }
 
 -(NSUInteger)supportedInterfaceOrientations{

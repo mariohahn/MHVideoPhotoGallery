@@ -136,7 +136,7 @@
                              [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
                          });
                          
-                     } animated:YES];
+                     } customAnimationFromImage:YES];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

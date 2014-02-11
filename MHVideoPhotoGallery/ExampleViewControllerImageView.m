@@ -108,13 +108,11 @@
     [self presentMHGalleryWithItems:galleryData
                            forIndex:self.currentIndex
                      finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
-                         
                          self.currentIndex = pageIndex;
                          self.iv.image = image;
                          [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = self.iv;
                          [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
-                                                  
-                     } animated:YES];
+                     } customAnimationFromImage:YES];
     
     
 }
