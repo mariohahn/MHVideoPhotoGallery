@@ -100,10 +100,12 @@
 
     MHGallerySectionItem *section = self.allData[indexPath.row];
     NSArray *galleryData = section.galleryItems;
-    [self presentMHGalleryWithItems:galleryData forIndex:indexPath.row
-                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
-        [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
-    } animated:NO];    
+    if (galleryData.count >0) {
+        [self presentMHGalleryWithItems:galleryData forIndex:indexPath.row
+                         finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+                             [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
+                         } animated:NO];
+    }
 }
 
 
