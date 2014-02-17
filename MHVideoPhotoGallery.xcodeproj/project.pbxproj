@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F5045B5018B203E50043BC0E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F5045B5218B203E50043BC0E /* Localizable.strings */; };
 		F514263518911D8E0091E3DF /* 707-albums-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = F514263318911D8E0091E3DF /* 707-albums-selected.png */; };
 		F514263618911D8E0091E3DF /* 707-albums-selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F514263418911D8E0091E3DF /* 707-albums-selected@2x.png */; };
 		F514263918911D920091E3DF /* 705-photos-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = F514263718911D920091E3DF /* 705-photos-selected.png */; };
@@ -107,6 +108,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F5045B5118B203E50043BC0E /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F5045B5318B204590043BC0E /* de */ = {isa = PBXFileReference; lastKnownFileType = file; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F514263318911D8E0091E3DF /* 707-albums-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "707-albums-selected.png"; sourceTree = "<group>"; };
 		F514263418911D8E0091E3DF /* 707-albums-selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "707-albums-selected@2x.png"; sourceTree = "<group>"; };
 		F514263718911D920091E3DF /* 705-photos-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "705-photos-selected.png"; sourceTree = "<group>"; };
@@ -256,6 +259,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F5045B4F18B2012B0043BC0E /* Localizable */ = {
+			isa = PBXGroup;
+			children = (
+				F5045B5218B203E50043BC0E /* Localizable.strings */,
+			);
+			name = Localizable;
+			sourceTree = "<group>";
+		};
 		F5245D9018AA1664004C6FFA /* External */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,6 +349,7 @@
 				F58F65021880896300D3A8F9 /* MHShareViewController */,
 				F5DBBF18187D56CD00BEFE29 /* MHGalleryImageViewerViewController */,
 				F5DBBF17187D56B700BEFE29 /* MHUIImageViewContentViewAnimation */,
+				F5045B4F18B2012B0043BC0E /* Localizable */,
 				F5DBBF16187D56A400BEFE29 /* UIImage+ImageEffects */,
 				F5DBBF15187D569A00BEFE29 /* MHGalleryOverViewController */,
 				F5DBBF19187D56DB00BEFE29 /* MHVideoImageGalleryGlobal */,
@@ -597,6 +609,7 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = F53F923717EB008100A9FE6A;
 			productRefGroup = F53F924117EB008100A9FE6A /* Products */;
@@ -615,6 +628,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F553D3171892B58800BA4283 /* twitterMH.png in Resources */,
+				F5045B5018B203E50043BC0E /* Localizable.strings in Resources */,
 				F553D32918967E5300BA4283 /* ic_square@2x.png in Resources */,
 				F553D30A1892B58800BA4283 /* messageMH.png in Resources */,
 				F53F925C17EB008100A9FE6A /* Images.xcassets in Resources */,
@@ -731,6 +745,16 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		F5045B5218B203E50043BC0E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F5045B5118B203E50043BC0E /* en */,
+				F5045B5318B204590043BC0E /* de */,
+			);
+			name = Localizable.strings;
+			path = MMHVideoPhotoGallery/Localizable;
+			sourceTree = "<group>";
+		};
 		F53F924C17EB008100A9FE6A /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

@@ -37,21 +37,25 @@
     
     
     self.saveObject = [[MHShareItem alloc]initWithImageName:@"activtyMH"
-                                                      title:@"In \"Aufnahmen\" sichern"
+                                                      title:NSLocalizedString(@"shareview.save.cameraRoll", nil)
                                        withMaxNumberOfItems:MAXFLOAT
                                                withSelector:@"saveImages:"
                                            onViewController:self];
     
     self.mailObject = [[MHShareItem alloc]initWithImageName:@"mailMH"
-                                                      title:@"Mail"
+                                                      title:NSLocalizedString(@"shareview.mail", nil)
                                        withMaxNumberOfItems:10
                                                withSelector:@"mailImages:"
                                            onViewController:self];
+    
+    
     self.messageObject = [[MHShareItem alloc]initWithImageName:@"messageMH"
-                                                         title:@"Nachrichten"
+                                                         title:NSLocalizedString(@"shareview.message", nil)
                                           withMaxNumberOfItems:15
                                                   withSelector:@"smsImages:"
                                               onViewController:self];
+    
+    
     self.twitterObject = [[MHShareItem alloc]initWithImageName:@"twitterMH"
                                                          title:@"Twitter"
                                           withMaxNumberOfItems:2
@@ -120,7 +124,7 @@
     self.numberFormatter = [NSNumberFormatter new];
     [self.numberFormatter setMinimumIntegerDigits:2];
     
-    self.navigationItem.title = @"1 ausgewählt";
+    
     
     self.selectedRows = [NSMutableArray new];
     [self.view setBackgroundColor:[UIColor whiteColor]];
@@ -186,7 +190,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     [self.tableViewShare addSubview:sep];
     
    [self initShareObjects];
-    
+    [self updateTitle];
     
     NSMutableArray *shareObjectAvailable = [NSMutableArray arrayWithArray:@[self.messageObject,
                                                                             self.mailObject,
@@ -254,7 +258,12 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     return cell;
 }
 -(void)updateTitle{
-    self.title = [NSString stringWithFormat:@"%@ ausgewählt", @(self.selectedRows.count)];
+    NSString *localizedTitle =  NSLocalizedString(@"shareview.title.select.singular", nil);
+    self.title = [NSString localizedStringWithFormat:localizedTitle, @(self.selectedRows.count)];
+    if (self.selectedRows.count >1) {
+        NSString *localizedTitle =  NSLocalizedString(@"shareview.title.select.plural", nil);
+        self.title = [NSString localizedStringWithFormat:localizedTitle, @(self.selectedRows.count)];
+    }
     
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -531,7 +540,17 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     
     for (NSIndexPath *indexPath in self.selectedRows) {
         MHGalleryItem *item =self.galleryDataSource[indexPath.row];
+        
+        if (item.galleryType == MHGalleryTypeVideo) {
+            [imagesData addObject:item.urlString];
+        }
+        if (imagesData.count == self.selectedRows.count) {
+            SuccessBlock([NSArray arrayWithArray:imagesData]);
+            return;
+        }
+        
         if (item.galleryType == MHGalleryTypeImage) {
+            
             [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:item.urlString]
                                                        options:SDWebImageContinueInBackground
                                                       progress:nil
@@ -541,12 +560,6 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
                                                              SuccessBlock([NSArray arrayWithArray:imagesData]);
                                                          }
                                                      }];
-        }
-        if (item.galleryType == MHGalleryTypeVideo) {
-            [imagesData addObject:item.urlString];
-        }
-        if (imagesData.count == self.selectedRows.count) {
-            SuccessBlock([NSArray arrayWithArray:imagesData]);
         }
     }
 }
@@ -590,7 +603,11 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                          target:self
                                                                                          action:@selector(cancelPressed)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(showShareSheet)];
+   
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next"
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:self
+                                                                            action:@selector(showShareSheet)];
 
     [UIView animateWithDuration:0.3 animations:^{
         self.tb.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
@@ -616,21 +633,8 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
         for (UIImage *image in images) {
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
         }
-        UIAlertView *alert =[[UIAlertView alloc]initWithTitle:@"Glückwunsch"
-                                                      message:@"Deine Bilder wurden erfolgreich gespeichert"
-                                                     delegate:self
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil, nil];
-        [alert show];
-
-    }];
-}
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    double delayInSeconds = 0.4;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [self cancelPressed];
-    });
+    }];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{

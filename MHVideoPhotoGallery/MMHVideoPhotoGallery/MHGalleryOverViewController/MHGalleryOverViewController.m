@@ -28,7 +28,7 @@
     [super viewDidLoad];
     
     self.galleryItems = [MHGallerySharedManager sharedManager].galleryItems;
-    self.title = @"Overview";
+    self.title =  NSLocalizedString(@"overview.title.current", nil);
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"ic_square"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStyleBordered target:self action:nil];
     
@@ -54,7 +54,7 @@
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wundeclared-selector"
     
-    UIMenuItem *saveItem = [[UIMenuItem alloc] initWithTitle:@"Save"
+    UIMenuItem *saveItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"overview.menue.item.save", nil)
                                                       action:@selector(saveImage:)];
     #pragma clang diagnostic pop
 

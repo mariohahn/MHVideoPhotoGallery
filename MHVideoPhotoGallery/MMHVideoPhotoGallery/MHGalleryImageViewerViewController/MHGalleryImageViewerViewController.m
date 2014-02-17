@@ -63,7 +63,7 @@
 }
 
 -(void)donePressed{
-    MHGalleryOverViewController *overView  =[self.navigationController.viewControllers firstObject];
+    MHGalleryOverViewController *overView  =self.navigationController.viewControllers.firstObject;
     ImageViewController *imageViewer = self.pvc.viewControllers.firstObject;
     if (imageViewer.moviePlayer) {
         [imageViewer removeAllMoviePlayerViewsAndNotifications];
@@ -78,7 +78,9 @@
     [super viewDidLoad];
     self.galleryItems = [MHGallerySharedManager sharedManager].galleryItems;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                                          target:self
+                                                                                          action:@selector(donePressed)];
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.pvc =[[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
@@ -256,7 +258,9 @@
 }
 
 -(void)updateTitleForIndex:(NSInteger)pageIndex{
-    self.navigationItem.title = [NSString stringWithFormat:@"%@ von %@",@(pageIndex+1),@(self.galleryItems.count)];
+
+    NSString *localizedString = NSLocalizedString(@"imagedetail.title.current", nil);
+    self.navigationItem.title = [NSString localizedStringWithFormat:localizedString,@(pageIndex+1),@(self.galleryItems.count)]; // stringWithFormat:@"%@ von %@",@(pageIndex+1),@(self.galleryItems.count)];
 }
 
 

@@ -164,12 +164,12 @@
             cell.iv.hidden =NO;
             
             [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
-            
-            
         }];
         
     }
 }
+
+
 -(NSArray*)sortObjectsWithFrame:(NSArray*)objects{
     NSComparator comparatorBlock = ^(id obj1, id obj2) {
         if ([obj1 frame].origin.x > [obj2 frame].origin.x) {
