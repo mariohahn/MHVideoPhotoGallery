@@ -202,6 +202,7 @@
 }
 
 -(void)sharePressed{
+    
     if ([[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeShare]) {
         MHShareViewController *share = [MHShareViewController new];
         share.pageIndex = self.pageIndex;
@@ -1134,7 +1135,7 @@
     }
     self.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
     self.moviePlayer.controlStyle = MPMovieControlStyleNone;
-    [self.moviePlayer setContentURL:url];
+    self.moviePlayer.contentURL =url;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(loadStateDidChange:)
@@ -1152,9 +1153,9 @@
         self.moviePlayer.view.backgroundColor = [UIColor whiteColor];
     }
     [self.moviePlayer setShouldAutoplay:NO];
-    [self.moviePlayer.view setFrame:self.view.bounds];
+    self.moviePlayer.view.frame =self.view.bounds;
     [self.moviePlayer.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-    [self.moviePlayer.view setHidden:YES];
+    self.moviePlayer.view.hidden = YES;
     
     [self.view addSubview: self.moviePlayer.view];
     

@@ -101,6 +101,7 @@
 
 
 -(void)imageTapped{
+        
     [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = self.iv;
     
     NSArray *galleryData = self.galleryDataSource;

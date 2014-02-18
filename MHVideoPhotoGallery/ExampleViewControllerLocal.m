@@ -101,6 +101,7 @@
     MHGallerySectionItem *section = self.allData[indexPath.row];
     NSArray *galleryData = section.galleryItems;
     if (galleryData.count >0) {
+                
         [self presentMHGalleryOverViewWithItems:galleryData
                                  finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
                                      ImageTableViewCell *cell = (ImageTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];

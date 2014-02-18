@@ -81,6 +81,12 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
         self.webPointForThumb = MHWebPointForThumbStart;
     }
 }
+-(void)defaultViewModes{
+    if(!self.viewModes){
+        self.viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
+                          MHGalleryViewModeShare, nil];
+    }
+}
 
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
@@ -89,11 +95,8 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated{
     
-    
-    if(!self.viewModes){
-        self.viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
-                          MHGalleryViewModeShare, nil];
-    }
+    [self defaultViewModes];
+
     self.animateWithCustomTransition =animated;
     self.oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
     
@@ -561,6 +564,7 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     
 }
 
+
 - (UIImage *)imageByRenderingView:(id)view{
     CGFloat scale = 1.0;
     if([[UIScreen mainScreen]respondsToSelector:@selector(scale)]) {
@@ -588,7 +592,10 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                   finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
                                   )FinishBlock
                                 customAnimationFromImage:(BOOL)animated{
+   
     [[MHGallerySharedManager sharedManager] qualityForVideos];
+    [[MHGallerySharedManager sharedManager] defaultViewModes];
+
     [MHGallerySharedManager sharedManager].animateWithCustomTransition =animated;
     [MHGallerySharedManager sharedManager].oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
     [MHGallerySharedManager sharedManager].galleryItems =galleryItems;
@@ -607,6 +614,7 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
     [self presentViewController:nav animated:YES completion:nil];
 }
 
+
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
                   finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
@@ -614,11 +622,8 @@ NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
                         customAnimationFromImage:(BOOL)animated{
     
     [[MHGallerySharedManager sharedManager] qualityForVideos];
-   
-    if(![MHGallerySharedManager sharedManager].viewModes){
-        [MHGallerySharedManager sharedManager].viewModes = [NSSet setWithObjects:MHGalleryViewModeOverView,
-                                                            MHGalleryViewModeShare, nil];
-    }
+    [[MHGallerySharedManager sharedManager] defaultViewModes];
+
     [MHGallerySharedManager sharedManager].animateWithCustomTransition =animated;
     [MHGallerySharedManager sharedManager].oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
     

@@ -115,11 +115,10 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-        
-     [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[tableView cellForRowAtIndexPath:indexPath] iv];
-        
-        NSArray *galleryData = self.galleryDataSource;
     
+    [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[tableView cellForRowAtIndexPath:indexPath] iv];
+        
+    NSArray *galleryData = self.galleryDataSource;
     
     [self presentMHGalleryWithItems:galleryData
                            forIndex:indexPath.row
