@@ -42,13 +42,13 @@
     flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
     self.cv = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
-    [self.cv setContentInset:UIEdgeInsetsMake(64, 0, 0, 0)];
-    [self.cv setBackgroundColor:[UIColor whiteColor]];
+    self.cv.contentInset =UIEdgeInsetsMake(64, 0, 0, 0);
+    self.cv.backgroundColor =[UIColor whiteColor];
     [self.cv registerClass:[MHGalleryOverViewCell class] forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
-    [self.cv setDataSource:self];
-
-    [self.cv setDelegate:self];
-    [self.cv setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    self.cv .dataSource =self;
+    self.cv.alwaysBounceVertical = YES;
+    self.cv.delegate =self;
+    self.cv.autoresizingMask =UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.cv];
     [self.cv reloadData];
     
@@ -113,8 +113,8 @@
     cell.iv.image = nil;
     
     
-    [cell.videoGradient setHidden:YES];
-    [cell.videoIcon setHidden:YES];
+    cell.videoGradient.hidden = YES;
+    cell.videoIcon.hidden     = YES;
     
     
     cell.saveImage = ^(BOOL shouldSave){
@@ -167,7 +167,7 @@
                        }];
         }
     }
-    [cell.iv setUserInteractionEnabled:YES];
+    cell.iv.userInteractionEnabled =YES;
     
     MHIndexPinchGestureRecognizer *pinch = [[MHIndexPinchGestureRecognizer alloc]initWithTarget:self
                                                                                          action:@selector(userDidPinch:)];
@@ -181,8 +181,7 @@
 
     
 }
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
     return YES;
 }
 
@@ -284,7 +283,6 @@
                                                             successBlock:^(UIImage *image, NSError *error) {
                                                                 cell.iv.image = image;
                                                                 [self pushToImageViewerForIndexPath:indexPath];
-
                                                             }];
     }else{
         [self pushToImageViewerForIndexPath:indexPath];
@@ -300,7 +298,6 @@
     if (item.galleryType == MHGalleryTypeImage) {
         if ([NSStringFromSelector(action) isEqualToString:@"copy:"] || [NSStringFromSelector(action) isEqualToString:@"saveImage:"]){
             return YES;
-
         }
     }
     return NO;

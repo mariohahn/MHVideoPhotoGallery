@@ -28,7 +28,6 @@
 
 @implementation MHGalleryImageViewerViewController
 
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.navigationController.delegate = self;
@@ -94,6 +93,7 @@
     
     ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:item];
     ivC.pageIndex = self.pageIndex;
+    
     [ivC setValue:self forKey:@"vc"];
     
     [self.pvc setViewControllers:@[ivC]
@@ -119,13 +119,23 @@
     self.playStopButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"play"] style:UIBarButtonItemStyleBordered target:self action:@selector(playStopButtonPressed)];
     
     
-    self.left = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"left_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(leftPressed:)];
+    self.left = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"left_arrow"]
+                                                style:UIBarButtonItemStyleBordered
+                                               target:self
+                                               action:@selector(leftPressed:)];
     
-    self.right = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"right_arrow"] style:UIBarButtonItemStyleBordered target:self action:@selector(rightPressed:)];
+    self.right = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"right_arrow"]
+                                                 style:UIBarButtonItemStyleBordered
+                                                target:self
+                                                action:@selector(rightPressed:)];
     
-    self.share = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sharePressed)];
+    self.share = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                              target:self
+                                                              action:@selector(sharePressed)];
     
-    UIBarButtonItem *flex = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    UIBarButtonItem *flex = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                         target:self
+                                                                         action:nil];
     
     if (item.galleryType == MHGalleryTypeVideo) {
         [self.tb setItems:@[self.share,flex,self.left,flex,self.playStopButton,flex,self.right,flex]];
@@ -268,12 +278,12 @@
        didFinishAnimating:(BOOL)finished
   previousViewControllers:(NSArray *)previousViewControllers
       transitionCompleted:(BOOL)completed{
+    
     self.pageIndex = [[pageViewController.viewControllers firstObject] pageIndex];
     
     if (finished) {
         for (ImageViewController *ivC in previousViewControllers) {
             [self removeVideoPlayerForVC:ivC];
-            
         }
     }
     if (completed) {
@@ -344,7 +354,7 @@
     NSUInteger indexPage = theCurrentViewController.pageIndex;
     ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage-1]];
     ivC.pageIndex = indexPage-1;
-    [ivC setValue:self forKey:@"vc"];
+    ivC.vc = self;
     
     if (indexPage-1 == 0) {
         [self.left setEnabled:NO];
@@ -363,7 +373,7 @@
     NSUInteger indexPage = theCurrentViewController.pageIndex;
     ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage+1]];
     ivC.pageIndex = indexPage+1;
-    [ivC setValue:self forKey:@"vc"];
+    ivC.vc = self;
     
     if (indexPage+1 == self.galleryItems.count-1) {
         [self.right setEnabled:NO];
@@ -388,13 +398,13 @@
         [self.left setEnabled:NO];
         ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:nil];
         ivC.pageIndex = 0;
-        [ivC setValue:self forKey:@"vc"];
+        ivC.vc = self;
         
         return ivC;
     }
     ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage-1]];
     ivC.pageIndex = indexPage-1;
-    [ivC setValue:self forKey:@"vc"];
+    ivC.vc = self;
     
     return ivC;
 }
@@ -411,13 +421,12 @@
         [self.right setEnabled:NO];
         ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:nil];
         ivC.pageIndex = self.galleryItems.count-1;
-        [ivC setValue:self forKey:@"vc"];
-        
+        ivC.vc = self;
         return ivC;
     }
     ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage+1]];
     ivC.pageIndex  = indexPage+1;
-    [ivC setValue:self forKey:@"vc"];
+    ivC.vc = self;
     return ivC;
 }
 
@@ -427,34 +436,30 @@
     [[self.pvc.view.subviews firstObject] setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
     
 }
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    
-    
-}
 
 @end
 
 @interface ImageViewController ()
-@property (nonatomic, strong) MHGalleryImageViewerViewController *vc;
-@property (nonatomic, strong) UIButton *moviewPlayerButtonBehinde;
-@property (nonatomic, strong) UIToolbar *moviePlayerToolBarTop;
-@property (nonatomic, strong) UISlider *slider;
-@property (nonatomic, strong) UIProgressView *progressVideo;
-@property (nonatomic, strong) UILabel *leftSliderLabel;
-@property (nonatomic, strong) UILabel *rightSliderLabel;
-@property (nonatomic, strong) NSNumberFormatter *numberFormatter;
-@property (nonatomic, strong) NSTimer *movieTimer;
-@property (nonatomic, strong) NSTimer *movieDownloadedTimer;
+@property (nonatomic, strong) UIButton                 *moviewPlayerButtonBehinde;
+@property (nonatomic, strong) UIToolbar                *moviePlayerToolBarTop;
+@property (nonatomic, strong) UISlider                 *slider;
+@property (nonatomic, strong) UIProgressView           *progressVideo;
+@property (nonatomic, strong) UILabel                  *leftSliderLabel;
+@property (nonatomic, strong) UILabel                  *rightSliderLabel;
+@property (nonatomic, strong) NSNumberFormatter        *numberFormatter;
+@property (nonatomic, strong) NSTimer                  *movieTimer;
+@property (nonatomic, strong) NSTimer                  *movieDownloadedTimer;
+@property (nonatomic,strong ) UIPanGestureRecognizer   *pan;
+@property (nonatomic,strong ) MHPinchGestureRecognizer *pinch;
 
-@property (nonatomic) NSInteger wholeTimeMovie;
-@property (nonatomic) CGPoint   pointToCenterAfterResize;
-@property (nonatomic) CGFloat   scaleToRestoreAfterResize;
-@property (nonatomic) CGPoint   startPoint;
-@property (nonatomic) CGPoint   lastPoint;
-@property (nonatomic) CGPoint   lastPointPop;
-@property (nonatomic) BOOL shouldPlayVideo;
-@property (nonatomic,strong) UIPanGestureRecognizer *pan;
-@property (nonatomic,strong) MHPinchGestureRecognizer *pinch;
+@property (nonatomic)         NSInteger                wholeTimeMovie;
+@property (nonatomic)         CGPoint                  pointToCenterAfterResize;
+@property (nonatomic)         CGFloat                  scaleToRestoreAfterResize;
+@property (nonatomic)         CGPoint                  startPoint;
+@property (nonatomic)         CGPoint                  lastPoint;
+@property (nonatomic)         CGPoint                  lastPointPop;
+@property (nonatomic)         BOOL                     shouldPlayVideo;
+
 @end
 
 @implementation ImageViewController
@@ -484,14 +489,14 @@
             self.interactiveOverView = [AnimatorShowOverView new];
             [self.navigationController popViewControllerAnimated:YES];
         }else{
-            [recognizer setCancelsTouchesInView:YES];
+            recognizer.cancelsTouchesInView = YES;
         }
         
     }else if (recognizer.state == UIGestureRecognizerStateChanged) {
         
         if (recognizer.numberOfTouches <2) {
-            [recognizer setEnabled:NO];
-            [recognizer setEnabled:YES];
+            recognizer.enabled =NO;
+            recognizer.enabled =YES;
         }
         
         CGPoint point = [recognizer locationInView:self.view];
@@ -520,19 +525,18 @@
                     userScrolls =NO;
                     self.vc.userScrolls = NO;
                 }else{
-                    [recognizer setCancelsTouchesInView:YES];
-                    [recognizer setEnabled:NO];
-                    [recognizer setEnabled:YES];
+                    recognizer.cancelsTouchesInView = YES;
+                    recognizer.enabled =NO;
+                    recognizer.enabled =YES;
                 }
             }
             if ((self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count-1)) {
                 if ([(UIPanGestureRecognizer*)recognizer translationInView:self.view].x <=0) {
                     userScrolls =NO;
                 }else{
-                    [recognizer setCancelsTouchesInView:YES];
-                    [recognizer setEnabled:NO];
-                    [recognizer setEnabled:YES];
-                    
+                    recognizer.cancelsTouchesInView = YES;
+                    recognizer.enabled =NO;
+                    recognizer.enabled =YES;
                 }
             }
         }else{
@@ -665,8 +669,8 @@
         
         self.act = [[UIActivityIndicatorView alloc]initWithFrame:self.view.bounds];
         [self.act startAnimating];
-        [self.act setHidesWhenStopped:YES];
-        [self.act setTag:507];
+        self.act.hidesWhenStopped =YES;
+         self.act.tag =507;
         [self.act setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
         [self.scrollView addSubview:self.act];
         
@@ -732,8 +736,7 @@
                                                                 }];
         }else{
             if (self.item.galleryType == MHGalleryTypeImage) {
-                
-                
+
                 [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:self.item.urlString]
                                                            options:SDWebImageContinueInBackground
                                                           progress:nil
@@ -1400,7 +1403,6 @@
         }else{
             frameToCenter.origin.x = 0;
         }
-        
         if (frameToCenter.size.height < boundsSize.height){
             frameToCenter.origin.y = (boundsSize.height - frameToCenter.size.height) / 2;
         }else{

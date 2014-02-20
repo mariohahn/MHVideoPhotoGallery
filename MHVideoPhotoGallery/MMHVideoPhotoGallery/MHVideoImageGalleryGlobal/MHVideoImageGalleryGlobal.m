@@ -5,15 +5,14 @@
 #import "SDWebImageDecoder.h"
 #import <objc/runtime.h>
 
-#define kMHGalleryBundleName @"MHGallery.bundle"
 
-NSString * const MHYoutubeChannel = @"https://gdata.youtube.com/feeds/api/users/%@/uploads?&max-results=50&alt=json";
-NSString * const MHYoutubePlayBaseURL = @"https://www.youtube.com/get_video_info?video_id=%@&el=embedded&ps=default&eurl=&gl=US&hl=%@";
-NSString * const MHYoutubeInfoBaseURL = @"http://gdata.youtube.com/feeds/api/videos/%@?v=2&alt=jsonc";
-NSString * const MHVimeoThumbBaseURL = @"http://vimeo.com/api/v2/video/%@.json";
-NSString * const MHVimeoBaseURL = @"http://player.vimeo.com/v2/video/%@/config";
+NSString * const MHYoutubeChannel          = @"https://gdata.youtube.com/feeds/api/users/%@/uploads?&max-results=50&alt=json";
+NSString * const MHYoutubePlayBaseURL      = @"https://www.youtube.com/get_video_info?video_id=%@&el=embedded&ps=default&eurl=&gl=US&hl=%@";
+NSString * const MHYoutubeInfoBaseURL      = @"http://gdata.youtube.com/feeds/api/videos/%@?v=2&alt=jsonc";
+NSString * const MHVimeoThumbBaseURL       = @"http://vimeo.com/api/v2/video/%@.json";
+NSString * const MHVimeoBaseURL            = @"http://player.vimeo.com/v2/video/%@/config";
 NSString * const MHGalleryViewModeOverView = @"MHGalleryViewModeOverView";
-NSString * const MHGalleryViewModeShare = @"MHGalleryViewModeShare";
+NSString * const MHGalleryViewModeShare    = @"MHGalleryViewModeShare";
 
 
 NSBundle *MHGalleryBundle(void) {
@@ -528,13 +527,11 @@ NSString *MHGalleryLocalizedString(NSString *localizeString) {
                      successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
                          succeedBlock(image,videoDuration,error,urlString);
                      }];
-        
     }else if([urlString rangeOfString:@"youtube.com"].location != NSNotFound) {
         [self getYoutubeThumbImage:urlString
                       successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
                           succeedBlock(image,videoDuration,error,urlString);
                       }];
-        
     }else{
         [self createThumbURL:urlString
                 successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {

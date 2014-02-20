@@ -23,8 +23,8 @@
 @property (nonatomic)                  NSInteger pageIndex;
 @property (nonatomic, strong)          UIPageViewController *pvc;
 
-@property (nonatomic, getter = isUserScrolling)                 BOOL userScrolls;
-@property(nonatomic,getter = isHiddingToolBarAndNavigationBar)  BOOL hiddingToolBarAndNavigationBar;
+@property (nonatomic,getter = isUserScrolling)                   BOOL userScrolls;
+@property (nonatomic,getter = isHiddingToolBarAndNavigationBar)  BOOL hiddingToolBarAndNavigationBar;
 
 @property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH, NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image);
 
@@ -39,7 +39,7 @@
 
 @property (nonatomic,strong)        AnimatorShowDetailForDismissMHGallery *interactiveTransition;
 @property (nonatomic,strong)        AnimatorShowOverView *interactiveOverView;
-
+@property (nonatomic,strong)        MHGalleryImageViewerViewController *vc;
 @property (nonatomic,strong)        MHGalleryItem *item;
 @property (nonatomic,strong)        UIScrollView *scrollView;
 @property (nonatomic,strong)        UIButton *playButton;

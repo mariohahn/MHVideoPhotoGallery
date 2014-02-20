@@ -95,6 +95,7 @@
 		F5DBBF31187D584C00BEFE29 /* MHGalleryImageViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF30187D584C00BEFE29 /* MHGalleryImageViewerViewController.m */; };
 		F5DBBF34187D5B8600BEFE29 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF33187D5B8600BEFE29 /* UIImage+ImageEffects.m */; };
 		F5EE8DA61890393D002E5734 /* testIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5EE8DA51890393D002E5734 /* testIcon@2x.png */; };
+		F5F8DA2D18B6A6A100EB25F2 /* MHGalleryPresenterImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5F8DA2C18B6A6A100EB25F2 /* MHGalleryPresenterImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -236,6 +237,8 @@
 		F5DBBF32187D5B8600BEFE29 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ImageEffects.h"; path = "MMHVideoPhotoGallery/UIImage+ImageEffects/UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		F5DBBF33187D5B8600BEFE29 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageEffects.m"; path = "MMHVideoPhotoGallery/UIImage+ImageEffects/UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		F5EE8DA51890393D002E5734 /* testIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testIcon@2x.png"; sourceTree = "<group>"; };
+		F5F8DA2B18B6A6A100EB25F2 /* MHGalleryPresenterImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGalleryPresenterImageView.h; path = MMHVideoPhotoGallery/MHGalleryPresenterImageView/MHGalleryPresenterImageView.h; sourceTree = "<group>"; };
+		F5F8DA2C18B6A6A100EB25F2 /* MHGalleryPresenterImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHGalleryPresenterImageView.m; path = MMHVideoPhotoGallery/MHGalleryPresenterImageView/MHGalleryPresenterImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -355,6 +358,7 @@
 				F5DBBF18187D56CD00BEFE29 /* MHGalleryImageViewerViewController */,
 				F5DBBF17187D56B700BEFE29 /* MHUIImageViewContentViewAnimation */,
 				F5045B4F18B2012B0043BC0E /* Localizable */,
+				F5F8DA2A18B6A65900EB25F2 /* MHGalleryPresenterImageView */,
 				F5DBBF16187D56A400BEFE29 /* UIImage+ImageEffects */,
 				F5DBBF15187D569A00BEFE29 /* MHGalleryOverViewController */,
 				F5DBBF19187D56DB00BEFE29 /* MHVideoImageGalleryGlobal */,
@@ -552,6 +556,15 @@
 			name = MHVideoImageGalleryGlobal;
 			sourceTree = "<group>";
 		};
+		F5F8DA2A18B6A65900EB25F2 /* MHGalleryPresenterImageView */ = {
+			isa = PBXGroup;
+			children = (
+				F5F8DA2B18B6A6A100EB25F2 /* MHGalleryPresenterImageView.h */,
+				F5F8DA2C18B6A6A100EB25F2 /* MHGalleryPresenterImageView.m */,
+			);
+			name = MHGalleryPresenterImageView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -718,6 +731,7 @@
 				F5245DAD18AA16D3004C6FFA /* SDWebImageCompat.m in Sources */,
 				F53F925017EB008100A9FE6A /* main.m in Sources */,
 				F5DBBF2E187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m in Sources */,
+				F5F8DA2D18B6A6A100EB25F2 /* MHGalleryPresenterImageView.m in Sources */,
 				F5245DAC18AA16D3004C6FFA /* SDImageCache.m in Sources */,
 				F5245DAF18AA16D3004C6FFA /* SDWebImageDownloader.m in Sources */,
 				F5DBBF20187D573C00BEFE29 /* AnimatorShowDetail.m in Sources */,

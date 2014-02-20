@@ -11,6 +11,7 @@
 #import "AnimatorShowDetailForPresentingMHGallery.h"
 
 #define MHISIPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+#define kMHGalleryBundleName @"MHGallery.bundle"
 
 @class AnimatorShowDetailForDismissMHGallery;
 
@@ -112,7 +113,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 @end
 
-
 @interface MHGallerySharedManager : NSObject
 /**
  *  By default the gallery will dismiss itself by scrolling to left at the pageIndex of 0 or scrolling right at the last pageindex here you can disbale it.
@@ -175,7 +175,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 - (UIImage *)imageByRenderingView:(id)view;
 
-
 /**
  *  DEPRECATED use presentMHGalleryWithItems:forIndex:finishCallback:customAnimationFromImage:
  *
@@ -185,6 +184,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  *  @param FinishBlock    PageIndex shows on which Index the User dismissed the Gallery. If interactiveTransition isn't nil the User dismisses the Gallery with an interaction. You will also get the Image of the current page.
  *  @param animated       To use animated you need 3 delegate Methods, -animationControllerForDismissedController , animationControllerForPresentedController, interactionControllerForDismissal.
  */
+
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
         andCurrentViewController:(id)viewcontroller
@@ -193,7 +193,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
         withImageViewTransiation:(BOOL)animated __attribute__((deprecated));
 
 -(BOOL)isUIVCBasedStatusBarAppearance;
-
 /**
  *  To get the absolute URL for Vimeo Videos. To change the Quality check vimeoVideoQuality
  *
@@ -202,9 +201,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  */
 -(void)getVimeoURLforMediaPlayer:(NSString*)URL
                     successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock;
-
-
-
 /**
  *  To get the absolute URL for Youtube Videos. To change the Quality check youtubeVideoQuality
  *

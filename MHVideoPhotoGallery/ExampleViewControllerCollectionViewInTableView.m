@@ -106,11 +106,6 @@
     MHGalleryItem *item18 = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/media/us/ipad-air/2013/0be12b9f-265c-474c-a0cc-d3c4c304c031/feature/ipadair-feature-cc-us-20131114_r848-9dwc.mov?width=848&height=480"
                                                   galleryType:MHGalleryTypeVideo];
     
-    MHGalleryItem *item19 = [[MHGalleryItem alloc]initWithURL:@"http://tes-ampagnen.s3.amazonaws.com/_tests/read.it/JacobsGoldstaub_4zu3Pal.mp4"
-                                                  galleryType:MHGalleryTypeVideo];
-    
-    
-    
     MHGalleryItem *errorImage = [[MHGalleryItem alloc]initWithURL:@"http://images.apple.com/ipad-air/bui"
                                                       galleryType:MHGalleryTypeImage];
     
@@ -124,7 +119,7 @@
     
     
     self.galleryDataSource = @[@[item0,item1,item2,item3,item4,item5,item6,item7,item8,item9],
-                               @[item19,vimeo3,youtube,vimeo0,vimeo1,keynote,item18,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage],
+                               @[vimeo3,youtube,vimeo0,vimeo1,keynote,item18,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage],
                                @[keynote,item15,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,item16,item17,item18,errorImage]
                                ];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.83 green:0.84 blue:0.86 alpha:1];
