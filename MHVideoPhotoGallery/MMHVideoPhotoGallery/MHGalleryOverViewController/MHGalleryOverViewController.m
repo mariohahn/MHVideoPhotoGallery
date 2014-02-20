@@ -12,11 +12,13 @@
 @end
 
 @interface MHGalleryOverViewController ()
-@property (nonatomic, strong)                   AnimatorShowDetail *interactivePushTransition;
-@property (nonatomic, strong)                   NSArray *galleryItems;
-@property (nonatomic, strong)                   NSNumberFormatter *numberFormatter;
-@property (nonatomic)                           CGPoint   lastPoint;
-@property (nonatomic)                           CGFloat   startScale;
+
+@property (nonatomic, strong) AnimatorShowDetail *interactivePushTransition;
+@property (nonatomic, strong) NSArray            *galleryItems;
+@property (nonatomic, strong) NSNumberFormatter  *numberFormatter;
+
+@property (nonatomic) CGPoint lastPoint;
+@property (nonatomic) CGFloat startScale;
 
 
 @end
@@ -28,7 +30,9 @@
     [super viewDidLoad];
     
     self.galleryItems = [MHGallerySharedManager sharedManager].galleryItems;
-    self.title =  NSLocalizedString(@"overview.title.current", nil);
+    
+    
+    self.title =  MHGalleryLocalizedString(@"overview.title.current");
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"ic_square"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStyleBordered target:self action:nil];
     
@@ -54,7 +58,7 @@
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wundeclared-selector"
     
-    UIMenuItem *saveItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"overview.menue.item.save", nil)
+    UIMenuItem *saveItem = [[UIMenuItem alloc] initWithTitle:MHGalleryLocalizedString(@"overview.menue.item.save")
                                                       action:@selector(saveImage:)];
     #pragma clang diagnostic pop
 

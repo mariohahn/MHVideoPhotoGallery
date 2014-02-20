@@ -259,9 +259,8 @@
 }
 
 -(void)updateTitleForIndex:(NSInteger)pageIndex{
-
-    NSString *localizedString = NSLocalizedString(@"imagedetail.title.current", nil);
-    self.navigationItem.title = [NSString localizedStringWithFormat:localizedString,@(pageIndex+1),@(self.galleryItems.count)]; // stringWithFormat:@"%@ von %@",@(pageIndex+1),@(self.galleryItems.count)];
+    NSString *localizedString  = MHGalleryLocalizedString(@"imagedetail.title.current");
+    self.navigationItem.title = [NSString stringWithFormat:localizedString,@(pageIndex+1),@(self.galleryItems.count)];
 }
 
 

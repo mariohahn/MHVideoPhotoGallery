@@ -37,20 +37,20 @@
     
     
     self.saveObject = [[MHShareItem alloc]initWithImageName:@"activtyMH"
-                                                      title:NSLocalizedString(@"shareview.save.cameraRoll", nil)
+                                                      title:MHGalleryLocalizedString(@"shareview.save.cameraRoll")
                                        withMaxNumberOfItems:MAXFLOAT
                                                withSelector:@"saveImages:"
                                            onViewController:self];
     
     self.mailObject = [[MHShareItem alloc]initWithImageName:@"mailMH"
-                                                      title:NSLocalizedString(@"shareview.mail", nil)
+                                                      title:MHGalleryLocalizedString(@"shareview.mail")
                                        withMaxNumberOfItems:10
                                                withSelector:@"mailImages:"
                                            onViewController:self];
     
     
     self.messageObject = [[MHShareItem alloc]initWithImageName:@"messageMH"
-                                                         title:NSLocalizedString(@"shareview.message", nil)
+                                                         title:MHGalleryLocalizedString(@"shareview.message")
                                           withMaxNumberOfItems:15
                                                   withSelector:@"smsImages:"
                                               onViewController:self];
@@ -258,11 +258,11 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     return cell;
 }
 -(void)updateTitle{
-    NSString *localizedTitle =  NSLocalizedString(@"shareview.title.select.singular", nil);
-    self.title = [NSString localizedStringWithFormat:localizedTitle, @(self.selectedRows.count)];
+    NSString *localizedTitle =  MHGalleryLocalizedString(@"shareview.title.select.singular");
+    self.title = [NSString stringWithFormat:localizedTitle, @(self.selectedRows.count)];
     if (self.selectedRows.count >1) {
-        NSString *localizedTitle =  NSLocalizedString(@"shareview.title.select.plural", nil);
-        self.title = [NSString localizedStringWithFormat:localizedTitle, @(self.selectedRows.count)];
+        NSString *localizedTitle =  MHGalleryLocalizedString(@"shareview.title.select.plural");
+        self.title = [NSString stringWithFormat:localizedTitle, @(self.selectedRows.count)];
     }
     
 }

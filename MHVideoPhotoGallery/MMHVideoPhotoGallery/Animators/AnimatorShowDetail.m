@@ -37,6 +37,7 @@
     cell.iv.hidden = YES;
     
     BOOL videoIconsHidden = YES;
+    
     if (!cell.videoGradient.isHidden) {
         cell.videoGradient.hidden = YES;
         cell.videoDurationLength.hidden =YES;
@@ -97,7 +98,6 @@
                     cell.videoIcon.hidden = NO;
                     cell.videoDurationLength.hidden =NO;
                 }
-                
                 if ([transitionContext transitionWasCancelled]) {
                     tb.alpha = 0;
                     descriptionLabel.alpha = 0;

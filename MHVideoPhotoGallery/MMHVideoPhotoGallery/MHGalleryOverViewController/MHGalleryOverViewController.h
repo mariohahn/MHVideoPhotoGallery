@@ -20,11 +20,11 @@
 @end
 
 @interface MHGalleryOverViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate>
-@property (strong, nonatomic)           UICollectionView *cv;
 
-@property (nonatomic)                   NSInteger currentPage;
+@property (strong, nonatomic) UICollectionView      *cv;
+@property (strong,nonatomic ) MHGalleryOverViewCell *clickedCell;
+@property (nonatomic)         NSInteger             currentPage;
 
-@property (nonatomic, strong)           MHGalleryOverViewCell *clickedCell;
 
 @property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH, NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image);
 @end

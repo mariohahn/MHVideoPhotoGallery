@@ -14,6 +14,10 @@
 
 @class AnimatorShowDetailForDismissMHGallery;
 
+
+extern NSBundle *MHGalleryBundle(void);
+extern NSString *MHGalleryLocalizedString(NSString *localizeString);
+
 extern NSString *const MHYoutubeChannel;
 extern NSString *const MHGalleryViewModeOverView;
 extern NSString *const MHGalleryViewModeShare;
@@ -88,10 +92,11 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 
 @interface MHGalleryItem : NSObject
-@property (nonatomic, strong) NSString *urlString;
-@property (nonatomic) MHGalleryType galleryType;
-@property (nonatomic,strong) NSString *description;
-@property (nonatomic,strong) NSString *title;
+
+@property (nonatomic, strong) NSString      *urlString;
+@property (nonatomic)         MHGalleryType galleryType;
+@property (nonatomic,strong ) NSString      *description;
+@property (nonatomic,strong ) NSString      *title;
 
 
 /**
