@@ -34,7 +34,7 @@
     
     self.title =  MHGalleryLocalizedString(@"overview.title.current");
 
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"ic_square"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStyleBordered target:self action:nil];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStyleBordered target:self action:nil];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
     
@@ -133,7 +133,7 @@
                                                                   
                                                                   if (error) {
                                                                       blockCell.iv.backgroundColor = [UIColor whiteColor];
-                                                                      blockCell.iv.image = [UIImage imageNamed:@"error"];
+                                                                      blockCell.iv.image = MHGalleryImage(@"error");
                                                                   }else{                                                                      
                                                                       NSNumber *minutes = @(videoDuration / 60);
                                                                       NSNumber *seconds = @(videoDuration % 60);
@@ -159,7 +159,7 @@
                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                            if (!image) {
                                blockCell.iv.backgroundColor = [UIColor whiteColor];
-                               blockCell.iv.image = [UIImage imageNamed:@"error"];
+                               blockCell.iv.image = MHGalleryImage(@"error");
                            }
                            [[blockCell.contentView viewWithTag:405] setHidden:YES];
                            

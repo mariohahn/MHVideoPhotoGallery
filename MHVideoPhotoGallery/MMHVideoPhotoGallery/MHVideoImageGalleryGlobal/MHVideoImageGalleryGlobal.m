@@ -25,10 +25,37 @@ NSBundle *MHGalleryBundle(void) {
     return bundle;
 }
 
-NSString *MHGalleryLocalizedString(NSString *localizeString) {
-    NSString *localization = NSLocalizedStringFromTableInBundle(localizeString, @"MHGallery", MHGalleryBundle(), @"");
-    return localization;
+static NSString* (^ CustomLocalizationBlock)(NSString *localization) = nil;
+static UIImage* (^ CustomImageBlock)(NSString *imageToChangeName) = nil;
+
+void MHGalleryCustomImageBlock(UIImage *(^customImageBlock)(NSString *imageToChangeName)){
+    CustomImageBlock = customImageBlock;
 }
+void MHGalleryCustomLocalizationBlock(NSString *(^customLocalizationBlock)(NSString *stringToLocalize)){
+    CustomLocalizationBlock = customLocalizationBlock;
+}
+
+NSString *MHGalleryLocalizedString(NSString *localizeString) {
+    if (CustomLocalizationBlock) {
+        NSString *string = CustomLocalizationBlock(localizeString);
+        if (string) {
+            return string;
+        }
+    }
+    return  NSLocalizedStringFromTableInBundle(localizeString, @"MHGallery", MHGalleryBundle(), @"");
+}
+
+
+UIImage *MHGalleryImage(NSString *imageName){
+    if (CustomImageBlock) {
+        UIImage *changedImage = CustomImageBlock(imageName);
+        if (changedImage) {
+            return changedImage;
+        }
+    }
+    return [UIImage imageNamed:imageName];
+}
+
 
 @implementation MHShareItem
 

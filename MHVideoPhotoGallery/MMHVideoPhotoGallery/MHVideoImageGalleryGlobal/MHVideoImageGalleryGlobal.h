@@ -16,8 +16,12 @@
 @class AnimatorShowDetailForDismissMHGallery;
 
 
+extern void MHGalleryCustomLocalizationBlock(NSString *(^customLocalizationBlock)(NSString *stringToLocalize));
+extern void MHGalleryCustomImageBlock(UIImage *(^customImageBlock)(NSString *imageToChangeName));
+
 extern NSBundle *MHGalleryBundle(void);
 extern NSString *MHGalleryLocalizedString(NSString *localizeString);
+extern UIImage *MHGalleryImage(NSString *imageName);
 
 extern NSString *const MHYoutubeChannel;
 extern NSString *const MHGalleryViewModeOverView;
@@ -114,6 +118,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @end
 
 @interface MHGallerySharedManager : NSObject
+
 /**
  *  By default the gallery will dismiss itself by scrolling to left at the pageIndex of 0 or scrolling right at the last pageindex here you can disbale it.
  */
