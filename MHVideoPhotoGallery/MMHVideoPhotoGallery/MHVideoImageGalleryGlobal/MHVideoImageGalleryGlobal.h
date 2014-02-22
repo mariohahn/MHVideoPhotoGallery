@@ -21,7 +21,7 @@ extern void MHGalleryCustomImageBlock(UIImage *(^customImageBlock)(NSString *ima
 
 extern NSBundle *MHGalleryBundle(void);
 extern NSString *MHGalleryLocalizedString(NSString *localizeString);
-extern UIImage *MHGalleryImage(NSString *imageName);
+extern UIImage  *MHGalleryImage(NSString *imageName);
 
 extern NSString *const MHYoutubeChannel;
 extern NSString *const MHGalleryViewModeOverView;
@@ -102,8 +102,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic)         MHGalleryType galleryType;
 @property (nonatomic,strong ) NSString      *description;
 @property (nonatomic,strong ) NSString      *title;
-
-
 /**
  *  MHGalleryItem
  *
@@ -218,7 +216,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 -(void)getImageFromAssetLibrary:(NSString*)urlString
                       assetType:(MHAssetImageType)type
                    successBlock:(void (^)(UIImage *image,NSError *error))succeedBlock;
-
 /**
  *  Returns all MHGalleryObjects for a Youtube channel
  *
