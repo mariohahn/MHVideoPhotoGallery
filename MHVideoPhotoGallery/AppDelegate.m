@@ -11,19 +11,14 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+   
     self.window.tintColor = [UIColor colorWithRed:1 green:0.18 blue:0.33 alpha:1];
     
     MHGalleryCustomLocalizationBlock(^NSString *(NSString *stringToLocalize) {
-        if ([stringToLocalize isEqualToString:@"overview.title.current"]){
-            return @"Kacheln";
-        }
         return nil;
     });
     
     MHGalleryCustomImageBlock(^UIImage *(NSString *imageToChangeName) {
-        if ([imageToChangeName isEqualToString:@"ic_square"]) {
-            return [UIImage imageNamed:@"EditControlSelected"];
-        }
         return nil;
     });
 

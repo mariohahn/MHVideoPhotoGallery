@@ -267,13 +267,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F5045B4F18B2012B0043BC0E /* Localizable */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Localizable;
-			sourceTree = "<group>";
-		};
 		F5245D9018AA1664004C6FFA /* External */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,13 +344,11 @@
 			children = (
 				F5D9AB5018B665A80014AAC6 /* MHGallery.bundle */,
 				F5245D9018AA1664004C6FFA /* External */,
-				F58F65351883FC0B00D3A8F9 /* iPad */,
 				F53F925217EB008100A9FE6A /* AppDelegate.h */,
 				F53F925317EB008100A9FE6A /* AppDelegate.m */,
 				F58F65021880896300D3A8F9 /* MHShareViewController */,
 				F5DBBF18187D56CD00BEFE29 /* MHGalleryImageViewerViewController */,
 				F5DBBF17187D56B700BEFE29 /* MHUIImageViewContentViewAnimation */,
-				F5045B4F18B2012B0043BC0E /* Localizable */,
 				F5F8DA2A18B6A65900EB25F2 /* MHGalleryPresenterImageView */,
 				F5DBBF16187D56A400BEFE29 /* UIImage+ImageEffects */,
 				F5DBBF15187D569A00BEFE29 /* MHGalleryOverViewController */,
@@ -493,13 +484,6 @@
 				F58F65041880899200D3A8F9 /* MHShareViewController.m */,
 			);
 			name = MHShareViewController;
-			sourceTree = "<group>";
-		};
-		F58F65351883FC0B00D3A8F9 /* iPad */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = iPad;
 			sourceTree = "<group>";
 		};
 		F5DBBF14187D568100BEFE29 /* MHGalleryCells */ = {
