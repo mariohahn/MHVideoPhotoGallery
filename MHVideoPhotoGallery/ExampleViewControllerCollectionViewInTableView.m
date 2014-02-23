@@ -186,7 +186,7 @@
                              [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = cell.iv;
                              
                              [galleryNavMH dismissViewControllerAnimated:YES completion:^{
-                                 MPMoviePlayerController *player = [MHGallerySharedManager sharedManager].interactiveMHGallery.moviePlayer;
+                                 MPMoviePlayerController *player = [MHGallerySharedManager sharedManager].interactiveDismissMHGallery.moviePlayer;
                                  player.controlStyle = MPMovieControlStyleEmbedded;
                                  player.view.frame = cell.bounds;
                                  player.scalingMode = MPMovieScalingModeAspectFill;

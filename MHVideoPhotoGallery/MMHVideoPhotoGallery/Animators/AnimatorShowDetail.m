@@ -275,6 +275,7 @@
 
 -(void)updateInteractiveTransition:(CGFloat)percentComplete{
     [super updateInteractiveTransition:percentComplete];
+   
     self.whiteView.alpha = percentComplete;
     self.descriptionViewBackground.alpha = percentComplete;
     self.tb.alpha = percentComplete;

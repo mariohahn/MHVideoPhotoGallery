@@ -9,12 +9,14 @@
 #import "UIImageView+MHGallery.h"
 #import "AnimatorShowDetailForDismissMHGallery.h"
 #import "AnimatorShowDetailForPresentingMHGallery.h"
+#import "MHGalleryPresenterImageView.h"
 
 #define MHISIPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 #define kMHGalleryBundleName @"MHGallery.bundle"
 
 @class AnimatorShowDetailForDismissMHGallery;
-
+@class AnimatorShowDetailForPresentingMHGallery;
+@class MHGalleryPresenterImageView;
 
 extern void MHGalleryCustomLocalizationBlock(NSString *(^customLocalizationBlock)(NSString *stringToLocalize));
 extern void MHGalleryCustomImageBlock(UIImage *(^customImageBlock)(NSString *imageToChangeName));
@@ -162,8 +164,10 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  */
 @property (nonatomic,assign) MHYoutubeVideoQuality youtubeVideoQuality;
 
-@property (nonatomic,strong) AnimatorShowDetailForDismissMHGallery *interactiveMHGallery;
+@property (nonatomic,strong) AnimatorShowDetailForPresentingMHGallery *interactivePresentationMHGallery;
+@property (nonatomic,strong) AnimatorShowDetailForDismissMHGallery *interactiveDismissMHGallery;
 @property (nonatomic,strong) UIImageView *ivForPresentingAndDismissingMHGallery;
+@property (nonatomic,strong) MHGalleryPresenterImageView *ivForInteractiveTransition;
 
 + (MHGallerySharedManager *)sharedManager;
 /**

@@ -10,8 +10,6 @@
 
 @interface ExampleViewControllerImageView ()
 @property(nonatomic,strong)NSArray *galleryDataSource;
-@property(nonatomic) NSInteger currentIndex;
-
 @end
 
 @implementation ExampleViewControllerImageView
@@ -21,8 +19,6 @@
     [super viewDidLoad];
     
     self.title = @"ImageView";
-    
-    self.currentIndex =0;
     
     MHGalleryItem *youtube = [[MHGalleryItem alloc]initWithURL:@"http://www.youtube.com/watch?v=YSdJtNen-EA"
                                                    galleryType:MHGalleryTypeVideo];
@@ -68,39 +64,27 @@
                                                         galleryType:MHGalleryTypeImage];
     
     
-    
     self.galleryDataSource = @[landschaft,landschaft1,landschaft2,landschaft3,landschaft4,landschaft5,vimeo0,vimeo1,vimeo3,landschaft6,landschaft7,youtube,landschaft8,landschaft9,landschaft10];
+   
     
+    self.iv.galleryItems = self.galleryDataSource;
+    self.iv.currentImageIndex = 0;
+    self.iv.viewController = self;
     [self.iv setImageWithURL:[NSURL URLWithString:landschaft.urlString]];
     [self.iv setUserInteractionEnabled:YES];
-    [self.iv addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageTapped)]];
-}
-
-
-
--(void)imageTapped{
-        
-    [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = self.iv;
+   
+    __block ExampleViewControllerImageView *blockSelf = self;
     
-    NSArray *galleryData = self.galleryDataSource;
-    
-    [self presentMHGalleryWithItems:galleryData
-                           forIndex:self.currentIndex
-                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
-                         self.currentIndex = pageIndex;
-                         self.iv.image = image;
-                         [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = self.iv;
-                         [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
-                     } customAnimationFromImage:YES];
-    
+    self.iv.finishedCallback = ^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+        blockSelf.iv.image = image;
+        blockSelf.iv.currentImageIndex = pageIndex;
+
+        [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = blockSelf.iv;
+        [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
+    };
     
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

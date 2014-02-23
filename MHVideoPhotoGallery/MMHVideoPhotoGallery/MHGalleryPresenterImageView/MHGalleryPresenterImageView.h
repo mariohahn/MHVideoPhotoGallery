@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AnimatorShowDetailForPresentingMHGallery.h"
 
-@interface MHGalleryPresenterImageView : UIImageView
+@class AnimatorShowDetailForPresentingMHGallery;
+
+@interface MHGalleryPresenterImageView : UIImageView <UIGestureRecognizerDelegate>
+@property (nonatomic,strong) id viewController;
+@property (nonatomic,strong) AnimatorShowDetailForPresentingMHGallery *presenter;
 @property (nonatomic,strong) NSArray   *galleryItems;
 @property (nonatomic)        NSInteger currentImageIndex;
 @property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image);

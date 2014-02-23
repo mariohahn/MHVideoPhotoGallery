@@ -10,5 +10,9 @@
 #import "MHVideoImageGalleryGlobal.h"
 
 @interface AnimatorShowDetailForPresentingMHGallery : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
-@property (nonatomic, strong) UIImageView *iv;
+@property (nonatomic,strong)    UIImageView *iv;
+@property (nonatomic,assign)    CGFloat angle;
+@property (nonatomic,assign)    CGFloat scale;
+@property (nonatomic,assign)    CGPoint changedPoint;
+@property (nonatomic,assign)    id <UIViewControllerContextTransitioning> context;
 @end

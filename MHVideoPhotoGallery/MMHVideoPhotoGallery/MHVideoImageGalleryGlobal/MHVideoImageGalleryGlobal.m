@@ -205,8 +205,8 @@ UIImage *MHGalleryImage(NSString *imageName){
 
 
 -(void)setIvForPresentingAndDismissingMHGallery:(UIImageView *)ivForPresentingAndDismissingMHGallery{
-    if (self.interactiveMHGallery) {
-        self.interactiveMHGallery.iv = ivForPresentingAndDismissingMHGallery;
+    if (self.interactiveDismissMHGallery) {
+        self.interactiveDismissMHGallery.iv = ivForPresentingAndDismissingMHGallery;
     }
     _ivForPresentingAndDismissingMHGallery = ivForPresentingAndDismissingMHGallery;
 }
@@ -644,7 +644,7 @@ UIImage *MHGalleryImage(NSString *imageName){
     MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
     [gallery viewDidLoad];
     gallery.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
-        [MHGallerySharedManager sharedManager].interactiveMHGallery = interactiveTransition;
+        [MHGallerySharedManager sharedManager].interactiveDismissMHGallery = interactiveTransition;
         FinishBlock(galleryNavMH,photoIndex,image);
     };
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:gallery];
@@ -673,14 +673,14 @@ UIImage *MHGalleryImage(NSString *imageName){
     MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
     [gallery viewDidLoad];
     gallery.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
-        [MHGallerySharedManager sharedManager].interactiveMHGallery = interactiveTransition;
+        [MHGallerySharedManager sharedManager].interactiveDismissMHGallery = interactiveTransition;
         FinishBlock(galleryNavMH,photoIndex,image);
     };
     
     MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
     detail.pageIndex = index;
     detail.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
-        [MHGallerySharedManager sharedManager].interactiveMHGallery = interactiveTransition;
+        [MHGallerySharedManager sharedManager].interactiveDismissMHGallery = interactiveTransition;
         FinishBlock(galleryNavMH,photoIndex,image);
     };
     
@@ -698,9 +698,17 @@ UIImage *MHGalleryImage(NSString *imageName){
 }
 
 
+-(id<UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id<UIViewControllerAnimatedTransitioning>)animator{
+    if ([animator isKindOfClass:[AnimatorShowDetailForPresentingMHGallery class]]) {
+        return [MHGallerySharedManager sharedManager].ivForInteractiveTransition.presenter;
+    }else {
+        return nil;
+    }
+}
+
 -(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
     if ([animator isKindOfClass:[AnimatorShowDetailForDismissMHGallery class]]) {
-        return [MHGallerySharedManager sharedManager].interactiveMHGallery;
+        return [MHGallerySharedManager sharedManager].interactiveDismissMHGallery;
     }else {
         return nil;
     }
