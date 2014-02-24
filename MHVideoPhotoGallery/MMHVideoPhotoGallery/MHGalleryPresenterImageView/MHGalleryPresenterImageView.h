@@ -12,9 +12,27 @@
 @class AnimatorShowDetailForPresentingMHGallery;
 
 @interface MHGalleryPresenterImageView : UIImageView <UIGestureRecognizerDelegate>
+/**
+ *  set your Current ViewController
+ */
 @property (nonatomic,strong) UIViewController *viewController;
-@property (nonatomic,strong) AnimatorShowDetailForPresentingMHGallery *presenter;
-@property (nonatomic,strong) NSArray   *galleryItems;
-@property (nonatomic)        NSInteger currentImageIndex;
+/**
+ *  set your the Data Source
+ */
+@property (nonatomic,strong) NSArray          *galleryItems;
+/**
+ *  set the currentIndex
+ */
+@property (nonatomic)        NSInteger        currentImageIndex;
+
 @property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image);
+
+@property (nonatomic,strong) AnimatorShowDetailForPresentingMHGallery *presenter;
+
+
+-(void)setInseractiveGalleryPresentionWithItems:(NSArray*)galleryItems
+                              currentImageIndex:(NSInteger)currentImageIndex
+                          currentViewController:(UIViewController*)viewController
+                                 finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
+                                                 )FinishBlock;
 @end

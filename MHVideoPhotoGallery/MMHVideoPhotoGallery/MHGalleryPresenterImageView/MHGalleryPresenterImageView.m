@@ -32,6 +32,18 @@
     }
     return self;
 }
+
+-(void)setInseractiveGalleryPresentionWithItems:(NSArray*)galleryItems
+                              currentImageIndex:(NSInteger)currentImageIndex
+                          currentViewController:(UIViewController*)viewController
+                                 finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
+                                                 )FinishBlock{
+    self.galleryItems = galleryItems;
+    self.currentImageIndex = currentImageIndex;
+    self.viewController = viewController;
+    self.finishedCallback = FinishBlock;
+}
+
 -(void)initGestureRecognizers{
     UIPinchGestureRecognizer *pinchToPresent = [[UIPinchGestureRecognizer alloc]initWithTarget:self
                                                                                         action:@selector(presentMHGallery:)];
