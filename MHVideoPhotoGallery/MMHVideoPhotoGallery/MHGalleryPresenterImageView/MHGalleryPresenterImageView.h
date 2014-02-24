@@ -12,7 +12,7 @@
 @class AnimatorShowDetailForPresentingMHGallery;
 
 @interface MHGalleryPresenterImageView : UIImageView <UIGestureRecognizerDelegate>
-@property (nonatomic,strong) id viewController;
+@property (nonatomic,strong) UIViewController *viewController;
 @property (nonatomic,strong) AnimatorShowDetailForPresentingMHGallery *presenter;
 @property (nonatomic,strong) NSArray   *galleryItems;
 @property (nonatomic)        NSInteger currentImageIndex;

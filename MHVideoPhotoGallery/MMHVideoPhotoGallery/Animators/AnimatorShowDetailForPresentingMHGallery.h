@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHVideoImageGalleryGlobal.h"
+#import "MHUIImageViewContentViewAnimation.h"
 
 @interface AnimatorShowDetailForPresentingMHGallery : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
+@property (nonatomic,strong)    MHUIImageViewContentViewAnimation *ivAnimation;
 @property (nonatomic,strong)    UIImageView *iv;
 @property (nonatomic,assign)    CGFloat angle;
 @property (nonatomic,assign)    CGFloat scale;

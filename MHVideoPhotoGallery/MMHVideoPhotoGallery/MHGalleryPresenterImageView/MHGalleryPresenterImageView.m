@@ -83,16 +83,13 @@
                                                         forIndex:self.currentImageIndex
                                                   finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
                                                       [MHGallerySharedManager sharedManager].ivForInteractiveTransition = nil;
-
                                                       if (self.finishedCallback) {
                                                           self.finishedCallback(galleryNavMH,pageIndex,image);
                                                       }
                                                   } customAnimationFromImage:YES];
-            
-            
-            self.lastPoint = [recognizer locationInView:[self.viewController view]];
-            self.startScale = recognizer.scale/8;
 
+            self.lastPoint = [recognizer locationInView:self.viewController.view];
+            self.startScale = recognizer.scale/8;
         }else{
             [recognizer setCancelsTouchesInView:YES];
         }
@@ -102,13 +99,13 @@
             [recognizer setEnabled:NO];
             [recognizer setEnabled:YES];
         }
-        CGPoint point = [recognizer locationInView:[self.viewController view]];
+        CGPoint point = [recognizer locationInView:self.viewController.view];
         self.presenter.scale = recognizer.scale/8-self.startScale;
         self.presenter.changedPoint = CGPointMake(self.lastPoint.x - point.x, self.lastPoint.y - point.y) ;
         [self.presenter updateInteractiveTransition:scale];
         self.lastPoint = point;
     }else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
-        if (scale > 0.5) {
+        if ((self.presenter.ivAnimation.frame.size.width > self.viewController.view.frame.size.width)||(self.presenter.ivAnimation.frame.size.height > self.viewController.view.frame.size.height)) {
             [self.presenter finishInteractiveTransition];
         }else {
             [self.presenter cancelInteractiveTransition];

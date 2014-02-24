@@ -8,9 +8,9 @@
 
 #import "AnimatorShowDetailForPresentingMHGallery.h"
 #import "MHGalleryOverViewController.h"
+#import "MHVideoImageGalleryGlobal.h"
 
 @interface AnimatorShowDetailForPresentingMHGallery()
-@property (nonatomic, strong) MHUIImageViewContentViewAnimation *cellImageSnapshot;
 @property (nonatomic, strong) UINavigationController *toViewControllerInteractive;
 @property (nonatomic, strong) UIView *whiteView;
 @property (nonatomic) CGRect startFrame;
@@ -93,12 +93,12 @@
     
     UIView *containerView = [transitionContext containerView];
     
-    self.cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:[containerView convertRect:self.iv.frame fromView:self.iv.superview]];
-    self.cellImageSnapshot.image = self.iv.image;
-    self.cellImageSnapshot.contentMode = self.iv.contentMode;
+    self.ivAnimation = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:[containerView convertRect:self.iv.frame fromView:self.iv.superview]];
+    self.ivAnimation.image = self.iv.image;
+    self.ivAnimation.contentMode = self.iv.contentMode;
     self.iv.hidden = YES;
     
-    self.startFrame = self.cellImageSnapshot.frame;
+    self.startFrame = self.ivAnimation.frame;
     
     self.toViewControllerInteractive.view.frame = [transitionContext finalFrameForViewController:self.toViewControllerInteractive];
     self.toViewControllerInteractive.view.alpha = 0;
@@ -110,7 +110,7 @@
     
     [containerView addSubview:self.whiteView];
     [containerView addSubview:self.toViewControllerInteractive.view];
-    [containerView addSubview:self.cellImageSnapshot];
+    [containerView addSubview:self.ivAnimation];
 
 }
 
@@ -118,9 +118,9 @@
     [super updateInteractiveTransition:percentComplete];
   
     self.whiteView.alpha = percentComplete;
-    self.cellImageSnapshot.center = CGPointMake(self.cellImageSnapshot.center.x-self.changedPoint.x, self.cellImageSnapshot.center.y-self.changedPoint.y);
-    self.cellImageSnapshot.transform = CGAffineTransformMakeScale(1+self.scale*3, 1+self.scale*3);
-    self.cellImageSnapshot.transform = CGAffineTransformRotate(self.cellImageSnapshot.transform, self.angle);
+    self.ivAnimation.center = CGPointMake(self.ivAnimation.center.x-self.changedPoint.x, self.ivAnimation.center.y-self.changedPoint.y);
+    self.ivAnimation.transform = CGAffineTransformMakeScale(1+self.scale*3, 1+self.scale*3);
+    self.ivAnimation.transform = CGAffineTransformRotate(self.ivAnimation.transform, self.angle);
 }
 -(CGAffineTransform)rotateToZeroAffineTranform{
     
@@ -134,19 +134,19 @@
     
     
     [UIView animateWithDuration:[self timeForUnrotet] animations:^{
-        self.cellImageSnapshot.transform  = [self rotateToZeroAffineTranform];
+        self.ivAnimation.transform  = [self rotateToZeroAffineTranform];
     } completion:^(BOOL finished) {
-        CGRect currentFrame = self.cellImageSnapshot.frame;
-        self.cellImageSnapshot.transform = CGAffineTransformIdentity;
-        self.cellImageSnapshot.frame = currentFrame;
+        CGRect currentFrame = self.ivAnimation.frame;
+        self.ivAnimation.transform = CGAffineTransformIdentity;
+        self.ivAnimation.frame = currentFrame;
         
         [UIView animateWithDuration:0.3 animations:^{
             self.whiteView.alpha = 0;
-            self.cellImageSnapshot.frame = self.startFrame;
+            self.ivAnimation.frame = self.startFrame;
         } completion:^(BOOL finished) {
             self.iv.hidden = NO;
 
-            [self.cellImageSnapshot removeFromSuperview];
+            [self.ivAnimation removeFromSuperview];
             [self.whiteView removeFromSuperview];
             [self.context completeTransition:NO];
         }];
@@ -168,26 +168,26 @@
     MHGalleryImageViewerViewController *imageViewer = self.toViewControllerInteractive.viewControllers.lastObject;
     
     [UIView animateWithDuration:[self timeForUnrotet] animations:^{
-        self.cellImageSnapshot.transform  = [self rotateToZeroAffineTranform];
+        self.ivAnimation.transform  = [self rotateToZeroAffineTranform];
     
     } completion:^(BOOL finished) {
         
-        CGRect currentFrame = self.cellImageSnapshot.frame;
+        CGRect currentFrame = self.ivAnimation.frame;
         
-        self.cellImageSnapshot.transform = CGAffineTransformIdentity;
-        self.cellImageSnapshot.frame = currentFrame;
-        self.cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
+        self.ivAnimation.transform = CGAffineTransformIdentity;
+        self.ivAnimation.frame = currentFrame;
+        self.ivAnimation.contentMode = UIViewContentModeScaleAspectFit;
 
         [UIView animateWithDuration:0.3 animations:^{
             self.whiteView.alpha = 1;
         }];
         
-        [self.cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFit forFrame:imageViewer.view.bounds withDuration:0.3 afterDelay:0 finished:^(BOOL finished) {
+        [self.ivAnimation animateToViewMode:UIViewContentModeScaleAspectFit forFrame:imageViewer.view.bounds withDuration:0.3 afterDelay:0 finished:^(BOOL finished) {
             [UIView animateWithDuration:0.2 animations:^{
                 self.toViewControllerInteractive.view.alpha = 1;
             } completion:^(BOOL finished) {
                 self.iv.hidden = NO;
-                [self.cellImageSnapshot removeFromSuperview];
+                [self.ivAnimation removeFromSuperview];
                 [self.whiteView removeFromSuperview];
                 [self.context completeTransition:YES];
             }];
