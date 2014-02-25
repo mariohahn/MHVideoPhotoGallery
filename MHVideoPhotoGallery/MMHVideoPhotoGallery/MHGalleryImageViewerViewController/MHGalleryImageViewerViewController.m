@@ -34,6 +34,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
     if (![self.descriptionViewBackground isDescendantOfView:self.view]) {
@@ -745,10 +746,9 @@
                                                                  
                                                              }else{
                                                                  self.imageView.image = image;
+                                                                 [self centerImageView];
                                                              }
                                                              [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
-                                                             
-                                                             
                                                          }];
             }else{
                 
@@ -1328,11 +1328,20 @@
         [self.scrollView setZoomScale:1 animated:YES];
         return;
     }
+    
+    CGRect zoomRect;
     CGFloat newZoomScale = (self.scrollView.maximumZoomScale);
-    CGFloat xsize = self.scrollView.bounds.size.width / newZoomScale;
-    CGFloat ysize = self.scrollView.bounds.size.height / newZoomScale;
     CGPoint touchPoint = [gestureRecognizer locationInView:gestureRecognizer.view];
-    [self.scrollView zoomToRect:CGRectMake(touchPoint.x - xsize/2, touchPoint.y - ysize/2, xsize, ysize) animated:YES];
+
+    zoomRect.size.height = [self.imageView frame].size.height / newZoomScale;
+    zoomRect.size.width  = [self.imageView frame].size.width  / newZoomScale;
+    
+    touchPoint = [self.scrollView convertPoint:touchPoint fromView:self.imageView];
+    
+    zoomRect.origin.x    = touchPoint.x - ((zoomRect.size.width / 2.0));
+    zoomRect.origin.y    = touchPoint.y - ((zoomRect.size.height / 2.0));
+    
+    [self.scrollView zoomToRect:zoomRect animated:YES];
 }
 
 
@@ -1393,6 +1402,10 @@
     if(self.imageView.image){
         CGRect frame  = AVMakeRectWithAspectRatioInsideRect(self.imageView.image.size,CGRectMake(0, 0, self.scrollView.contentSize.width, self.scrollView.contentSize.height));
         
+        if (self.scrollView.contentSize.width==0 && self.scrollView.contentSize.height==0) {
+            frame = AVMakeRectWithAspectRatioInsideRect(self.imageView.image.size,self.scrollView.bounds);
+        }
+        
         CGSize boundsSize = self.scrollView.bounds.size;
         CGRect frameToCenter = CGRectMake(0,0 , frame.size.width, frame.size.height);
         
@@ -1406,7 +1419,6 @@
         }else{
             frameToCenter.origin.y = 0;
         }
-        
         self.imageView.frame = frameToCenter;
     }
 }

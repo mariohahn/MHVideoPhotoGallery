@@ -12,6 +12,8 @@
 @class AnimatorShowDetailForPresentingMHGallery;
 
 @interface MHGalleryPresenterImageView : UIImageView <UIGestureRecognizerDelegate>
+
+@property (nonatomic)       BOOL shoudlUsePanGestureReconizer;
 /**
  *  set your Current ViewController
  */

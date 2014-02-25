@@ -43,10 +43,16 @@
     self.viewController = viewController;
     self.finishedCallback = FinishBlock;
 }
-
+-(void)setShoudlUsePanGestureReconizer:(BOOL)shoudlUsePanGestureReconizer{
+    for (UIGestureRecognizer *recognizer in  self.gestureRecognizers) {
+        [self removeGestureRecognizer:recognizer];
+    }
+    _shoudlUsePanGestureReconizer = shoudlUsePanGestureReconizer;
+    [self initGestureRecognizers];
+}
 -(void)initGestureRecognizers{
     UIPinchGestureRecognizer *pinchToPresent = [[UIPinchGestureRecognizer alloc]initWithTarget:self
-                                                                                        action:@selector(presentMHGallery:)];
+                                                                                        action:@selector(presentMHGalleryPinch:)];
     [self addGestureRecognizer:pinchToPresent];
     
     
@@ -58,8 +64,13 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapOnImage)];
     [self addGestureRecognizer:tap];
     
+    
+    if (self.shoudlUsePanGestureReconizer) {
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(presentMHGalleryPan:)];
+        [self addGestureRecognizer:pan];
+    }
     self.userInteractionEnabled =YES;
-
+    
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
@@ -84,29 +95,46 @@
                                         }
                                     } customAnimationFromImage:YES];
 }
--(void)presentMHGallery:(UIPinchGestureRecognizer*)recognizer{
+-(void)presentMHGallery{
+    [MHGallerySharedManager sharedManager].ivForInteractiveTransition = self;
+    self.presenter = [AnimatorShowDetailForPresentingMHGallery new];
+    self.presenter.iv = self;
+    [self.viewController presentMHGalleryWithItems:self.galleryItems
+                                          forIndex:self.currentImageIndex
+                                    finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+                                        [MHGallerySharedManager sharedManager].ivForInteractiveTransition = nil;
+                                        if (self.finishedCallback) {
+                                            self.finishedCallback(galleryNavMH,pageIndex,image);
+                                        }
+                                    } customAnimationFromImage:YES];
+}
+
+-(void)presentMHGalleryPan:(UIPanGestureRecognizer*)recognizer{
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        [self presentMHGallery];
+        self.lastPoint = [recognizer locationInView:self.viewController.view];
+    }else if (recognizer.state == UIGestureRecognizerStateChanged) {
+        CGPoint point = [recognizer locationInView:self.viewController.view];
+        self.presenter.changedPoint = CGPointMake(self.lastPoint.x - point.x, self.lastPoint.y - point.y) ;
+        [self.presenter updateInteractiveTransition:0.4];
+        self.lastPoint = point;
+    }else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
+        [self.presenter finishInteractiveTransition];
+        self.presenter = nil;
+    }
+}
+
+-(void)presentMHGalleryPinch:(UIPinchGestureRecognizer*)recognizer{
     CGFloat scale = recognizer.scale/5;
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         if (recognizer.scale>1) {
-            [MHGallerySharedManager sharedManager].ivForInteractiveTransition = self;
-            self.presenter = [AnimatorShowDetailForPresentingMHGallery new];
-            self.presenter.iv = self;
-            [self.viewController presentMHGalleryWithItems:self.galleryItems
-                                                        forIndex:self.currentImageIndex
-                                                  finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
-                                                      [MHGallerySharedManager sharedManager].ivForInteractiveTransition = nil;
-                                                      if (self.finishedCallback) {
-                                                          self.finishedCallback(galleryNavMH,pageIndex,image);
-                                                      }
-                                                  } customAnimationFromImage:YES];
-
+            [self presentMHGallery];
             self.lastPoint = [recognizer locationInView:self.viewController.view];
             self.startScale = recognizer.scale/8;
         }else{
             [recognizer setCancelsTouchesInView:YES];
         }
     }else if (recognizer.state == UIGestureRecognizerStateChanged) {
-        
         if (recognizer.numberOfTouches <2) {
             [recognizer setEnabled:NO];
             [recognizer setEnabled:YES];
@@ -124,8 +152,8 @@
         }
         self.presenter = nil;
     }
-
-
+    
+    
 }
 
 @end
