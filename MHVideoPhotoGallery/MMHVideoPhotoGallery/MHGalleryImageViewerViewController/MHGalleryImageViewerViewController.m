@@ -46,10 +46,6 @@
     if (![self.tb isDescendantOfView:self.view]) {
         [self.view addSubview:self.tb];
     }
-    if (self.pvc) {
-        ImageViewController *imageViewer =self.pvc.viewControllers.firstObject;
-        [imageViewer centerImageView];
-    }
     [[self.pvc.view.subviews firstObject] setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
 }
 
@@ -751,7 +747,7 @@
                                                                  
                                                              }else{
                                                                  self.imageView.image = image;
-                                                                 [self centerImageView];
+                                                               //  [self centerImageView];
                                                              }
                                                              [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
                                                          }];
@@ -1412,6 +1408,7 @@
         }
         
         CGSize boundsSize = self.scrollView.bounds.size;
+        
         CGRect frameToCenter = CGRectMake(0,0 , frame.size.width, frame.size.height);
         
         if (frameToCenter.size.width < boundsSize.width){
