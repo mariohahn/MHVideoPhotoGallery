@@ -166,6 +166,7 @@
         self.iv.hidden = YES;
     }else{
         [self.containerView addSubview:self.cellImageSnapshot];
+        self.iv.hidden = YES;
     }
     self.navFrame = fromViewController.navigationBar.frame;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
