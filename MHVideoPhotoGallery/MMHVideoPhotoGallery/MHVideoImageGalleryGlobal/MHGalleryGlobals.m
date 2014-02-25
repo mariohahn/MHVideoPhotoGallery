@@ -1,6 +1,6 @@
 
-#import "MHVideoImageGalleryGlobal.h"
-#import "MHGalleryOverViewController.h"
+#import "MHGalleryGlobals.h"
+#import "MHOverViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "SDWebImageDecoder.h"
 #import <objc/runtime.h>
@@ -146,7 +146,7 @@ UIImage *MHGalleryImage(NSString *imageName){
     
     self.galleryItems =galleryItems;
     
-    MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
+    MHOverViewController *gallery = [MHOverViewController new];
     [gallery viewDidLoad];
     gallery.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
         FinishBlock(galleryNavMH,photoIndex,interactiveTransition,image);
@@ -641,7 +641,7 @@ UIImage *MHGalleryImage(NSString *imageName){
     [MHGallerySharedManager sharedManager].oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
     [MHGallerySharedManager sharedManager].galleryItems =galleryItems;
    
-    MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
+    MHOverViewController *gallery = [MHOverViewController new];
     [gallery viewDidLoad];
     gallery.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
         [MHGallerySharedManager sharedManager].interactiveDismissMHGallery = interactiveTransition;
@@ -670,7 +670,7 @@ UIImage *MHGalleryImage(NSString *imageName){
     
     [MHGallerySharedManager sharedManager].galleryItems =galleryItems;
     
-    MHGalleryOverViewController *gallery = [MHGalleryOverViewController new];
+    MHOverViewController *gallery = [MHOverViewController new];
     [gallery viewDidLoad];
     gallery.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image) {
         [MHGallerySharedManager sharedManager].interactiveDismissMHGallery = interactiveTransition;

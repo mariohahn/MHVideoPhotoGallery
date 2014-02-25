@@ -24,7 +24,7 @@
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
 
-    MHGalleryOverViewController *fromViewController = (MHGalleryOverViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    MHOverViewController *fromViewController = (MHOverViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     MHGalleryImageViewerViewController *toViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *containerView = [transitionContext containerView];
     NSTimeInterval duration = [self transitionDuration:transitionContext];
@@ -118,7 +118,7 @@
 -(void)startInteractiveTransition:(id<UIViewControllerContextTransitioning>)transitionContext{
     self.context = transitionContext;
     
-    MHGalleryOverViewController *fromViewController = (MHGalleryOverViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    MHOverViewController *fromViewController = (MHOverViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     MHGalleryImageViewerViewController *toViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *containerView = [transitionContext containerView];
     

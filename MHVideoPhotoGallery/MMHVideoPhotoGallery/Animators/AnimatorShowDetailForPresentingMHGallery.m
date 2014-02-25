@@ -7,8 +7,8 @@
 //
 
 #import "AnimatorShowDetailForPresentingMHGallery.h"
-#import "MHGalleryOverViewController.h"
-#import "MHVideoImageGalleryGlobal.h"
+#import "MHOverViewController.h"
+#import "MHGalleryGlobals.h"
 
 @interface AnimatorShowDetailForPresentingMHGallery()
 @property (nonatomic, strong) UINavigationController *toViewControllerInteractive;

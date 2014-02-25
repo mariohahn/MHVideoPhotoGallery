@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MHGalleryImageViewerViewController.h"
-#import "MHGalleryOverViewController.h"
+#import "MHOverViewController.h"
 #import "MHUIImageViewContentViewAnimation.h"
 
 @interface AnimatorShowDetail : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>

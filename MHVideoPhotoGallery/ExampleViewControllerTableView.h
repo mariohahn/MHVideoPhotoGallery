@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHVideoImageGalleryGlobal.h"
+#import "MHGalleryGlobals.h"
 
 
 @interface ImageTableViewCell : UITableViewCell

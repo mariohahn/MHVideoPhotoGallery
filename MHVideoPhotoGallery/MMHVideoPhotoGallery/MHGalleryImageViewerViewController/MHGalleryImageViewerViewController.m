@@ -8,7 +8,7 @@
 
 
 #import "MHGalleryImageViewerViewController.h"
-#import "MHGalleryOverViewController.h"
+#import "MHOverViewController.h"
 #import "AnimatorShowShareView.h"
 #import "AnimatorShowOverView.h"
 
@@ -62,7 +62,7 @@
 }
 
 -(void)donePressed{
-    MHGalleryOverViewController *overView  =self.navigationController.viewControllers.firstObject;
+    MHOverViewController *overView  =self.navigationController.viewControllers.firstObject;
     ImageViewController *imageViewer = self.pvc.viewControllers.firstObject;
     if (imageViewer.moviePlayer) {
         [imageViewer removeAllMoviePlayerViewsAndNotifications];
@@ -75,6 +75,7 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+    
     self.galleryItems = [MHGallerySharedManager sharedManager].galleryItems;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -340,7 +341,7 @@
         present.present = YES;
         return present;
     }
-    if ([toVC isKindOfClass:[MHGalleryOverViewController class]]) {
+    if ([toVC isKindOfClass:[MHOverViewController class]]) {
         return [AnimatorShowOverView new];
     }
     return nil;
@@ -560,7 +561,7 @@
                 self.interactiveTransition.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
                 
                 if (self.navigationController.viewControllers.count ==2) {
-                    MHGalleryOverViewController *overView  =[self.navigationController.viewControllers firstObject];
+                    MHOverViewController *overView  =[self.navigationController.viewControllers firstObject];
                     overView.finishedCallback(self.navigationController,self.pageIndex,self.interactiveTransition,self.imageView.image);
                 }else{
                     self.vc.finishedCallback(self.navigationController,self.pageIndex,self.interactiveTransition,self.imageView.image);

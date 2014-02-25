@@ -7,7 +7,7 @@
 //
 
 #import "ExampleViewControllerTableView.h"
-#import "MHGalleryOverViewController.h"
+#import "MHOverViewController.h"
 
 @implementation ImageTableViewCell
 

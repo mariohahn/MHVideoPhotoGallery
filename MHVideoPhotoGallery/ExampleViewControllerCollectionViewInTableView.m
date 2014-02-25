@@ -7,7 +7,7 @@
 //
 
 #import "ExampleViewControllerCollectionViewInTableView.h"
-#import "MHGalleryOverViewController.h"
+#import "MHOverViewController.h"
 
 @implementation UITabBarController (autoRotate)
 - (BOOL)shouldAutorotate {

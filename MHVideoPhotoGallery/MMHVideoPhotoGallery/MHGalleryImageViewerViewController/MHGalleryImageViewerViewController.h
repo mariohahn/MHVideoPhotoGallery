@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AnimatorShowOverView.h"
-#import "MHVideoImageGalleryGlobal.h"
+#import "MHGalleryGlobals.h"
 #import "MHShareViewController.h"
 
 @interface MHPinchGestureRecognizer : UIPinchGestureRecognizer

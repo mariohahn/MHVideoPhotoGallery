@@ -9,7 +9,7 @@
 
 
 #import <UIKit/UIKit.h>
-#import "MHVideoImageGalleryGlobal.h"
+#import "MHGalleryGlobals.h"
 
 @interface AnimatorShowOverView : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
 @property (nonatomic, assign)    BOOL interactionInProgress;

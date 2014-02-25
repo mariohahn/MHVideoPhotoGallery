@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHVideoImageGalleryGlobal.h"
-#import "MHGalleryPresenterImageView.h"
+#import "MHGalleryGlobals.h"
+#import "MHPresenterImageView.h"
 
 @interface ExampleViewControllerImageView : UIViewController
-@property(nonatomic,strong)IBOutlet MHGalleryPresenterImageView *iv;
+@property(nonatomic,strong)IBOutlet MHPresenterImageView *iv;
 @end

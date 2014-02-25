@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHVideoImageGalleryGlobal.h"
+#import "MHGalleryGlobals.h"
 #import "MHGalleryImageViewerViewController.h"
 #import "SDWebImageManager.h"
 #import "AnimatorShowDetail.h"
@@ -19,7 +19,7 @@
 @property (strong, nonatomic) NSIndexPath *indexPath;
 @end
 
-@interface MHGalleryOverViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate>
+@interface MHOverViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UICollectionView      *cv;
 @property (strong,nonatomic ) MHGalleryOverViewCell *clickedCell;

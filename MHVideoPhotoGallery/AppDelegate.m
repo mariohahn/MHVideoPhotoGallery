@@ -7,7 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "MHVideoImageGalleryGlobal.h"
+#import "MHGalleryGlobals.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{

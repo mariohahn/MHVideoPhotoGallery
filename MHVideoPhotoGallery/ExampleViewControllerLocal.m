@@ -8,7 +8,7 @@
 
 #import "ExampleViewControllerLocal.h"
 #import <AssetsLibrary/AssetsLibrary.h>
-#import "MHVideoImageGalleryGlobal.h"
+#import "MHGalleryGlobals.h"
 #import "ExampleViewControllerTableView.h"
 
 

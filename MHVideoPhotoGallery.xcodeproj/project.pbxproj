@@ -89,13 +89,13 @@
 		F5DBBF21187D573C00BEFE29 /* AnimatorShowDetailForPresentingMHGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF1D187D573C00BEFE29 /* AnimatorShowDetailForPresentingMHGallery.m */; };
 		F5DBBF22187D573C00BEFE29 /* AnimatorShowOverView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF1F187D573C00BEFE29 /* AnimatorShowOverView.m */; };
 		F5DBBF25187D577C00BEFE29 /* MHGalleryCells.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF24187D577C00BEFE29 /* MHGalleryCells.m */; };
-		F5DBBF28187D57DD00BEFE29 /* MHGalleryOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF27187D57DD00BEFE29 /* MHGalleryOverViewController.m */; };
-		F5DBBF2B187D580000BEFE29 /* MHVideoImageGalleryGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF2A187D580000BEFE29 /* MHVideoImageGalleryGlobal.m */; };
+		F5DBBF28187D57DD00BEFE29 /* MHOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF27187D57DD00BEFE29 /* MHOverViewController.m */; };
+		F5DBBF2B187D580000BEFE29 /* MHGalleryGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF2A187D580000BEFE29 /* MHGalleryGlobals.m */; };
 		F5DBBF2E187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF2D187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m */; };
 		F5DBBF31187D584C00BEFE29 /* MHGalleryImageViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF30187D584C00BEFE29 /* MHGalleryImageViewerViewController.m */; };
 		F5DBBF34187D5B8600BEFE29 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = F5DBBF33187D5B8600BEFE29 /* UIImage+ImageEffects.m */; };
 		F5EE8DA61890393D002E5734 /* testIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5EE8DA51890393D002E5734 /* testIcon@2x.png */; };
-		F5F8DA2D18B6A6A100EB25F2 /* MHGalleryPresenterImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5F8DA2C18B6A6A100EB25F2 /* MHGalleryPresenterImageView.m */; };
+		F5F8DA2D18B6A6A100EB25F2 /* MHPresenterImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5F8DA2C18B6A6A100EB25F2 /* MHPresenterImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -226,10 +226,10 @@
 		F5DBBF1F187D573C00BEFE29 /* AnimatorShowOverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimatorShowOverView.m; path = MMHVideoPhotoGallery/Animators/AnimatorShowOverView.m; sourceTree = "<group>"; };
 		F5DBBF23187D577C00BEFE29 /* MHGalleryCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGalleryCells.h; path = MMHVideoPhotoGallery/MHGalleryCells/MHGalleryCells.h; sourceTree = "<group>"; };
 		F5DBBF24187D577C00BEFE29 /* MHGalleryCells.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHGalleryCells.m; path = MMHVideoPhotoGallery/MHGalleryCells/MHGalleryCells.m; sourceTree = "<group>"; };
-		F5DBBF26187D57DD00BEFE29 /* MHGalleryOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGalleryOverViewController.h; path = MMHVideoPhotoGallery/MHGalleryOverViewController/MHGalleryOverViewController.h; sourceTree = "<group>"; };
-		F5DBBF27187D57DD00BEFE29 /* MHGalleryOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHGalleryOverViewController.m; path = MMHVideoPhotoGallery/MHGalleryOverViewController/MHGalleryOverViewController.m; sourceTree = "<group>"; };
-		F5DBBF29187D580000BEFE29 /* MHVideoImageGalleryGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHVideoImageGalleryGlobal.h; path = MMHVideoPhotoGallery/MHVideoImageGalleryGlobal/MHVideoImageGalleryGlobal.h; sourceTree = "<group>"; };
-		F5DBBF2A187D580000BEFE29 /* MHVideoImageGalleryGlobal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHVideoImageGalleryGlobal.m; path = MMHVideoPhotoGallery/MHVideoImageGalleryGlobal/MHVideoImageGalleryGlobal.m; sourceTree = "<group>"; };
+		F5DBBF26187D57DD00BEFE29 /* MHOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHOverViewController.h; path = MMHVideoPhotoGallery/MHGalleryOverViewController/MHOverViewController.h; sourceTree = "<group>"; };
+		F5DBBF27187D57DD00BEFE29 /* MHOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHOverViewController.m; path = MMHVideoPhotoGallery/MHGalleryOverViewController/MHOverViewController.m; sourceTree = "<group>"; };
+		F5DBBF29187D580000BEFE29 /* MHGalleryGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGalleryGlobals.h; path = MMHVideoPhotoGallery/MHVideoImageGalleryGlobal/MHGalleryGlobals.h; sourceTree = "<group>"; };
+		F5DBBF2A187D580000BEFE29 /* MHGalleryGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHGalleryGlobals.m; path = MMHVideoPhotoGallery/MHVideoImageGalleryGlobal/MHGalleryGlobals.m; sourceTree = "<group>"; };
 		F5DBBF2C187D582000BEFE29 /* MHUIImageViewContentViewAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHUIImageViewContentViewAnimation.h; path = MMHVideoPhotoGallery/MHUIImageViewContentViewAnimation/MHUIImageViewContentViewAnimation.h; sourceTree = "<group>"; };
 		F5DBBF2D187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHUIImageViewContentViewAnimation.m; path = MMHVideoPhotoGallery/MHUIImageViewContentViewAnimation/MHUIImageViewContentViewAnimation.m; sourceTree = "<group>"; };
 		F5DBBF2F187D584C00BEFE29 /* MHGalleryImageViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGalleryImageViewerViewController.h; path = MMHVideoPhotoGallery/MHGalleryImageViewerViewController/MHGalleryImageViewerViewController.h; sourceTree = "<group>"; };
@@ -237,8 +237,8 @@
 		F5DBBF32187D5B8600BEFE29 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ImageEffects.h"; path = "MMHVideoPhotoGallery/UIImage+ImageEffects/UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		F5DBBF33187D5B8600BEFE29 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageEffects.m"; path = "MMHVideoPhotoGallery/UIImage+ImageEffects/UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		F5EE8DA51890393D002E5734 /* testIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testIcon@2x.png"; sourceTree = "<group>"; };
-		F5F8DA2B18B6A6A100EB25F2 /* MHGalleryPresenterImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGalleryPresenterImageView.h; path = MMHVideoPhotoGallery/MHGalleryPresenterImageView/MHGalleryPresenterImageView.h; sourceTree = "<group>"; };
-		F5F8DA2C18B6A6A100EB25F2 /* MHGalleryPresenterImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHGalleryPresenterImageView.m; path = MMHVideoPhotoGallery/MHGalleryPresenterImageView/MHGalleryPresenterImageView.m; sourceTree = "<group>"; };
+		F5F8DA2B18B6A6A100EB25F2 /* MHPresenterImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHPresenterImageView.h; path = MMHVideoPhotoGallery/MHGalleryPresenterImageView/MHPresenterImageView.h; sourceTree = "<group>"; };
+		F5F8DA2C18B6A6A100EB25F2 /* MHPresenterImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHPresenterImageView.m; path = MMHVideoPhotoGallery/MHGalleryPresenterImageView/MHPresenterImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -498,8 +498,8 @@
 		F5DBBF15187D569A00BEFE29 /* MHGalleryOverViewController */ = {
 			isa = PBXGroup;
 			children = (
-				F5DBBF26187D57DD00BEFE29 /* MHGalleryOverViewController.h */,
-				F5DBBF27187D57DD00BEFE29 /* MHGalleryOverViewController.m */,
+				F5DBBF26187D57DD00BEFE29 /* MHOverViewController.h */,
+				F5DBBF27187D57DD00BEFE29 /* MHOverViewController.m */,
 			);
 			name = MHGalleryOverViewController;
 			sourceTree = "<group>";
@@ -534,8 +534,8 @@
 		F5DBBF19187D56DB00BEFE29 /* MHVideoImageGalleryGlobal */ = {
 			isa = PBXGroup;
 			children = (
-				F5DBBF29187D580000BEFE29 /* MHVideoImageGalleryGlobal.h */,
-				F5DBBF2A187D580000BEFE29 /* MHVideoImageGalleryGlobal.m */,
+				F5DBBF29187D580000BEFE29 /* MHGalleryGlobals.h */,
+				F5DBBF2A187D580000BEFE29 /* MHGalleryGlobals.m */,
 			);
 			name = MHVideoImageGalleryGlobal;
 			sourceTree = "<group>";
@@ -543,8 +543,8 @@
 		F5F8DA2A18B6A65900EB25F2 /* MHGalleryPresenterImageView */ = {
 			isa = PBXGroup;
 			children = (
-				F5F8DA2B18B6A6A100EB25F2 /* MHGalleryPresenterImageView.h */,
-				F5F8DA2C18B6A6A100EB25F2 /* MHGalleryPresenterImageView.m */,
+				F5F8DA2B18B6A6A100EB25F2 /* MHPresenterImageView.h */,
+				F5F8DA2C18B6A6A100EB25F2 /* MHPresenterImageView.m */,
 			);
 			name = MHGalleryPresenterImageView;
 			sourceTree = "<group>";
@@ -696,7 +696,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5DBBF28187D57DD00BEFE29 /* MHGalleryOverViewController.m in Sources */,
+				F5DBBF28187D57DD00BEFE29 /* MHOverViewController.m in Sources */,
 				F54337CE18A3FA9100CA1DAB /* UIImageView+MHGallery.m in Sources */,
 				F5D250001885D3D7004D97CA /* ExampleViewControllerImageView.m in Sources */,
 				F5DBBF34187D5B8600BEFE29 /* UIImage+ImageEffects.m in Sources */,
@@ -708,14 +708,14 @@
 				F5245DB218AA16D3004C6FFA /* SDWebImagePrefetcher.m in Sources */,
 				F53F925417EB008100A9FE6A /* AppDelegate.m in Sources */,
 				F5506EDD187D8BB200DFD178 /* AnimatorShowDetailForDismissMHGallery.m in Sources */,
-				F5DBBF2B187D580000BEFE29 /* MHVideoImageGalleryGlobal.m in Sources */,
+				F5DBBF2B187D580000BEFE29 /* MHGalleryGlobals.m in Sources */,
 				F5245DB418AA16D3004C6FFA /* UIImage+GIF.m in Sources */,
 				F5245DB618AA16D3004C6FFA /* UIImageView+WebCache.m in Sources */,
 				F5DBBF31187D584C00BEFE29 /* MHGalleryImageViewerViewController.m in Sources */,
 				F5245DAD18AA16D3004C6FFA /* SDWebImageCompat.m in Sources */,
 				F53F925017EB008100A9FE6A /* main.m in Sources */,
 				F5DBBF2E187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m in Sources */,
-				F5F8DA2D18B6A6A100EB25F2 /* MHGalleryPresenterImageView.m in Sources */,
+				F5F8DA2D18B6A6A100EB25F2 /* MHPresenterImageView.m in Sources */,
 				F5245DAC18AA16D3004C6FFA /* SDImageCache.m in Sources */,
 				F5245DAF18AA16D3004C6FFA /* SDWebImageDownloader.m in Sources */,
 				F5DBBF20187D573C00BEFE29 /* AnimatorShowDetail.m in Sources */,

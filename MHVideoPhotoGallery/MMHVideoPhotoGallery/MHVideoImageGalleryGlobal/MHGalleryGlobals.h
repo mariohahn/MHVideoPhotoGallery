@@ -9,14 +9,14 @@
 #import "UIImageView+MHGallery.h"
 #import "AnimatorShowDetailForDismissMHGallery.h"
 #import "AnimatorShowDetailForPresentingMHGallery.h"
-#import "MHGalleryPresenterImageView.h"
+#import "MHPresenterImageView.h"
 
 #define MHISIPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 #define kMHGalleryBundleName @"MHGallery.bundle"
 
 @class AnimatorShowDetailForDismissMHGallery;
 @class AnimatorShowDetailForPresentingMHGallery;
-@class MHGalleryPresenterImageView;
+@class MHPresenterImageView;
 
 extern void MHGalleryCustomLocalizationBlock(NSString *(^customLocalizationBlock)(NSString *stringToLocalize));
 extern void MHGalleryCustomImageBlock(UIImage *(^customImageBlock)(NSString *imageToChangeName));
@@ -167,7 +167,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic,strong) AnimatorShowDetailForPresentingMHGallery *interactivePresentationMHGallery;
 @property (nonatomic,strong) AnimatorShowDetailForDismissMHGallery *interactiveDismissMHGallery;
 @property (nonatomic,strong) UIImageView *ivForPresentingAndDismissingMHGallery;
-@property (nonatomic,strong) MHGalleryPresenterImageView *ivForInteractiveTransition;
+@property (nonatomic,strong) MHPresenterImageView *ivForInteractiveTransition;
 
 + (MHGallerySharedManager *)sharedManager;
 /**
@@ -191,7 +191,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  *  @param FinishBlock    PageIndex shows on which Index the User dismissed the Gallery. If interactiveTransition isn't nil the User dismisses the Gallery with an interaction. You will also get the Image of the current page.
  *  @param animated       To use animated you need 3 delegate Methods, -animationControllerForDismissedController , animationControllerForPresentedController, interactionControllerForDismissal.
  */
-
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
         andCurrentViewController:(id)viewcontroller

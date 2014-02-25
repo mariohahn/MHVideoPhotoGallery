@@ -8,7 +8,7 @@
 
 #import "MHShareViewController.h"
 #import "MHGalleryCells.h"
-#import "MHVideoImageGalleryGlobal.h"
+#import "MHGalleryGlobals.h"
 #import "UIImageView+WebCache.h"
 #import "AnimatorShowShareView.h"
 #import <CoreImage/CoreImage.h>

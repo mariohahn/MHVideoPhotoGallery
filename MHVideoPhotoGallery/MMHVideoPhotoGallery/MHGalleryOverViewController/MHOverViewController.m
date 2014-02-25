@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 Mario Hahn. All rights reserved.
 //
 
-#import "MHGalleryOverViewController.h"
+#import "MHOverViewController.h"
 
 @implementation MHIndexPinchGestureRecognizer
 @end
 
-@interface MHGalleryOverViewController ()
+@interface MHOverViewController ()
 
 @property (nonatomic, strong) AnimatorShowDetail *interactivePushTransition;
 @property (nonatomic, strong) NSArray            *galleryItems;
@@ -23,7 +23,7 @@
 
 @end
 
-@implementation MHGalleryOverViewController
+@implementation MHOverViewController
 
 
 - (void)viewDidLoad{

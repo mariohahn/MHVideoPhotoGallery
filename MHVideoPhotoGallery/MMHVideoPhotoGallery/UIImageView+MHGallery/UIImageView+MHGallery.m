@@ -7,8 +7,7 @@
 //
 
 #import "UIImageView+MHGallery.h"
-#import "MHVideoImageGalleryGlobal.h"
-
+#import "MHGalleryGlobals.h"
 
 @implementation UIImageView (MHGallery)
 

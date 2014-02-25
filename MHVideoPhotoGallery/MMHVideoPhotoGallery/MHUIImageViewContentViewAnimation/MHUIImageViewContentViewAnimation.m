@@ -7,7 +7,7 @@
 //
 
 #import "MHUIImageViewContentViewAnimation.h"
-#import "MHVideoImageGalleryGlobal.h"
+#import "MHGalleryGlobals.h"
 
 @interface MHUIImageViewContentViewAnimation ()
 

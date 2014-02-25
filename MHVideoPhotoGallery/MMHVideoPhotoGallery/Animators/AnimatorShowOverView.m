@@ -7,7 +7,7 @@
 //
 
 #import "AnimatorShowOverView.h"
-#import "MHGalleryOverViewController.h"
+#import "MHOverViewController.h"
 
 @interface AnimatorShowOverView()
 @property (nonatomic,strong) UIToolbar *tbInteractive;
@@ -25,7 +25,7 @@
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     MHGalleryImageViewerViewController *fromViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    MHGalleryOverViewController *toViewController = (MHGalleryOverViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    MHOverViewController *toViewController = (MHOverViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     UIView *containerView = [transitionContext containerView];
     NSTimeInterval duration = [self transitionDuration:transitionContext];
@@ -120,7 +120,7 @@
     self.context = transitionContext;
     
     MHGalleryImageViewerViewController *fromViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    MHGalleryOverViewController *toViewController = (MHGalleryOverViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    MHOverViewController *toViewController = (MHOverViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     UIView *containerView = [transitionContext containerView];
     
@@ -208,7 +208,7 @@
     
     [UIView animateWithDuration:0.3 animations:^{
         if (self.isHiddingToolBarAndNavigationBar) {
-            MHGalleryOverViewController *toViewController = (MHGalleryOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
+            MHOverViewController *toViewController = (MHOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
             toViewController.navigationController.navigationBar.alpha = 1;
         }
         self.tbInteractive.alpha = 0;
@@ -239,7 +239,7 @@
     
     [UIView animateWithDuration:0.4 animations:^{
         if (self.isHiddingToolBarAndNavigationBar) {
-            MHGalleryOverViewController *toViewController = (MHGalleryOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
+            MHOverViewController *toViewController = (MHOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
             toViewController.navigationController.navigationBar.alpha = 0;
         }
         self.whiteView.alpha =1;
@@ -250,7 +250,7 @@
         self.imageForAnimation.frame = self.startFrame;
     } completion:^(BOOL finished) {
         if (self.isHiddingToolBarAndNavigationBar) {
-            MHGalleryOverViewController *toViewController = (MHGalleryOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
+            MHOverViewController *toViewController = (MHOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
             [toViewController.navigationController.navigationBar setHidden:YES];
         }
         [self.cellInteractive.iv setHidden:NO];
@@ -271,7 +271,7 @@
         self.descriptionLabelInteractive.alpha = 1-percentComplete;
         self.descriptionViewBackgroundInteractive.alpha = 1-percentComplete;
     }else{
-        MHGalleryOverViewController *toViewController = (MHGalleryOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
+        MHOverViewController *toViewController = (MHOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
         toViewController.navigationController.navigationBar.alpha = percentComplete;
     }
     self.whiteView.alpha = 1-percentComplete;

@@ -6,16 +6,16 @@
 //  Copyright (c) 2014 Mario Hahn. All rights reserved.
 //
 
-#import "MHGalleryPresenterImageView.h"
-#import "MHVideoImageGalleryGlobal.h"
+#import "MHPresenterImageView.h"
+#import "MHGalleryGlobals.h"
 
-@interface MHGalleryPresenterImageView ()
+@interface MHPresenterImageView ()
 @property (nonatomic) CGPoint lastPoint;
 @property (nonatomic) CGFloat startScale;
 @end
 
 
-@implementation MHGalleryPresenterImageView
+@implementation MHPresenterImageView
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
     self = [super initWithCoder:aDecoder];

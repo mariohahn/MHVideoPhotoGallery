@@ -7,7 +7,7 @@
 //
 
 #import "AnimatorShowDetailForDismissMHGallery.h"
-#import "MHGalleryOverViewController.h"
+#import "MHOverViewController.h"
 
 @interface AnimatorShowDetailForDismissMHGallery()
 @property (nonatomic) CGFloat toTransform;
