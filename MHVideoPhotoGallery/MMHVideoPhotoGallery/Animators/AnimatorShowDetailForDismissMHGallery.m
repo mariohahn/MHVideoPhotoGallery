@@ -38,13 +38,11 @@
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     
     UIImage *image;
-    UIView *snapShot;
     __block NSNumber *pageIndex;
     for (ImageViewController *imageViewerIndex in imageViewer.pvc.viewControllers) {
         if (imageViewerIndex.pageIndex == imageViewer.pageIndex) {
             pageIndex = @(imageViewerIndex.pageIndex);
             image = imageViewerIndex.imageView.image;
-            snapShot = [imageViewerIndex.imageView snapshotViewAfterScreenUpdates:NO];
         }
     }
     
@@ -59,7 +57,6 @@
     
     [containerView insertSubview:[toViewControllerNC view] belowSubview:fromViewController.view];
     [containerView addSubview:cellImageSnapshot];
-    [containerView addSubview:snapShot];
     
     UINavigationBar *navigationBar = fromViewController.navigationBar;
     [containerView addSubview:navigationBar];
@@ -77,7 +74,6 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         
         self.iv.hidden = YES;
-        [snapShot removeFromSuperview];
         
         [UIView animateWithDuration:duration animations:^{
             navigationBar.alpha =0;
@@ -119,7 +115,6 @@
     self.containerView = [transitionContext containerView];
     
     UIImage *image;
-    UIView *snapShot;
     __block NSNumber *pageIndex;
     
     ImageViewController *imageViewerCurrent;
@@ -129,7 +124,6 @@
             imageViewerCurrent = imageViewerIndex;
             pageIndex = @(imageViewerIndex.pageIndex);
             image = imageViewerIndex.imageView.image;
-            snapShot = [imageViewerIndex.imageView snapshotViewAfterScreenUpdates:NO];
         }
     }
     
@@ -172,13 +166,6 @@
         self.iv.hidden = YES;
     }else{
         [self.containerView addSubview:self.cellImageSnapshot];
-        if (self.toTransform == self.orientationTransformBeforeDismiss) {
-            [self.containerView addSubview:snapShot];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.iv.hidden = YES;
-            [snapShot removeFromSuperview];
-        });
     }
     self.navFrame = fromViewController.navigationBar.frame;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {

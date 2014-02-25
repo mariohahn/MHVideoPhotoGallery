@@ -46,7 +46,10 @@
     if (![self.tb isDescendantOfView:self.view]) {
         [self.view addSubview:self.tb];
     }
-    
+    if (self.pvc) {
+        ImageViewController *imageViewer =self.pvc.viewControllers.firstObject;
+        [imageViewer centerImageView];
+    }
     [[self.pvc.view.subviews firstObject] setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
 }
 
@@ -485,6 +488,8 @@
 -(void)userDidPinch:(UIPinchGestureRecognizer*)recognizer{
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         if (recognizer.scale <1) {
+            self.imageView.frame = self.scrollView.frame;
+            
             self.lastPointPop = [recognizer locationInView:self.view];
             self.interactiveOverView = [AnimatorShowOverView new];
             [self.navigationController popViewControllerAnimated:YES];
@@ -556,7 +561,6 @@
             if (!self.interactiveTransition ) {
                 self.startPoint = [(UIPanGestureRecognizer*)recognizer translationInView:self.view];
                 self.lastPoint = [(UIPanGestureRecognizer*)recognizer translationInView:self.view];
-                
                 self.interactiveTransition = [AnimatorShowDetailForDismissMHGallery new];
                 self.interactiveTransition.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
                 

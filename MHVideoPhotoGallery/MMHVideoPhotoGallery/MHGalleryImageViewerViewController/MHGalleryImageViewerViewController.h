@@ -59,6 +59,7 @@
 -(void)stopMovie;
 -(void)removeAllMoviePlayerViewsAndNotifications;
 -(void)playButtonPressed;
+-(void)centerImageView;
 
 +(ImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item;
 @end
