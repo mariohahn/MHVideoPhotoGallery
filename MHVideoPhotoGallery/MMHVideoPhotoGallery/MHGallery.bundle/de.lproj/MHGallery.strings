@@ -6,7 +6,6 @@
   Copyright (c) 2014 Mario Hahn. All rights reserved.
 */
 
-
 "imagedetail.title.current"       = "%@ von %@";
 "overview.title.current"          = "Übersicht";
 "overview.menue.item.save"        = "Speichern";

@@ -151,9 +151,6 @@
     [containerView addSubview:self.whiteView];
     [containerView addSubview:self.imageForAnimation];
     
-    UIView *snapShot = [iv snapshotViewAfterScreenUpdates:NO];
-    
-    [containerView addSubview:snapShot];
     self.isHiddingToolBarAndNavigationBar = fromViewController.isHiddingToolBarAndNavigationBar;
     if (!fromViewController.isHiddingToolBarAndNavigationBar) {
         self.descriptionLabelInteractive = fromViewController.descriptionView;
@@ -178,7 +175,7 @@
     CGRect cellFrame  = [toViewController.cv.collectionViewLayout layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]].frame;
     
     [toViewController.cv scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]
-                                atScrollPosition:UICollectionViewScrollPositionBottom
+                                atScrollPosition:UICollectionViewScrollPositionCenteredVertically
                                         animated:NO];
     
     [toViewController.cv scrollRectToVisible:cellFrame
@@ -195,7 +192,6 @@
             self.cellInteractive.videoIcon.hidden = YES;
             videoIconsHidden = NO;
         }
-        [snapShot removeFromSuperview];
     });
 }
 
