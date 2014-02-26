@@ -747,7 +747,6 @@
                                                                  
                                                              }else{
                                                                  self.imageView.image = image;
-                                                               //  [self centerImageView];
                                                              }
                                                              [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
                                                          }];
@@ -910,8 +909,6 @@
             return YES;
         }
     }
-    
-    
     return NO;
 }
 
@@ -1329,7 +1326,8 @@
         [self.scrollView setZoomScale:1 animated:YES];
         return;
     }
-    
+    [self centerImageView];
+
     CGRect zoomRect;
     CGFloat newZoomScale = (self.scrollView.maximumZoomScale);
     CGPoint touchPoint = [gestureRecognizer locationInView:gestureRecognizer.view];
