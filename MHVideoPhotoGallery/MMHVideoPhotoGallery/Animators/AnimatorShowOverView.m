@@ -71,7 +71,7 @@
     CGRect cellFrame  = [toViewController.cv.collectionViewLayout layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]].frame;
 
     [toViewController.cv scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]
-                                atScrollPosition:UICollectionViewScrollPositionBottom
+                                atScrollPosition:UICollectionViewScrollPositionCenteredVertically
                                         animated:NO];
     
     [toViewController.cv scrollRectToVisible:cellFrame

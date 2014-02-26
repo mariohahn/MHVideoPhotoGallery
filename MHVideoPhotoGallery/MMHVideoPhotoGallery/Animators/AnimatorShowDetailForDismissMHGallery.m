@@ -190,9 +190,8 @@
 
 
 -(void)updateInteractiveTransition:(CGFloat)percentComplete{
-    
+  
     self.viewWhite.alpha = 1.1-percentComplete;
-    
     if (self.moviePlayer) {
         if (self.toTransform != self.orientationTransformBeforeDismiss) {
             if (self.orientationTransformBeforeDismiss <0) {
