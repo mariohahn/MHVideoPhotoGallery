@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "MHGalleryGlobals.h"
 
-@interface AnimatorShowOverView : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
+@interface MHAnimatorShowOverView : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
 @property (nonatomic, assign)    BOOL interactionInProgress;
 @property (nonatomic, assign)    CGFloat scale;
 @property (nonatomic, assign)    CGPoint changedPoint;

@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Mario Hahn. All rights reserved.
 //
 
-#import "AnimatorShowShareView.h"
+#import "MHAnimatorShowShareView.h"
 
 
-@implementation AnimatorShowShareView
+@implementation MHAnimatorShowShareView
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     

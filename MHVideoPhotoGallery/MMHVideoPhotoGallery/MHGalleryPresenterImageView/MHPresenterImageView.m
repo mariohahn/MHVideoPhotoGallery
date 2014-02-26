@@ -97,7 +97,7 @@
 }
 -(void)presentMHGallery{
     [MHGallerySharedManager sharedManager].ivForInteractiveTransition = self;
-    self.presenter = [AnimatorShowDetailForPresentingMHGallery new];
+    self.presenter = [MHAnimatorPresentMHGallery new];
     self.presenter.iv = self;
     [self.viewController presentMHGalleryWithItems:self.galleryItems
                                           forIndex:self.currentImageIndex

@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Mario Hahn. All rights reserved.
 //
 
-#import "AnimatorShowDetailForDismissMHGallery.h"
+#import "MHAnimatorDismissMHGallery.h"
 #import "MHOverViewController.h"
 
-@interface AnimatorShowDetailForDismissMHGallery()
+@interface MHAnimatorDismissMHGallery()
 @property (nonatomic) CGFloat toTransform;
 @property (nonatomic) CGFloat startTransform;
 @property (nonatomic) CGRect startFrame;
@@ -21,7 +21,7 @@
 @property (nonatomic, strong) MHUIImageViewContentViewAnimation *cellImageSnapshot;
 @end
 
-@implementation AnimatorShowDetailForDismissMHGallery
+@implementation MHAnimatorDismissMHGallery
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     
@@ -30,7 +30,8 @@
     id toViewControllerNC = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     UINavigationController *fromViewController = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    
+    [fromViewController view].alpha =0;
+
     
     MHGalleryImageViewerViewController *imageViewer  = (MHGalleryImageViewerViewController*)fromViewController.visibleViewController;
     
@@ -55,34 +56,23 @@
     [toViewControllerNC view].frame = [transitionContext finalFrameForViewController:toViewControllerNC];
     [toViewControllerNC view].alpha = 0;
     
-    [containerView insertSubview:[toViewControllerNC view] belowSubview:fromViewController.view];
+    UIView *whiteView = [[UIView alloc]initWithFrame:fromViewController.view.frame];
+    whiteView.backgroundColor = [UIColor whiteColor];
+    if (imageViewer.isHiddingToolBarAndNavigationBar) {
+        whiteView.backgroundColor = [UIColor blackColor];
+    }
+    
+    [containerView addSubview:whiteView];
+    [containerView addSubview:[toViewControllerNC view]];
     [containerView addSubview:cellImageSnapshot];
-    
-    UINavigationBar *navigationBar = fromViewController.navigationBar;
-    [containerView addSubview:navigationBar];
-    
-    UIToolbar *descriptionViewBackground = imageViewer.descriptionViewBackground;
-    [containerView addSubview:descriptionViewBackground];
-    
-    UITextView *descriptionView = imageViewer.descriptionView;
-    [containerView addSubview:descriptionView];
-    
-    
-    UIToolbar *toolBar = imageViewer.tb;
-    [containerView addSubview:toolBar];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
         self.iv.hidden = YES;
         
         [UIView animateWithDuration:duration animations:^{
-            navigationBar.alpha =0;
-            descriptionView.alpha =0;
-            descriptionViewBackground.alpha =0;
-            toolBar.alpha =0;
-            
+            whiteView.alpha =0;
             [toViewControllerNC view].alpha = 1;
-            [fromViewController view].alpha =0;
             cellImageSnapshot.frame =[containerView convertRect:self.iv.frame fromView:self.iv.superview];
             
             if (self.iv.contentMode == UIViewContentModeScaleAspectFit) {
@@ -348,7 +338,7 @@
 
 
 - (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
-    return 0.3;
+    return 0.25;
 }
 
 

@@ -7,15 +7,15 @@
 #import "SDImageCache.h"
 #import "UIImageView+WebCache.h"
 #import "UIImageView+MHGallery.h"
-#import "AnimatorShowDetailForDismissMHGallery.h"
-#import "AnimatorShowDetailForPresentingMHGallery.h"
+#import "MHAnimatorDismissMHGallery.h"
+#import "MHAnimatorPresentMHGallery.h"
 #import "MHPresenterImageView.h"
 
 #define MHISIPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 #define kMHGalleryBundleName @"MHGallery.bundle"
 
-@class AnimatorShowDetailForDismissMHGallery;
-@class AnimatorShowDetailForPresentingMHGallery;
+@class MHAnimatorDismissMHGallery;
+@class MHAnimatorPresentMHGallery;
 @class MHPresenterImageView;
 
 extern void MHGalleryCustomLocalizationBlock(NSString *(^customLocalizationBlock)(NSString *stringToLocalize));
@@ -103,7 +103,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic, strong) NSString      *urlString;
 @property (nonatomic)         MHGalleryType galleryType;
 @property (nonatomic,strong ) NSString      *description;
-@property (nonatomic,strong ) NSString      *title;
 /**
  *  MHGalleryItem
  *
@@ -164,8 +163,8 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  */
 @property (nonatomic,assign) MHYoutubeVideoQuality youtubeVideoQuality;
 
-@property (nonatomic,strong) AnimatorShowDetailForPresentingMHGallery *interactivePresentationMHGallery;
-@property (nonatomic,strong) AnimatorShowDetailForDismissMHGallery *interactiveDismissMHGallery;
+@property (nonatomic,strong) MHAnimatorPresentMHGallery *interactivePresentationMHGallery;
+@property (nonatomic,strong) MHAnimatorDismissMHGallery *interactiveDismissMHGallery;
 @property (nonatomic,strong) UIImageView *ivForPresentingAndDismissingMHGallery;
 @property (nonatomic,strong) MHPresenterImageView *ivForInteractiveTransition;
 
@@ -194,7 +193,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
         andCurrentViewController:(id)viewcontroller
-                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex, AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image)
+                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex, MHAnimatorDismissMHGallery *interactiveTransition,UIImage *image)
                                   )FinishBlock
         withImageViewTransiation:(BOOL)animated __attribute__((deprecated));
 

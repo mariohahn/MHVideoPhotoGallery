@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Mario Hahn. All rights reserved.
 //
 
-#import "AnimatorShowDetailForPresentingMHGallery.h"
+#import "MHAnimatorPresentMHGallery.h"
 #import "MHOverViewController.h"
 #import "MHGalleryGlobals.h"
 
-@interface AnimatorShowDetailForPresentingMHGallery()
+@interface MHAnimatorPresentMHGallery()
 @property (nonatomic, strong) UINavigationController *toViewControllerInteractive;
 @property (nonatomic, strong) UIView *whiteView;
 @property (nonatomic) CGRect startFrame;
@@ -18,7 +18,7 @@
 @end
 
 
-@implementation AnimatorShowDetailForPresentingMHGallery
+@implementation MHAnimatorPresentMHGallery
 
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {

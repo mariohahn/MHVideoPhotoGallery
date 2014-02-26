@@ -30,7 +30,7 @@
 @interface ExampleViewControllerLocal ()
 @property (nonatomic,strong)NSMutableArray *allData;
 @property(nonatomic,strong) UIImageView *imageViewForPresentingMHGallery;
-@property(nonatomic,strong) AnimatorShowDetailForDismissMHGallery *interactive;
+@property(nonatomic,strong) MHAnimatorDismissMHGallery *interactive;
 @end
 
 @implementation ExampleViewControllerLocal

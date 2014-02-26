@@ -10,7 +10,7 @@
 #import "MHGalleryCells.h"
 #import "MHGalleryGlobals.h"
 #import "UIImageView+WebCache.h"
-#import "AnimatorShowShareView.h"
+#import "MHAnimatorShowShareView.h"
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
 
@@ -114,7 +114,7 @@
                                   animationControllerForOperation:(UINavigationControllerOperation)operation
                                                fromViewController:(UIViewController *)fromVC
                                                  toViewController:(UIViewController *)toVC {
-    return [AnimatorShowShareView new];
+    return [MHAnimatorShowShareView new];
 }
 
 - (void)viewDidLoad

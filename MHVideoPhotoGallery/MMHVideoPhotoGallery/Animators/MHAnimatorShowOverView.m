@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Mario Hahn. All rights reserved.
 //
 
-#import "AnimatorShowOverView.h"
+#import "MHAnimatorShowOverView.h"
 #import "MHOverViewController.h"
 
-@interface AnimatorShowOverView()
+@interface MHAnimatorShowOverView()
 @property (nonatomic,strong) UIToolbar *tbInteractive;
 @property (nonatomic,strong) UITextView *descriptionLabelInteractive;
 @property (nonatomic,strong) UIToolbar *descriptionViewBackgroundInteractive;
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation AnimatorShowOverView
+@implementation MHAnimatorShowOverView
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     MHGalleryImageViewerViewController *fromViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];

@@ -13,7 +13,7 @@
 
 @interface MHOverViewController ()
 
-@property (nonatomic, strong) AnimatorShowDetail *interactivePushTransition;
+@property (nonatomic, strong) MHAnimatorShowDetail *interactivePushTransition;
 @property (nonatomic, strong) NSArray            *galleryItems;
 @property (nonatomic, strong) NSNumberFormatter  *numberFormatter;
 
@@ -198,7 +198,7 @@
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         if (recognizer.scale>1) {
-            self.interactivePushTransition = [AnimatorShowDetail new];
+            self.interactivePushTransition = [MHAnimatorShowDetail new];
             self.interactivePushTransition.indexPath = recognizer.indexPath;
             self.lastPoint = [recognizer locationInView:self.view];
             MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
@@ -235,7 +235,7 @@
 
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
                          interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
-    if ([animationController isKindOfClass:[AnimatorShowDetail class]]) {
+    if ([animationController isKindOfClass:[MHAnimatorShowDetail class]]) {
         return self.interactivePushTransition;
     }else {
         return nil;
@@ -248,7 +248,7 @@
                                                  toViewController:(UIViewController *)toVC {
     
     if (fromVC == self && [toVC isKindOfClass:[MHGalleryImageViewerViewController class]]) {
-        return [AnimatorShowDetail new];
+        return [MHAnimatorShowDetail new];
     }else {
         return nil;
     }

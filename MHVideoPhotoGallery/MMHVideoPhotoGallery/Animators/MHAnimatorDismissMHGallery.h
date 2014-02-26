@@ -10,7 +10,7 @@
 #import "MHGalleryGlobals.h"
 #import "MHUIImageViewContentViewAnimation.h"
 
-@interface AnimatorShowDetailForDismissMHGallery : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
+@interface MHAnimatorDismissMHGallery : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
 
 @property (nonatomic, strong)   MPMoviePlayerController *moviePlayer;
 @property (nonatomic, strong)   UIImageView *iv;

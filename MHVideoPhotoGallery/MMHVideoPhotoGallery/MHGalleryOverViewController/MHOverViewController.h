@@ -10,7 +10,7 @@
 #import "MHGalleryGlobals.h"
 #import "MHGalleryImageViewerViewController.h"
 #import "SDWebImageManager.h"
-#import "AnimatorShowDetail.h"
+#import "MHAnimatorShowDetail.h"
 #import "UIImageView+WebCache.h"
 #import "MHGalleryCells.h"
 
@@ -26,5 +26,5 @@
 @property (nonatomic)         NSInteger             currentPage;
 
 
-@property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH, NSUInteger photoIndex,AnimatorShowDetailForDismissMHGallery *interactiveTransition,UIImage *image);
+@property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH, NSUInteger photoIndex,MHAnimatorDismissMHGallery *interactiveTransition,UIImage *image);
 @end

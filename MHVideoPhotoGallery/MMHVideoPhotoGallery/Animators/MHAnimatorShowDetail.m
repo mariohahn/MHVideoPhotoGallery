@@ -7,8 +7,8 @@
 //
 
 
-#import "AnimatorShowDetail.h"
-@interface AnimatorShowDetail()
+#import "MHAnimatorShowDetail.h"
+@interface MHAnimatorShowDetail()
 @property (nonatomic, strong) MHUIImageViewContentViewAnimation *cellImageSnapshot;
 @property (nonatomic, strong) UITextView *descriptionLabel;
 @property (nonatomic, strong) UIToolbar *descriptionViewBackground;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation AnimatorShowDetail
+@implementation MHAnimatorShowDetail
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
 

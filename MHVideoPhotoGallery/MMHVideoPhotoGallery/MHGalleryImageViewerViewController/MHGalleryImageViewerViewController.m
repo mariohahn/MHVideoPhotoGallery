@@ -9,8 +9,8 @@
 
 #import "MHGalleryImageViewerViewController.h"
 #import "MHOverViewController.h"
-#import "AnimatorShowShareView.h"
-#import "AnimatorShowOverView.h"
+#import "MHAnimatorShowShareView.h"
+#import "MHAnimatorShowOverView.h"
 
 @implementation MHPinchGestureRecognizer
 @end
@@ -317,7 +317,7 @@
 
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
                          interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
-    if ([animationController isKindOfClass:[AnimatorShowOverView class]]) {
+    if ([animationController isKindOfClass:[MHAnimatorShowOverView class]]) {
         ImageViewController *imageViewController = [self.pvc.viewControllers firstObject];
         return imageViewController.interactiveOverView;
     }else {
@@ -336,12 +336,12 @@
     }
     
     if ([toVC isKindOfClass:[MHShareViewController class]]) {
-        AnimatorShowShareView *present = [AnimatorShowShareView new];
+        MHAnimatorShowShareView *present = [MHAnimatorShowShareView new];
         present.present = YES;
         return present;
     }
     if ([toVC isKindOfClass:[MHOverViewController class]]) {
-        return [AnimatorShowOverView new];
+        return [MHAnimatorShowOverView new];
     }
     return nil;
 }
@@ -487,7 +487,7 @@
             self.imageView.frame = self.scrollView.frame;
             
             self.lastPointPop = [recognizer locationInView:self.view];
-            self.interactiveOverView = [AnimatorShowOverView new];
+            self.interactiveOverView = [MHAnimatorShowOverView new];
             [self.navigationController popViewControllerAnimated:YES];
         }else{
             recognizer.cancelsTouchesInView = YES;
@@ -557,7 +557,7 @@
             if (!self.interactiveTransition ) {
                 self.startPoint = [(UIPanGestureRecognizer*)recognizer translationInView:self.view];
                 self.lastPoint = [(UIPanGestureRecognizer*)recognizer translationInView:self.view];
-                self.interactiveTransition = [AnimatorShowDetailForDismissMHGallery new];
+                self.interactiveTransition = [MHAnimatorDismissMHGallery new];
                 self.interactiveTransition.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
                 
                 if (self.navigationController.viewControllers.count ==2) {

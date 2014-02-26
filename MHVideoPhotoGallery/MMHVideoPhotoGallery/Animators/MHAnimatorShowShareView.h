@@ -12,7 +12,7 @@
 #import "MHUIImageViewContentViewAnimation.h"
 #import "MHGalleryCells.h"
 
-@interface AnimatorShowShareView : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
+@interface MHAnimatorShowShareView : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
 @property (nonatomic, assign) BOOL interactionInProgress;
 @property (nonatomic, assign) BOOL present;
 
