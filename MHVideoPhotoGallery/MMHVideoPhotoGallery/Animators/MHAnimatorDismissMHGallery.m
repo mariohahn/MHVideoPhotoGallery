@@ -50,7 +50,8 @@
     MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:fromViewController.view.bounds];
     cellImageSnapshot.image = image;
     [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.image.size,fromViewController.view.bounds)];
-    
+    cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
+
     [imageViewer.pvc.view setHidden:YES];
     
     [toViewControllerNC view].frame = [transitionContext finalFrameForViewController:toViewControllerNC];
@@ -67,9 +68,10 @@
     [containerView addSubview:cellImageSnapshot];
     
     self.toTransform= [(NSNumber *)[[toViewControllerNC view] valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    self.startTransform = [(NSNumber *)[containerView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     
     if ([toViewControllerNC view].frame.size.width >[toViewControllerNC view].frame.size.height && self.toTransform ==0) {
-        self.toTransform = self.orientationTransformBeforeDismiss;
+        self.toTransform = self.startTransform;
     }
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
         cellImageSnapshot.frame  = AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.image.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height));
