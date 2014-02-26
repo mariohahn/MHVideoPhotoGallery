@@ -707,14 +707,19 @@ UIImage *MHGalleryImage(NSString *imageName){
 
 -(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
     if ([animator isKindOfClass:[MHAnimatorDismissMHGallery class]]) {
-        return [MHGallerySharedManager sharedManager].interactiveDismissMHGallery;
+        
+        MHAnimatorDismissMHGallery *animatorDismiss = (MHAnimatorDismissMHGallery*)animator;
+        if (animatorDismiss.interactive) {
+            return [MHGallerySharedManager sharedManager].interactiveDismissMHGallery;
+        }
+        return nil;
     }else {
         return nil;
     }
 }
 
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
-    MHAnimatorDismissMHGallery *detail = [MHAnimatorDismissMHGallery new];
+    MHAnimatorDismissMHGallery *detail = [MHGallerySharedManager sharedManager].interactiveDismissMHGallery;
     detail.iv = [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery;
     return detail;
 }

@@ -16,6 +16,6 @@
 @property (nonatomic, strong)   UIImageView *iv;
 @property (nonatomic,assign)    CGPoint changedPoint;
 @property (nonatomic,assign)    CGFloat orientationTransformBeforeDismiss;
-
+@property (nonatomic,assign)    BOOL interactive;
 @property (nonatomic,assign)    id <UIViewControllerContextTransitioning> context;
 @end

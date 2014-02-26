@@ -66,7 +66,10 @@
     if (imageViewer.moviePlayer) {
         [imageViewer removeAllMoviePlayerViewsAndNotifications];
     }
-    overView.finishedCallback(self.navigationController,self.pageIndex,nil,imageViewer.imageView.image);
+    MHAnimatorDismissMHGallery *dismissTransiton = [MHAnimatorDismissMHGallery new];
+    dismissTransiton.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    
+    overView.finishedCallback(self.navigationController,self.pageIndex,dismissTransiton,imageViewer.imageView.image);
 }
 - (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar{
     return UIBarPositionTopAttached;
@@ -559,6 +562,7 @@
                 self.lastPoint = [(UIPanGestureRecognizer*)recognizer translationInView:self.view];
                 self.interactiveTransition = [MHAnimatorDismissMHGallery new];
                 self.interactiveTransition.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+                self.interactiveTransition.interactive = YES;
                 
                 if (self.navigationController.viewControllers.count ==2) {
                     MHOverViewController *overView  =[self.navigationController.viewControllers firstObject];

@@ -66,13 +66,36 @@
     [containerView addSubview:[toViewControllerNC view]];
     [containerView addSubview:cellImageSnapshot];
     
+    self.toTransform= [(NSNumber *)[[toViewControllerNC view] valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    
+    if ([toViewControllerNC view].frame.size.width >[toViewControllerNC view].frame.size.height && self.toTransform ==0) {
+        self.toTransform = self.orientationTransformBeforeDismiss;
+    }
+    if (self.toTransform != self.orientationTransformBeforeDismiss) {
+        cellImageSnapshot.frame  = AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.image.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height));
+        cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
+        cellImageSnapshot.center = [UIApplication sharedApplication].keyWindow.center;
+        self.startFrame = cellImageSnapshot.bounds;
+    }
+    
+    CGFloat delayTime  = 0.0;
+    if (self.toTransform != self.orientationTransformBeforeDismiss) {
+        [UIView animateWithDuration:0.2 animations:^{
+            cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.toTransform);
+        }];
+        delayTime =0.2;
+    }
+    double delayInSeconds = delayTime;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        
         self.iv.hidden = YES;
         
         [UIView animateWithDuration:duration animations:^{
             whiteView.alpha =0;
             [toViewControllerNC view].alpha = 1;
+            
             cellImageSnapshot.frame =[containerView convertRect:self.iv.frame fromView:self.iv.superview];
             
             if (self.iv.contentMode == UIViewContentModeScaleAspectFit) {
@@ -80,7 +103,6 @@
             }
             if (self.iv.contentMode == UIViewContentModeScaleAspectFill) {
                 cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
-                
             }
         } completion:^(BOOL finished) {
             self.iv.hidden = NO;
@@ -89,6 +111,7 @@
             [[UIApplication sharedApplication] setStatusBarStyle:[MHGallerySharedManager sharedManager].oldStatusBarStyle];
         }];
         
+    });
     });
     
 }
@@ -208,14 +231,14 @@
 -(void)finishInteractiveTransition{
     CGFloat delayTime  = 0.0;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
-        [UIView animateWithDuration:0.3 animations:^{
+        [UIView animateWithDuration:0.2 animations:^{
             if (self.moviePlayer) {
                 self.moviePlayer.view.transform = CGAffineTransformMakeRotation(self.toTransform);
             }else{
                 self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.toTransform);
             }
         }];
-        delayTime =0.3;
+        delayTime =0.2;
     }
     double delayInSeconds = delayTime;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
