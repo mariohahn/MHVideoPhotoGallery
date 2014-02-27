@@ -88,6 +88,7 @@ UIImage *MHGalleryImage(NSString *imageName){
     self.urlString = urlString;
     self.description = nil;
     self.galleryType = galleryType;
+    self.attributedString = nil;
     return self;
 }
 @end

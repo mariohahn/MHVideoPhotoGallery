@@ -231,6 +231,10 @@
     if (index < self.galleryItems.count) {
         MHGalleryItem *item = self.galleryItems[index];
         self.descriptionView.text = item.description;
+       
+        if (item.attributedString) {
+            self.descriptionView.attributedText = item.attributedString;
+        }
         CGSize size = [self.descriptionView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
         
         self.descriptionView.frame = CGRectMake(10, self.view.frame.size.height -size.height-44, self.view.frame.size.width-20, size.height);
