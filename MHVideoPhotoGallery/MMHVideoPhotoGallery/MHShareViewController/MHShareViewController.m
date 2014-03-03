@@ -8,17 +8,39 @@
 
 #import "MHShareViewController.h"
 #import "MHGalleryCells.h"
-#import "MHGalleryGlobals.h"
+#import "MHGallery.h"
 #import "UIImageView+WebCache.h"
-#import "MHAnimatorShowShareView.h"
+#import "MHTransitionShowShareView.h"
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
 
+@implementation MHShareCell
+
+- (id)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _thumbnailImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2-30, 1, 60, 60)];
+        self.thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
+        self.thumbnailImageView.clipsToBounds = TRUE;
+        [[self contentView] addSubview:self.thumbnailImageView];
+        
+        _descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, self.bounds.size.height-40, self.bounds.size.width, 40)];
+        self.descriptionLabel.backgroundColor = [UIColor clearColor];
+        self.descriptionLabel.textColor = [UIColor blackColor];
+        self.descriptionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
+        [self.descriptionLabel setNumberOfLines:2];
+        [[self contentView] addSubview:self.descriptionLabel];
+    }
+    return self;
+}
+@end
+
+
 @interface MHShareViewController ()
-@property(nonatomic,strong)NSArray *galleryDataSource;
-@property(nonatomic,strong)NSMutableArray *shareDataSource;
-@property(nonatomic,strong)NSArray *shareDataSourceStart;
-@property(nonatomic,strong)NSMutableArray *selectedRows;
+@property(nonatomic,strong) NSArray *galleryDataSource;
+@property(nonatomic,strong) NSMutableArray *shareDataSource;
+@property(nonatomic,strong) NSArray *shareDataSourceStart;
+@property(nonatomic,strong) NSMutableArray *selectedRows;
 @property(nonatomic)        CGFloat startPointScroll;
 @property(nonatomic,strong) MHShareItem *saveObject;
 @property(nonatomic,strong) MHShareItem *mailObject;
@@ -26,8 +48,7 @@
 @property(nonatomic,strong) MHShareItem *twitterObject;
 @property(nonatomic,strong) MHShareItem *faceBookObject;
 @property(nonatomic,getter = isShowingShareViewInLandscapeMode) BOOL showingShareViewInLandscapeMode;
-@property (nonatomic, strong)                   NSNumberFormatter *numberFormatter;
-
+@property (nonatomic, strong) NSNumberFormatter *numberFormatter;
 
 @end
 
@@ -76,7 +97,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.navigationController.delegate = self;
-    [self.cv.delegate scrollViewDidScroll:self.cv];
+    [self.collectionView.delegate scrollViewDidScroll:self.collectionView];
     
 }
 
@@ -87,7 +108,7 @@
 -(void) scrollViewWillEndDragging:(UIScrollView*)scrollView
                      withVelocity:(CGPoint)velocity
               targetContentOffset:(inout CGPoint*)targetContentOffset {
-    NSArray *visibleCells = [self sortObjectsWithFrame:self.cv.visibleCells];
+    NSArray *visibleCells = [self sortObjectsWithFrame:self.collectionView.visibleCells];
     
     MHGalleryOverViewCell *cell;
     if ((self.startPointScroll <  targetContentOffset->x) && (visibleCells.count >1)) {
@@ -114,7 +135,7 @@
                                   animationControllerForOperation:(UINavigationControllerOperation)operation
                                                fromViewController:(UIViewController *)fromVC
                                                  toViewController:(UIViewController *)toVC {
-    return [MHAnimatorShowShareView new];
+    return [MHTransitionShowShareView new];
 }
 
 - (void)viewDidLoad
@@ -127,8 +148,8 @@
     
     
     self.selectedRows = [NSMutableArray new];
-    [self.view setBackgroundColor:[UIColor whiteColor]];
-    [self.navigationItem setHidesBackButton:YES];
+    self.view.backgroundColor =[UIColor whiteColor];
+    self.navigationItem.hidesBackButton =YES;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                          target:self
                                                                                          action:@selector(cancelPressed)];
@@ -144,29 +165,30 @@
     }
     flowLayout.minimumInteritemSpacing =20;
     flowLayout.sectionInset = UIEdgeInsetsMake(0, 60, 0, 0);
-    self.cv = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-240)
+    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-240)
                                 collectionViewLayout:flowLayout];
-    self.cv.delegate = self;
-    self.cv.dataSource = self;
-    [self.cv setAllowsMultipleSelection:YES];
-    [self.cv setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
-    [self.cv setShowsHorizontalScrollIndicator:NO];
-    [self.cv setBackgroundColor:[UIColor whiteColor]];
-    [self.cv registerClass:[MHGalleryOverViewCell class]
-forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
-    self.cv.decelerationRate = UIScrollViewDecelerationRateNormal;
-    [self.view addSubview:self.cv];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    self.collectionView.allowsMultipleSelection=YES;
+    self.collectionView.contentInset =UIEdgeInsetsMake(0, 0, 0, 0);
+    self.collectionView.showsHorizontalScrollIndicator =NO;
+    self.collectionView.backgroundColor =[UIColor whiteColor];
+    [self.collectionView registerClass:[MHGalleryOverViewCell class]
+            forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
+    
+    self.collectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
+    [self.view addSubview:self.collectionView];
     
     
     [self.selectedRows addObject:[NSIndexPath indexPathForRow:self.pageIndex inSection:0]];
     
-    [self.cv scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.pageIndex inSection:0]
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.pageIndex inSection:0]
                     atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                             animated:NO];
     self.gradientView= [[UIView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240)];
     
-    self.tb = [[UIToolbar alloc]initWithFrame:self.gradientView.frame];
-    [self.view addSubview:self.tb];
+    self.toolbar = [[UIToolbar alloc]initWithFrame:self.gradientView.frame];
+    [self.view addSubview:self.toolbar];
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = self.gradientView.bounds;
@@ -175,11 +197,11 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     [self.view addSubview:self.gradientView];
     
     self.tableViewShare = [[UITableView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-230, self.view.frame.size.width, 240)];
-    [self.tableViewShare setDelegate:self];
-    [self.tableViewShare setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.tableViewShare setDataSource:self];
-    [self.tableViewShare setBackgroundColor:[UIColor clearColor]];
-    [self.tableViewShare setScrollEnabled:NO];
+    self.tableViewShare.delegate =self;
+    self.tableViewShare.separatorStyle =UITableViewCellSeparatorStyleNone;
+    self.tableViewShare.dataSource =self;
+    self.tableViewShare.backgroundColor =[UIColor clearColor];
+    self.tableViewShare.scrollEnabled =NO;
     [self.tableViewShare registerClass:[MHGalleryCollectionViewCell class]
                 forCellReuseIdentifier:@"MHGalleryCollectionViewCell"];
     [self.view addSubview:self.tableViewShare];
@@ -267,7 +289,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    if ([collectionView isEqual:self.cv]) {
+    if ([collectionView isEqual:self.collectionView]) {
         return self.galleryDataSource.count;
     }
     return [self.shareDataSource[collectionView.tag] count];
@@ -275,7 +297,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell =nil;
-    if ([collectionView isEqual:self.cv]) {
+    if ([collectionView isEqual:self.collectionView]) {
         NSString *cellIdentifier = @"MHGalleryOverViewCell";
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         [self makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:indexPath];
@@ -292,16 +314,16 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     
     MHShareItem *shareItem = self.shareDataSource[indexPath.section][indexPath.row];
     
-    cell.iv.image = [UIImage imageNamed:shareItem.imageName];
-    [cell.iv setContentMode:UIViewContentModeCenter];
+    cell.thumbnailImageView.image = [UIImage imageNamed:shareItem.imageName];
+    [cell.thumbnailImageView setContentMode:UIViewContentModeCenter];
     if (indexPath.section ==0) {
-        [cell.iv.layer setCornerRadius:15];
+        cell.thumbnailImageView.layer.cornerRadius =15;
     }
-    [cell.labelDescription setAdjustsFontSizeToFitWidth:YES];
-    [cell.iv setClipsToBounds:YES];
+    cell.descriptionLabel.adjustsFontSizeToFitWidth =YES;
+    cell.thumbnailImageView.clipsToBounds = YES;
     
-    cell.labelDescription.textAlignment = NSTextAlignmentCenter;
-    cell.labelDescription.text = shareItem.title;
+    cell.descriptionLabel.textAlignment = NSTextAlignmentCenter;
+    cell.descriptionLabel.text = shareItem.title;
     cell.backgroundColor = [UIColor clearColor];
 }
 -(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
@@ -315,12 +337,12 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
         
         if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound) {
             [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString assetType:MHAssetImageTypeFull successBlock:^(UIImage *image, NSError *error) {
-                cell.iv.image = image;
+                cell.thumbnail.image = image;
             }];
         }else{
-            [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.urlString] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (!image) {
-                    blockCell.iv.image = [UIImage imageNamed:@"error"];
+                    blockCell.thumbnail.image = [UIImage imageNamed:@"error"];
                 }
             }];
         }
@@ -328,7 +350,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
                                                               successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
                                                                   if (error) {
-                                                                      cell.iv.image = [UIImage imageNamed:@"error"];
+                                                                      cell.thumbnail.image = [UIImage imageNamed:@"error"];
                                                                   }else{
                                                                       
                                                                       NSNumber *minutes = @(videoDuration / 60);
@@ -336,7 +358,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
                                                                       
                                                                       blockCell.videoDurationLength.text = [NSString stringWithFormat:@"%@:%@",
                                                                                                             [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
-                                                                      [blockCell.iv setImage:image];
+                                                                      [blockCell.thumbnail setImage:image];
                                                                       [blockCell.videoIcon setHidden:NO];
                                                                       [blockCell.videoGradient setHidden:NO];
                                                                   }
@@ -345,12 +367,12 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     
     
     
-    [cell.iv setContentMode:UIViewContentModeScaleAspectFill];
+    [cell.thumbnail setContentMode:UIViewContentModeScaleAspectFill];
     cell.selectionImageView.hidden =NO;
     
-    [cell.selectionImageView.layer setBorderWidth:1];
-    [cell.selectionImageView.layer setCornerRadius:11];
-    [cell.selectionImageView.layer setBorderColor:[UIColor whiteColor].CGColor];
+    cell.selectionImageView.layer.borderWidth =1;
+    cell.selectionImageView.layer.cornerRadius =11;
+    cell.selectionImageView.layer.borderColor =[UIColor whiteColor].CGColor;
     cell.selectionImageView.image =  nil;
     cell.selectionImageView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.45];
     
@@ -379,8 +401,8 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if ([scrollView isEqual:self.cv]) {
-        NSArray *visibleCells = [self sortObjectsWithFrame:self.cv.visibleCells];
+    if ([scrollView isEqual:self.collectionView]) {
+        NSArray *visibleCells = [self sortObjectsWithFrame:self.collectionView.visibleCells];
         for (MHGalleryOverViewCell *cellOther in visibleCells) {
             if (!cellOther.videoIcon.isHidden){
                 cellOther.selectionImageView.frame = CGRectMake(cellOther.bounds.size.width-30,  cellOther.bounds.size.height-50, 22, 22);
@@ -390,7 +412,8 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
         }
         
         MHGalleryOverViewCell *cell = [visibleCells lastObject];
-        CGRect rect = [self.view convertRect:cell.iv.frame fromView:cell.iv.superview];
+        CGRect rect = [self.view convertRect:cell.thumbnail.frame
+                                    fromView:cell.thumbnail.superview];
         
         NSInteger valueToAddYForVideoType =0;
         if (!cell.videoIcon.isHidden){
@@ -414,8 +437,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     NSArray *storedData = [NSArray arrayWithArray:self.shareDataSource];
     
     self.shareDataSource = [NSMutableArray new];
-    
-    
+
     for (NSArray *array in self.shareDataSourceStart) {
         NSMutableArray *newObjects  = [NSMutableArray new];
         
@@ -427,8 +449,8 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
                     [newObjects addObject:item];
                 }
             }
-            
         }
+        
         for (NSIndexPath *indexPath in self.selectedRows) {
             MHGalleryItem *item =self.galleryDataSource[indexPath.row];
             if (item.galleryType == MHGalleryTypeVideo) {
@@ -577,30 +599,29 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
                                                                                              target:self
                                                                                              action:@selector(cancelPressed)];
         self.navigationItem.rightBarButtonItem = nil;
-        self.cv.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-240);
-        self.tb.frame = CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240);
+        self.collectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-240);
+        self.toolbar.frame = CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240);
         self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height-230, self.view.frame.size.width, 240);
         self.gradientView.frame = CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240);
     }else{
         self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 240);
-        self.tb.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
-        self.cv.frame = self.view.bounds;
+        self.toolbar.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
+        self.collectionView.frame = self.view.bounds;
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(showShareSheet)];
     }
-    [self.cv.collectionViewLayout invalidateLayout];
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     
-    NSArray *visibleCells = [self sortObjectsWithFrame:self.cv.visibleCells];
+    NSArray *visibleCells = [self sortObjectsWithFrame:self.collectionView.visibleCells];
     NSInteger numberToScrollTo =  visibleCells.count/2;
     MHGalleryOverViewCell *cell =  (MHGalleryOverViewCell*)visibleCells[numberToScrollTo];
     
-    [self.cv scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:cell.tag inSection:0]
-                    atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
-                            animated:YES];
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:cell.tag inSection:0]
+                                atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                        animated:YES];
     if (self.isShowingShareViewInLandscapeMode) {
         self.showingShareViewInLandscapeMode = NO;
-        
     }
     
 }
@@ -617,7 +638,7 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
                                                                             action:@selector(showShareSheet)];
     
     [UIView animateWithDuration:0.3 animations:^{
-        self.tb.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
+        self.toolbar.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
         self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 240);
     }];
 }
@@ -626,11 +647,11 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     self.navigationItem.rightBarButtonItem = nil;
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelShareSheet)];
-    self.tb.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
+    self.toolbar.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
     self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 240);
     
     [UIView animateWithDuration:0.3 animations:^{
-        self.tb.frame = CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240);
+        self.toolbar.frame = CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240);
         self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height-230, self.view.frame.size.width, 240);
     }];
     
@@ -646,22 +667,22 @@ forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    if ([collectionView isEqual:self.cv]) {
+    if ([collectionView isEqual:self.collectionView]) {
         [collectionView deselectItemAtIndexPath:indexPath animated:NO];
         if ([self.selectedRows containsObject:indexPath]) {
             [self.selectedRows removeObject:indexPath];
         }else{
             [self.selectedRows addObject:indexPath];
         }
-        [self.cv reloadItemsAtIndexPaths:@[indexPath]];
+        [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
         
-        [self.cv.delegate scrollViewDidScroll:self.cv];
+        [self.collectionView.delegate scrollViewDidScroll:self.collectionView];
         [UIView animateWithDuration:0.35 animations:^{
-            [self.cv scrollToItemAtIndexPath:indexPath
+            [self.collectionView scrollToItemAtIndexPath:indexPath
                             atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                     animated:NO];
         } completion:^(BOOL finished) {
-            [self.cv.delegate scrollViewDidScroll:self.cv];
+            [self.collectionView.delegate scrollViewDidScroll:self.collectionView];
         }];
         
         [self updateCollectionView];

@@ -7,14 +7,14 @@
 //
 
 #import "AppDelegate.h"
-#import "MHGalleryGlobals.h"
+#import "MHGallery.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
    
     self.window.tintColor = [UIColor colorWithRed:1 green:0.18 blue:0.33 alpha:1];
-    
+    self.window.backgroundColor = [UIColor blackColor];
     MHGalleryCustomLocalizationBlock(^NSString *(NSString *stringToLocalize) {
         return nil;
     });

@@ -13,7 +13,7 @@
 
 @interface MHOverViewController ()
 
-@property (nonatomic, strong) MHAnimatorShowDetail *interactivePushTransition;
+@property (nonatomic, strong) MHTransitionShowDetail *interactivePushTransition;
 @property (nonatomic, strong) NSArray            *galleryItems;
 @property (nonatomic, strong) NSNumberFormatter  *numberFormatter;
 
@@ -30,8 +30,7 @@
     [super viewDidLoad];
     
     self.galleryItems = [MHGallerySharedManager sharedManager].galleryItems;
-    
-    
+        
     self.title =  MHGalleryLocalizedString(@"overview.title.current");
 
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStyleBordered target:self action:nil];
@@ -110,7 +109,7 @@
 -(void)makeMHGalleryOverViewCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     
     MHGalleryItem *item =  self.galleryItems[indexPath.row];
-    cell.iv.image = nil;
+    cell.thumbnail.image = nil;
     
     
     cell.videoGradient.hidden = YES;
@@ -124,7 +123,7 @@
         }];
     };
     cell.videoDurationLength.text = @"";
-    cell.iv.backgroundColor = [UIColor lightGrayColor];
+    cell.thumbnail.backgroundColor = [UIColor lightGrayColor];
     __block MHGalleryOverViewCell *blockCell = cell;
     
     if (item.galleryType == MHGalleryTypeVideo) {
@@ -132,15 +131,15 @@
                                                               successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
                                                                   
                                                                   if (error) {
-                                                                      blockCell.iv.backgroundColor = [UIColor whiteColor];
-                                                                      blockCell.iv.image = MHGalleryImage(@"error");
+                                                                      blockCell.thumbnail.backgroundColor = [UIColor whiteColor];
+                                                                      blockCell.thumbnail.image = MHGalleryImage(@"error");
                                                                   }else{                                                                      
                                                                       NSNumber *minutes = @(videoDuration / 60);
                                                                       NSNumber *seconds = @(videoDuration % 60);
                                                                       
                                                                       blockCell.videoDurationLength.text = [NSString stringWithFormat:@"%@:%@",
                                                                                                             [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
-                                                                      [blockCell.iv setImage:image];
+                                                                      [blockCell.thumbnail setImage:image];
                                                                       [blockCell.videoIcon setHidden:NO];
                                                                       [blockCell.videoGradient setHidden:NO];
                                                                   }
@@ -149,17 +148,17 @@
     }else{
         if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound) {
             [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString assetType:MHAssetImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
-                cell.iv.image = image;
+                cell.thumbnail.image = image;
             }];
         }else{
-            [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]
+            [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.urlString]
                 placeholderImage:nil
                          options:SDWebImageContinueInBackground
                         progress:nil
                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                            if (!image) {
-                               blockCell.iv.backgroundColor = [UIColor whiteColor];
-                               blockCell.iv.image = MHGalleryImage(@"error");
+                               blockCell.thumbnail.backgroundColor = [UIColor whiteColor];
+                               blockCell.thumbnail.image = MHGalleryImage(@"error");
                            }
                            [[blockCell.contentView viewWithTag:405] setHidden:YES];
                            
@@ -167,17 +166,17 @@
                        }];
         }
     }
-    cell.iv.userInteractionEnabled =YES;
+    cell.thumbnail.userInteractionEnabled =YES;
     
     MHIndexPinchGestureRecognizer *pinch = [[MHIndexPinchGestureRecognizer alloc]initWithTarget:self
                                                                                          action:@selector(userDidPinch:)];
     pinch.indexPath = indexPath;
-    [cell.iv addGestureRecognizer:pinch];
+    [cell.thumbnail addGestureRecognizer:pinch];
     
     UIRotationGestureRecognizer *rotate = [[UIRotationGestureRecognizer alloc]initWithTarget:self
                                                                                       action:@selector(userDidRoate:)];
     rotate.delegate = self;
-    [cell.iv addGestureRecognizer:rotate];
+    [cell.thumbnail addGestureRecognizer:rotate];
 
     
 }
@@ -198,7 +197,7 @@
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         if (recognizer.scale>1) {
-            self.interactivePushTransition = [MHAnimatorShowDetail new];
+            self.interactivePushTransition = [MHTransitionShowDetail new];
             self.interactivePushTransition.indexPath = recognizer.indexPath;
             self.lastPoint = [recognizer locationInView:self.view];
             MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
@@ -235,7 +234,7 @@
 
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
                          interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
-    if ([animationController isKindOfClass:[MHAnimatorShowDetail class]]) {
+    if ([animationController isKindOfClass:[MHTransitionShowDetail class]]) {
         return self.interactivePushTransition;
     }else {
         return nil;
@@ -248,7 +247,7 @@
                                                  toViewController:(UIViewController *)toVC {
     
     if (fromVC == self && [toVC isKindOfClass:[MHGalleryImageViewerViewController class]]) {
-        return [MHAnimatorShowDetail new];
+        return [MHTransitionShowDetail new];
     }else {
         return nil;
     }
@@ -281,7 +280,7 @@
         [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString
                                                                assetType:MHAssetImageTypeFull
                                                             successBlock:^(UIImage *image, NSError *error) {
-                                                                cell.iv.image = image;
+                                                                cell.thumbnail.image = image;
                                                                 [self pushToImageViewerForIndexPath:indexPath];
                                                             }];
     }else{

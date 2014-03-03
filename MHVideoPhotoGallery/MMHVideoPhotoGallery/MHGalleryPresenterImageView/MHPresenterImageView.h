@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHAnimatorPresentMHGallery.h"
+#import "MHTransitionPresentMHGallery.h"
 
-@class MHAnimatorPresentMHGallery;
+@class MHTransitionPresentMHGallery;
 
 @interface MHPresenterImageView : UIImageView <UIGestureRecognizerDelegate>
 
@@ -21,15 +21,15 @@
 /**
  *  set your the Data Source
  */
-@property (nonatomic,strong) NSArray          *galleryItems;
+@property (nonatomic,strong) NSArray *galleryItems;
 /**
  *  set the currentIndex
  */
-@property (nonatomic)        NSInteger        currentImageIndex;
+@property (nonatomic)        NSInteger currentImageIndex;
 
 @property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image);
 
-@property (nonatomic,strong) MHAnimatorPresentMHGallery *presenter;
+@property (nonatomic,strong) MHTransitionPresentMHGallery *presenter;
 
 
 -(void)setInseractiveGalleryPresentionWithItems:(NSArray*)galleryItems

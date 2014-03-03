@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHGalleryGlobals.h"
+#import "MHGallery.h"
 
 @interface UINavigationController (autoRotate)
 @end

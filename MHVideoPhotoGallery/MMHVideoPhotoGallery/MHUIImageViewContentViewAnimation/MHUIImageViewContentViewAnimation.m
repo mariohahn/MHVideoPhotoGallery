@@ -7,13 +7,13 @@
 //
 
 #import "MHUIImageViewContentViewAnimation.h"
-#import "MHGalleryGlobals.h"
+#import "MHGallery.h"
 
 @interface MHUIImageViewContentViewAnimation ()
 
-@property (nonatomic, readwrite) CGRect newFrameWrapper;
-@property (nonatomic, readwrite) CGRect newFrameImg;
-@property (nonatomic,strong)     UIImageView *iv;
+@property (nonatomic,readwrite) CGRect      changedFrameWrapper;
+@property (nonatomic,readwrite) CGRect      changedFrameImage;
+@property (nonatomic,strong)    UIImageView *imageView;
 
 @end
 
@@ -22,9 +22,9 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.iv = [[UIImageView alloc]init];
-        self.iv.contentMode = UIViewContentModeCenter;
-        [self addSubview:self.iv];
+        self.imageView = [[UIImageView alloc]init];
+        self.imageView.contentMode = UIViewContentModeCenter;
+        [self addSubview:self.imageView];
         self.clipsToBounds = YES;
     }
     return self;
@@ -33,9 +33,9 @@
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        self.iv = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        self.iv.contentMode = UIViewContentModeCenter;
-        [self addSubview:self.iv];
+        self.imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        self.imageView.contentMode = UIViewContentModeCenter;
+        [self addSubview:self.imageView];
         self.clipsToBounds = YES;
     }
     return self;
@@ -76,84 +76,84 @@
     
 }
 -(void)checkImageViewHasImage{
-    if (!self.iv.image) {
-        UIView *view = [[UIView alloc]initWithFrame:self.iv.frame];
+    if (!self.imageView.image) {
+        UIView *view = [[UIView alloc]initWithFrame:self.imageView.frame];
         view.backgroundColor = [UIColor whiteColor];
-        self.iv.image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
+        self.imageView.image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
     }
 }
 
 - (void)initToScaleAspectFitToFrame:(CGRect)newFrame{
     [self checkImageViewHasImage];
-    float ratioImg = (self.iv.image.size.width)/(self.iv.image.size.height);
+    float ratioImage = (self.imageView.image.size.width)/(self.imageView.image.size.height);
     
-    if ([self choiseFunctionWithRationImg:ratioImg forFrame:self.frame]) {
-        self.iv.frame = CGRectMake( - (self.frame.size.height * ratioImg - self.frame.size.width) / 2.0f, 0, self.frame.size.height * ratioImg, self.frame.size.height);
+    if ([self choiseFunctionWithRationImg:ratioImage forFrame:self.frame]) {
+        self.imageView.frame = CGRectMake( - (self.frame.size.height * ratioImage - self.frame.size.width) / 2.0f, 0, self.frame.size.height * ratioImage, self.frame.size.height);
     }else{
-        self.iv.frame = CGRectMake(0, - (self.frame.size.width / ratioImg - self.frame.size.height) / 2.0f, self.frame.size.width, self.frame.size.width / ratioImg);
+        self.imageView.frame = CGRectMake(0, - (self.frame.size.width / ratioImage - self.frame.size.height) / 2.0f, self.frame.size.width, self.frame.size.width / ratioImage);
     }
     
-    self.iv.contentMode = UIViewContentModeScaleAspectFit;
-    self.newFrameImg = CGRectMake(0, 0, newFrame.size.width, newFrame.size.height);
-    self.newFrameWrapper = newFrame;
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.changedFrameImage = CGRectMake(0, 0, newFrame.size.width, newFrame.size.height);
+    self.changedFrameWrapper = newFrame;
     
 }
 
 - (void)initToScaleAspectFillToFrame:(CGRect)newFrame{
     [self checkImageViewHasImage];
     
-    float ratioImg = (self.iv.image.size.width) / (self.iv.image.size.height);
+    float ratioImg = (self.imageView.image.size.width) / (self.imageView.image.size.height);
     if ([self choiseFunctionWithRationImg:ratioImg forFrame:newFrame]) {
-        self.newFrameImg = CGRectMake( - (newFrame.size.height * ratioImg - newFrame.size.width) / 2.0f, 0, newFrame.size.height * ratioImg, newFrame.size.height);
+        self.changedFrameImage = CGRectMake( - (newFrame.size.height * ratioImg - newFrame.size.width) / 2.0f, 0, newFrame.size.height * ratioImg, newFrame.size.height);
     }else{
-        self.newFrameImg = CGRectMake(0, - (newFrame.size.width / ratioImg - newFrame.size.height) / 2.0f, newFrame.size.width, newFrame.size.width / ratioImg);
+        self.changedFrameImage = CGRectMake(0, - (newFrame.size.width / ratioImg - newFrame.size.height) / 2.0f, newFrame.size.width, newFrame.size.width / ratioImg);
     }
-    self.newFrameWrapper = newFrame;
+    self.changedFrameWrapper = newFrame;
     
 }
 - (void)animateToScaleAspectFit{
-    self.iv.frame = _newFrameImg;
-    [super setFrame:_newFrameWrapper];
+    self.imageView.frame = _changedFrameImage;
+    [super setFrame:_changedFrameWrapper];
 }
 
 - (void)animateToScaleAspectFill{
-    self.iv.frame = _newFrameImg;
-    [super setFrame:_newFrameWrapper];
+    self.imageView.frame = _changedFrameImage;
+    [super setFrame:_changedFrameWrapper];
 }
 
 - (void)animateFinishToScaleAspectFill{
-    self.iv.contentMode = UIViewContentModeScaleAspectFill;
-    self.iv.frame  = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.imageView.frame  = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 }
 
 - (void)setImage:(UIImage *)image{
-    self.iv.image = image;
+    self.imageView.image = image;
 }
 
 - (UIImage *)image{
-    return self.iv.image;
+    return self.imageView.image;
 }
 
 - (void)setContentMode:(UIViewContentMode)contentMode{
-    self.iv.contentMode = contentMode;
+    self.imageView.contentMode = contentMode;
 }
 
 - (UIViewContentMode)contentMode{
-    return self.iv.contentMode;
+    return self.imageView.contentMode;
 }
 
 - (void)setFrame:(CGRect)frame{
     [super setFrame:frame];
-    self.iv.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+    self.imageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
 }
 
-- (BOOL)choiseFunctionWithRationImg:(float)ratioImg forFrame:(CGRect)newFrame{
+- (BOOL)choiseFunctionWithRationImg:(float)ratioImage forFrame:(CGRect)newFrame{
     BOOL resultat = NO;
     float ratioSelf = (newFrame.size.width)/(newFrame.size.height);
-    if (ratioImg < 1) {
-        if (ratioImg > ratioSelf ) resultat = true;
+    if (ratioImage < 1) {
+        if (ratioImage > ratioSelf ) resultat = true;
     }else{
-        if (ratioImg > ratioSelf ) resultat = true;
+        if (ratioImage > ratioSelf ) resultat = true;
     }
     return resultat;
 }

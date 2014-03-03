@@ -174,7 +174,7 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] iv];
+    [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] thumbnail];
     
     NSArray *galleryData = self.galleryDataSource[collectionView.tag];
     
@@ -192,7 +192,7 @@
                              [collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
                              
                              MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:newIndexPath];
-                             [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = cell.iv;
+                             [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = cell.thumbnail;
                              
                              [galleryNavMH dismissViewControllerAnimated:YES completion:^{
                                  MPMoviePlayerController *player = [MHGallerySharedManager sharedManager].interactiveDismissMHGallery.moviePlayer;
@@ -217,22 +217,22 @@
 
 -(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     MHGalleryItem *item = self.galleryDataSource[indexPath.section][indexPath.row];
-    [cell.iv setContentMode:UIViewContentModeScaleAspectFill];
+    [cell.thumbnail setContentMode:UIViewContentModeScaleAspectFill];
     
-    cell.iv.layer.shadowOffset = CGSizeMake(0, 0);
-    cell.iv.layer.shadowRadius = 1.0;
-    cell.iv.layer.shadowColor = [UIColor blackColor].CGColor;
-    cell.iv.layer.shadowOpacity = 0.5;
-    cell.iv.layer.shadowPath = [UIBezierPath bezierPathWithRect:cell.iv.bounds].CGPath;
-    cell.iv.layer.cornerRadius = 2.0;
+    cell.thumbnail.layer.shadowOffset = CGSizeMake(0, 0);
+    cell.thumbnail.layer.shadowRadius = 1.0;
+    cell.thumbnail.layer.shadowColor = [UIColor blackColor].CGColor;
+    cell.thumbnail.layer.shadowOpacity = 0.5;
+    cell.thumbnail.layer.shadowPath = [UIBezierPath bezierPathWithRect:cell.thumbnail.bounds].CGPath;
+    cell.thumbnail.layer.cornerRadius = 2.0;
     
-    cell.iv.image = nil;
+    cell.thumbnail.image = nil;
     if (item.galleryType == MHGalleryTypeImage) {
-        [cell.iv setImageWithURL:[NSURL URLWithString:item.urlString]];
+        [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.urlString]];
     }else{
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
                                                               successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error,NSString *newURL) {
-                                                                  cell.iv.image = image;
+                                                                  cell.thumbnail.image = image;
                                                               }];
     }
 }

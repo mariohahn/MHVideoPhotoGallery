@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHAnimatorShowOverView.h"
-#import "MHGalleryGlobals.h"
+#import "MHTransitionShowOverView.h"
+#import "MHGallery.h"
 #import "MHShareViewController.h"
 
 @interface MHPinchGestureRecognizer : UIPinchGestureRecognizer
@@ -26,7 +26,7 @@
 @property (nonatomic,getter = isUserScrolling)                   BOOL userScrolls;
 @property (nonatomic,getter = isHiddingToolBarAndNavigationBar)  BOOL hiddingToolBarAndNavigationBar;
 
-@property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH, NSUInteger photoIndex,MHAnimatorDismissMHGallery *interactiveTransition,UIImage *image);
+@property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH, NSUInteger photoIndex,MHTransitionDismissMHGallery *interactiveTransition,UIImage *image);
 
 -(void)updateToolBarForItem:(MHGalleryItem*)item;
 -(void)playStopButtonPressed;
@@ -37,8 +37,8 @@
 
 @interface ImageViewController : UIViewController<UIScrollViewDelegate,UIGestureRecognizerDelegate>
 
-@property (nonatomic,strong)        MHAnimatorDismissMHGallery *interactiveTransition;
-@property (nonatomic,strong)        MHAnimatorShowOverView *interactiveOverView;
+@property (nonatomic,strong)        MHTransitionDismissMHGallery *interactiveTransition;
+@property (nonatomic,strong)        MHTransitionShowOverView *interactiveOverView;
 @property (nonatomic,strong)        MHGalleryImageViewerViewController *vc;
 @property (nonatomic,strong)        MHGalleryItem *item;
 @property (nonatomic,strong)        UIScrollView *scrollView;

@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHGalleryGlobals.h"
+#import "MHGallery.h"
 #import "MHGalleryImageViewerViewController.h"
 #import "SDWebImageManager.h"
-#import "MHAnimatorShowDetail.h"
+#import "MHTransitionShowDetail.h"
 #import "UIImageView+WebCache.h"
 #import "MHGalleryCells.h"
 
@@ -26,5 +26,5 @@
 @property (nonatomic)         NSInteger             currentPage;
 
 
-@property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH, NSUInteger photoIndex,MHAnimatorDismissMHGallery *interactiveTransition,UIImage *image);
+@property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH, NSUInteger photoIndex,MHTransitionDismissMHGallery *interactiveTransition,UIImage *image);
 @end

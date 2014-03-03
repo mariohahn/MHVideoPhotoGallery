@@ -7,7 +7,7 @@
 //
 
 #import "UIImageView+MHGallery.h"
-#import "MHGalleryGlobals.h"
+#import "MHGallery.h"
 
 @implementation UIImageView (MHGallery)
 
@@ -18,6 +18,4 @@
                                                              self.image = image;
     }];
 }
-
-
 @end

@@ -18,12 +18,18 @@ Stuff; \
 _Pragma("clang diagnostic pop") \
 } while (0)
 
+
+@interface MHShareCell : UICollectionViewCell
+@property (strong, nonatomic) UIImageView *thumbnailImageView;
+@property (strong, nonatomic) UILabel *descriptionLabel;
+@end
+
 @interface MHShareViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 
-@property(nonatomic,strong) UICollectionView *cv;
+@property(nonatomic,strong) UICollectionView *collectionView;
 @property(nonatomic,strong) UITableView *tableViewShare;
 @property(nonatomic,strong) UIView *gradientView;
-@property(nonatomic,strong) UIToolbar *tb;
+@property(nonatomic,strong) UIToolbar *toolbar;
 @property(nonatomic)        NSInteger pageIndex;
 
 @end

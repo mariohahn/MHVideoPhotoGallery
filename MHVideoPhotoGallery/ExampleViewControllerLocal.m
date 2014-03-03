@@ -8,7 +8,7 @@
 
 #import "ExampleViewControllerLocal.h"
 #import <AssetsLibrary/AssetsLibrary.h>
-#import "MHGalleryGlobals.h"
+#import "MHGallery.h"
 #import "ExampleViewControllerTableView.h"
 
 
@@ -30,7 +30,7 @@
 @interface ExampleViewControllerLocal ()
 @property (nonatomic,strong)NSMutableArray *allData;
 @property(nonatomic,strong) UIImageView *imageViewForPresentingMHGallery;
-@property(nonatomic,strong) MHAnimatorDismissMHGallery *interactive;
+@property(nonatomic,strong) MHTransitionDismissMHGallery *interactive;
 @end
 
 @implementation ExampleViewControllerLocal

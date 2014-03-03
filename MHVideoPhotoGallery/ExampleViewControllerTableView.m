@@ -99,7 +99,7 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[tableView cellForRowAtIndexPath:indexPath] iv];
+    [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[tableView cellForRowAtIndexPath:indexPath] thumbnail];
         
     NSArray *galleryData = self.galleryDataSource;
     
@@ -112,8 +112,8 @@
                          [self.tableView scrollToRowAtIndexPath:newIndex atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
                          
                          dispatch_async(dispatch_get_main_queue(), ^{
-                             UIImageView *iv = [(MHGalleryOverViewCell*)[self.tableView cellForRowAtIndexPath:newIndex] iv];
-                             [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = iv;
+                             UIImageView *imageView = [(MHGalleryOverViewCell*)[self.tableView cellForRowAtIndexPath:newIndex] thumbnail];
+                             [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = imageView;
                              
                              [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
                          });

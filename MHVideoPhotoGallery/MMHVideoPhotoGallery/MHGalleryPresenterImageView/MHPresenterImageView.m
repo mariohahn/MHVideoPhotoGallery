@@ -7,7 +7,7 @@
 //
 
 #import "MHPresenterImageView.h"
-#import "MHGalleryGlobals.h"
+#import "MHGallery.h"
 
 @interface MHPresenterImageView ()
 @property (nonatomic) CGPoint lastPoint;
@@ -97,8 +97,8 @@
 }
 -(void)presentMHGallery{
     [MHGallerySharedManager sharedManager].ivForInteractiveTransition = self;
-    self.presenter = [MHAnimatorPresentMHGallery new];
-    self.presenter.iv = self;
+    self.presenter = [MHTransitionPresentMHGallery new];
+    self.presenter.presentingImageView = self;
     [self.viewController presentMHGalleryWithItems:self.galleryItems
                                           forIndex:self.currentImageIndex
                                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
@@ -132,12 +132,12 @@
             self.lastPoint = [recognizer locationInView:self.viewController.view];
             self.startScale = recognizer.scale/8;
         }else{
-            [recognizer setCancelsTouchesInView:YES];
+            recognizer.cancelsTouchesInView =YES;
         }
     }else if (recognizer.state == UIGestureRecognizerStateChanged) {
         if (recognizer.numberOfTouches <2) {
-            [recognizer setEnabled:NO];
-            [recognizer setEnabled:YES];
+            recognizer.enabled =NO;
+            recognizer.enabled = YES;
         }
         CGPoint point = [recognizer locationInView:self.viewController.view];
         self.presenter.scale = recognizer.scale/8-self.startScale;
@@ -145,7 +145,7 @@
         [self.presenter updateInteractiveTransition:scale];
         self.lastPoint = point;
     }else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateCancelled) {
-        if ((self.presenter.ivAnimation.frame.size.width > self.viewController.view.frame.size.width)||(self.presenter.ivAnimation.frame.size.height > self.viewController.view.frame.size.height)) {
+        if ((self.presenter.transitionImageView.frame.size.width > self.viewController.view.frame.size.width)||(self.presenter.transitionImageView.frame.size.height > self.viewController.view.frame.size.height)) {
             [self.presenter finishInteractiveTransition];
         }else {
             [self.presenter cancelInteractiveTransition];
