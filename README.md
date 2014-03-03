@@ -43,24 +43,25 @@ Weblinks (.mov, .mp4, .mpv)
 ####How to use
 
 ```objective-c
- /*MHGallery needs the ImageView from which you want to present the Gallery*/
-
-[MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[tableView cellForRowAtIndexPath:indexPath] iv];
+UIImageView *imageView = [(MHGalleryOverViewCell*)[tableView cellForRowAtIndexPath:indexPath] thumbnail];
         
-NSArray *galleryData = self.galleryDataSource;
+    NSArray *galleryData = self.galleryDataSource;
     
-[self presentMHGalleryWithItems:galleryData
-                       forIndex:indexPath.row
-                 finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
-	
-			/*set the new ImageView for Dismiss MHGallery*/
-
-                       [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = iv;
-                             
-                       [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
-                	  });
+    [self presentMHGalleryWithItems:galleryData
+                           forIndex:indexPath.row
+                      fromImageView:imageView
+                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveTransition) {
                          
-                   } animated:YES];
+                         NSIndexPath *newIndex = [NSIndexPath indexPathForRow:pageIndex inSection:0];
+                         
+                         [self.tableView scrollToRowAtIndexPath:newIndex atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+                         
+                         dispatch_async(dispatch_get_main_queue(), ^{
+                             UIImageView *imageView = [(MHGalleryOverViewCell*)[self.tableView cellForRowAtIndexPath:newIndex] thumbnail];
+                             [galleryNavMH dismissViewControllerAnimated:YES dismissImageView:imageView completion:nil];
+                         });
+                         
+                     } customAnimationFromImage:YES];
 ```
 
 	
