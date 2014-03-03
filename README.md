@@ -43,14 +43,15 @@ Weblinks (.mov, .mp4, .mpv)
 ####How to use
 
 ```objective-c
+
 UIImageView *imageView = [(MHGalleryOverViewCell*)[tableView cellForRowAtIndexPath:indexPath] thumbnail];
         
-    NSArray *galleryData = self.galleryDataSource;
+NSArray *galleryData = self.galleryDataSource;
     
-    [self presentMHGalleryWithItems:galleryData
-                           forIndex:indexPath.row
-                      fromImageView:imageView
-                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveTransition) {
+[self presentMHGalleryWithItems:galleryData
+                       forIndex:indexPath.row
+                  fromImageView:imageView
+                 finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveTransition) {
                          
                          NSIndexPath *newIndex = [NSIndexPath indexPathForRow:pageIndex inSection:0];
                          

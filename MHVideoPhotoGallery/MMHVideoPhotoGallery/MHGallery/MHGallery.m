@@ -666,7 +666,10 @@ UIImage *MHGalleryImage(NSString *imageName){
     
     MHOverViewController *gallery = [MHOverViewController new];
     [gallery viewDidLoad];
-    gallery.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,MHTransitionDismissMHGallery *interactiveTransition,UIImage *image) {
+    gallery.finishedCallback = ^(UINavigationController *galleryNavMH,
+                                 NSUInteger photoIndex,
+                                 MHTransitionDismissMHGallery *interactiveTransition,
+                                 UIImage *image) {
         FinishBlock(galleryNavMH,photoIndex,image,interactiveTransition);
     };
     
@@ -674,7 +677,10 @@ UIImage *MHGalleryImage(NSString *imageName){
     detail.interactivePresentationTranstion = presentInteractive;
     detail.pageIndex = index;
     detail.presentingFromImageView = fromImageView;
-    detail.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,MHTransitionDismissMHGallery *interactiveTransition,UIImage *image) {
+    detail.finishedCallback = ^(UINavigationController *galleryNavMH,
+                                NSUInteger photoIndex,
+                                MHTransitionDismissMHGallery *interactiveTransition,
+                                UIImage *image) {
         FinishBlock(galleryNavMH,photoIndex,image,interactiveTransition);
     };
     
