@@ -182,6 +182,7 @@
                            forIndex:indexPath.row
                      finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
                          
+                         
                          NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:pageIndex inSection:0];
                          CGRect cellFrame  = [[collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:newIndexPath].frame;
                          [collectionView scrollRectToVisible:cellFrame

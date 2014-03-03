@@ -24,6 +24,8 @@ extern void MHGalleryCustomImageBlock(UIImage *(^customImageBlock)(NSString *ima
 extern NSBundle *MHGalleryBundle(void);
 extern NSString *MHGalleryLocalizedString(NSString *localizeString);
 extern UIImage  *MHGalleryImage(NSString *imageName);
+extern NSDictionary *MHDictionaryForQueryString(NSString *string);
+
 
 extern NSString *const MHYoutubeChannel;
 extern NSString *const MHGalleryViewModeOverView;

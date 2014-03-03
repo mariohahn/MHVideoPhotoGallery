@@ -14,6 +14,21 @@ NSString * const MHGalleryViewModeOverView = @"MHGalleryViewModeOverView";
 NSString * const MHGalleryViewModeShare    = @"MHGalleryViewModeShare";
 
 
+NSDictionary *MHDictionaryForQueryString(NSString *string){
+	NSMutableDictionary *dictionary = [NSMutableDictionary new];
+	NSArray *allFieldsArray = [string componentsSeparatedByString:@"&"];
+	for (NSString *fieldString in allFieldsArray){
+		NSArray *pairArray = [fieldString componentsSeparatedByString:@"="];
+		if (pairArray.count == 2){
+			NSString *key = pairArray[0];
+			NSString *value = [pairArray[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+			value = [value stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+			dictionary[key] = value;
+		}
+	}
+	return dictionary;
+}
+
 NSBundle *MHGalleryBundle(void) {
     static NSBundle *bundle = nil;
     static dispatch_once_t onceToken;
@@ -291,21 +306,6 @@ UIImage *MHGalleryImage(NSString *imageName){
 	return applicationLanguageIdentifier;
 }
 
--(NSDictionary*)getURLParFromURL:(NSString*)URL{
-	NSMutableDictionary *dict = [NSMutableDictionary new];
-	NSArray *fields = [URL componentsSeparatedByString:@"&"];
-	for (NSString *field in fields){
-		NSArray *pair = [field componentsSeparatedByString:@"="];
-		if (pair.count == 2){
-			NSString *key = pair[0];
-			NSString *value = [pair[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-			value = [value stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-			dict[key] = value;
-		}
-	}
-	return dict;
-}
-
 -(void)getYoutubeURLforMediaPlayer:(NSString*)URL
                       successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock{
     
@@ -335,18 +335,23 @@ UIImage *MHGalleryImage(NSString *imageName){
     
 	NSString *videoData = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
     
-	NSDictionary *video = [self getURLParFromURL:videoData];
+	NSDictionary *video = MHDictionaryForQueryString(videoData);
 	NSArray *videoURLS = [video[@"url_encoded_fmt_stream_map"] componentsSeparatedByString:@","];
 	NSMutableDictionary *streamURLs = [NSMutableDictionary new];
 	for (NSString *videoURL in videoURLS){
-		NSDictionary *stream = [self getURLParFromURL:videoURL];
-		NSString *type = stream[@"type"];
+		NSDictionary *stream = MHDictionaryForQueryString(videoURL);
+		NSString *typeString = stream[@"type"];
 		NSString *urlString = stream[@"url"];
-		NSString *signatureString = stream[@"sig"];
-		if (urlString && signatureString && [AVURLAsset isPlayableExtendedMIMEType:type]){
-			NSURL *streamURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@&signature=%@", urlString, signatureString]];
-			streamURLs[@([stream[@"itag"] integerValue])] = streamURL;
-		}
+        if (urlString && [AVURLAsset isPlayableExtendedMIMEType:typeString]) {
+            NSURL *streamURL = [NSURL URLWithString:urlString];
+			NSString *sig = stream[@"sig"];
+			if (sig){
+				streamURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@&signature=%@", urlString, sig]];
+            }
+            if ([[MHDictionaryForQueryString(streamURL.query) allKeys] containsObject:@"signature"]){
+				streamURLs[@([stream[@"itag"] integerValue])] = streamURL;
+            }
+        }
 	}
     if (self.youtubeVideoQuality == MHYoutubeVideoQualityHD720) {
         if (streamURLs[@(22)]) {
