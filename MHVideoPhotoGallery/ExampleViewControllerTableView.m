@@ -99,13 +99,14 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[tableView cellForRowAtIndexPath:indexPath] thumbnail];
+    UIImageView *imageView = [(MHGalleryOverViewCell*)[tableView cellForRowAtIndexPath:indexPath] thumbnail];
         
     NSArray *galleryData = self.galleryDataSource;
     
     [self presentMHGalleryWithItems:galleryData
                            forIndex:indexPath.row
-                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+                      fromImageView:imageView
+                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveTransition) {
                          
                          NSIndexPath *newIndex = [NSIndexPath indexPathForRow:pageIndex inSection:0];
                          
@@ -113,9 +114,7 @@
                          
                          dispatch_async(dispatch_get_main_queue(), ^{
                              UIImageView *imageView = [(MHGalleryOverViewCell*)[self.tableView cellForRowAtIndexPath:newIndex] thumbnail];
-                             [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = imageView;
-                             
-                             [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
+                             [galleryNavMH dismissViewControllerAnimated:YES dismissImageView:imageView completion:nil];
                          });
                          
                      } customAnimationFromImage:YES];

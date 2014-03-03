@@ -174,13 +174,15 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] thumbnail];
+    UIImageView *imageView = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] thumbnail];
     
     NSArray *galleryData = self.galleryDataSource[collectionView.tag];
     
+    
     [self presentMHGalleryWithItems:galleryData
                            forIndex:indexPath.row
-                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+                      fromImageView:imageView
+                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery) {
                          
                          
                          NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:pageIndex inSection:0];
@@ -193,10 +195,11 @@
                              [collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
                              
                              MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:newIndexPath];
-                             [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = cell.thumbnail;
                              
-                             [galleryNavMH dismissViewControllerAnimated:YES completion:^{
-                                 MPMoviePlayerController *player = [MHGallerySharedManager sharedManager].interactiveDismissMHGallery.moviePlayer;
+                             [galleryNavMH dismissViewControllerAnimated:YES dismissImageView:cell.thumbnail completion:^{
+                                 
+                                 MPMoviePlayerController *player = interactiveDismissMHGallery.moviePlayer;
+                                 
                                  player.controlStyle = MPMovieControlStyleEmbedded;
                                  player.view.frame = cell.bounds;
                                  player.scalingMode = MPMovieScalingModeAspectFill;

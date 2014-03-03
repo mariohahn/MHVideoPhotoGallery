@@ -22,6 +22,10 @@
 @property (nonatomic, strong)          UIToolbar *descriptionViewBackground;
 @property (nonatomic)                  NSInteger pageIndex;
 @property (nonatomic, strong)          UIPageViewController *pvc;
+@property (nonatomic, strong)          UIImageView *presentingFromImageView;
+@property (nonatomic, strong)          UIImageView *dismissFromImageView;
+@property (nonatomic, strong)          MHTransitionPresentMHGallery *interactivePresentationTranstion;
+
 
 @property (nonatomic,getter = isUserScrolling)                   BOOL userScrolls;
 @property (nonatomic,getter = isHiddingToolBarAndNavigationBar)  BOOL hiddingToolBarAndNavigationBar;

@@ -66,12 +66,11 @@
     
     __block ExampleViewControllerImageView *blockSelf = self;
 
-    [self.iv setInseractiveGalleryPresentionWithItems:galleryItems currentImageIndex:0 currentViewController:self finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+    [self.iv setInseractiveGalleryPresentionWithItems:galleryItems currentImageIndex:0 currentViewController:self finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery) {
         blockSelf.iv.image = image;
         blockSelf.iv.currentImageIndex = pageIndex;
         
-        [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = blockSelf.iv;
-        [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
+        [galleryNavMH dismissViewControllerAnimated:YES dismissImageView:blockSelf.iv completion:nil];
     }];
     
     

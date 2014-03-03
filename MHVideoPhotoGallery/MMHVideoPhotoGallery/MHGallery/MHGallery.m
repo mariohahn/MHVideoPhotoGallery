@@ -218,13 +218,6 @@ UIImage *MHGalleryImage(NSString *imageName){
 }
 
 
--(void)setIvForPresentingAndDismissingMHGallery:(UIImageView *)ivForPresentingAndDismissingMHGallery{
-    if (self.interactiveDismissMHGallery) {
-        self.interactiveDismissMHGallery.transitionImageView = ivForPresentingAndDismissingMHGallery;
-    }
-    _ivForPresentingAndDismissingMHGallery = ivForPresentingAndDismissingMHGallery;
-}
-
 
 -(BOOL)isUIVCBasedStatusBarAppearance{
     NSNumber *isUIVCBasedStatusBarAppearance = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIViewControllerBasedStatusBarAppearance"];
@@ -329,10 +322,7 @@ UIImage *MHGalleryImage(NSString *imageName){
                            }];
 }
 
-
-
 - (NSURL *)getYoutubeURLWithData:(NSData *)data{
-    
 	NSString *videoData = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
     
 	NSDictionary *video = MHDictionaryForQueryString(videoData);
@@ -634,7 +624,7 @@ UIImage *MHGalleryImage(NSString *imageName){
 @implementation UIViewController(MHGalleryViewController)
 
 -(void)presentMHGalleryOverViewWithItems:(NSArray*)galleryItems
-                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
+                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery)
                                   )FinishBlock
                                 customAnimationFromImage:(BOOL)animated{
    
@@ -648,8 +638,7 @@ UIImage *MHGalleryImage(NSString *imageName){
     MHOverViewController *gallery = [MHOverViewController new];
     [gallery viewDidLoad];
     gallery.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,MHTransitionDismissMHGallery *interactiveTransition,UIImage *image) {
-        [MHGallerySharedManager sharedManager].interactiveDismissMHGallery = interactiveTransition;
-        FinishBlock(galleryNavMH,photoIndex,image);
+        FinishBlock(galleryNavMH,photoIndex,image,interactiveTransition);
     };
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:gallery];
     if (animated) {
@@ -659,16 +648,17 @@ UIImage *MHGalleryImage(NSString *imageName){
     [self presentViewController:nav animated:YES completion:nil];
 }
 
-
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
-                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
+                   fromImageView:(UIImageView*)fromImageView
+        withInteractiveTranstion:(MHTransitionPresentMHGallery*)presentInteractive
+                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery)
                                   )FinishBlock
-                        customAnimationFromImage:(BOOL)animated{
+        customAnimationFromImage:(BOOL)animated{
     
     [[MHGallerySharedManager sharedManager] qualityForVideos];
     [[MHGallerySharedManager sharedManager] defaultViewModes];
-
+    
     [MHGallerySharedManager sharedManager].animateWithCustomTransition =animated;
     [MHGallerySharedManager sharedManager].oldStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
     
@@ -677,15 +667,15 @@ UIImage *MHGalleryImage(NSString *imageName){
     MHOverViewController *gallery = [MHOverViewController new];
     [gallery viewDidLoad];
     gallery.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,MHTransitionDismissMHGallery *interactiveTransition,UIImage *image) {
-        [MHGallerySharedManager sharedManager].interactiveDismissMHGallery = interactiveTransition;
-        FinishBlock(galleryNavMH,photoIndex,image);
+        FinishBlock(galleryNavMH,photoIndex,image,interactiveTransition);
     };
     
     MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
+    detail.interactivePresentationTranstion = presentInteractive;
     detail.pageIndex = index;
+    detail.presentingFromImageView = fromImageView;
     detail.finishedCallback = ^(UINavigationController *galleryNavMH,NSUInteger photoIndex,MHTransitionDismissMHGallery *interactiveTransition,UIImage *image) {
-        [MHGallerySharedManager sharedManager].interactiveDismissMHGallery = interactiveTransition;
-        FinishBlock(galleryNavMH,photoIndex,image);
+        FinishBlock(galleryNavMH,photoIndex,image,interactiveTransition);
     };
     
     UINavigationController *nav = [UINavigationController new];
@@ -699,23 +689,38 @@ UIImage *MHGalleryImage(NSString *imageName){
         nav.modalPresentationStyle = UIModalPresentationFullScreen;
     }
     [self presentViewController:nav animated:YES completion:nil];
+
+}
+
+-(void)presentMHGalleryWithItems:(NSArray*)galleryItems
+                        forIndex:(NSInteger)index
+                   fromImageView:(UIImageView*)fromImageView
+                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition)
+                                  )FinishBlock
+        customAnimationFromImage:(BOOL)animated{
+    
+    [self presentMHGalleryWithItems:galleryItems
+                           forIndex:index
+                      fromImageView:fromImageView
+           withInteractiveTranstion:nil
+                     finishCallback:FinishBlock
+           customAnimationFromImage:animated];
+}
+
+- (void)dismissViewControllerAnimated:(BOOL)flag dismissImageView:(UIImageView*)dismissImageView completion:(void (^)(void))completion{
+    if ([[(UINavigationController*)self viewControllers].lastObject isKindOfClass:[MHGalleryImageViewerViewController class]]) {
+        MHGalleryImageViewerViewController *imageViewer = [(UINavigationController*)self viewControllers].lastObject;
+        imageViewer.dismissFromImageView = dismissImageView;
+    }
+    [self dismissViewControllerAnimated:flag completion:completion];
 }
 
 
 -(id<UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id<UIViewControllerAnimatedTransitioning>)animator{
     if ([animator isKindOfClass:[MHTransitionPresentMHGallery class]]) {
-        return [MHGallerySharedManager sharedManager].ivForInteractiveTransition.presenter;
-    }else {
-        return nil;
-    }
-}
-
--(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
-    if ([animator isKindOfClass:[MHTransitionDismissMHGallery class]]) {
-        
-        MHTransitionDismissMHGallery *animatorDismiss = (MHTransitionDismissMHGallery*)animator;
-        if (animatorDismiss.interactive) {
-            return [MHGallerySharedManager sharedManager].interactiveDismissMHGallery;
+        MHTransitionPresentMHGallery *animatorPresent = (MHTransitionPresentMHGallery*)animator;
+        if (animatorPresent.interactive) {
+            return animatorPresent;
         }
         return nil;
     }else {
@@ -723,10 +728,33 @@ UIImage *MHGalleryImage(NSString *imageName){
     }
 }
 
+-(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
+    if ([animator isKindOfClass:[MHTransitionDismissMHGallery class]]) {
+        MHTransitionDismissMHGallery *animatorDismiss = (MHTransitionDismissMHGallery*)animator;
+        if (animatorDismiss.interactive) {
+            return animatorDismiss;
+        }
+        return nil;
+    }else {
+        return nil;
+    }
+}
+
+
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
-    MHTransitionDismissMHGallery *detail = [MHGallerySharedManager sharedManager].interactiveDismissMHGallery;
-    detail.transitionImageView = [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery;
-    return detail;
+    if ([[(UINavigationController*)dismissed  viewControllers].lastObject isKindOfClass:[MHGalleryImageViewerViewController class]]) {
+        MHGalleryImageViewerViewController *imageViewer = [(UINavigationController*)dismissed  viewControllers].lastObject;
+        ImageViewController *viewer = imageViewer.pvc.viewControllers.firstObject;
+        if (viewer.interactiveTransition) {
+            MHTransitionDismissMHGallery *detail = viewer.interactiveTransition;
+            detail.transitionImageView = imageViewer.dismissFromImageView;
+            return detail;
+        }
+        MHTransitionDismissMHGallery *detail = [MHTransitionDismissMHGallery new];
+        detail.transitionImageView = imageViewer.dismissFromImageView;
+        return detail;
+    }
+    return nil;
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
@@ -734,8 +762,14 @@ UIImage *MHGalleryImage(NSString *imageName){
                                                                       sourceController:(UIViewController *)source {
     UINavigationController *nav = (UINavigationController*)presented;
     if ([nav.viewControllers.lastObject  isKindOfClass:[MHGalleryImageViewerViewController class]]) {
+        MHGalleryImageViewerViewController *imageViewer = nav.viewControllers.lastObject;
+        if (imageViewer.interactivePresentationTranstion) {
+            MHTransitionPresentMHGallery *detail = imageViewer.interactivePresentationTranstion;
+            detail.presentingImageView = imageViewer.presentingFromImageView;
+            return detail;
+        }
         MHTransitionPresentMHGallery *detail = [MHTransitionPresentMHGallery new];
-        detail.presentingImageView = [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery;
+        detail.presentingImageView = imageViewer.presentingFromImageView;
         return detail;
     }
     return nil;

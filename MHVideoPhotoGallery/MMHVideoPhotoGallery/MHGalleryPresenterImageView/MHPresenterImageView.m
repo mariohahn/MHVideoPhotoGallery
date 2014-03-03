@@ -36,7 +36,7 @@
 -(void)setInseractiveGalleryPresentionWithItems:(NSArray*)galleryItems
                               currentImageIndex:(NSInteger)currentImageIndex
                           currentViewController:(UIViewController*)viewController
-                                 finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
+                                 finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery)
                                                  )FinishBlock{
     self.galleryItems = galleryItems;
     self.currentImageIndex = currentImageIndex;
@@ -86,25 +86,28 @@
 }
 
 -(void)didTapOnImage{
-    [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = self;
     [self.viewController presentMHGalleryWithItems:self.galleryItems
                                           forIndex:self.currentImageIndex
-                                    finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+                                     fromImageView:self
+                                    finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery) {
                                         if (self.finishedCallback) {
-                                            self.finishedCallback(galleryNavMH,pageIndex,image);
+                                            self.finishedCallback(galleryNavMH,pageIndex,image,interactiveDismissMHGallery);
                                         }
                                     } customAnimationFromImage:YES];
 }
 -(void)presentMHGallery{
-    [MHGallerySharedManager sharedManager].ivForInteractiveTransition = self;
+    
     self.presenter = [MHTransitionPresentMHGallery new];
     self.presenter.presentingImageView = self;
+    self.presenter.interactive = YES;
+    
     [self.viewController presentMHGalleryWithItems:self.galleryItems
                                           forIndex:self.currentImageIndex
-                                    finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
-                                        [MHGallerySharedManager sharedManager].ivForInteractiveTransition = nil;
+                                     fromImageView:self
+                          withInteractiveTranstion:self.presenter
+                                    finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery) {
                                         if (self.finishedCallback) {
-                                            self.finishedCallback(galleryNavMH,pageIndex,image);
+                                            self.finishedCallback(galleryNavMH,pageIndex,image,interactiveDismissMHGallery);
                                         }
                                     } customAnimationFromImage:YES];
 }

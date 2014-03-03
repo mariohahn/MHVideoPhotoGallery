@@ -16,5 +16,6 @@
 @property (nonatomic,assign)    CGFloat scale;
 @property (nonatomic,assign)    CGPoint changedPoint;
 @property (nonatomic,assign)    id <UIViewControllerContextTransitioning> context;
+@property (nonatomic,assign)    BOOL interactive;
 
 @end

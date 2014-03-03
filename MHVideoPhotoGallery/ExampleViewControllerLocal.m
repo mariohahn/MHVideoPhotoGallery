@@ -103,11 +103,9 @@
     if (galleryData.count >0) {
                 
         [self presentMHGalleryOverViewWithItems:galleryData
-                                 finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image) {
+                                 finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery) {
                                      ImageTableViewCell *cell = (ImageTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-                                     [MHGallerySharedManager sharedManager].ivForPresentingAndDismissingMHGallery = cell.iv;
-                                     
-            [galleryNavMH dismissViewControllerAnimated:YES completion:nil];
+                                     [galleryNavMH dismissViewControllerAnimated:YES dismissImageView:cell.iv completion:nil];                                     
         } customAnimationFromImage:NO];
         
     }

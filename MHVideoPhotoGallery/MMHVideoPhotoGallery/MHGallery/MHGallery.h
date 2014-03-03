@@ -167,11 +167,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  */
 @property (nonatomic,assign) MHYoutubeVideoQuality youtubeVideoQuality;
 
-@property (nonatomic,strong) MHTransitionPresentMHGallery *interactivePresentationMHGallery;
-@property (nonatomic,strong) MHTransitionDismissMHGallery *interactiveDismissMHGallery;
-@property (nonatomic,strong) UIImageView *ivForPresentingAndDismissingMHGallery;
-@property (nonatomic,strong) MHPresenterImageView *ivForInteractiveTransition;
-
 + (MHGallerySharedManager *)sharedManager;
 /**
  *  You can create a Thumbnail from a Video, you can create it from Videos from a Webserver, Youtube and Vimeo
@@ -246,7 +241,8 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  */
 -(void)presentMHGalleryWithItems:(NSArray*)galleryItems
                         forIndex:(NSInteger)index
-                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
+                   fromImageView:(UIImageView*)fromImageView
+                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery)
                                   )FinishBlock
                         customAnimationFromImage:(BOOL)animated;
 /**
@@ -257,9 +253,22 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  *  @param animated     if you want the custom transition set it to Yes.
  */
 -(void)presentMHGalleryOverViewWithItems:(NSArray*)galleryItems
-                          finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image)
+                          finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery)
                                           )FinishBlock
                                 customAnimationFromImage:(BOOL)animated;
+
+- (void)dismissViewControllerAnimated:(BOOL)flag
+                     dismissImageView:(UIImageView*)dismissImageView
+                           completion:(void (^)(void))completion;
+
+
+-(void)presentMHGalleryWithItems:(NSArray*)galleryItems
+                        forIndex:(NSInteger)index
+                   fromImageView:(UIImageView*)fromImageView
+        withInteractiveTranstion:(MHTransitionPresentMHGallery*)presentInteractive
+                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery)
+                                  )FinishBlock
+        customAnimationFromImage:(BOOL)animated;
 
 @end
 
