@@ -1,5 +1,5 @@
 <p align="center" >
-  <img src="https://dl.dropboxusercontent.com/u/17911939/galleryIcon.png" alt="AFNetworking" title="AFNetworking">
+  <img src="https://dl.dropboxusercontent.com/u/17911939/galleryIcon.png" alt="MHGallery" title="MHGallery">
 </p>
 ==================
 
