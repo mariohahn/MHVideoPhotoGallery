@@ -101,12 +101,20 @@
     MHGallerySectionItem *section = self.allData[indexPath.row];
     NSArray *galleryData = section.galleryItems;
     if (galleryData.count >0) {
-                
-        [self presentMHGalleryOverViewWithItems:galleryData
-                                 finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery) {
-                                     ImageTableViewCell *cell = (ImageTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-                                     [galleryNavMH dismissViewControllerAnimated:YES dismissImageView:cell.iv completion:nil];                                     
-        } customAnimationFromImage:NO];
+        
+        MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryPresentionStyleOverView];
+        gallery.galleryItems = galleryData;
+        gallery.presentationIndex = indexPath.row;
+        gallery.transitionCustomization.interactiveDismiss = NO;
+        
+        __block MHGalleryController *blockGallery = gallery;
+        
+        gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition){
+            [blockGallery dismissViewControllerAnimated:YES dismissImageView:nil completion:nil];
+        };
+        
+        [self presentMHGalleryController:gallery animated:YES completion:nil];
+        
         
     }
 }

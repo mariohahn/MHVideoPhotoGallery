@@ -31,5 +31,7 @@ _Pragma("clang diagnostic pop") \
 @property(nonatomic,strong) UIView *gradientView;
 @property(nonatomic,strong) UIToolbar *toolbar;
 @property(nonatomic)        NSInteger pageIndex;
+@property(nonatomic,strong) NSArray *galleryItems;
+
 
 @end

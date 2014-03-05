@@ -10,6 +10,7 @@
 #import "MHTransitionDismissMHGallery.h"
 #import "MHTransitionPresentMHGallery.h"
 #import "MHPresenterImageView.h"
+#import "MHCustomization.h"
 
 #define MHISIPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 #define kMHGalleryBundleName @"MHGallery.bundle"
@@ -17,6 +18,8 @@
 @class MHTransitionDismissMHGallery;
 @class MHTransitionPresentMHGallery;
 @class MHPresenterImageView;
+@class MHOverViewController;
+@class MHGalleryImageViewerViewController;
 
 extern void MHGalleryCustomLocalizationBlock(NSString *(^customLocalizationBlock)(NSString *stringToLocalize));
 extern void MHGalleryCustomImageBlock(UIImage *(^customImageBlock)(NSString *imageToChangeName));
@@ -34,6 +37,13 @@ extern NSString *const MHVimeoBaseURL;
 extern NSString *const MHVimeoThumbBaseURL;
 extern NSString *const MHYoutubeInfoBaseURL;
 extern NSString *const MHYoutubePlayBaseURL;
+
+
+
+typedef NS_ENUM(NSUInteger, MHGalleryPresentionStyle) {
+    MHGalleryPresentionStyleOverView,
+    MHGalleryPresentionStyleImageViewer
+};
 
 typedef NS_ENUM(NSUInteger, MHAssetImageType) {
     MHAssetImageTypeFull,
@@ -122,26 +132,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 @interface MHGallerySharedManager : NSObject
 
-/**
- *  By default the gallery will dismiss itself by scrolling to left at the pageIndex of 0 or scrolling right at the last pageindex here you can disbale it.
- */
-@property (nonatomic)       BOOL disableToDismissGalleryWithScrollGestureOnStartOrEndPoint;
-
-/**
- *  By default the X Value is considered by dismissing the Gallery. You can disable it here.
- */
-@property (nonatomic)       BOOL shouldFixXValueForDismissMHGallery;
-/**
- *  sets the TintColor for the NavigationBar and the ToolBar
- */
-@property (nonatomic,strong) UIColor *barColor;
-/**
- *  you can set MHGalleryViewModeOverView and MHGalleryViewModeShare
- */
-@property (nonatomic,strong) NSSet *viewModes;
-@property (nonatomic,strong) NSArray *galleryItems;
 @property (nonatomic,assign) UIStatusBarStyle oldStatusBarStyle;
-@property (nonatomic,assign) BOOL animateWithCustomTransition;
 /**
  *  default is MHYoutubeThumbQualityHQ
  */
@@ -180,23 +171,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 - (UIImage *)imageByRenderingView:(id)view;
 
-/**
- *  DEPRECATED use presentMHGalleryWithItems:forIndex:finishCallback:customAnimationFromImage:
- *
- *  @param galleryItems   An array of MHGalleryItems
- *  @param index          The start index
- *  @param viewcontroller Your viewcontroller from which you present. Its used to set the transitioningDelegate delegate
- *  @param FinishBlock    PageIndex shows on which Index the User dismissed the Gallery. If interactiveTransition isn't nil the User dismisses the Gallery with an interaction. You will also get the Image of the current page.
- *  @param animated       To use animated you need 3 delegate Methods, -animationControllerForDismissedController , animationControllerForPresentedController, interactionControllerForDismissal.
- */
--(void)presentMHGalleryWithItems:(NSArray*)galleryItems
-                        forIndex:(NSInteger)index
-        andCurrentViewController:(id)viewcontroller
-                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex, MHTransitionDismissMHGallery *interactiveTransition,UIImage *image)
-                                  )FinishBlock
-        withImageViewTransiation:(BOOL)animated __attribute__((deprecated));
-
--(BOOL)isUIVCBasedStatusBarAppearance;
+-(BOOL)isUIViewControllerBasedStatusBarAppearance;
 /**
  *  To get the absolute URL for Vimeo Videos. To change the Quality check vimeoVideoQuality
  *
@@ -230,45 +205,36 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 @end
 
-@interface UIViewController(MHGalleryViewController)<UIViewControllerTransitioningDelegate>
-/**
- *  Use this Methode to Present to MHGallery. If you want to animate it set the 'ivForPresentingAndDismissingMHGallery' from which you are presenting. In the FinishBlock you have to set ‘ivForPresentingAndDismissingMHGallery‘ again with the new ImageView.
- *
- *  @param galleryItems items you want to present
- *  @param index        index from which you want to present
- *  @param FinishBlock  returns the UINavigationController the currentPageIndex and the Image
- *  @param animated     if you want the custom transition set it to Yes.
- */
--(void)presentMHGalleryWithItems:(NSArray*)galleryItems
-                        forIndex:(NSInteger)index
-                   fromImageView:(UIImageView*)fromImageView
-                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery)
-                                  )FinishBlock
-                        customAnimationFromImage:(BOOL)animated;
-/**
- *  With this methode you can Present the OverView
- *
- *  @param galleryItems tems you want to present
- *  @param FinishBlock  returns the UINavigationController the currentPageIndex and the Image
- *  @param animated     if you want the custom transition set it to Yes.
- */
--(void)presentMHGalleryOverViewWithItems:(NSArray*)galleryItems
-                          finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery)
-                                          )FinishBlock
-                                customAnimationFromImage:(BOOL)animated;
+@interface MHGalleryController : UINavigationController
 
-- (void)dismissViewControllerAnimated:(BOOL)flag
-                     dismissImageView:(UIImageView*)dismissImageView
-                           completion:(void (^)(void))completion;
+@property (nonatomic)        NSInteger presentationIndex;
+@property (nonatomic,strong) UIImageView *presentingFromImageView;
+@property (nonatomic,strong) MHGalleryImageViewerViewController *imageViewerViewController;
+@property (nonatomic,strong) MHOverViewController *overViewViewController;
+@property (nonatomic,strong) NSArray *galleryItems;
+@property (nonatomic,strong) MHTransitionCustomization *transitionCustomization;
+@property (nonatomic,strong) MHUICustomization *UICustomization;
+@property (nonatomic,strong) MHTransitionPresentMHGallery *interactivePresentationTranstion;
 
+- (id)initWithPresentationStyle:(MHGalleryPresentionStyle)presentationStyle;
 
--(void)presentMHGalleryWithItems:(NSArray*)galleryItems
-                        forIndex:(NSInteger)index
-                   fromImageView:(UIImageView*)fromImageView
-        withInteractiveTranstion:(MHTransitionPresentMHGallery*)presentInteractive
-                  finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery)
-                                  )FinishBlock
-        customAnimationFromImage:(BOOL)animated;
+@property (nonatomic, copy) void (^finishedCallback)(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition);
 
 @end
+
+
+
+@interface UIViewController(MHGalleryViewController)<UIViewControllerTransitioningDelegate>
+
+
+-(void)presentMHGalleryController:(MHGalleryController*)galleryController
+                         animated:(BOOL)animated
+                       completion:(void (^)(void))completion;
+
+- (void)dismissViewControllerAnimated:(BOOL)flag dismissImageView:(UIImageView*)dismissImageView completion:(void (^)(void))completion;
+
+@end
+
+
+
 

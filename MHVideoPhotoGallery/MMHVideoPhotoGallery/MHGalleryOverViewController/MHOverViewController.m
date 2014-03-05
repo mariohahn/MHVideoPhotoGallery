@@ -14,7 +14,6 @@
 @interface MHOverViewController ()
 
 @property (nonatomic, strong) MHTransitionShowDetail *interactivePushTransition;
-@property (nonatomic, strong) NSArray            *galleryItems;
 @property (nonatomic, strong) NSNumberFormatter  *numberFormatter;
 
 @property (nonatomic) CGPoint lastPoint;
@@ -29,39 +28,66 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     
-    self.galleryItems = [MHGallerySharedManager sharedManager].galleryItems;
-        
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    
     self.title =  MHGalleryLocalizedString(@"overview.title.current");
-
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStyleBordered target:self action:nil];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
     
-    UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
-    flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
-    self.cv = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
-    self.cv.contentInset =UIEdgeInsetsMake(64, 0, 0, 0);
-    self.cv.backgroundColor =[UIColor whiteColor];
-    [self.cv registerClass:[MHGalleryOverViewCell class] forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
-    self.cv .dataSource =self;
-    self.cv.alwaysBounceVertical = YES;
-    self.cv.delegate =self;
-    self.cv.autoresizingMask =UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    [self.view addSubview:self.cv];
-    [self.cv reloadData];
+    self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds
+                                            collectionViewLayout:[self layoutForOrientation:UIApplication.sharedApplication.statusBarOrientation]];
+    
+    self.collectionView.backgroundColor =[UIColor whiteColor];
+    self.collectionView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    
+    [self.collectionView registerClass:[MHGalleryOverViewCell class]
+            forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
+    
+    self.collectionView.dataSource =self;
+    self.collectionView.alwaysBounceVertical = YES;
+    self.collectionView.delegate =self;
+    self.collectionView.autoresizingMask =UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin;
+    [self.view addSubview:self.collectionView];
+    [self.collectionView reloadData];
     
     self.numberFormatter = [NSNumberFormatter new];
     [self.numberFormatter setMinimumIntegerDigits:2];
     
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wundeclared-selector"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
     
     UIMenuItem *saveItem = [[UIMenuItem alloc] initWithTitle:MHGalleryLocalizedString(@"overview.menue.item.save")
                                                       action:@selector(saveImage:)];
-    #pragma clang diagnostic pop
-
+#pragma clang diagnostic pop
+    
     [[UIMenuController sharedMenuController] setMenuItems:@[saveItem]];
+    
+}
+
+
+-(UICollectionViewFlowLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation{
+    UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    flowLayout.sectionInset = UIEdgeInsetsMake(4, 0, 0, 0);
+    if (orientation == UIInterfaceOrientationPortrait) {
+        flowLayout.minimumLineSpacing = 4;
+        if (orientation == UIApplication.sharedApplication.statusBarOrientation) {
+            flowLayout.itemSize = CGSizeMake(self.view.frame.size.width/3.1, self.view.frame.size.width/3.1);
+        }else{
+            flowLayout.itemSize = CGSizeMake(self.view.frame.size.height/3.1, self.view.frame.size.height/3.1);
+        }
+    }else{
+        flowLayout.minimumLineSpacing = 10;
+        if (orientation == UIApplication.sharedApplication.statusBarOrientation) {
+            flowLayout.itemSize = CGSizeMake(self.view.frame.size.height/3.1, self.view.frame.size.height/3.1);
+        }else{
+            flowLayout.itemSize = CGSizeMake(self.view.frame.size.width/3.1, self.view.frame.size.width/3.1);
+        }
+    }
+    flowLayout.minimumInteritemSpacing = 4;
+    return flowLayout;
 }
 
 -(void)donePressed{
@@ -69,28 +95,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return 4;
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait ) {
-        return 4;
-    }
-    return 10;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout  *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait ) {
-        return CGSizeMake(self.cv.frame.size.width/3.1, self.cv.frame.size.width/3.1) ;
-    }
-    return CGSizeMake(self.cv.frame.size.height/3.1, self.cv.frame.size.height/3.1) ;
-}
-
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(4, 0, 0, 0);
-}
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.galleryItems.count;
 }
@@ -120,7 +124,7 @@
         [self getImageForItem:item
                finishCallback:^(UIImage *image) {
                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-        }];
+               }];
     };
     cell.videoDurationLength.text = @"";
     cell.thumbnail.backgroundColor = [UIColor lightGrayColor];
@@ -133,7 +137,7 @@
                                                                   if (error) {
                                                                       blockCell.thumbnail.backgroundColor = [UIColor whiteColor];
                                                                       blockCell.thumbnail.image = MHGalleryImage(@"error");
-                                                                  }else{                                                                      
+                                                                  }else{
                                                                       NSNumber *minutes = @(videoDuration / 60);
                                                                       NSNumber *seconds = @(videoDuration % 60);
                                                                       
@@ -152,18 +156,18 @@
             }];
         }else{
             [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.urlString]
-                placeholderImage:nil
-                         options:SDWebImageContinueInBackground
-                        progress:nil
-                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                           if (!image) {
-                               blockCell.thumbnail.backgroundColor = [UIColor whiteColor];
-                               blockCell.thumbnail.image = MHGalleryImage(@"error");
-                           }
-                           [[blockCell.contentView viewWithTag:405] setHidden:YES];
-                           
-                           
-                       }];
+                           placeholderImage:nil
+                                    options:SDWebImageContinueInBackground
+                                   progress:nil
+                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                      if (!image) {
+                                          blockCell.thumbnail.backgroundColor = [UIColor whiteColor];
+                                          blockCell.thumbnail.image = MHGalleryImage(@"error");
+                                      }
+                                      [[blockCell.contentView viewWithTag:405] setHidden:YES];
+                                      
+                                      
+                                  }];
         }
     }
     cell.thumbnail.userInteractionEnabled =YES;
@@ -177,7 +181,7 @@
                                                                                       action:@selector(userDidRoate:)];
     rotate.delegate = self;
     [cell.thumbnail addGestureRecognizer:rotate];
-
+    
     
 }
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
@@ -201,6 +205,7 @@
             self.interactivePushTransition.indexPath = recognizer.indexPath;
             self.lastPoint = [recognizer locationInView:self.view];
             MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
+            detail.galleryItems = self.galleryItems;
             detail.pageIndex = recognizer.indexPath.row;
             self.startScale = recognizer.scale/8;
             [self.navigationController pushViewController:detail
@@ -267,6 +272,7 @@
 -(void)pushToImageViewerForIndexPath:(NSIndexPath*)indexPath{
     MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
     detail.pageIndex = indexPath.row;
+    detail.galleryItems = self.galleryItems;
     [self.navigationController pushViewController:detail animated:YES];
     
 }
@@ -274,7 +280,7 @@
     
     MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     MHGalleryItem *item =  self.galleryItems[indexPath.row];
-
+    
     if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound) {
         
         [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString
@@ -313,7 +319,7 @@
 }
 
 
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
     if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
         UIPasteboard *pasteBoard = [UIPasteboard pasteboardWithName:UIPasteboardNameGeneral create:NO];
         pasteBoard.persistent = YES;
@@ -329,7 +335,9 @@
 }
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    [self.cv.collectionViewLayout invalidateLayout];
+    self.collectionView.collectionViewLayout = [self layoutForOrientation:toInterfaceOrientation];
+    
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 @end

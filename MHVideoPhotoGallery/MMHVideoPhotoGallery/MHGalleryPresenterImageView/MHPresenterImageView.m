@@ -36,8 +36,7 @@
 -(void)setInseractiveGalleryPresentionWithItems:(NSArray*)galleryItems
                               currentImageIndex:(NSInteger)currentImageIndex
                           currentViewController:(UIViewController*)viewController
-                                 finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery)
-                                                 )FinishBlock{
+                                 finishCallback:(void(^)(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition))FinishBlock{
     self.galleryItems = galleryItems;
     self.currentImageIndex = currentImageIndex;
     self.viewController = viewController;
@@ -86,14 +85,17 @@
 }
 
 -(void)didTapOnImage{
-    [self.viewController presentMHGalleryWithItems:self.galleryItems
-                                          forIndex:self.currentImageIndex
-                                     fromImageView:self
-                                    finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery) {
-                                        if (self.finishedCallback) {
-                                            self.finishedCallback(galleryNavMH,pageIndex,image,interactiveDismissMHGallery);
-                                        }
-                                    } customAnimationFromImage:YES];
+    
+    MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryPresentionStyleImageViewer];
+    gallery.galleryItems = self.galleryItems;
+    gallery.presentingFromImageView = self;
+    gallery.presentationIndex =  self.currentImageIndex;
+   
+    if (self.finishedCallback) {
+        gallery.finishedCallback = self.finishedCallback;
+    }
+    [self.viewController presentMHGalleryController:gallery animated:YES completion:nil];
+
 }
 -(void)presentMHGallery{
     
@@ -101,15 +103,18 @@
     self.presenter.presentingImageView = self;
     self.presenter.interactive = YES;
     
-    [self.viewController presentMHGalleryWithItems:self.galleryItems
-                                          forIndex:self.currentImageIndex
-                                     fromImageView:self
-                          withInteractiveTranstion:self.presenter
-                                    finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery) {
-                                        if (self.finishedCallback) {
-                                            self.finishedCallback(galleryNavMH,pageIndex,image,interactiveDismissMHGallery);
-                                        }
-                                    } customAnimationFromImage:YES];
+    
+    MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryPresentionStyleImageViewer];
+    gallery.galleryItems = self.galleryItems;
+    gallery.presentingFromImageView = self;
+    gallery.presentationIndex =  self.currentImageIndex;
+    gallery.interactivePresentationTranstion = self.presenter;
+    if (self.finishedCallback) {
+       gallery.finishedCallback = self.finishedCallback;
+    }
+
+    [self.viewController presentMHGalleryController:gallery animated:YES completion:nil];
+    
 }
 
 -(void)presentMHGalleryPan:(UIPanGestureRecognizer*)recognizer{

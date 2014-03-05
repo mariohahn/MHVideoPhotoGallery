@@ -16,7 +16,6 @@
 @end
 
 @interface MHGalleryImageViewerViewController()
-@property (nonatomic, strong) NSArray *galleryItems;
 @property (nonatomic, strong) UIActivityViewController *activityViewController;
 @property (nonatomic, strong) UIBarButtonItem *shareBarButton;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButton;
@@ -42,10 +41,10 @@
     if (![self.descriptionView isDescendantOfView:self.view]) {
         [self.view addSubview:self.descriptionView];
     }
-    if (![self.tb isDescendantOfView:self.view]) {
-        [self.view addSubview:self.tb];
+    if (![self.toolbar isDescendantOfView:self.view]) {
+        [self.view addSubview:self.toolbar];
     }
-    [[self.pvc.view.subviews firstObject] setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
+    [[self.pageViewController.view.subviews firstObject] setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
@@ -60,62 +59,57 @@
 }
 
 -(void)donePressed{
-    MHOverViewController *overView  =self.navigationController.viewControllers.firstObject;
-    ImageViewController *imageViewer = self.pvc.viewControllers.firstObject;
+    MHGalleryController *gallery  =(MHGalleryController*)self.navigationController;
+    ImageViewController *imageViewer = self.pageViewController.viewControllers.firstObject;
     if (imageViewer.moviePlayer) {
         [imageViewer removeAllMoviePlayerViewsAndNotifications];
     }
     MHTransitionDismissMHGallery *dismissTransiton = [MHTransitionDismissMHGallery new];
     dismissTransiton.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     
-    overView.finishedCallback(self.navigationController,self.pageIndex,dismissTransiton,imageViewer.imageView.image);
-}
-- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar{
-    return UIBarPositionTopAttached;
+    gallery.finishedCallback(self.pageIndex,imageViewer.imageView.image,dismissTransiton);
 }
 
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    self.galleryItems = [MHGallerySharedManager sharedManager].galleryItems;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                           target:self
                                                                                           action:@selector(donePressed)];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    self.pvc =[[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
+    self.pageViewController =[[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
                                               navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
                                                             options:@{ UIPageViewControllerOptionInterPageSpacingKey : @30.f }];
-    self.pvc.delegate = self;
-    self.pvc.dataSource = self;
-    self.pvc.automaticallyAdjustsScrollViewInsets =NO;
+    self.pageViewController.delegate = self;
+    self.pageViewController.dataSource = self;
+    self.pageViewController.automaticallyAdjustsScrollViewInsets =NO;
     
     MHGalleryItem *item = self.galleryItems[self.pageIndex];
     
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:item];
+    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:item viewController:self];
     imageViewController.pageIndex = self.pageIndex;
-    imageViewController.vc = self;
     
-    [self.pvc setViewControllers:@[imageViewController]
+    [self.pageViewController setViewControllers:@[imageViewController]
                        direction:UIPageViewControllerNavigationDirectionForward
                         animated:NO
                       completion:nil];
     
     
-    [self addChildViewController:self.pvc];
-    [self.pvc didMoveToParentViewController:self];
-    [self.view addSubview:[self.pvc view]];
+    [self addChildViewController:self.pageViewController];
+    [self.pageViewController didMoveToParentViewController:self];
+    [self.view addSubview:[self.pageViewController view]];
     
-    self.tb = [[UIToolbar alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
+    self.toolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
     if([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight){
         if (self.view.bounds.size.height > self.view.bounds.size.width) {
-            self.tb.frame = CGRectMake(0, self.view.frame.size.width-44, self.view.frame.size.height, 44);
+            self.toolbar.frame = CGRectMake(0, self.view.frame.size.width-44, self.view.frame.size.height, 44);
         }
     }
     
-    self.tb.tag = 307;
-    self.tb.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+    self.toolbar.tag = 307;
+    self.toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     
     self.playStopBarButton = [[UIBarButtonItem alloc]initWithImage:MHGalleryImage(@"play") style:UIBarButtonItemStyleBordered target:self action:@selector(playStopButtonPressed)];
     
@@ -139,9 +133,9 @@
                                                                          action:nil];
     
     if (item.galleryType == MHGalleryTypeVideo) {
-        [self.tb setItems:@[self.shareBarButton,flex,self.leftBarButton,flex,self.playStopBarButton,flex,self.rightBarButton,flex]];
+        [self.toolbar setItems:@[self.shareBarButton,flex,self.leftBarButton,flex,self.playStopBarButton,flex,self.rightBarButton,flex]];
     }else{
-        [self.tb setItems:@[self.shareBarButton,flex,self.leftBarButton,flex,self.rightBarButton,flex]];
+        [self.toolbar setItems:@[self.shareBarButton,flex,self.leftBarButton,flex,self.rightBarButton,flex]];
     }
     
     if (self.pageIndex == 0) {
@@ -161,10 +155,10 @@
     self.descriptionView.userInteractionEnabled = NO;
     
     
-    if([MHGallerySharedManager sharedManager].barColor){
-        self.tb.barTintColor = [MHGallerySharedManager sharedManager].barColor;
-        self.navigationController.navigationBar.barTintColor =[MHGallerySharedManager sharedManager].barColor;
-        self.descriptionViewBackground.barTintColor = [MHGallerySharedManager sharedManager].barColor;
+    if(self.gallerViewController.UICustomization.barTintColor){
+        self.toolbar.barTintColor = self.gallerViewController.UICustomization.barTintColor;
+        self.navigationController.navigationBar.barTintColor =self.gallerViewController.UICustomization.barTintColor;
+        self.descriptionViewBackground.barTintColor = self.gallerViewController.UICustomization.barTintColor;
     }
     
     CGSize size = [self.descriptionView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
@@ -175,11 +169,15 @@
     }else{
         [self.descriptionViewBackground setHidden:YES];
     }
-    [(UIScrollView*)self.pvc.view.subviews[0] setDelegate:self];
-    [(UIGestureRecognizer*)[[self.pvc.view.subviews[0] gestureRecognizers] firstObject] setDelegate:self];
+    [(UIScrollView*)self.pageViewController.view.subviews[0] setDelegate:self];
+    [(UIGestureRecognizer*)[[self.pageViewController.view.subviews[0] gestureRecognizers] firstObject] setDelegate:self];
     
     [self updateTitleForIndex:self.pageIndex];
     
+}
+
+-(MHGalleryController*)gallerViewController{
+    return  (MHGalleryController*)self.navigationController;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
@@ -200,7 +198,7 @@
 }
 
 -(void)playStopButtonPressed{
-    for (ImageViewController *imageViewController in self.pvc.viewControllers) {
+    for (ImageViewController *imageViewController in self.pageViewController.viewControllers) {
         if (imageViewController.pageIndex == self.pageIndex) {
             if (imageViewController.isPlayingVideo) {
                 [imageViewController stopMovie];
@@ -213,14 +211,16 @@
 }
 
 -(void)sharePressed{
-    
-    if ([[MHGallerySharedManager sharedManager].viewModes containsObject:MHGalleryViewModeShare]) {
+    MHGalleryController *gallery  =(MHGalleryController*)self.navigationController;
+
+    if (gallery.UICustomization.showMHShareViewInsteadOfActivityViewController) {
         MHShareViewController *share = [MHShareViewController new];
         share.pageIndex = self.pageIndex;
+        share.galleryItems = self.galleryItems;
         [self.navigationController pushViewController:share
                                              animated:YES];
     }else{
-        UIActivityViewController *act = [[UIActivityViewController alloc]initWithActivityItems:@[[(ImageViewController*)[self.pvc.viewControllers firstObject] imageView].image] applicationActivities:nil];
+        UIActivityViewController *act = [[UIActivityViewController alloc]initWithActivityItems:@[[(ImageViewController*)[self.pageViewController.viewControllers firstObject] imageView].image] applicationActivities:nil];
         [self presentViewController:act animated:YES completion:nil];
         
     }
@@ -313,9 +313,9 @@
     UIBarButtonItem *flex = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     if (item.galleryType == MHGalleryTypeVideo) {
         [self changeToPlayButton];
-        [self.tb setItems:@[self.shareBarButton,flex,self.leftBarButton,flex,self.playStopBarButton,flex,self.rightBarButton,flex]];
+        [self.toolbar setItems:@[self.shareBarButton,flex,self.leftBarButton,flex,self.playStopBarButton,flex,self.rightBarButton,flex]];
     }else{
-        [self.tb setItems:@[self.shareBarButton,flex,self.leftBarButton,flex,self.rightBarButton,flex]];
+        [self.toolbar setItems:@[self.shareBarButton,flex,self.leftBarButton,flex,self.rightBarButton,flex]];
     }
 }
 
@@ -324,7 +324,7 @@
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
                          interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
     if ([animationController isKindOfClass:[MHTransitionShowOverView class]]) {
-        ImageViewController *imageViewController = [self.pvc.viewControllers firstObject];
+        ImageViewController *imageViewController = [self.pageViewController.viewControllers firstObject];
         return imageViewController.interactiveOverView;
     }else {
         return nil;
@@ -336,7 +336,7 @@
                                                fromViewController:(UIViewController *)fromVC
                                                  toViewController:(UIViewController *)toVC {
     
-    ImageViewController *theCurrentViewController = [self.pvc.viewControllers firstObject];
+    ImageViewController *theCurrentViewController = [self.pageViewController.viewControllers firstObject];
     if (theCurrentViewController.moviePlayer) {
         [theCurrentViewController removeAllMoviePlayerViewsAndNotifications];
     }
@@ -355,18 +355,17 @@
 -(void)leftPressed:(id)sender{
     self.rightBarButton.enabled = YES;
     
-    ImageViewController *theCurrentViewController = [self.pvc.viewControllers firstObject];
+    ImageViewController *theCurrentViewController = [self.pageViewController.viewControllers firstObject];
     NSUInteger indexPage = theCurrentViewController.pageIndex;
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage-1]];
+    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage-1] viewController:self];
     imageViewController.pageIndex = indexPage-1;
-    imageViewController.vc = self;
     
     if (indexPage-1 == 0) {
         self.leftBarButton.enabled = NO;
     }
     __block MHGalleryImageViewerViewController*blockSelf = self;
     
-    [self.pvc setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
+    [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
         blockSelf.pageIndex = imageViewController.pageIndex;
         [blockSelf changeToPlayButton];
     }];
@@ -374,18 +373,17 @@
 
 -(void)rightPressed:(id)sender{
     [self.leftBarButton setEnabled:YES];
-    ImageViewController *theCurrentViewController = [self.pvc.viewControllers firstObject];
+    ImageViewController *theCurrentViewController = [self.pageViewController.viewControllers firstObject];
     NSUInteger indexPage = theCurrentViewController.pageIndex;
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage+1]];
+    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage+1] viewController:self];
     imageViewController.pageIndex = indexPage+1;
-    imageViewController.vc = self;
     
     if (indexPage+1 == self.galleryItems.count-1) {
         self.rightBarButton.enabled = NO;
     }
     __block MHGalleryImageViewerViewController*blockSelf = self;
     
-    [self.pvc setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
+    [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
         blockSelf.pageIndex = imageViewController.pageIndex;
         [blockSelf changeToPlayButton];
     }];
@@ -401,18 +399,16 @@
     
     if (indexPage ==0) {
         self.leftBarButton.enabled = NO;
-        ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:nil];
+        ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:nil viewController:self];
         imageViewController.pageIndex = 0;
-        imageViewController.vc = self;
-        
         return imageViewController;
     }
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage-1]];
+    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage-1] viewController:self];
     imageViewController.pageIndex = indexPage-1;
-    imageViewController.vc = self;
     
     return imageViewController;
 }
+
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerAfterViewController:(ImageViewController *)vc{
     self.leftBarButton.enabled = YES;
@@ -424,21 +420,19 @@
     
     if (indexPage ==self.galleryItems.count-1) {
         self.rightBarButton.enabled = NO;
-        ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:nil];
+        ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:nil viewController:self];
         imageViewController.pageIndex = self.galleryItems.count-1;
-        imageViewController.vc = self;
         return imageViewController;
     }
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage+1]];
+    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage+1] viewController:self];
     imageViewController.pageIndex  = indexPage+1;
-    imageViewController.vc = self;
     return imageViewController;
 }
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    self.tb.frame = CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44);
-    self.pvc.view.bounds = self.view.bounds;
-    [[self.pvc.view.subviews firstObject] setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
+    self.toolbar.frame = CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44);
+    self.pageViewController.view.bounds = self.view.bounds;
+    [[self.pageViewController.view.subviews firstObject] setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
     
 }
 
@@ -470,9 +464,12 @@
 @implementation ImageViewController
 
 
-+(ImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item{
++(ImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item
+                                           viewController:(MHGalleryImageViewerViewController*)viewController{
     if (item) {
-        return [[self alloc]initWithMHMediaItem:item];
+        
+        return [[self alloc]initWithMHMediaItem:item
+                                 viewController:viewController];
     }
     return nil;
 }
@@ -523,21 +520,20 @@
 }
 
 -(void)userDidPan:(UIPanGestureRecognizer*)recognizer{
-    BOOL userScrolls = self.vc.userScrolls;
-    
-    if (![MHGallerySharedManager sharedManager].disableToDismissGalleryWithScrollGestureOnStartOrEndPoint) {
+    BOOL userScrolls = self.viewController.userScrolls;
+    if (self.viewController.gallerViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
         if (!self.interactiveTransition) {
             if (self.pageIndex ==0) {
                 if ([(UIPanGestureRecognizer*)recognizer translationInView:self.view].x >=0) {
                     userScrolls =NO;
-                    self.vc.userScrolls = NO;
+                    self.viewController.userScrolls = NO;
                 }else{
                     recognizer.cancelsTouchesInView = YES;
                     recognizer.enabled =NO;
                     recognizer.enabled =YES;
                 }
             }
-            if ((self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count-1)) {
+            if ((self.pageIndex == self.viewController.galleryItems.count-1)) {
                 if ([(UIPanGestureRecognizer*)recognizer translationInView:self.view].x <=0) {
                     userScrolls =NO;
                 }else{
@@ -567,16 +563,12 @@
                 self.interactiveTransition.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
                 self.interactiveTransition.interactive = YES;
                 
-                if (self.navigationController.viewControllers.count ==2) {
-                    MHOverViewController *overView  =[self.navigationController.viewControllers firstObject];
-                    overView.finishedCallback(self.navigationController,self.pageIndex,self.interactiveTransition,self.imageView.image);
-                }else{
-                    self.vc.finishedCallback(self.navigationController,self.pageIndex,self.interactiveTransition,self.imageView.image);
-                }
+                self.viewController.gallerViewController.finishedCallback(self.pageIndex,self.imageView.image,self.interactiveTransition);
+
             }else{
                 CGPoint currentPoint = [(UIPanGestureRecognizer*)recognizer translationInView:self.view];
-                
-                if ([MHGallerySharedManager sharedManager].shouldFixXValueForDismissMHGallery) {
+              
+                if (self.viewController.gallerViewController.transitionCustomization.fixXValueForDismiss) {
                     self.interactiveTransition.changedPoint = CGPointMake(self.startPoint.x, self.lastPoint.y-currentPoint.y);
                 }else{
                     self.interactiveTransition.changedPoint = CGPointMake(self.lastPoint.x-currentPoint.x, self.lastPoint.y-currentPoint.y);
@@ -584,7 +576,7 @@
                 progressY = [self checkProgressValue:progressY];
                 progressX = [self checkProgressValue:progressX];
                 
-                if (![MHGallerySharedManager sharedManager].shouldFixXValueForDismissMHGallery) {
+                if (!self.viewController.gallerViewController.transitionCustomization.fixXValueForDismiss) {
                     if (progressX> progressY) {
                         progressY = progressX;
                     }
@@ -600,7 +592,7 @@
                 if (velocityY <0) {
                     velocityY = -velocityY;
                 }
-                if (![MHGallerySharedManager sharedManager].shouldFixXValueForDismissMHGallery) {
+                if (!self.viewController.gallerViewController.transitionCustomization.fixXValueForDismiss) {
                     if (progressX> progressY) {
                         progressY = progressX;
                     }
@@ -621,9 +613,12 @@
 
 
 - (id)initWithMHMediaItem:(MHGalleryItem*)mediaItem
-{
+           viewController:(MHGalleryImageViewerViewController*)viewController{
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
+        
+        self.viewController = viewController;
+        
         self.view.backgroundColor = [UIColor blackColor];
         
         self.shouldPlayVideo = NO;
@@ -665,7 +660,8 @@
         
         
         self.pan.delegate = self;
-        if([MHGallerySharedManager sharedManager].animateWithCustomTransition){
+        
+        if(self.viewController.gallerViewController.transitionCustomization.interactiveDismiss){
             [self.imageView addGestureRecognizer:self.pan];
             [self.pan setMaximumNumberOfTouches:1];
             [self.pan setDelaysTouchesBegan:YES];
@@ -720,7 +716,7 @@
             [self.moviePlayerToolBarTop addSubview:self.leftSliderLabel];
             
             self.rightSliderLabel = [[UILabel alloc]initWithFrame:CGRectZero];
-            self.rightSliderLabel.frame =CGRectMake(self.vc.view.frame.size.width-50, 0, 50, 43);
+            self.rightSliderLabel.frame =CGRectMake(self.viewController.view.frame.size.width-50, 0, 50, 43);
             [self.rightSliderLabel setFont:[UIFont systemFontOfSize:14]];
             [self.rightSliderLabel setText:@"-00:00"];
             self.rightSliderLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
@@ -826,7 +822,7 @@
     [[self.view viewWithTag:508]setHidden:NO];
     self.imageView.image = image;
     
-    self.playButton.frame = CGRectMake(self.vc.view.frame.size.width/2-36, self.vc.view.frame.size.height/2-36, 72, 72);
+    self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
     self.playButton.hidden =NO;
     [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
 }
@@ -843,8 +839,8 @@
         }
         return NO;
     }
-    if (![MHGallerySharedManager sharedManager].disableToDismissGalleryWithScrollGestureOnStartOrEndPoint) {
-        if ((self.pageIndex ==0 || self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count -1)) {
+    if (self.viewController.gallerViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
+        if ((self.pageIndex ==0 || self.pageIndex == self.viewController.galleryItems.count -1)) {
             if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]|| [otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewDelayedTouchesBeganGestureRecognizer")] ) {
                 return YES;
             }
@@ -870,7 +866,7 @@
         }
         
     }
-    if (self.vc.isUserScrolling) {
+    if (self.viewController.isUserScrolling) {
         if ([gestureRecognizer isEqual:self.pan]) {
             return NO;
         }
@@ -884,8 +880,8 @@
         }
         return NO;
     }
-    if (![MHGallerySharedManager sharedManager].disableToDismissGalleryWithScrollGestureOnStartOrEndPoint) {
-        if ((self.pageIndex ==0 || self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+    if (self.viewController.gallerViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
+        if ((self.pageIndex ==0 || self.pageIndex == self.viewController.galleryItems.count -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
             
             return YES;
         }
@@ -910,9 +906,8 @@
     if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]) {
         return YES;
     }
-
-    if (![MHGallerySharedManager sharedManager].disableToDismissGalleryWithScrollGestureOnStartOrEndPoint) {
-        if ((self.pageIndex ==0 || self.pageIndex == [MHGallerySharedManager sharedManager].galleryItems.count -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+    if (self.viewController.gallerViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
+        if ((self.pageIndex ==0 || self.pageIndex == self.viewController.galleryItems.count -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
             return YES;
         }
     }
@@ -944,12 +939,12 @@
     
     [self.view bringSubviewToFront:self.playButton];
     [self.view bringSubviewToFront:self.moviePlayerToolBarTop];
-    [self.vc changeToPlayButton];
+    [self.viewController changeToPlayButton];
 }
 
 -(void)changeToPlayable{
     self.videoWasPlayable = YES;
-    if(!self.vc.isHiddingToolBarAndNavigationBar){
+    if(!self.viewController.isHiddingToolBarAndNavigationBar){
         self.moviePlayerToolBarTop.alpha =1;
     }
     
@@ -964,7 +959,8 @@
     [self.view addSubview:self.moviewPlayerButtonBehinde];
     [self.view bringSubviewToFront:self.moviePlayerToolBarTop];
     [self.view bringSubviewToFront:self.playButton];
-    if([MHGallerySharedManager sharedManager].animateWithCustomTransition){
+    
+    if(self.viewController.gallerViewController.transitionCustomization.interactiveDismiss){
         [self.moviewPlayerButtonBehinde addGestureRecognizer:self.pan];
     }
     
@@ -975,7 +971,7 @@
     }
     if (self.shouldPlayVideo) {
         self.shouldPlayVideo = NO;
-        if (self.pageIndex == self.vc.pageIndex) {
+        if (self.pageIndex == self.viewController.pageIndex) {
             [self playButtonPressed];
             [self.view viewWithTag:304];
         }
@@ -1061,8 +1057,8 @@
     if (self.playButton) {
         [self.playButton removeFromSuperview];
     }
-    self.playButton = [[UIButton alloc]initWithFrame:self.vc.view.bounds];
-    self.playButton.frame = CGRectMake(self.vc.view.frame.size.width/2-36, self.vc.view.frame.size.height/2-36, 72, 72);
+    self.playButton = [[UIButton alloc]initWithFrame:self.viewController.view.bounds];
+    self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
     [self.playButton setImage:MHGalleryImage(@"playButton") forState:UIControlStateNormal];
     [self.playButton setTag:508];
     [self.playButton setHidden:YES];
@@ -1103,9 +1099,9 @@
     
     [self addPlayButtonToView];
     [self.playButton setHidden:NO];
-    self.playButton.frame = CGRectMake(self.vc.view.frame.size.width/2-36, self.vc.view.frame.size.height/2-36, 72, 72);
+    self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
     [self.moviewPlayerButtonBehinde removeFromSuperview];
-    [self.vc changeToPlayButton];
+    [self.viewController changeToPlayButton];
     [self updateTimerLabels];
     [self.slider setValue:0 animated:NO];
 }
@@ -1113,7 +1109,7 @@
 
 -(void)moviePlayBackDidFinish:(NSNotification *)notification{
     self.playingVideo = NO;
-    [self.vc changeToPlayButton];
+    [self.viewController changeToPlayButton];
     [self.playButton setHidden:NO];
     [self.view bringSubviewToFront:self.playButton];
     [self stopTimer];
@@ -1133,7 +1129,7 @@
     self.videoWasPlayable = NO;
     
     self.moviePlayer = [MPMoviePlayerController new];
-    if (self.vc.isHiddingToolBarAndNavigationBar) {
+    if (self.viewController.isHiddingToolBarAndNavigationBar) {
         self.moviePlayer.backgroundView.backgroundColor = [UIColor blackColor];
     }else{
         self.moviePlayer.backgroundView.backgroundColor = [UIColor whiteColor];
@@ -1152,7 +1148,7 @@
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:self.moviePlayer];
     
-    if (self.vc.isHiddingToolBarAndNavigationBar) {
+    if (self.viewController.isHiddingToolBarAndNavigationBar) {
         self.moviePlayer.view.backgroundColor = [UIColor blackColor];
     }else{
         self.moviePlayer.view.backgroundColor = [UIColor whiteColor];
@@ -1184,7 +1180,7 @@
         
         if (self.moviePlayer) {
             [self.moviePlayer play];
-            [self.vc changeToPauseButton];
+            [self.viewController changeToPauseButton];
             
         }else{
             UIActivityIndicatorView *act = [[UIActivityIndicatorView alloc]initWithFrame:self.view.bounds];
@@ -1205,7 +1201,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    if (self.vc.isHiddingToolBarAndNavigationBar) {
+    if (self.viewController.isHiddingToolBarAndNavigationBar) {
         if (self.moviePlayer) {
             self.moviePlayer.backgroundView.backgroundColor = [UIColor blackColor];
         }
@@ -1236,10 +1232,10 @@
         }
         
         if (self.imageView.image) {
-            self.playButton.frame = CGRectMake(self.vc.view.frame.size.width/2-36, self.vc.view.frame.size.height/2-36, 72, 72);
+            self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
         }
         self.leftSliderLabel.frame = CGRectMake(8, 0, 40, 43);
-        self.rightSliderLabel.frame =CGRectMake(self.vc.view.bounds.size.width-50, 0, 50, 43);
+        self.rightSliderLabel.frame =CGRectMake(self.viewController.view.bounds.size.width-50, 0, 50, 43);
         
         if([UIApplication sharedApplication].statusBarOrientation != UIInterfaceOrientationPortrait){
             if (self.view.bounds.size.width < self.view.bounds.size.height) {
@@ -1270,7 +1266,7 @@
 }
 
 -(void)handelImageTap:(UIGestureRecognizer *)gestureRecognizer{
-    if (!self.vc.isHiddingToolBarAndNavigationBar) {
+    if (!self.viewController.isHiddingToolBarAndNavigationBar) {
         [UIView animateWithDuration:0.3 animations:^{
             
             if (self.moviePlayer) {
@@ -1280,30 +1276,30 @@
                 self.moviePlayerToolBarTop.alpha =0;
             }
             self.navigationController.navigationBar.alpha =0;
-            self.vc.tb.alpha =0 ;
+            self.viewController.toolbar.alpha =0 ;
             self.scrollView.backgroundColor = [UIColor blackColor];
-            self.vc.pvc.view.backgroundColor = [UIColor blackColor];
+            self.viewController.pageViewController.view.backgroundColor = [UIColor blackColor];
             
-            self.vc.descriptionView.alpha =0;
-            self.vc.descriptionViewBackground.alpha =0;
+            self.viewController.descriptionView.alpha =0;
+            self.viewController.descriptionViewBackground.alpha =0;
             [self statusBarObject].alpha =0 ;
         } completion:^(BOOL finished) {
             
-            self.vc.hiddingToolBarAndNavigationBar = YES;
+            self.viewController.hiddingToolBarAndNavigationBar = YES;
             self.navigationController.navigationBar.hidden  =YES;
-            self.vc.tb.hidden =YES;
+            self.viewController.toolbar.hidden =YES;
         }];
     }else{
         self.navigationController.navigationBar.hidden = NO;
-        self.vc.tb.hidden = NO;
+        self.viewController.toolbar.hidden = NO;
         
         [UIView animateWithDuration:0.3 animations:^{
             [[UIApplication sharedApplication]setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
             
             self.navigationController.navigationBar.alpha =1;
-            self.vc.tb.alpha = 1;
+            self.viewController.toolbar.alpha = 1;
             self.scrollView.backgroundColor = [UIColor whiteColor];
-            self.vc.pvc.view.backgroundColor = [UIColor whiteColor];
+            self.viewController.pageViewController.view.backgroundColor = [UIColor whiteColor];
             if (self.moviePlayer) {
                 self.moviePlayer.backgroundView.backgroundColor = [UIColor whiteColor];
             }
@@ -1313,10 +1309,10 @@
                 }
             }
             [self statusBarObject].alpha =1;
-            self.vc.descriptionView.alpha =1;
-            self.vc.descriptionViewBackground.alpha =1;
+            self.viewController.descriptionView.alpha =1;
+            self.viewController.descriptionViewBackground.alpha =1;
         } completion:^(BOOL finished) {
-            self.vc.hiddingToolBarAndNavigationBar = NO;
+            self.viewController.hiddingToolBarAndNavigationBar = NO;
         }];
         
     }
@@ -1391,7 +1387,7 @@
         self.leftSliderLabel.frame       = CGRectMake(8, 0, 40, 43);
         self.rightSliderLabel.frame      = CGRectMake(self.view.frame.size.width-20, 0, 50, 43);
     }
-    self.playButton.frame = CGRectMake(self.vc.view.frame.size.width/2-36, self.vc.view.frame.size.height/2-36, 72, 72);
+    self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
     
     self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width*self.scrollView.zoomScale, self.view.bounds.size.height*self.scrollView.zoomScale);
     

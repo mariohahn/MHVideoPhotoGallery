@@ -179,35 +179,40 @@
     NSArray *galleryData = self.galleryDataSource[collectionView.tag];
     
     
-    [self presentMHGalleryWithItems:galleryData
-                           forIndex:indexPath.row
-                      fromImageView:imageView
-                     finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery) {
-                         
-                         
-                         NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:pageIndex inSection:0];
-                         CGRect cellFrame  = [[collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:newIndexPath].frame;
-                         [collectionView scrollRectToVisible:cellFrame
-                                                    animated:NO];
-                         
-                         dispatch_async(dispatch_get_main_queue(), ^{
-                             [collectionView reloadItemsAtIndexPaths:@[newIndexPath]];
-                             [collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-                             
-                             MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:newIndexPath];
-                             
-                             [galleryNavMH dismissViewControllerAnimated:YES dismissImageView:cell.thumbnail completion:^{
-                                 
-                                 MPMoviePlayerController *player = interactiveDismissMHGallery.moviePlayer;
-                                 
-                                 player.controlStyle = MPMovieControlStyleEmbedded;
-                                 player.view.frame = cell.bounds;
-                                 player.scalingMode = MPMovieScalingModeAspectFill;
-                                 [cell.contentView addSubview:player.view];
-                             }];
-                         });
-                         
-                     } customAnimationFromImage:YES];
+    MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryPresentionStyleImageViewer];
+    gallery.galleryItems = galleryData;
+    gallery.presentingFromImageView = imageView;
+    gallery.presentationIndex = indexPath.row;
+   
+    __block MHGalleryController *blockGallery = gallery;
+    
+    gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition){
+        
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:currentIndex inSection:0];
+        CGRect cellFrame  = [[collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:newIndexPath].frame;
+        [collectionView scrollRectToVisible:cellFrame
+                                   animated:NO];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [collectionView reloadItemsAtIndexPaths:@[newIndexPath]];
+            [collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+            
+            MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:newIndexPath];
+            
+            [blockGallery dismissViewControllerAnimated:YES dismissImageView:cell.thumbnail completion:^{
+                
+                MPMoviePlayerController *player = interactiveTransition.moviePlayer;
+                
+                player.controlStyle = MPMovieControlStyleEmbedded;
+                player.view.frame = cell.bounds;
+                player.scalingMode = MPMovieScalingModeAspectFill;
+                [cell.contentView addSubview:player.view];
+            }];
+        });
+    };
+    [self presentMHGalleryController:gallery animated:YES completion:nil];
+    
+    
 }
 
 -(NSUInteger)supportedInterfaceOrientations{

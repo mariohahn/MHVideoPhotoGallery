@@ -22,7 +22,7 @@
         UIView *containerView = [transitionContext containerView];
         NSTimeInterval duration = [self transitionDuration:transitionContext];
         
-        ImageViewController *imageViewController = [[fromViewController.pvc viewControllers]firstObject];
+        ImageViewController *imageViewController = [[fromViewController.pageViewController viewControllers]firstObject];
         
         
         MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:[containerView convertRect:imageViewController.imageView.frame fromView:imageViewController.imageView.superview]];
@@ -116,15 +116,14 @@
         
         
         
-        toViewController.tb.frame = CGRectMake(0, fromViewController.view.frame.size.height-44, fromViewController.view.frame.size.width, 44);
-        MHGalleryItem *item = [MHGallerySharedManager sharedManager].galleryItems[toViewController.pageIndex];
+        toViewController.toolbar.frame = CGRectMake(0, fromViewController.view.frame.size.height-44, fromViewController.view.frame.size.width, 44);
+        MHGalleryItem *item = toViewController.galleryItems[toViewController.pageIndex];
         [toViewController updateToolBarForItem:item];
 
-        ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:item];
+        ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:item viewController:toViewController];
         ivC.pageIndex = toViewController.pageIndex;
-        [ivC setValue:toViewController forKey:@"vc"];
         
-        [toViewController.pvc setViewControllers:@[ivC]
+        [toViewController.pageViewController setViewControllers:@[ivC]
                            direction:UIPageViewControllerNavigationDirectionForward
                             animated:NO
                           completion:nil];

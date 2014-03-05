@@ -29,7 +29,7 @@
     UIView *containerView = [transitionContext containerView];
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     
-    MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[fromViewController.cv cellForItemAtIndexPath:[[fromViewController.cv indexPathsForSelectedItems] firstObject]];
+    MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[fromViewController.collectionView cellForItemAtIndexPath:[[fromViewController.collectionView indexPathsForSelectedItems] firstObject]];
     
     
     MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:[containerView convertRect:cell.thumbnail.frame fromView:cell.thumbnail.superview]];
@@ -49,12 +49,12 @@
     
     toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
     toViewController.view.alpha = 0;
-    toViewController.pvc.view.hidden = YES;
+    toViewController.pageViewController.view.hidden = YES;
     
     UITextView *descriptionLabel = toViewController.descriptionView;
     descriptionLabel.alpha =0;
     
-    UIToolbar *tb = toViewController.tb;
+    UIToolbar *tb = toViewController.toolbar;
     tb.alpha =0;
     tb.frame = CGRectMake(0, toViewController.view.frame.size.height-44, toViewController.view.frame.size.width , 44);
     
@@ -90,8 +90,8 @@
             [UIView animateWithDuration:0.1 animations:^{
                 cellImageSnapshot.transform = CGAffineTransformScale(CGAffineTransformIdentity,1.00,1.00);
             } completion:^(BOOL finished) {
-                toViewController.tb = tb;
-                toViewController.pvc.view.hidden = NO;
+                toViewController.toolbar = tb;
+                toViewController.pageViewController.view.hidden = NO;
                 cell.thumbnail.hidden = NO;
                 if (!videoIconsHidden) {
                     cell.videoGradient.hidden = NO;
@@ -122,7 +122,7 @@
     MHGalleryImageViewerViewController *toViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *containerView = [transitionContext containerView];
     
-    self.cell = (MHGalleryOverViewCell*)[fromViewController.cv cellForItemAtIndexPath:self.indexPath];
+    self.cell = (MHGalleryOverViewCell*)[fromViewController.collectionView cellForItemAtIndexPath:self.indexPath];
     
     self.cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:[containerView convertRect:self.cell.thumbnail.frame fromView:self.cell.thumbnail.superview]];
     self.cellImageSnapshot.image = self.cell.thumbnail.image;
@@ -141,12 +141,12 @@
     
     toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
     toViewController.view.alpha = 0;
-    toViewController.pvc.view.hidden = YES;
+    toViewController.pageViewController.view.hidden = YES;
     
     self.descriptionLabel = toViewController.descriptionView;
     self.descriptionLabel.alpha =0;
     
-    self.toolbar = toViewController.tb;
+    self.toolbar = toViewController.toolbar;
     self.toolbar.alpha =0;
     self.toolbar.frame = CGRectMake(0, toViewController.view.frame.size.height-44, toViewController.view.frame.size.width , 44);
     
@@ -222,8 +222,8 @@
             
         } completion:^(BOOL finished) {
             self.cell.thumbnail.hidden = NO;
-            toViewController.pvc.view.hidden = NO;
-            toViewController.tb = self.toolbar;
+            toViewController.pageViewController.view.hidden = NO;
+            toViewController.toolbar = self.toolbar;
             toViewController.descriptionViewBackground = self.descriptionViewBackgroundToolbar;
             toViewController.descriptionView = self.descriptionLabel;
             [self.cellImageSnapshot removeFromSuperview];

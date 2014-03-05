@@ -43,26 +43,30 @@ Weblinks (.mov, .mp4, .mpv)
 ####How to use
 
 ```objective-c
-
-UIImageView *imageView = [(MHGalleryOverViewCell*)[tableView cellForRowAtIndexPath:indexPath] thumbnail];
+UIImageView *imageView = [(ImageTableViewCell*)[tableView cellForRowAtIndexPath:indexPath] iv];
         
 NSArray *galleryData = self.galleryDataSource;
     
-[self presentMHGalleryWithItems:galleryData
-                       forIndex:indexPath.row
-                  fromImageView:imageView
-                 finishCallback:^(UINavigationController *galleryNavMH, NSInteger pageIndex, UIImage *image,MHTransitionDismissMHGallery *interactiveTransition) {
-                         
-                         NSIndexPath *newIndex = [NSIndexPath indexPathForRow:pageIndex inSection:0];
-                         
-                         [self.tableView scrollToRowAtIndexPath:newIndex atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-                         
-                         dispatch_async(dispatch_get_main_queue(), ^{
-                             UIImageView *imageView = [(MHGalleryOverViewCell*)[self.tableView cellForRowAtIndexPath:newIndex] thumbnail];
-                             [galleryNavMH dismissViewControllerAnimated:YES dismissImageView:imageView completion:nil];
-                         });
-                         
-                     } customAnimationFromImage:YES];
+MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryPresentionStyleImageViewer];
+gallery.galleryItems = galleryData;
+gallery.presentingFromImageView = imageView;    
+gallery.presentationIndex = indexPath.row;
+        
+__block MHGalleryController *blockGallery = gallery;
+       
+gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition){
+        
+        NSIndexPath *newIndex = [NSIndexPath indexPathForRow:currentIndex inSection:0];
+        
+        [self.tableView scrollToRowAtIndexPath:newIndex atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIImageView *imageView = [(ImageTableViewCell*)[self.tableView cellForRowAtIndexPath:newIndex] iv];
+            [blockGallery dismissViewControllerAnimated:YES dismissImageView:imageView completion:nil];
+        });
+
+    };    
+[self presentMHGalleryController:gallery animated:YES completion:nil];
 ```
 
 	

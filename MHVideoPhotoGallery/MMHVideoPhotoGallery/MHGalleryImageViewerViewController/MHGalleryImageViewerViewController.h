@@ -17,11 +17,12 @@
 
 @interface MHGalleryImageViewerViewController : UIViewController<UIPageViewControllerDelegate,UIPageViewControllerDataSource,UINavigationControllerDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate,UINavigationBarDelegate>
 
-@property (nonatomic, strong)          UIToolbar *tb;
+@property (nonatomic, strong)          NSArray *galleryItems;
+@property (nonatomic, strong)          UIToolbar *toolbar;
 @property (nonatomic, strong)          UITextView *descriptionView;
 @property (nonatomic, strong)          UIToolbar *descriptionViewBackground;
 @property (nonatomic)                  NSInteger pageIndex;
-@property (nonatomic, strong)          UIPageViewController *pvc;
+@property (nonatomic, strong)          UIPageViewController *pageViewController;
 @property (nonatomic, strong)          UIImageView *presentingFromImageView;
 @property (nonatomic, strong)          UIImageView *dismissFromImageView;
 @property (nonatomic, strong)          MHTransitionPresentMHGallery *interactivePresentationTranstion;
@@ -29,8 +30,8 @@
 @property (nonatomic,getter = isUserScrolling)                   BOOL userScrolls;
 @property (nonatomic,getter = isHiddingToolBarAndNavigationBar)  BOOL hiddingToolBarAndNavigationBar;
 
-@property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH, NSUInteger photoIndex,MHTransitionDismissMHGallery *interactiveTransition,UIImage *image);
 
+-(MHGalleryController*)gallerViewController;
 -(void)updateToolBarForItem:(MHGalleryItem*)item;
 -(void)playStopButtonPressed;
 -(void)changeToPauseButton;
@@ -42,7 +43,7 @@
 
 @property (nonatomic,strong)        MHTransitionDismissMHGallery *interactiveTransition;
 @property (nonatomic,strong)        MHTransitionShowOverView *interactiveOverView;
-@property (nonatomic,strong)        MHGalleryImageViewerViewController *vc;
+@property (nonatomic,strong)        MHGalleryImageViewerViewController *viewController;
 @property (nonatomic,strong)        MHGalleryItem *item;
 @property (nonatomic,strong)        UIScrollView *scrollView;
 @property (nonatomic,strong)        UIButton *playButton;
@@ -64,5 +65,6 @@
 -(void)playButtonPressed;
 -(void)centerImageView;
 
-+(ImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item;
++(ImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item
+                                           viewController:(MHGalleryImageViewerViewController*)viewController;
 @end

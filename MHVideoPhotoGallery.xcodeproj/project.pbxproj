@@ -74,6 +74,8 @@
 		F553D31C1892B58800BA4283 /* videoIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F553D2FB1892B58800BA4283 /* videoIcon@2x.png */; };
 		F553D32818967E5300BA4283 /* ic_square.png in Resources */ = {isa = PBXBuildFile; fileRef = F553D32618967E5300BA4283 /* ic_square.png */; };
 		F553D32918967E5300BA4283 /* ic_square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F553D32718967E5300BA4283 /* ic_square@2x.png */; };
+		F55CB5BC18C5FE2E0039941E /* MHCustomization.m in Sources */ = {isa = PBXBuildFile; fileRef = F55CB5BB18C5FE2E0039941E /* MHCustomization.m */; };
+		F55CB5CE18C723640039941E /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F55CB5CD18C723640039941E /* Reveal.framework */; };
 		F58F65051880899200D3A8F9 /* MHShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F58F65041880899200D3A8F9 /* MHShareViewController.m */; };
 		F58F65281882F97600D3A8F9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65271882F97600D3A8F9 /* Social.framework */; };
 		F58F652A1882F97B00D3A8F9 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65291882F97B00D3A8F9 /* MessageUI.framework */; };
@@ -194,6 +196,9 @@
 		F553D2FB1892B58800BA4283 /* videoIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "videoIcon@2x.png"; path = "MMHVideoPhotoGallery/Images/videoIcon@2x.png"; sourceTree = "<group>"; };
 		F553D32618967E5300BA4283 /* ic_square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_square.png; path = MMHVideoPhotoGallery/Images/ic_square.png; sourceTree = "<group>"; };
 		F553D32718967E5300BA4283 /* ic_square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_square@2x.png"; path = "MMHVideoPhotoGallery/Images/ic_square@2x.png"; sourceTree = "<group>"; };
+		F55CB5BA18C5FE2E0039941E /* MHCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHCustomization.h; path = MMHVideoPhotoGallery/MHCustomization/MHCustomization.h; sourceTree = "<group>"; };
+		F55CB5BB18C5FE2E0039941E /* MHCustomization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHCustomization.m; path = MMHVideoPhotoGallery/MHCustomization/MHCustomization.m; sourceTree = "<group>"; };
+		F55CB5CD18C723640039941E /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		F58F65031880899200D3A8F9 /* MHShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHShareViewController.h; path = MMHVideoPhotoGallery/MHShareViewController/MHShareViewController.h; sourceTree = "<group>"; };
 		F58F65041880899200D3A8F9 /* MHShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHShareViewController.m; path = MMHVideoPhotoGallery/MHShareViewController/MHShareViewController.m; sourceTree = "<group>"; };
 		F58F65271882F97600D3A8F9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -246,6 +251,7 @@
 				F58F652A1882F97B00D3A8F9 /* MessageUI.framework in Frameworks */,
 				F58F65281882F97600D3A8F9 /* Social.framework in Frameworks */,
 				F53F924617EB008100A9FE6A /* CoreGraphics.framework in Frameworks */,
+				F55CB5CE18C723640039941E /* Reveal.framework in Frameworks */,
 				F53F924817EB008100A9FE6A /* UIKit.framework in Frameworks */,
 				F53F924417EB008100A9FE6A /* Foundation.framework in Frameworks */,
 			);
@@ -307,6 +313,7 @@
 		F53F923717EB008100A9FE6A = {
 			isa = PBXGroup;
 			children = (
+				F55CB5CD18C723640039941E /* Reveal.framework */,
 				F53F924917EB008100A9FE6A /* MHVideoPhotoGallery */,
 				F53F926817EB008100A9FE6A /* MHVideoPhotoGalleryTests */,
 				F53F924217EB008100A9FE6A /* Frameworks */,
@@ -462,6 +469,15 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		F55CB5B918C5FE0D0039941E /* MHCustomization */ = {
+			isa = PBXGroup;
+			children = (
+				F55CB5BA18C5FE2E0039941E /* MHCustomization.h */,
+				F55CB5BB18C5FE2E0039941E /* MHCustomization.m */,
+			);
+			name = MHCustomization;
+			sourceTree = "<group>";
+		};
 		F58F65021880896300D3A8F9 /* MHShareViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -474,6 +490,7 @@
 		F5C52E9418C08700001E431E /* Gallery */ = {
 			isa = PBXGroup;
 			children = (
+				F55CB5B918C5FE0D0039941E /* MHCustomization */,
 				F58F65021880896300D3A8F9 /* MHShareViewController */,
 				F5DBBF18187D56CD00BEFE29 /* MHGalleryImageViewerViewController */,
 				F5DBBF17187D56B700BEFE29 /* MHUIImageViewContentViewAnimation */,
@@ -717,6 +734,7 @@
 				F5C52E8E18C0828E001E431E /* MHTransitionShowDetail.m in Sources */,
 				F5245DB318AA16D3004C6FFA /* UIButton+WebCache.m in Sources */,
 				F5245DAB18AA16D3004C6FFA /* NSData+GIF.m in Sources */,
+				F55CB5BC18C5FE2E0039941E /* MHCustomization.m in Sources */,
 				F5C52E8C18C0828E001E431E /* MHTransitionDismissMHGallery.m in Sources */,
 				F5B2EC8017F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m in Sources */,
 				F5245DB018AA16D3004C6FFA /* SDWebImageDownloaderOperation.m in Sources */,

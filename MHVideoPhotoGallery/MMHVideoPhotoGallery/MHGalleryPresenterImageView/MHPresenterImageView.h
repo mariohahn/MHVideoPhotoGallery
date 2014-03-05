@@ -10,6 +10,7 @@
 #import "MHTransitionPresentMHGallery.h"
 #import "MHTransitionDismissMHGallery.h"
 
+@class MHGalleryController;
 @class MHTransitionPresentMHGallery;
 @class MHTransitionDismissMHGallery;
 
@@ -29,13 +30,13 @@
  */
 @property (nonatomic)        NSInteger currentImageIndex;
 
-@property (nonatomic, copy) void (^finishedCallback)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery);
+@property (nonatomic, copy) void (^finishedCallback)(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition);
 
 @property (nonatomic,strong) MHTransitionPresentMHGallery *presenter;
 
 -(void)setInseractiveGalleryPresentionWithItems:(NSArray*)galleryItems
                               currentImageIndex:(NSInteger)currentImageIndex
                           currentViewController:(UIViewController*)viewController
-                                 finishCallback:(void(^)(UINavigationController *galleryNavMH,NSInteger pageIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveDismissMHGallery)
+                                 finishCallback:(void(^)(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition)
                                                  )FinishBlock;
 @end

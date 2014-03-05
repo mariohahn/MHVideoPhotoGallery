@@ -41,7 +41,7 @@
     
     UIImage *image;
     __block NSNumber *pageIndex;
-    for (ImageViewController *imageViewerIndex in imageViewer.pvc.viewControllers) {
+    for (ImageViewController *imageViewerIndex in imageViewer.pageViewController.viewControllers) {
         if (imageViewerIndex.pageIndex == imageViewer.pageIndex) {
             pageIndex = @(imageViewerIndex.pageIndex);
             image = imageViewerIndex.imageView.image;
@@ -53,7 +53,7 @@
     [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.image.size,fromViewController.view.bounds)];
     cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
 
-    [imageViewer.pvc.view setHidden:YES];
+    [imageViewer.pageViewController.view setHidden:YES];
     
     [toViewControllerNC view].frame = [transitionContext finalFrameForViewController:toViewControllerNC];
     [toViewControllerNC view].alpha = 0;
@@ -135,7 +135,7 @@
     
     ImageViewController *imageViewerCurrent;
     
-    for (ImageViewController *imageViewerIndex in imageViewer.pvc.viewControllers) {
+    for (ImageViewController *imageViewerIndex in imageViewer.pageViewController.viewControllers) {
         if (imageViewerIndex.pageIndex == imageViewer.pageIndex) {
             imageViewerCurrent = imageViewerIndex;
             pageIndex = @(imageViewerIndex.pageIndex);
@@ -149,7 +149,7 @@
     [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.image.size,fromViewController.view.bounds)];
     self.startFrame = self.cellImageSnapshot.frame;
     
-    [imageViewer.pvc.view setHidden:YES];
+    [imageViewer.pageViewController.view setHidden:YES];
     
     [toViewControllerNC view].frame = [transitionContext finalFrameForViewController:toViewControllerNC];
     [fromViewController view].alpha =0;
@@ -206,7 +206,7 @@
 
 
 -(void)updateInteractiveTransition:(CGFloat)percentComplete{
-  
+    [super updateInteractiveTransition:percentComplete];
     self.backView.alpha = 1.1-percentComplete;
     if (self.moviePlayer) {
         if (self.toTransform != self.orientationTransformBeforeDismiss) {
@@ -232,6 +232,8 @@
 }
 
 -(void)finishInteractiveTransition{
+    [super finishInteractiveTransition];
+    
     CGFloat delayTime  = 0.0;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
         [UIView animateWithDuration:0.2 animations:^{
@@ -282,6 +284,7 @@
 
 
 -(void)cancelInteractiveTransition{
+    [super cancelInteractiveTransition];
     
     [UIView animateWithDuration:0.3 animations:^{
         if (self.moviePlayer) {
@@ -303,7 +306,6 @@
         self.transitionImageView.hidden = NO;
         [self.cellImageSnapshot removeFromSuperview];
         [self.backView removeFromSuperview];
-        CGRect endFrame = [[self.context containerView] bounds];
         
         UINavigationController *fromViewController = (UINavigationController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
         if (self.moviePlayer) {
@@ -315,14 +317,13 @@
             }
         }
         
-        fromViewController.view.frame = endFrame;
-        [fromViewController view].alpha =1;
+        fromViewController.view.alpha =1;
         
         MHGalleryImageViewerViewController *imageViewer  = (MHGalleryImageViewerViewController*)fromViewController.visibleViewController;
-        [imageViewer.pvc.view setHidden:NO];
+        [imageViewer.pageViewController.view setHidden:NO];
         
         if (self.moviePlayer) {
-            ImageViewController *imageViewController = (ImageViewController*)[imageViewer.pvc.viewControllers firstObject];
+            ImageViewController *imageViewController = (ImageViewController*)[imageViewer.pageViewController.viewControllers firstObject];
             [imageViewController.view insertSubview:self.moviePlayer.view atIndex:2];
         }
         
@@ -343,6 +344,7 @@
     fromViewController.view.transform = CGAffineTransformMakeRotation(self.startTransform);
     fromViewController.view.center = [UIApplication sharedApplication].keyWindow.center;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
+       
         NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
         NSString *status = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
         

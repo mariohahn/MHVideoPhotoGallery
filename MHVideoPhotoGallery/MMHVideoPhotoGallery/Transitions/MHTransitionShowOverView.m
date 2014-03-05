@@ -29,8 +29,8 @@
     UIView *containerView = [transitionContext containerView];
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     
-    UIImageView *imageView =  (UIImageView*)[[[fromViewController.pvc.viewControllers firstObject] view]viewWithTag:506];
-    toViewController.currentPage =  [[fromViewController.pvc.viewControllers firstObject] pageIndex];
+    UIImageView *imageView =  (UIImageView*)[[[fromViewController.pageViewController.viewControllers firstObject] view]viewWithTag:506];
+    toViewController.currentPage =  [[fromViewController.pageViewController.viewControllers firstObject] pageIndex];
     MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height)];
     cellImageSnapshot.image = imageView.image;
     imageView.hidden = YES;
@@ -55,7 +55,7 @@
     UITextView *descriptionLabel = fromViewController.descriptionView;
     descriptionLabel.alpha =1;
     
-    UIToolbar *tb = fromViewController.tb;
+    UIToolbar *tb = fromViewController.toolbar;
     tb.alpha =1;
     
     
@@ -67,17 +67,17 @@
     [containerView addSubview:tb];
     [containerView addSubview:descriptionLabel];
     
-    CGRect cellFrame  = [toViewController.cv.collectionViewLayout layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]].frame;
+    CGRect cellFrame  = [toViewController.collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]].frame;
 
-    [toViewController.cv scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]
+    [toViewController.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]
                                 atScrollPosition:UICollectionViewScrollPositionCenteredVertically
                                         animated:NO];
     
-    [toViewController.cv scrollRectToVisible:cellFrame
+    [toViewController.collectionView scrollRectToVisible:cellFrame
                                     animated:NO];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        MHGalleryOverViewCell *cellNew = (MHGalleryOverViewCell*)[toViewController.cv cellForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]];
+        MHGalleryOverViewCell *cellNew = (MHGalleryOverViewCell*)[toViewController.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]];
         cellNew.thumbnail.hidden = YES;
         
         BOOL videoIconsHidden = YES;
@@ -124,8 +124,8 @@
     UIView *containerView = [transitionContext containerView];
     
     
-    UIImageView *iv =  (UIImageView*)[[[fromViewController.pvc.viewControllers firstObject] view]viewWithTag:506];
-    toViewController.currentPage =  [[fromViewController.pvc.viewControllers firstObject] pageIndex];
+    UIImageView *iv =  (UIImageView*)[[[fromViewController.pageViewController.viewControllers firstObject] view]viewWithTag:506];
+    toViewController.currentPage =  [[fromViewController.pageViewController.viewControllers firstObject] pageIndex];
     self.transitionImageView = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height)];
     self.transitionImageView.image = iv.image;
     self.transitionImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -155,7 +155,7 @@
         self.descriptionLabel = fromViewController.descriptionView;
         self.descriptionLabel.alpha =1;
         
-        self.toolbar = fromViewController.tb;
+        self.toolbar = fromViewController.toolbar;
         self.toolbar.alpha =1;
         
         self.descriptionViewBackgroundToolbar = fromViewController.descriptionViewBackground;
@@ -169,17 +169,17 @@
         self.backView.backgroundColor = [UIColor blackColor];
     }
     
-    CGRect cellFrame  = [toViewController.cv.collectionViewLayout layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]].frame;
+    CGRect cellFrame  = [toViewController.collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]].frame;
     
-    [toViewController.cv scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]
+    [toViewController.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]
                                 atScrollPosition:UICollectionViewScrollPositionCenteredVertically
                                         animated:NO];
     
-    [toViewController.cv scrollRectToVisible:cellFrame
+    [toViewController.collectionView scrollRectToVisible:cellFrame
                                     animated:NO];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.cellInteractive = (MHGalleryOverViewCell*)[toViewController.cv cellForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]];
+        self.cellInteractive = (MHGalleryOverViewCell*)[toViewController.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]];
         [self.cellInteractive.thumbnail setHidden:YES];
         
         BOOL videoIconsHidden = YES;
@@ -250,7 +250,7 @@
         [self.backView removeFromSuperview];
         [self.transitionImageView removeFromSuperview];
         
-        ImageViewController *imageViewerViewController = [fromViewController.pvc.viewControllers firstObject];
+        ImageViewController *imageViewerViewController = [fromViewController.pageViewController.viewControllers firstObject];
         imageViewerViewController.imageView.hidden = NO;
         imageViewerViewController.scrollView.zoomScale =1;
         [self.context completeTransition:NO];

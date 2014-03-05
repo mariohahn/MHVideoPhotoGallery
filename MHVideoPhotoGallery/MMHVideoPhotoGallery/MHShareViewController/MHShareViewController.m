@@ -37,7 +37,6 @@
 
 
 @interface MHShareViewController ()
-@property(nonatomic,strong) NSArray *galleryDataSource;
 @property(nonatomic,strong) NSMutableArray *shareDataSource;
 @property(nonatomic,strong) NSArray *shareDataSourceStart;
 @property(nonatomic,strong) NSMutableArray *selectedRows;
@@ -153,8 +152,6 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                          target:self
                                                                                          action:@selector(cancelPressed)];
-    
-    self.galleryDataSource = [MHGallerySharedManager sharedManager].galleryItems;
     
     UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
@@ -290,7 +287,7 @@
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if ([collectionView isEqual:self.collectionView]) {
-        return self.galleryDataSource.count;
+        return self.galleryItems.count;
     }
     return [self.shareDataSource[collectionView.tag] count];
 }
@@ -329,7 +326,7 @@
 -(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     __block MHGalleryOverViewCell *blockCell = cell;
     
-    MHGalleryItem *item = self.galleryDataSource[indexPath.row];
+    MHGalleryItem *item = self.galleryItems[indexPath.row];
     cell.videoDurationLength.text = @"";
     [cell.videoIcon setHidden:YES];
     [cell.videoGradient setHidden:YES];
@@ -452,7 +449,7 @@
         }
         
         for (NSIndexPath *indexPath in self.selectedRows) {
-            MHGalleryItem *item =self.galleryDataSource[indexPath.row];
+            MHGalleryItem *item =self.galleryItems[indexPath.row];
             if (item.galleryType == MHGalleryTypeVideo) {
                 if ([newObjects containsObject:self.saveObject] ) {
                     [newObjects removeObject:self.saveObject];
@@ -568,7 +565,7 @@
     __block NSMutableArray *imagesData = [NSMutableArray new];
     
     for (NSIndexPath *indexPath in self.selectedRows) {
-        MHGalleryItem *item =self.galleryDataSource[indexPath.row];
+        MHGalleryItem *item =self.galleryItems[indexPath.row];
         
         if (item.galleryType == MHGalleryTypeVideo) {
             [imagesData addObject:item.urlString];
