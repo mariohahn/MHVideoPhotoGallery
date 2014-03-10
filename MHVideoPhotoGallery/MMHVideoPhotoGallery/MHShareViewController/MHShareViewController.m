@@ -283,11 +283,17 @@
         NSString *localizedTitle =  MHGalleryLocalizedString(@"shareview.title.select.plural");
         self.title = [NSString stringWithFormat:localizedTitle, @(self.selectedRows.count)];
     }
-    
+}
+
+-(MHGalleryController*)gallerViewController{
+    return  (MHGalleryController*)self.navigationController;
+}
+-(MHGalleryItem*)itemForIndex:(NSInteger)index{
+    return [self.gallerViewController.dataSource itemForIndex:index];
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if ([collectionView isEqual:self.collectionView]) {
-        return self.galleryItems.count;
+        return self.gallerViewController.numberOfItems;
     }
     return [self.shareDataSource[collectionView.tag] count];
 }
@@ -326,13 +332,14 @@
 -(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     __block MHGalleryOverViewCell *blockCell = cell;
     
-    MHGalleryItem *item = self.galleryItems[indexPath.row];
+    MHGalleryItem *item = [self itemForIndex:indexPath.row];
     cell.videoDurationLength.text = @"";
     [cell.videoIcon setHidden:YES];
     [cell.videoGradient setHidden:YES];
+    
+    
+    
     if (item.galleryType == MHGalleryTypeImage) {
-        
-        
         if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound && item.urlString) {
             [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString assetType:MHAssetImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
                 cell.thumbnail.image = image;
@@ -364,8 +371,6 @@
                                                                   }
                                                               }];
     }
-    
-    
     
     [cell.thumbnail setContentMode:UIViewContentModeScaleAspectFill];
     cell.selectionImageView.hidden =NO;
@@ -452,7 +457,7 @@
         }
         
         for (NSIndexPath *indexPath in self.selectedRows) {
-            MHGalleryItem *item =self.galleryItems[indexPath.row];
+            MHGalleryItem *item = [self itemForIndex:indexPath.row];
             if (item.galleryType == MHGalleryTypeVideo) {
                 if ([newObjects containsObject:self.saveObject] ) {
                     [newObjects removeObject:self.saveObject];
@@ -568,7 +573,7 @@
     __block NSMutableArray *imagesData = [NSMutableArray new];
     
     for (NSIndexPath *indexPath in self.selectedRows) {
-        MHGalleryItem *item =self.galleryItems[indexPath.row];
+        MHGalleryItem *item = [self itemForIndex:indexPath.row];
         
         if (item.galleryType == MHGalleryTypeVideo) {
             [imagesData addObject:item.urlString];

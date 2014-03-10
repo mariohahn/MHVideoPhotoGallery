@@ -88,8 +88,7 @@
     self.pageViewController.delegate = self;
     self.pageViewController.dataSource = self;
     self.pageViewController.automaticallyAdjustsScrollViewInsets =NO;
-    
-    MHGalleryItem *item = self.galleryItems[self.pageIndex];
+    MHGalleryItem *item = [self itemForIndex:self.pageIndex];
     
     ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:item viewController:self];
     imageViewController.pageIndex = self.pageIndex;
@@ -230,7 +229,7 @@
 
 -(void)updateDescriptionLabelForIndex:(NSInteger)index{
     if (index < self.gallerViewController.numberOfItems) {
-        MHGalleryItem *item = self.galleryItems[index];
+        MHGalleryItem *item = [self itemForIndex:index];
         self.descriptionView.text = item.description;
         
         if (item.attributedString) {
@@ -294,8 +293,12 @@
         }
     }
     if (completed) {
-        [self updateToolBarForItem:self.galleryItems[self.pageIndex]];
+        [self updateToolBarForItem:[self itemForIndex:self.pageIndex]];
     }
+}
+
+-(MHGalleryItem*)itemForIndex:(NSInteger)index{
+    return [self.gallerViewController.dataSource itemForIndex:index];
 }
 
 -(void)removeVideoPlayerForVC:(ImageViewController*)vc{
@@ -359,7 +362,7 @@
     
     ImageViewController *theCurrentViewController = [self.pageViewController.viewControllers firstObject];
     NSUInteger indexPage = theCurrentViewController.pageIndex;
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage-1] viewController:self];
+    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
     imageViewController.pageIndex = indexPage-1;
     
     if (indexPage-1 == 0) {
@@ -377,7 +380,7 @@
     [self.leftBarButton setEnabled:YES];
     ImageViewController *theCurrentViewController = [self.pageViewController.viewControllers firstObject];
     NSUInteger indexPage = theCurrentViewController.pageIndex;
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage+1] viewController:self];
+    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
     imageViewController.pageIndex = indexPage+1;
     
     if (indexPage+1 == self.gallerViewController.numberOfItems-1) {
@@ -409,7 +412,7 @@
         imageViewController.pageIndex = 0;
         return imageViewController;
     }
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage-1] viewController:self];
+    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
     imageViewController.pageIndex = indexPage-1;
     
     return imageViewController;
@@ -433,7 +436,7 @@
         imageViewController.pageIndex = self.gallerViewController.numberOfItems-1;
         return imageViewController;
     }
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage+1] viewController:self];
+    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
     imageViewController.pageIndex  = indexPage+1;
     return imageViewController;
 }

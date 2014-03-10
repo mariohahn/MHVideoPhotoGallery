@@ -29,7 +29,6 @@ extern NSString *MHGalleryLocalizedString(NSString *localizeString);
 extern UIImage  *MHGalleryImage(NSString *imageName);
 extern NSDictionary *MHDictionaryForQueryString(NSString *string);
 
-
 extern NSString *const MHYoutubeChannel;
 extern NSString *const MHGalleryViewModeOverView;
 extern NSString *const MHGalleryViewModeShare;
@@ -211,18 +210,24 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 @end
 
-@interface MHGalleryController : UINavigationController
+@protocol MHGalleryDataSource<NSObject>
+@required
+- (MHGalleryItem*)itemForIndex:(NSInteger)index;
+@end
 
-@property (nonatomic)        NSInteger numberOfItems;
-@property (nonatomic)        NSInteger presentationIndex;
-@property (nonatomic,strong) UIImageView *presentingFromImageView;
+@interface MHGalleryController : UINavigationController<MHGalleryDataSource>
+
+@property (nonatomic,assign) id<MHGalleryDataSource>            dataSource;
+@property (nonatomic,assign) NSInteger                          numberOfItems;
+@property (nonatomic,assign) NSInteger                          presentationIndex;
+@property (nonatomic,strong) UIImageView                        *presentingFromImageView;
 @property (nonatomic,strong) MHGalleryImageViewerViewController *imageViewerViewController;
-@property (nonatomic,strong) MHOverViewController *overViewViewController;
-@property (nonatomic,strong) NSArray *galleryItems;
-@property (nonatomic,strong) MHTransitionCustomization *transitionCustomization;
-@property (nonatomic,strong) MHUICustomization *UICustomization;
-@property (nonatomic,strong) MHTransitionPresentMHGallery *interactivePresentationTranstion;
-@property (nonatomic)        MHGalleryPresentionStyle presentationStyle;
+@property (nonatomic,strong) MHOverViewController               *overViewViewController;
+@property (nonatomic,strong) NSArray                            *galleryItems;
+@property (nonatomic,strong) MHTransitionCustomization          *transitionCustomization;
+@property (nonatomic,strong) MHUICustomization                  *UICustomization;
+@property (nonatomic,strong) MHTransitionPresentMHGallery       *interactivePresentationTranstion;
+@property (nonatomic,assign) MHGalleryPresentionStyle           presentationStyle;
 
 - (id)initWithPresentationStyle:(MHGalleryPresentionStyle)presentationStyle;
 

@@ -586,13 +586,18 @@ UIImage *MHGalleryImage(NSString *imageName){
 
 @end
 
+
+@interface MHGalleryController()
+-(MHGalleryItem*)itemForIndex:(NSInteger)index;
+@end
+
+
 @implementation MHGalleryController
 
 - (id)initWithPresentationStyle:(MHGalleryPresentionStyle)presentationStyle{
     self = [super init];
     if (!self)
         return nil;
-    
     self.presentationStyle = presentationStyle;
     self.transitionCustomization = [MHTransitionCustomization new];
     self.UICustomization = [MHUICustomization new];
@@ -631,10 +636,17 @@ UIImage *MHGalleryImage(NSString *imageName){
     _interactivePresentationTranstion = interactivePresentationTranstion;
 }
 
+-(MHGalleryItem *)itemForIndex:(NSInteger)index{
+    return self.galleryItems[index];
+}
+
+
 @end
 
 
 @implementation UIViewController(MHGalleryViewController)
+
+
 
 -(void)presentMHGalleryController:(MHGalleryController *)galleryController
                          animated:(BOOL)animated
@@ -647,6 +659,9 @@ UIImage *MHGalleryImage(NSString *imageName){
     if (galleryController.presentingFromImageView) {
         galleryController.transitioningDelegate = self;
         galleryController.modalPresentationStyle = UIModalPresentationFullScreen;
+    }
+    if (!galleryController.dataSource) {
+        galleryController.dataSource = galleryController;
     }
     [self presentViewController:galleryController animated:YES completion:completion];
 }

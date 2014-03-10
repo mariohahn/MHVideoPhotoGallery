@@ -50,7 +50,7 @@
     self.collectionView.autoresizingMask =UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:self.collectionView];
     [self.collectionView reloadData];
-    
+        
     self.numberFormatter = [NSNumberFormatter new];
     [self.numberFormatter setMinimumIntegerDigits:2];
     
@@ -92,13 +92,19 @@
     return flowLayout;
 }
 
+-(MHGalleryController*)gallerViewController{
+    return  (MHGalleryController*)self.navigationController;
+}
+-(MHGalleryItem*)itemForIndex:(NSInteger)index{
+    return [self.gallerViewController.dataSource itemForIndex:index];
+}
 -(void)donePressed{
     self.navigationController.transitioningDelegate = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.galleryItems.count;
+    return self.gallerViewController.numberOfItems;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -112,9 +118,11 @@
     return cell;
 }
 
+
+
 -(void)makeMHGalleryOverViewCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     
-    MHGalleryItem *item =  self.galleryItems[indexPath.row];
+    MHGalleryItem *item =  [self itemForIndex:indexPath.row];
     cell.thumbnail.image = nil;
     
     
@@ -280,7 +288,7 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
     MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
-    MHGalleryItem *item =  self.galleryItems[indexPath.row];
+    MHGalleryItem *item =  [self itemForIndex:indexPath.row];
     
     if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound && item.urlString) {
         
@@ -300,7 +308,7 @@
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-    MHGalleryItem *item =  self.galleryItems[indexPath.row];
+    MHGalleryItem *item =  [self itemForIndex:indexPath.row];
     if (item.galleryType == MHGalleryTypeImage) {
         if ([NSStringFromSelector(action) isEqualToString:@"copy:"] || [NSStringFromSelector(action) isEqualToString:@"saveImage:"]){
             return YES;
@@ -324,7 +332,7 @@
     if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
         UIPasteboard *pasteBoard = [UIPasteboard pasteboardWithName:UIPasteboardNameGeneral create:NO];
         pasteBoard.persistent = YES;
-        MHGalleryItem *item =  self.galleryItems[indexPath.row];
+        MHGalleryItem *item =  [self itemForIndex:indexPath.row];
         [self getImageForItem:item finishCallback:^(UIImage *image) {
             if (image) {
                 UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
