@@ -19,5 +19,5 @@
 @property (nonatomic,strong) UIColor *barTintColor;
 @property (nonatomic)        BOOL showMHShareViewInsteadOfActivityViewController;
 @property (nonatomic)        BOOL useCustomBackButtomImageOnImageViewer;
-
+@property (nonatomic)        BOOL showOverView;
 @end

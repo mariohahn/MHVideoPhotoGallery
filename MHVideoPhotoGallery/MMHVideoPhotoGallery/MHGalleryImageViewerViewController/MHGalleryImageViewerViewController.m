@@ -73,6 +73,9 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
+    if (!self.gallerViewController.UICustomization.showOverView) {
+        self.navigationItem.hidesBackButton = YES;
+    }
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                           target:self
@@ -141,7 +144,7 @@
     if (self.pageIndex == 0) {
         self.leftBarButton.enabled =NO;
     }
-    if(self.pageIndex == self.galleryItems.count-1){
+    if(self.pageIndex == self.gallerViewController.numberOfItems-1){
         self.rightBarButton.enabled =NO;
     }
     
@@ -226,7 +229,7 @@
 }
 
 -(void)updateDescriptionLabelForIndex:(NSInteger)index{
-    if (index < self.galleryItems.count) {
+    if (index < self.gallerViewController.numberOfItems) {
         MHGalleryItem *item = self.galleryItems[index];
         self.descriptionView.text = item.description;
         
@@ -274,7 +277,7 @@
 
 -(void)updateTitleForIndex:(NSInteger)pageIndex{
     NSString *localizedString  = MHGalleryLocalizedString(@"imagedetail.title.current");
-    self.navigationItem.title = [NSString stringWithFormat:localizedString,@(pageIndex+1),@(self.galleryItems.count)];
+    self.navigationItem.title = [NSString stringWithFormat:localizedString,@(pageIndex+1),@(self.gallerViewController.numberOfItems)];
 }
 
 
@@ -377,7 +380,7 @@
     ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage+1] viewController:self];
     imageViewController.pageIndex = indexPage+1;
     
-    if (indexPage+1 == self.galleryItems.count-1) {
+    if (indexPage+1 == self.gallerViewController.numberOfItems-1) {
         self.rightBarButton.enabled = NO;
     }
     __block MHGalleryImageViewerViewController*blockSelf = self;
@@ -391,7 +394,7 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerBeforeViewController:(ImageViewController *)vc{
     
-    if (self.galleryItems.count !=1) {
+    if (self.gallerViewController.numberOfItems !=1) {
         self.leftBarButton.enabled =YES;
         self.rightBarButton.enabled =YES;
     }
@@ -415,7 +418,7 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerAfterViewController:(ImageViewController *)vc{
     
-    if (self.galleryItems.count !=1) {
+    if (self.gallerViewController.numberOfItems !=1) {
         self.leftBarButton.enabled = YES;
         self.rightBarButton.enabled = YES;
     }
@@ -424,10 +427,10 @@
     
     NSInteger indexPage = vc.pageIndex;
     
-    if (indexPage ==self.galleryItems.count-1) {
+    if (indexPage ==self.gallerViewController.numberOfItems-1) {
         self.rightBarButton.enabled = NO;
         ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:nil viewController:self];
-        imageViewController.pageIndex = self.galleryItems.count-1;
+        imageViewController.pageIndex = self.gallerViewController.numberOfItems-1;
         return imageViewController;
     }
     ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:self.galleryItems[indexPage+1] viewController:self];
@@ -491,6 +494,7 @@
 }
 
 -(void)userDidPinch:(UIPinchGestureRecognizer*)recognizer{
+    
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         if (recognizer.scale <1) {
             self.imageView.frame = self.scrollView.frame;
@@ -522,7 +526,6 @@
         }
         self.interactiveOverView = nil;
     }
-    
 }
 
 -(void)userDidPan:(UIPanGestureRecognizer*)recognizer{
@@ -530,7 +533,7 @@
     BOOL userScrolls = self.viewController.userScrolls;
     if (self.viewController.gallerViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
         if (!self.interactiveTransition) {
-            if (self.viewController.galleryItems.count ==1) {
+            if (self.viewController.gallerViewController.numberOfItems ==1) {
                 userScrolls = NO;
                 self.viewController.userScrolls = NO;
             }else{
@@ -544,11 +547,11 @@
                         recognizer.enabled =YES;
                     }
                 }
-                if ((self.pageIndex == self.viewController.galleryItems.count-1)) {
+                if ((self.pageIndex == self.viewController.gallerViewController.numberOfItems-1)) {
                     if ([(UIPanGestureRecognizer*)recognizer translationInView:self.view].x <=0) {
                         userScrolls =NO;
                         self.viewController.userScrolls = NO;
-
+                        
                     }else{
                         recognizer.cancelsTouchesInView = YES;
                         recognizer.enabled =NO;
@@ -680,7 +683,9 @@
             [self.pan setMaximumNumberOfTouches:1];
             [self.pan setDelaysTouchesBegan:YES];
         }
-        [self.scrollView addGestureRecognizer:self.pinch];
+        if (self.viewController.gallerViewController.UICustomization.showOverView) {
+            [self.scrollView addGestureRecognizer:self.pinch];
+        }
         
         [self.view addGestureRecognizer:imageTap];
         
@@ -743,7 +748,7 @@
         [self.imageView setUserInteractionEnabled:YES];
         
         [imageTap requireGestureRecognizerToFail: doubleTap];
-        if ([self.item.urlString rangeOfString:@"assets-library"].location != NSNotFound) {
+        if ([self.item.urlString rangeOfString:@"assets-library"].location != NSNotFound && self.item.urlString) {
             
             [self.act stopAnimating];
             [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:self.item.urlString
@@ -751,6 +756,9 @@
                                                                 successBlock:^(UIImage *image, NSError *error) {
                                                                     self.imageView.image = image;
                                                                 }];
+        }else if(self.item.image){
+            self.imageView.image = self.item.image;
+            [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
         }else{
             if (self.item.galleryType == MHGalleryTypeImage) {
                 
@@ -854,7 +862,7 @@
         return NO;
     }
     if (self.viewController.gallerViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
-        if ((self.pageIndex ==0 || self.pageIndex == self.viewController.galleryItems.count -1)) {
+        if ((self.pageIndex ==0 || self.pageIndex == self.viewController.gallerViewController.numberOfItems -1)) {
             if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]|| [otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewDelayedTouchesBeganGestureRecognizer")] ) {
                 return YES;
             }
@@ -895,7 +903,7 @@
         return NO;
     }
     if (self.viewController.gallerViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
-        if ((self.pageIndex ==0 || self.pageIndex == self.viewController.galleryItems.count -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        if ((self.pageIndex ==0 || self.pageIndex == self.viewController.gallerViewController.numberOfItems -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
             
             return YES;
         }
@@ -921,7 +929,7 @@
         return YES;
     }
     if (self.viewController.gallerViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
-        if ((self.pageIndex ==0 || self.pageIndex == self.viewController.galleryItems.count -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        if ((self.pageIndex ==0 || self.pageIndex == self.viewController.gallerViewController.numberOfItems -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
             return YES;
         }
     }

@@ -93,6 +93,14 @@ UIImage *MHGalleryImage(NSString *imageName){
 
 @implementation MHGalleryItem
 
+- (id)initWithImage:(UIImage*)image{
+    self = [super init];
+    if (!self)
+        return nil;
+    self.galleryType = MHGalleryTypeImage;
+    self.image = image;
+    return self;
+}
 
 - (id)initWithURL:(NSString*)urlString
       galleryType:(MHGalleryType)galleryType{
@@ -584,6 +592,8 @@ UIImage *MHGalleryImage(NSString *imageName){
     self = [super init];
     if (!self)
         return nil;
+    
+    self.presentationStyle = presentationStyle;
     self.transitionCustomization = [MHTransitionCustomization new];
     self.UICustomization = [MHUICustomization new];
     
@@ -603,6 +613,7 @@ UIImage *MHGalleryImage(NSString *imageName){
 -(void)setGalleryItems:(NSArray *)galleryItems{
     self.overViewViewController.galleryItems = galleryItems;
     self.imageViewerViewController.galleryItems = galleryItems;
+    self.numberOfItems = galleryItems.count;
     _galleryItems = galleryItems;
 }
 

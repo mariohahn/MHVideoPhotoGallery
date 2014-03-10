@@ -30,6 +30,7 @@
         self.barTintColor = nil;
 		self.showMHShareViewInsteadOfActivityViewController = YES;
         self.useCustomBackButtomImageOnImageViewer = YES;
+        self.showOverView = YES;
     }
     return self;
 }

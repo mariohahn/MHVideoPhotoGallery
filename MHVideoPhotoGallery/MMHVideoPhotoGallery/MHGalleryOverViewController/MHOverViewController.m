@@ -19,11 +19,10 @@
 @property (nonatomic) CGPoint lastPoint;
 @property (nonatomic) CGFloat startScale;
 
-
 @end
 
-@implementation MHOverViewController
 
+@implementation MHOverViewController
 
 - (void)viewDidLoad{
     [super viewDidLoad];
@@ -66,11 +65,12 @@
     
 }
 
-
 -(UICollectionViewFlowLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation{
     UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     flowLayout.sectionInset = UIEdgeInsetsMake(4, 0, 0, 0);
+    flowLayout.minimumInteritemSpacing = 4;
+    
     if (orientation == UIInterfaceOrientationPortrait) {
         flowLayout.minimumLineSpacing = 4;
         if (orientation == UIApplication.sharedApplication.statusBarOrientation) {
@@ -82,11 +82,13 @@
         flowLayout.minimumLineSpacing = 10;
         if (orientation == UIApplication.sharedApplication.statusBarOrientation) {
             flowLayout.itemSize = CGSizeMake(self.view.frame.size.height/3.1, self.view.frame.size.height/3.1);
+            if (self.view.frame.size.width < self.view.frame.size.height) {
+                flowLayout.itemSize = CGSizeMake(self.view.frame.size.width/3.1, self.view.frame.size.width/3.1);
+            }
         }else{
             flowLayout.itemSize = CGSizeMake(self.view.frame.size.width/3.1, self.view.frame.size.width/3.1);
         }
     }
-    flowLayout.minimumInteritemSpacing = 4;
     return flowLayout;
 }
 
@@ -150,10 +152,12 @@
                                                                   [[blockCell.contentView viewWithTag:405] setHidden:YES];
                                                               }];
     }else{
-        if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound) {
+        if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound && item.urlString) {
             [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString assetType:MHAssetImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
                 cell.thumbnail.image = image;
             }];
+        }else if(item.image){
+            cell.thumbnail.image = item.image;
         }else{
             [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.urlString]
                            placeholderImage:nil
@@ -165,8 +169,6 @@
                                           blockCell.thumbnail.image = MHGalleryImage(@"error");
                                       }
                                       [[blockCell.contentView viewWithTag:405] setHidden:YES];
-                                      
-                                      
                                   }];
         }
     }
@@ -196,7 +198,7 @@
     }
 }
 -(void)userDidPinch:(MHIndexPinchGestureRecognizer*)recognizer{
-    
+
     CGFloat scale = recognizer.scale/5;
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
@@ -261,7 +263,6 @@
     [super viewDidAppear:animated];
     self.navigationController.delegate = self;
 }
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
@@ -281,7 +282,7 @@
     MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     MHGalleryItem *item =  self.galleryItems[indexPath.row];
     
-    if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound) {
+    if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound && item.urlString) {
         
         [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString
                                                                assetType:MHAssetImageTypeFull

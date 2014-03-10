@@ -332,10 +332,13 @@
     [cell.videoGradient setHidden:YES];
     if (item.galleryType == MHGalleryTypeImage) {
         
-        if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound) {
-            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString assetType:MHAssetImageTypeFull successBlock:^(UIImage *image, NSError *error) {
+        
+        if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound && item.urlString) {
+            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString assetType:MHAssetImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
                 cell.thumbnail.image = image;
             }];
+        }else if(item.image){
+            cell.thumbnail.image = item.image;
         }else{
             [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.urlString] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (!image) {

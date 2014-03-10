@@ -90,8 +90,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
     MHYoutubeThumbQualitySQ
 };
 
-
-
 @interface MHShareItem : NSObject
 @property (nonatomic,strong) NSString *imageName;
 @property (nonatomic,strong) NSString *title;
@@ -112,21 +110,29 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 @interface MHGalleryItem : NSObject
 
+@property (nonatomic,strong) UIImage            *image;
 @property (nonatomic,strong) NSString           *urlString;
 @property (nonatomic,strong) NSString           *description;
 @property (nonatomic,strong) NSAttributedString *attributedString;
 @property (nonatomic)        MHGalleryType       galleryType;
 
 /**
- *  MHGalleryItem
+ *  MHGalleryItem initWithURL:galleryType
  *
  *  @param urlString   the URL of the image or Video as a String
  *  @param galleryType select to Type, video or image
  *
  */
-
-- (id)initWithURL:(NSString*)urlString
+- (instancetype)initWithURL:(NSString*)urlString
       galleryType:(MHGalleryType)galleryType;
+
+/**
+ *  MHGalleryItem initWithImage
+ *
+ *  @param image to Display
+ *
+ */
+- (instancetype)initWithImage:(UIImage*)image;
 
 @end
 
@@ -207,6 +213,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 @interface MHGalleryController : UINavigationController
 
+@property (nonatomic)        NSInteger numberOfItems;
 @property (nonatomic)        NSInteger presentationIndex;
 @property (nonatomic,strong) UIImageView *presentingFromImageView;
 @property (nonatomic,strong) MHGalleryImageViewerViewController *imageViewerViewController;
@@ -215,6 +222,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic,strong) MHTransitionCustomization *transitionCustomization;
 @property (nonatomic,strong) MHUICustomization *UICustomization;
 @property (nonatomic,strong) MHTransitionPresentMHGallery *interactivePresentationTranstion;
+@property (nonatomic)        MHGalleryPresentionStyle presentationStyle;
 
 - (id)initWithPresentationStyle:(MHGalleryPresentionStyle)presentationStyle;
 
