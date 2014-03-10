@@ -24,7 +24,6 @@
     MHGalleryCustomImageBlock(^UIImage *(NSString *imageToChangeName) {
         return nil;
     });
-
     return YES;
     
 }

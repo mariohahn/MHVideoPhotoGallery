@@ -80,8 +80,8 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.pageViewController =[[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
-                                              navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
-                                                            options:@{ UIPageViewControllerOptionInterPageSpacingKey : @30.f }];
+                                                             navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
+                                                                           options:@{ UIPageViewControllerOptionInterPageSpacingKey : @30.f }];
     self.pageViewController.delegate = self;
     self.pageViewController.dataSource = self;
     self.pageViewController.automaticallyAdjustsScrollViewInsets =NO;
@@ -92,9 +92,9 @@
     imageViewController.pageIndex = self.pageIndex;
     
     [self.pageViewController setViewControllers:@[imageViewController]
-                       direction:UIPageViewControllerNavigationDirectionForward
-                        animated:NO
-                      completion:nil];
+                                      direction:UIPageViewControllerNavigationDirectionForward
+                                       animated:NO
+                                     completion:nil];
     
     
     [self addChildViewController:self.pageViewController];
@@ -115,18 +115,18 @@
     
     
     self.leftBarButton = [[UIBarButtonItem alloc]initWithImage:MHGalleryImage(@"left_arrow")
-                                                style:UIBarButtonItemStyleBordered
-                                               target:self
-                                               action:@selector(leftPressed:)];
+                                                         style:UIBarButtonItemStyleBordered
+                                                        target:self
+                                                        action:@selector(leftPressed:)];
     
     self.rightBarButton = [[UIBarButtonItem alloc]initWithImage:MHGalleryImage(@"right_arrow")
-                                                 style:UIBarButtonItemStyleBordered
-                                                target:self
-                                                action:@selector(rightPressed:)];
+                                                          style:UIBarButtonItemStyleBordered
+                                                         target:self
+                                                         action:@selector(rightPressed:)];
     
     self.shareBarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-                                                              target:self
-                                                              action:@selector(sharePressed)];
+                                                                       target:self
+                                                                       action:@selector(sharePressed)];
     
     UIBarButtonItem *flex = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                          target:self
@@ -212,7 +212,6 @@
 
 -(void)sharePressed{
     MHGalleryController *gallery  =(MHGalleryController*)self.navigationController;
-
     if (gallery.UICustomization.showMHShareViewInsteadOfActivityViewController) {
         MHShareViewController *share = [MHShareViewController new];
         share.pageIndex = self.pageIndex;
@@ -230,7 +229,7 @@
     if (index < self.galleryItems.count) {
         MHGalleryItem *item = self.galleryItems[index];
         self.descriptionView.text = item.description;
-       
+        
         if (item.attributedString) {
             self.descriptionView.attributedText = item.attributedString;
         }
@@ -253,8 +252,8 @@
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     self.userScrolls = YES;
-    
 }
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
     NSInteger pageIndex =self.pageIndex;
@@ -391,8 +390,12 @@
 
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerBeforeViewController:(ImageViewController *)vc{
-    self.leftBarButton.enabled =YES;
-    self.rightBarButton.enabled =YES;
+    
+    if (self.galleryItems.count !=1) {
+        self.leftBarButton.enabled =YES;
+        self.rightBarButton.enabled =YES;
+    }
+    
     [self removeVideoPlayerForVC:vc];
     
     NSInteger indexPage = vc.pageIndex;
@@ -411,8 +414,11 @@
 
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerAfterViewController:(ImageViewController *)vc{
-    self.leftBarButton.enabled = YES;
-    self.rightBarButton.enabled = YES;
+    
+    if (self.galleryItems.count !=1) {
+        self.leftBarButton.enabled = YES;
+        self.rightBarButton.enabled = YES;
+    }
     [self removeVideoPlayerForVC:vc];
     
     
@@ -520,26 +526,34 @@
 }
 
 -(void)userDidPan:(UIPanGestureRecognizer*)recognizer{
+    
     BOOL userScrolls = self.viewController.userScrolls;
     if (self.viewController.gallerViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
         if (!self.interactiveTransition) {
-            if (self.pageIndex ==0) {
-                if ([(UIPanGestureRecognizer*)recognizer translationInView:self.view].x >=0) {
-                    userScrolls =NO;
-                    self.viewController.userScrolls = NO;
-                }else{
-                    recognizer.cancelsTouchesInView = YES;
-                    recognizer.enabled =NO;
-                    recognizer.enabled =YES;
+            if (self.viewController.galleryItems.count ==1) {
+                userScrolls = NO;
+                self.viewController.userScrolls = NO;
+            }else{
+                if (self.pageIndex ==0) {
+                    if ([(UIPanGestureRecognizer*)recognizer translationInView:self.view].x >=0) {
+                        userScrolls =NO;
+                        self.viewController.userScrolls = NO;
+                    }else{
+                        recognizer.cancelsTouchesInView = YES;
+                        recognizer.enabled =NO;
+                        recognizer.enabled =YES;
+                    }
                 }
-            }
-            if ((self.pageIndex == self.viewController.galleryItems.count-1)) {
-                if ([(UIPanGestureRecognizer*)recognizer translationInView:self.view].x <=0) {
-                    userScrolls =NO;
-                }else{
-                    recognizer.cancelsTouchesInView = YES;
-                    recognizer.enabled =NO;
-                    recognizer.enabled =YES;
+                if ((self.pageIndex == self.viewController.galleryItems.count-1)) {
+                    if ([(UIPanGestureRecognizer*)recognizer translationInView:self.view].x <=0) {
+                        userScrolls =NO;
+                        self.viewController.userScrolls = NO;
+
+                    }else{
+                        recognizer.cancelsTouchesInView = YES;
+                        recognizer.enabled =NO;
+                        recognizer.enabled =YES;
+                    }
                 }
             }
         }else{
@@ -564,10 +578,10 @@
                 self.interactiveTransition.interactive = YES;
                 
                 self.viewController.gallerViewController.finishedCallback(self.pageIndex,self.imageView.image,self.interactiveTransition);
-
+                
             }else{
                 CGPoint currentPoint = [(UIPanGestureRecognizer*)recognizer translationInView:self.view];
-              
+                
                 if (self.viewController.gallerViewController.transitionCustomization.fixXValueForDismiss) {
                     self.interactiveTransition.changedPoint = CGPointMake(self.startPoint.x, self.lastPoint.y-currentPoint.y);
                 }else{
@@ -673,7 +687,7 @@
         self.act = [[UIActivityIndicatorView alloc]initWithFrame:self.view.bounds];
         [self.act startAnimating];
         self.act.hidesWhenStopped =YES;
-         self.act.tag =507;
+        self.act.tag =507;
         [self.act setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
         [self.scrollView addSubview:self.act];
         
@@ -739,7 +753,7 @@
                                                                 }];
         }else{
             if (self.item.galleryType == MHGalleryTypeImage) {
-
+                
                 [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:self.item.urlString]
                                                            options:SDWebImageContinueInBackground
                                                           progress:nil
@@ -1330,11 +1344,11 @@
         return;
     }
     [self centerImageView];
-
+    
     CGRect zoomRect;
     CGFloat newZoomScale = (self.scrollView.maximumZoomScale);
     CGPoint touchPoint = [gestureRecognizer locationInView:gestureRecognizer.view];
-
+    
     zoomRect.size.height = [self.imageView frame].size.height / newZoomScale;
     zoomRect.size.width  = [self.imageView frame].size.width  / newZoomScale;
     

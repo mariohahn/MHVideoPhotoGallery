@@ -10,6 +10,7 @@
 #import "MHGallery.h"
 
 @implementation MHGalleryOverViewCell
+
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
@@ -91,11 +92,12 @@
     layout.minimumInteritemSpacing = 15;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
-    self.collectionView.backgroundColor = [UIColor clearColor];
-    self.collectionView.showsHorizontalScrollIndicator = NO;
+  
     _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds
                                          collectionViewLayout:layout];
     
+    self.collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.showsHorizontalScrollIndicator = NO;
     [self.collectionView registerClass:[MHGalleryOverViewCell class] forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
     
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;

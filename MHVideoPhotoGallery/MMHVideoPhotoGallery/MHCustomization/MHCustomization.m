@@ -34,8 +34,4 @@
     return self;
 }
 
--(void)setUseCustomBackButtomImageOnImageViewer:(BOOL)useCustomBackButtomImageOnImageViewer{
-    _useCustomBackButtomImageOnImageViewer = useCustomBackButtomImageOnImageViewer;
-}
-
 @end
