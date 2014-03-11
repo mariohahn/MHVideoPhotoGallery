@@ -117,7 +117,8 @@
         
         
         toViewController.toolbar.frame = CGRectMake(0, fromViewController.view.frame.size.height-44, fromViewController.view.frame.size.width, 44);
-        MHGalleryItem *item = toViewController.galleryItems[toViewController.pageIndex];
+        MHGalleryController *galleryController = (MHGalleryController*)fromViewController.navigationController;
+        MHGalleryItem *item = [galleryController.dataSource itemForIndex:toViewController.pageIndex];
         [toViewController updateToolBarForItem:item];
 
         ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:item viewController:toViewController];
@@ -167,7 +168,6 @@
         
     }
 }
-
 
 -(NSArray*)sortObjectsWithFrame:(NSArray*)objects{
     NSComparator comparatorBlock = ^(id obj1, id obj2) {
