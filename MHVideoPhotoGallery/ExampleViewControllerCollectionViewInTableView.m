@@ -179,9 +179,11 @@
     
     
     MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryPresentionStyleImageViewer];
-    gallery.galleryItems = galleryData;
+  //  gallery.galleryItems = galleryData;
     gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
+    gallery.dataSource = self;
+    gallery.numberOfItems = 6;
     __block MHGalleryController *blockGallery = gallery;
     
     gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition){
@@ -215,8 +217,7 @@
 
 
 -(MHGalleryItem *)itemForIndex:(NSInteger)index{
-    return [[MHGalleryItem alloc]initWithURL:@"http://4.bp.blogspot.com/-8O0ZkAgb6Bo/Ulf_80tUN6I/AAAAAAAAH34/I1L2lKjzE9M/s1600/Beautiful-Scenery-Wallpapers.jpg"
-                                                               galleryType:MHGalleryTypeImage];
+    return [[MHGalleryItem alloc]initWithImage:[UIImage imageNamed:@"twitterMH"]];
 }
 
 -(NSUInteger)supportedInterfaceOrientations{

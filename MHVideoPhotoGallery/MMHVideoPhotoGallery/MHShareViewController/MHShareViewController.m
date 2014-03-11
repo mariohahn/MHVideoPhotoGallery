@@ -505,7 +505,7 @@
 
 -(void)smsImages:(NSArray*)object{
     [self getAllImagesForSelectedRows:^(NSArray *images) {
-        MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
+        MFMessageComposeViewController *picker = [MFMessageComposeViewController new];
         picker.messageComposeDelegate = self;
         NSString *videoURLS = [NSString new];
         
@@ -524,13 +524,13 @@
         
         [self presentViewController:picker
                            animated:YES
-                         completion:NULL];
+                         completion:nil];
     }];
 }
 
 -(void)mailImages:(NSArray*)object{
     [self getAllImagesForSelectedRows:^(NSArray *images) {
-        MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+        MFMailComposeViewController *picker = [MFMailComposeViewController new];
         picker.mailComposeDelegate = self;
         NSString *videoURLS = [NSString new];
         
@@ -549,7 +549,7 @@
         if([MFMailComposeViewController canSendMail]){
             [self presentViewController:picker
                                animated:YES
-                             completion:NULL];
+                             completion:nil];
         }
     }];
 }
@@ -584,8 +584,14 @@
         }
         
         if (item.galleryType == MHGalleryTypeImage) {
+            if (item.image) {
+                [imagesData addObject:item.image];
+                if (imagesData.count == self.selectedRows.count) {
+                    SuccessBlock([NSArray arrayWithArray:imagesData]);
+                }
+            }else{
             
-            [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:item.urlString]
+                [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:item.urlString]
                                                        options:SDWebImageContinueInBackground
                                                       progress:nil
                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
@@ -594,6 +600,7 @@
                                                              SuccessBlock([NSArray arrayWithArray:imagesData]);
                                                          }
                                                      }];
+            }
         }
     }
 }
