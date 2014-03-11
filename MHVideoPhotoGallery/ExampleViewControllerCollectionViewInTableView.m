@@ -179,11 +179,10 @@
     
     
     MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryPresentionStyleImageViewer];
-  //  gallery.galleryItems = galleryData;
+    gallery.galleryItems = galleryData;
     gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
-    gallery.dataSource = self;
-    gallery.numberOfItems = 6;
+   // gallery.dataSource = self;
     __block MHGalleryController *blockGallery = gallery;
     
     gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition){
@@ -211,12 +210,14 @@
         });
     };
     [self presentMHGalleryController:gallery animated:YES completion:nil];
-    
-    
 }
 
+-(NSInteger)numberOfItemsInGallery:(MHGalleryController *)galleryController{
+    return 10;
+}
 
 -(MHGalleryItem *)itemForIndex:(NSInteger)index{
+    // You also have to set the image in the Testcell to get the correct Animation
     return [[MHGalleryItem alloc]initWithImage:[UIImage imageNamed:@"twitterMH"]];
 }
 

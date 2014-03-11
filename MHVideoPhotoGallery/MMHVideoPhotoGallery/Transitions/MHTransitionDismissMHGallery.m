@@ -50,7 +50,7 @@
     
     MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:fromViewController.view.bounds];
     cellImageSnapshot.image = image;
-    [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.image.size,fromViewController.view.bounds)];
+    [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size,fromViewController.view.bounds)];
     cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
 
     [imageViewer.pageViewController.view setHidden:YES];
@@ -146,7 +146,7 @@
     self.cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:fromViewController.view.bounds];
     self.cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
     self.cellImageSnapshot.image = image;
-    [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.image.size,fromViewController.view.bounds)];
+    [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.imageMH.size,fromViewController.view.bounds)];
     self.startFrame = self.cellImageSnapshot.frame;
     
     [imageViewer.pageViewController.view setHidden:YES];
@@ -193,7 +193,7 @@
             self.startFrame = self.moviePlayer.view.bounds;
             
         }else{
-            [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.image.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
+            [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.imageMH.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
             self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
             self.cellImageSnapshot.center = [UIApplication sharedApplication].keyWindow.center;
             self.startFrame = self.cellImageSnapshot.bounds;

@@ -293,7 +293,7 @@
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if ([collectionView isEqual:self.collectionView]) {
-        return self.gallerViewController.numberOfItems;
+        return [self.gallerViewController.dataSource numberOfItemsInGallery:self.gallerViewController];
     }
     return [self.shareDataSource[collectionView.tag] count];
 }

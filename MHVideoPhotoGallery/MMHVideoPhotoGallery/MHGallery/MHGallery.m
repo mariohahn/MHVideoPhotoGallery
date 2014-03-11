@@ -618,7 +618,6 @@ UIImage *MHGalleryImage(NSString *imageName){
 -(void)setGalleryItems:(NSArray *)galleryItems{
     self.overViewViewController.galleryItems = galleryItems;
     self.imageViewerViewController.galleryItems = galleryItems;
-    self.numberOfItems = galleryItems.count;
     _galleryItems = galleryItems;
 }
 
@@ -639,7 +638,9 @@ UIImage *MHGalleryImage(NSString *imageName){
 -(MHGalleryItem *)itemForIndex:(NSInteger)index{
     return self.galleryItems[index];
 }
-
+-(NSInteger)numberOfItemsInGallery:(MHGalleryController *)galleryController{
+    return self.galleryItems.count;
+}
 
 @end
 

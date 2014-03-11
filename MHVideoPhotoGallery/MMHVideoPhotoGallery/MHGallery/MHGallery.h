@@ -20,6 +20,7 @@
 @class MHPresenterImageView;
 @class MHOverViewController;
 @class MHGalleryImageViewerViewController;
+@class MHGalleryController;
 
 extern void MHGalleryCustomLocalizationBlock(NSString *(^customLocalizationBlock)(NSString *stringToLocalize));
 extern void MHGalleryCustomImageBlock(UIImage *(^customImageBlock)(NSString *imageToChangeName));
@@ -213,12 +214,12 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @protocol MHGalleryDataSource<NSObject>
 @required
 - (MHGalleryItem*)itemForIndex:(NSInteger)index;
+- (NSInteger)numberOfItemsInGallery:(MHGalleryController*)galleryController;
 @end
 
 @interface MHGalleryController : UINavigationController<MHGalleryDataSource>
 
 @property (nonatomic,assign) id<MHGalleryDataSource>            dataSource;
-@property (nonatomic,assign) NSInteger                          numberOfItems;
 @property (nonatomic,assign) NSInteger                          presentationIndex;
 @property (nonatomic,strong) UIImageView                        *presentingFromImageView;
 @property (nonatomic,strong) MHGalleryImageViewerViewController *imageViewerViewController;

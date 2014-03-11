@@ -10,6 +10,7 @@
 
 @interface MHUIImageViewContentViewAnimation : UIImageView
 
+-(UIImage*)imageMH;
 -(void)animateToViewMode:(UIViewContentMode)contenMode
                 forFrame:(CGRect)frame
             withDuration:(float)duration

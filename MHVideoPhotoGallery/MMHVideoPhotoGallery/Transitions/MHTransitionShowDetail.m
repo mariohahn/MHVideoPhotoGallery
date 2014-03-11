@@ -165,16 +165,16 @@
     [containerView addSubview:self.toolbar];
     [containerView addSubview:self.descriptionLabel];
     
-    BOOL imageIsLand = self.cellImageSnapshot.image.size.width > self.cellImageSnapshot.image.size.height;
+    BOOL imageIsLand = self.cellImageSnapshot.imageMH.size.width > self.cellImageSnapshot.imageMH.size.height;
     
     
     CGRect changedFrame;
     if (!imageIsLand) {
-        CGFloat value = self.cellImageSnapshot.frame.size.width / self.cellImageSnapshot.image.size.width;
-        changedFrame = CGRectMake(self.cellImageSnapshot.frame.origin.x, self.cellImageSnapshot.frame.origin.y-((self.cellImageSnapshot.image.size.height*value-self.cellImageSnapshot.frame.size.width)/2), self.cellImageSnapshot.frame.size.width,self.cellImageSnapshot.image.size.height*value);
+        CGFloat value = self.cellImageSnapshot.frame.size.width / self.cellImageSnapshot.imageMH.size.width;
+        changedFrame = CGRectMake(self.cellImageSnapshot.frame.origin.x, self.cellImageSnapshot.frame.origin.y-((self.cellImageSnapshot.imageMH.size.height*value-self.cellImageSnapshot.frame.size.width)/2), self.cellImageSnapshot.frame.size.width,self.cellImageSnapshot.imageMH.size.height*value);
     }else{
-        CGFloat value = self.cellImageSnapshot.frame.size.height / self.cellImageSnapshot.image.size.height;
-        changedFrame = CGRectMake(self.cellImageSnapshot.frame.origin.x-((self.cellImageSnapshot.image.size.width*value-self.cellImageSnapshot.frame.size.height)/2),self.cellImageSnapshot.frame.origin.y, self.cellImageSnapshot.image.size.width*value,self.cellImageSnapshot.frame.size.height);
+        CGFloat value = self.cellImageSnapshot.frame.size.height / self.cellImageSnapshot.imageMH.size.height;
+        changedFrame = CGRectMake(self.cellImageSnapshot.frame.origin.x-((self.cellImageSnapshot.imageMH.size.width*value-self.cellImageSnapshot.frame.size.height)/2),self.cellImageSnapshot.frame.origin.y, self.cellImageSnapshot.imageMH.size.width*value,self.cellImageSnapshot.frame.size.height);
     }
     
     self.changedFrame = changedFrame;
@@ -194,7 +194,7 @@
     MHGalleryImageViewerViewController *toViewController = (MHGalleryImageViewerViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
     
     CGFloat scaleForToViewControllerSize = toViewController.view.bounds.size.height/self.changedFrame.size.height;
-    BOOL imageIsLand = self.cellImageSnapshot.image.size.width > self.cellImageSnapshot.image.size.height;
+    BOOL imageIsLand = self.cellImageSnapshot.imageMH.size.width > self.cellImageSnapshot.imageMH.size.height;
     if (imageIsLand) {
         scaleForToViewControllerSize = toViewController.view.bounds.size.width/self.changedFrame.size.width;
     }

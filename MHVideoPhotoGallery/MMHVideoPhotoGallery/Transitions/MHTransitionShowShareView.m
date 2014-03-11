@@ -28,12 +28,12 @@
         MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:[containerView convertRect:imageViewController.imageView.frame fromView:imageViewController.imageView.superview]];
         cellImageSnapshot.image = imageViewController.imageView.image;
         
-        if (!cellImageSnapshot.image) {
+        if (!cellImageSnapshot.imageMH) {
             UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
             view.backgroundColor = [UIColor whiteColor];
             cellImageSnapshot.image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
         }
-        [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.image.size, cellImageSnapshot.frame)];
+        [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size, cellImageSnapshot.frame)];
         
         
         

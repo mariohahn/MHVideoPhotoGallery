@@ -95,6 +95,8 @@
 -(MHGalleryController*)gallerViewController{
     return  (MHGalleryController*)self.navigationController;
 }
+
+
 -(MHGalleryItem*)itemForIndex:(NSInteger)index{
     return [self.gallerViewController.dataSource itemForIndex:index];
 }
@@ -104,7 +106,7 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.gallerViewController.numberOfItems;
+    return [self.gallerViewController.dataSource numberOfItemsInGallery:self.gallerViewController];
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{

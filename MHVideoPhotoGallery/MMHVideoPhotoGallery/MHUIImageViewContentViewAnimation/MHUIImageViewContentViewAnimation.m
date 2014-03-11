@@ -126,12 +126,16 @@
     self.imageView.frame  = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 }
 
+-(UIImage*)imageMH{
+    return self.imageView.image;
+}
+
 - (void)setImage:(UIImage *)image{
     self.imageView.image = image;
 }
 
 - (UIImage *)image{
-    return self.imageView.image;
+    return nil;
 }
 
 - (void)setContentMode:(UIViewContentMode)contentMode{

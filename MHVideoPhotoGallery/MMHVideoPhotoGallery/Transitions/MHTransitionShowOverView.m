@@ -36,12 +36,12 @@
     imageView.hidden = YES;
     
     
-    if (!cellImageSnapshot.image) {
+    if (!cellImageSnapshot.imageMH) {
         UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
         view.backgroundColor = [UIColor whiteColor];
         cellImageSnapshot.image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
     }
-    [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.image.size, cellImageSnapshot.frame)];
+    [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size, cellImageSnapshot.frame)];
     
     toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
     [containerView insertSubview:toViewController.view belowSubview:fromViewController.view];
@@ -132,12 +132,12 @@
     iv.hidden = YES;
     
     
-    if (!self.transitionImageView.image) {
+    if (!self.transitionImageView.imageMH) {
         UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
         view.backgroundColor = [UIColor whiteColor];
         self.transitionImageView.image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
     }
-    [self.transitionImageView setFrame:AVMakeRectWithAspectRatioInsideRect(self.transitionImageView.image.size, self.transitionImageView.frame)];
+    [self.transitionImageView setFrame:AVMakeRectWithAspectRatioInsideRect(self.transitionImageView.imageMH.size, self.transitionImageView.frame)];
     
     self.startFrame = self.transitionImageView.frame;
     
