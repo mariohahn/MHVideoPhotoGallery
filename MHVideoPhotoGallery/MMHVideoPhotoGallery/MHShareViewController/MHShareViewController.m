@@ -584,13 +584,22 @@
         }
         
         if (item.galleryType == MHGalleryTypeImage) {
-            if (item.image) {
+            
+            if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound && item.urlString) {
+                [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString
+                                                                       assetType:MHAssetImageTypeFull
+                                                                    successBlock:^(UIImage *image, NSError *error) {
+                                                                        [imagesData addObject:item.image];
+                                                                        if (imagesData.count == self.selectedRows.count) {
+                                                                            SuccessBlock([NSArray arrayWithArray:imagesData]);
+                                                                        }
+                                                                    }];
+            }else if (item.image) {
                 [imagesData addObject:item.image];
                 if (imagesData.count == self.selectedRows.count) {
                     SuccessBlock([NSArray arrayWithArray:imagesData]);
                 }
             }else{
-            
                 [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:item.urlString]
                                                        options:SDWebImageContinueInBackground
                                                       progress:nil
