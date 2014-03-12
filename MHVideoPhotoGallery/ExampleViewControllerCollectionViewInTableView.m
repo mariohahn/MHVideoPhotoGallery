@@ -180,7 +180,7 @@
     
     MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryPresentionStyleImageViewer];
     gallery.galleryItems = galleryData;
-  //  gallery.presentingFromImageView = imageView;
+    gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
    // gallery.dataSource = self;
     __block MHGalleryController *blockGallery = gallery;

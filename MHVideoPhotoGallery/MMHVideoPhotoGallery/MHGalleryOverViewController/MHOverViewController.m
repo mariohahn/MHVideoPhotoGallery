@@ -63,6 +63,9 @@
     
     [[UIMenuController sharedMenuController] setMenuItems:@[saveItem]];
     
+    if (self.gallerViewController.UICustomization.barTintColor) {
+        self.navigationController.navigationBar.barTintColor =self.gallerViewController.UICustomization.barTintColor;
+    }
 }
 
 -(UICollectionViewFlowLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation{
