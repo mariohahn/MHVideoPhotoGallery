@@ -660,6 +660,10 @@ UIImage *MHGalleryImage(NSString *imageName){
     if (galleryController.presentingFromImageView) {
         galleryController.transitioningDelegate = self;
         galleryController.modalPresentationStyle = UIModalPresentationFullScreen;
+    }else{
+        galleryController.transitionCustomization.interactiveDismiss = NO;
+        galleryController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage = NO;
+
     }
     if (!galleryController.dataSource) {
         galleryController.dataSource = galleryController;

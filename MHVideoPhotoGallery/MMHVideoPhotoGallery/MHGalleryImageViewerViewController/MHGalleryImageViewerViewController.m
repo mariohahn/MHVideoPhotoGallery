@@ -66,13 +66,13 @@
     }
     MHTransitionDismissMHGallery *dismissTransiton = [MHTransitionDismissMHGallery new];
     dismissTransiton.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
-    
+    imageViewer.interactiveTransition = dismissTransiton;
     gallery.finishedCallback(self.pageIndex,imageViewer.imageView.image,dismissTransiton);
 }
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    
+        
     if (!self.gallerViewController.UICustomization.showOverView) {
         self.navigationItem.hidesBackButton = YES;
     }
@@ -400,14 +400,16 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerBeforeViewController:(ImageViewController *)vc{
     
-    if (self.numberOfGalleryItems !=1) {
+    NSInteger indexPage = vc.pageIndex;
+
+    
+    if (self.numberOfGalleryItems !=1 && self.numberOfGalleryItems-1 != indexPage) {
         self.leftBarButton.enabled =YES;
         self.rightBarButton.enabled =YES;
     }
     
     [self removeVideoPlayerForVC:vc];
     
-    NSInteger indexPage = vc.pageIndex;
     
     if (indexPage ==0) {
         self.leftBarButton.enabled = NO;
@@ -424,14 +426,16 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerAfterViewController:(ImageViewController *)vc{
     
-    if (self.numberOfGalleryItems !=1) {
+    
+    NSInteger indexPage = vc.pageIndex;
+
+    if (self.numberOfGalleryItems !=1 && indexPage !=0) {
         self.leftBarButton.enabled = YES;
         self.rightBarButton.enabled = YES;
     }
     [self removeVideoPlayerForVC:vc];
     
     
-    NSInteger indexPage = vc.pageIndex;
     
     if (indexPage ==self.numberOfGalleryItems-1) {
         self.rightBarButton.enabled = NO;
