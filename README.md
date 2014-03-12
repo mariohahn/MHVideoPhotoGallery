@@ -53,8 +53,7 @@ MHGalleryItem *image1 = [[MHGalleryItem alloc]initWithURL:@"http://p1.pichost.me
 MHGalleryItem *image2 = [[MHGalleryItem alloc]initWithURL:@"http://4.bp.blogspot.com/-8O0ZkAgb6Bo/Ulf_80tUN6I/AAAAAAAAH34/I1L2lKjzE9M/s1600/Beautiful-Scenery-Wallpapers.jpg"
                                                        galleryType:MHGalleryTypeImage];
 
-NSArray *galleryData = @[image1,
-			 image2];
+NSArray *galleryData = @[image1,image2];
     
 MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryPresentionStyleImageViewer];
 gallery.galleryItems = galleryData;
