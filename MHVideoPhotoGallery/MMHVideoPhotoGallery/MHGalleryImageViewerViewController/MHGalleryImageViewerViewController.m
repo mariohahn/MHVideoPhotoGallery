@@ -543,7 +543,7 @@
                 self.viewController.userScrolls = NO;
             }else{
                 if (self.pageIndex ==0) {
-                    if ([(UIPanGestureRecognizer*)recognizer translationInView:self.view].x >=0) {
+                    if ([recognizer translationInView:self.view].x >=0) {
                         userScrolls =NO;
                         self.viewController.userScrolls = NO;
                     }else{
@@ -553,7 +553,7 @@
                     }
                 }
                 if ((self.pageIndex == self.viewController.numberOfGalleryItems-1)) {
-                    if ([(UIPanGestureRecognizer*)recognizer translationInView:self.view].x <=0) {
+                    if ([recognizer translationInView:self.view].x <=0) {
                         userScrolls =NO;
                         self.viewController.userScrolls = NO;
                         

@@ -75,7 +75,7 @@
         self.toTransform = self.startTransform;
     }
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
-        cellImageSnapshot.frame  = AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.image.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height));
+        cellImageSnapshot.frame  = AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height));
         cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
         cellImageSnapshot.center = [UIApplication sharedApplication].keyWindow.center;
         self.startFrame = cellImageSnapshot.bounds;
