@@ -30,6 +30,8 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
 @property (nonatomic)        BOOL showMHShareViewInsteadOfActivityViewController;
 @property (nonatomic)        BOOL useCustomBackButtomImageOnImageViewer;
 @property (nonatomic)        BOOL showOverView;
+@property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutLandscape;
+@property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutPortrait;
 
 -(void)setMHGalleryBackgroundColor:(UIColor*)color forViewMode:(MHGalleryViewMode)viewMode;
 -(UIColor*)MHGalleryBackgroundColorForViewMode:(MHGalleryViewMode)viewMode;

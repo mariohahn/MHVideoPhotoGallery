@@ -29,14 +29,11 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    
     self.title =  MHGalleryLocalizedString(@"overview.title.current");
     
     UIBarButtonItem *doneBarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
     
     self.navigationItem.rightBarButtonItem = doneBarButton;
-    
-
     
     self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds
                                             collectionViewLayout:[self layoutForOrientation:UIApplication.sharedApplication.statusBarOrientation]];
@@ -69,30 +66,10 @@
 }
 
 -(UICollectionViewFlowLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation{
-    UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
-    flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    flowLayout.sectionInset = UIEdgeInsetsMake(4, 0, 0, 0);
-    flowLayout.minimumInteritemSpacing = 4;
-    
-    if (orientation == UIInterfaceOrientationPortrait) {
-        flowLayout.minimumLineSpacing = 4;
-        if (orientation == UIApplication.sharedApplication.statusBarOrientation) {
-            flowLayout.itemSize = CGSizeMake(self.view.frame.size.width/3.1, self.view.frame.size.width/3.1);
-        }else{
-            flowLayout.itemSize = CGSizeMake(self.view.frame.size.height/3.1, self.view.frame.size.height/3.1);
-        }
-    }else{
-        flowLayout.minimumLineSpacing = 10;
-        if (orientation == UIApplication.sharedApplication.statusBarOrientation) {
-            flowLayout.itemSize = CGSizeMake(self.view.frame.size.height/3.1, self.view.frame.size.height/3.1);
-            if (self.view.frame.size.width < self.view.frame.size.height) {
-                flowLayout.itemSize = CGSizeMake(self.view.frame.size.width/3.1, self.view.frame.size.width/3.1);
-            }
-        }else{
-            flowLayout.itemSize = CGSizeMake(self.view.frame.size.width/3.1, self.view.frame.size.width/3.1);
-        }
+    if (orientation == UIInterfaceOrientationPortrait ) {
+        return self.gallerViewController.UICustomization.overViewCollectionViewLayoutPortrait;
     }
-    return flowLayout;
+    return self.gallerViewController.UICustomization.overViewCollectionViewLayoutLandscape;
 }
 
 -(MHGalleryController*)gallerViewController{
