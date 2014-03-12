@@ -372,10 +372,10 @@
         self.leftBarButton.enabled = NO;
     }
     __block MHGalleryImageViewerViewController*blockSelf = self;
-    
+
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
         blockSelf.pageIndex = imageViewController.pageIndex;
-        [blockSelf changeToPlayButton];
+        [blockSelf updateToolBarForItem:[blockSelf itemForIndex:blockSelf.pageIndex]];
     }];
 }
 
@@ -393,7 +393,7 @@
     
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
         blockSelf.pageIndex = imageViewController.pageIndex;
-        [blockSelf changeToPlayButton];
+        [blockSelf updateToolBarForItem:[blockSelf itemForIndex:blockSelf.pageIndex]];
     }];
 }
 
