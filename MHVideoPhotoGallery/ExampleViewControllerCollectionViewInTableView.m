@@ -182,6 +182,7 @@
     gallery.galleryItems = galleryData;
     gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
+    
    // gallery.dataSource = self;
     __block MHGalleryController *blockGallery = gallery;
     

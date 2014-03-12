@@ -21,18 +21,34 @@
 }
 @end
 
-
+@interface MHUICustomization()
+@property(nonatomic,strong)NSMutableDictionary *backgroundColorsForViewModes;
+@end
 @implementation MHUICustomization
 
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.barButtonsTintColor = nil;
+        self.barStyle = UIBarStyleDefault;
         self.barTintColor = nil;
 		self.showMHShareViewInsteadOfActivityViewController = YES;
         self.useCustomBackButtomImageOnImageViewer = YES;
         self.showOverView = YES;
+        self.backgroundColorsForViewModes = [NSMutableDictionary  dictionaryWithDictionary:@{@"0":[UIColor blackColor],
+                                                                                             @"1" :[UIColor whiteColor],
+                                                                                             @"2": [UIColor whiteColor]}];
     }
     return self;
 }
+
+-(void)setMHGalleryBackgroundColor:(UIColor *)color forViewMode:(MHGalleryViewMode)viewMode{
+    [self.backgroundColorsForViewModes setObject:color forKey:[NSString stringWithFormat:@"%@",@(viewMode)]];
+}
+
+-(UIColor*)MHGalleryBackgroundColorForViewMode:(MHGalleryViewMode)viewMode{
+    return self.backgroundColorsForViewModes[[NSString stringWithFormat:@"%@",@(viewMode)]];
+}
+
 
 @end

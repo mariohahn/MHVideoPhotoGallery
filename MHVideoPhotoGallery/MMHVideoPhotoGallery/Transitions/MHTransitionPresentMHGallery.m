@@ -11,7 +11,7 @@
 #import "MHGallery.h"
 
 @interface MHTransitionPresentMHGallery()
-@property (nonatomic, strong) UINavigationController *interactiveToViewController;
+@property (nonatomic, strong) MHGalleryController    *interactiveToViewController;
 @property (nonatomic, strong) UIView                 *backView;
 @property (nonatomic)         CGRect                 startFrame;
 @end
@@ -22,7 +22,7 @@
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
         
-    UINavigationController *toViewController = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    MHGalleryController *toViewController = (MHGalleryController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     UIView *containerView = [transitionContext containerView];
     NSTimeInterval duration = [self transitionDuration:transitionContext];
@@ -36,7 +36,7 @@
     
     
     UIView *backView = [[UIView alloc]initWithFrame:toViewController.view.frame];
-    backView.backgroundColor = [UIColor whiteColor];
+    backView.backgroundColor = [toViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
     backView.alpha =0;
     
     [containerView addSubview:backView];
@@ -87,7 +87,7 @@
 -(void)startInteractiveTransition:(id<UIViewControllerContextTransitioning>)transitionContext{
     self.context = transitionContext;
   
-    self.interactiveToViewController = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    self.interactiveToViewController = (MHGalleryController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     UIView *containerView = [transitionContext containerView];
     
@@ -103,7 +103,8 @@
     
     
     self.backView = [[UIView alloc]initWithFrame:self.interactiveToViewController.view.frame];
-    self.backView.backgroundColor = [UIColor whiteColor];
+    self.backView.backgroundColor = [self.interactiveToViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
+    
     self.backView.alpha =0;
     
     [containerView addSubview:self.backView];

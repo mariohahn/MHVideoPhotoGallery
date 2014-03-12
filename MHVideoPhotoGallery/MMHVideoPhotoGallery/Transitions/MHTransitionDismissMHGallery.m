@@ -30,7 +30,7 @@
     
     id toViewControllerNC = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
-    UINavigationController *fromViewController = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    MHGalleryController *fromViewController = (MHGalleryController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     [fromViewController view].alpha =0;
 
     
@@ -59,10 +59,13 @@
     [toViewControllerNC view].alpha = 0;
     
     UIView *whiteView = [[UIView alloc]initWithFrame:fromViewController.view.frame];
-    whiteView.backgroundColor = [UIColor whiteColor];
+    whiteView.backgroundColor = [fromViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
+    
     if (imageViewer.isHiddingToolBarAndNavigationBar) {
-        whiteView.backgroundColor = [UIColor blackColor];
+        whiteView.backgroundColor = [fromViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
     }
+    
+    
     
     [containerView addSubview:whiteView];
     [containerView addSubview:[toViewControllerNC view]];
@@ -124,7 +127,7 @@
     
     id toViewControllerNC = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
-    UINavigationController *fromViewController = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    MHGalleryController *fromViewController = (MHGalleryController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
     MHGalleryImageViewerViewController *imageViewer  = (MHGalleryImageViewerViewController*)fromViewController.visibleViewController;
     
@@ -155,9 +158,10 @@
     [fromViewController view].alpha =0;
     
     self.backView = [[UIView alloc]initWithFrame:[toViewControllerNC view].frame];
-    self.backView.backgroundColor = [UIColor whiteColor];
+    self.backView.backgroundColor = [fromViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
+    
     if (imageViewer.isHiddingToolBarAndNavigationBar) {
-        self.backView.backgroundColor = [UIColor blackColor];
+        self.backView.backgroundColor = [fromViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
     }
     
     

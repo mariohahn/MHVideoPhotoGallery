@@ -28,6 +28,7 @@
         MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:[containerView convertRect:imageViewController.imageView.frame fromView:imageViewController.imageView.superview]];
         cellImageSnapshot.image = imageViewController.imageView.image;
         
+        
         if (!cellImageSnapshot.imageMH) {
             UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
             view.backgroundColor = [UIColor whiteColor];
@@ -49,8 +50,15 @@
             toViewController.collectionView.frame =  CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height);
         }
         
-    
+        MHGalleryController *galleryController = (MHGalleryController*)fromViewController.navigationController;
+        
+        UIView *whiteView = [[UIView alloc]initWithFrame:fromViewController.view.frame];
+        whiteView.backgroundColor = [galleryController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
+        whiteView.alpha =1;
+        
         [containerView addSubview:toViewController.view];
+        [containerView addSubview:whiteView];
+
         [containerView addSubview:cellImageSnapshot];
         
         UIView *snapShot = [imageViewController.view snapshotViewAfterScreenUpdates:NO];
@@ -83,7 +91,7 @@
                 
                 cellImageSnapshot.frame = [containerView convertRect:cell.thumbnail.frame fromView:cell.thumbnail.superview];
                 cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
-                
+                whiteView.alpha =0;
                 toViewController.view.alpha = 1.0;
                 
             } completion:^(BOOL finished) {
@@ -136,8 +144,9 @@
         
         toViewController.view.alpha =0;
         
+        
         UIView *backWhite = [[UIView alloc]initWithFrame:toViewController.view.bounds];
-        backWhite.backgroundColor = [UIColor whiteColor];
+        backWhite.backgroundColor = [galleryController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
         backWhite.alpha =0;
         
         

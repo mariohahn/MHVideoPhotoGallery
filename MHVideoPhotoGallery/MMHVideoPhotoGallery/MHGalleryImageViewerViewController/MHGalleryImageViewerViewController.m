@@ -77,11 +77,16 @@
         self.navigationItem.hidesBackButton = YES;
     }
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                                                          target:self
-                                                                                          action:@selector(donePressed)];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    UIBarButtonItem *doneBarButton =  [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                                   target:self
+                                                                                   action:@selector(donePressed)];
+    
+    self.navigationItem.rightBarButtonItem = doneBarButton;
+    
+    self.view.backgroundColor = [self.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
+        
+    
     self.pageViewController =[[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
                                                              navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
                                                                            options:@{ UIPageViewControllerOptionInterPageSpacingKey : @30.f }];
@@ -110,6 +115,7 @@
         }
     }
     
+    self.toolbar.tintColor = self.gallerViewController.UICustomization.barButtonsTintColor;
     self.toolbar.tag = 307;
     self.toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     
@@ -125,10 +131,11 @@
                                                           style:UIBarButtonItemStyleBordered
                                                          target:self
                                                          action:@selector(rightPressed:)];
-    
+
     self.shareBarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction
                                                                        target:self
                                                                        action:@selector(sharePressed)];
+
     
     UIBarButtonItem *flex = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                          target:self
@@ -157,11 +164,10 @@
     self.descriptionView.userInteractionEnabled = NO;
     
     
-    if(self.gallerViewController.UICustomization.barTintColor){
-        self.toolbar.barTintColor = self.gallerViewController.UICustomization.barTintColor;
-        self.navigationController.navigationBar.barTintColor =self.gallerViewController.UICustomization.barTintColor;
-        self.descriptionViewBackground.barTintColor = self.gallerViewController.UICustomization.barTintColor;
-    }
+    self.toolbar.barTintColor = self.gallerViewController.UICustomization.barTintColor;
+    self.toolbar.barStyle = self.gallerViewController.UICustomization.barStyle;
+    self.descriptionViewBackground.barTintColor = self.gallerViewController.UICustomization.barTintColor;
+    self.descriptionViewBackground.barStyle = self.gallerViewController.UICustomization.barStyle;
     
     CGSize size = [self.descriptionView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
     
@@ -711,6 +717,8 @@
             self.moviePlayerToolBarTop = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 44)];
             [self.moviePlayerToolBarTop setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
             self.moviePlayerToolBarTop.alpha =0;
+            self.moviePlayerToolBarTop.barTintColor = self.viewController.gallerViewController.UICustomization.barTintColor;
+
             [self.view addSubview:self.moviePlayerToolBarTop];
             
             self.currentTimeMovie =0;
@@ -1161,9 +1169,9 @@
     
     self.moviePlayer = [MPMoviePlayerController new];
     if (self.viewController.isHiddingToolBarAndNavigationBar) {
-        self.moviePlayer.backgroundView.backgroundColor = [UIColor blackColor];
+        self.moviePlayer.backgroundView.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
     }else{
-        self.moviePlayer.backgroundView.backgroundColor = [UIColor whiteColor];
+        self.moviePlayer.backgroundView.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
     }
     self.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
     self.moviePlayer.controlStyle = MPMovieControlStyleNone;
@@ -1180,9 +1188,9 @@
                                                object:self.moviePlayer];
     
     if (self.viewController.isHiddingToolBarAndNavigationBar) {
-        self.moviePlayer.view.backgroundColor = [UIColor blackColor];
+        self.moviePlayer.view.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
     }else{
-        self.moviePlayer.view.backgroundColor = [UIColor whiteColor];
+        self.moviePlayer.view.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
     }
     [self.moviePlayer setShouldAutoplay:NO];
     self.moviePlayer.view.frame =self.view.bounds;
@@ -1234,16 +1242,16 @@
     
     if (self.viewController.isHiddingToolBarAndNavigationBar) {
         if (self.moviePlayer) {
-            self.moviePlayer.backgroundView.backgroundColor = [UIColor blackColor];
+            self.moviePlayer.backgroundView.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
         }
         
-        self.scrollView.backgroundColor = [UIColor blackColor];
+        self.scrollView.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
         self.act.color = [UIColor whiteColor];
         [self.moviePlayerToolBarTop setAlpha:0];
     }else{
         
         if (self.moviePlayer) {
-            self.moviePlayer.backgroundView.backgroundColor = [UIColor whiteColor];
+            self.moviePlayer.backgroundView.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
         }
         if (self.moviePlayerToolBarTop) {
             if (self.item.galleryType == MHGalleryTypeVideo) {
@@ -1253,7 +1261,7 @@
             }
         }
         
-        self.scrollView.backgroundColor = [UIColor whiteColor];
+        self.scrollView.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
         self.act.color = [UIColor blackColor];
     }
     if (self.item.galleryType == MHGalleryTypeVideo) {
@@ -1301,15 +1309,15 @@
         [UIView animateWithDuration:0.3 animations:^{
             
             if (self.moviePlayer) {
-                self.moviePlayer.backgroundView.backgroundColor = [UIColor blackColor];
+                self.moviePlayer.backgroundView.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
             }
             if (self.moviePlayerToolBarTop) {
                 self.moviePlayerToolBarTop.alpha =0;
             }
             self.navigationController.navigationBar.alpha =0;
             self.viewController.toolbar.alpha =0 ;
-            self.scrollView.backgroundColor = [UIColor blackColor];
-            self.viewController.pageViewController.view.backgroundColor = [UIColor blackColor];
+            self.scrollView.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
+            self.viewController.pageViewController.view.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
             
             self.viewController.descriptionView.alpha =0;
             self.viewController.descriptionViewBackground.alpha =0;
@@ -1329,10 +1337,10 @@
             
             self.navigationController.navigationBar.alpha =1;
             self.viewController.toolbar.alpha = 1;
-            self.scrollView.backgroundColor = [UIColor whiteColor];
-            self.viewController.pageViewController.view.backgroundColor = [UIColor whiteColor];
+            self.scrollView.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
+            self.viewController.pageViewController.view.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
             if (self.moviePlayer) {
-                self.moviePlayer.backgroundView.backgroundColor = [UIColor whiteColor];
+                self.moviePlayer.backgroundView.backgroundColor = [self.viewController.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
             }
             if (self.moviePlayerToolBarTop) {
                 if (self.item.galleryType == MHGalleryTypeVideo) {

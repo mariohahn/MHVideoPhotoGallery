@@ -31,7 +31,6 @@ extern UIImage  *MHGalleryImage(NSString *imageName);
 extern NSDictionary *MHDictionaryForQueryString(NSString *string);
 
 extern NSString *const MHYoutubeChannel;
-extern NSString *const MHGalleryViewModeOverView;
 extern NSString *const MHGalleryViewModeShare;
 extern NSString *const MHVimeoBaseURL;
 extern NSString *const MHVimeoThumbBaseURL;
@@ -245,7 +244,9 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
                          animated:(BOOL)animated
                        completion:(void (^)(void))completion;
 
-- (void)dismissViewControllerAnimated:(BOOL)flag dismissImageView:(UIImageView*)dismissImageView completion:(void (^)(void))completion;
+- (void)dismissViewControllerAnimated:(BOOL)flag
+                     dismissImageView:(UIImageView*)dismissImageView
+                           completion:(void (^)(void))completion;
 
 @end
 

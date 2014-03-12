@@ -13,7 +13,9 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-   
+
+    
+    
     self.window.tintColor = [UIColor colorWithRed:1 green:0.18 blue:0.33 alpha:1];
     self.window.backgroundColor = [UIColor blackColor];
        
@@ -24,6 +26,7 @@
     MHGalleryCustomImageBlock(^UIImage *(NSString *imageToChangeName) {
         return nil;
     });
+    
     return YES;
     
 }

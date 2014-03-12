@@ -32,13 +32,16 @@
     
     self.title =  MHGalleryLocalizedString(@"overview.title.current");
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
+    UIBarButtonItem *doneBarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
     
+    self.navigationItem.rightBarButtonItem = doneBarButton;
+    
+
     
     self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds
                                             collectionViewLayout:[self layoutForOrientation:UIApplication.sharedApplication.statusBarOrientation]];
     
-    self.collectionView.backgroundColor =[UIColor whiteColor];
+    self.collectionView.backgroundColor = [self.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeOverView];
     self.collectionView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
     [self.collectionView registerClass:[MHGalleryOverViewCell class]
@@ -63,9 +66,6 @@
     
     [[UIMenuController sharedMenuController] setMenuItems:@[saveItem]];
     
-    if (self.gallerViewController.UICustomization.barTintColor) {
-        self.navigationController.navigationBar.barTintColor =self.gallerViewController.UICustomization.barTintColor;
-    }
 }
 
 -(UICollectionViewFlowLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation{

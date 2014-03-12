@@ -21,7 +21,7 @@
     if (self) {
         _thumbnailImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2-30, 1, 60, 60)];
         self.thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
-        self.thumbnailImageView.clipsToBounds = TRUE;
+        self.thumbnailImageView.clipsToBounds = YES;
         [[self contentView] addSubview:self.thumbnailImageView];
         
         _descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, self.bounds.size.height-40, self.bounds.size.width, 40)];
@@ -148,9 +148,12 @@
     self.selectedRows = [NSMutableArray new];
     self.view.backgroundColor =[UIColor whiteColor];
     self.navigationItem.hidesBackButton =YES;
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                                                         target:self
-                                                                                         action:@selector(cancelPressed)];
+    
+    UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                    target:self
+                                                                                    action:@selector(cancelPressed)];
+        
+    self.navigationItem.leftBarButtonItem = cancelBarButton;
     
     UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;

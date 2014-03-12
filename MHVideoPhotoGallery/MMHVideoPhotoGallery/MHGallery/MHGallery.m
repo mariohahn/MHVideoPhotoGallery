@@ -10,7 +10,6 @@ NSString * const MHYoutubePlayBaseURL      = @"https://www.youtube.com/get_video
 NSString * const MHYoutubeInfoBaseURL      = @"http://gdata.youtube.com/feeds/api/videos/%@?v=2&alt=jsonc";
 NSString * const MHVimeoThumbBaseURL       = @"http://vimeo.com/api/v2/video/%@.json";
 NSString * const MHVimeoBaseURL            = @"http://player.vimeo.com/v2/video/%@/config";
-NSString * const MHGalleryViewModeOverView = @"MHGalleryViewModeOverView";
 NSString * const MHGalleryViewModeShare    = @"MHGalleryViewModeShare";
 
 
@@ -610,7 +609,6 @@ UIImage *MHGalleryImage(NSString *imageName){
     }else{
         self.viewControllers = @[self.overViewViewController];
     }
-
     return self;
 }
 
@@ -654,7 +652,12 @@ UIImage *MHGalleryImage(NSString *imageName){
                        completion:(void (^)(void))completion{
    
     if(galleryController.UICustomization.useCustomBackButtomImageOnImageViewer){
-         galleryController.overViewViewController.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStyleBordered target:self action:nil];
+        UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc]initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+                                                                         style:UIBarButtonItemStyleBordered
+                                                                        target:self
+                                                                        action:nil];
+        galleryController.overViewViewController.navigationItem.backBarButtonItem = backBarButton;
+        galleryController.navigationBar.tintColor = galleryController.UICustomization.barButtonsTintColor;
     }
     
     if (galleryController.presentingFromImageView) {
@@ -663,8 +666,10 @@ UIImage *MHGalleryImage(NSString *imageName){
     }else{
         galleryController.transitionCustomization.interactiveDismiss = NO;
         galleryController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage = NO;
-
     }
+    galleryController.navigationBar.barStyle = galleryController.UICustomization.barStyle;
+    galleryController.navigationBar.barTintColor = galleryController.UICustomization.barTintColor;
+    
     if (!galleryController.dataSource) {
         galleryController.dataSource = galleryController;
     }

@@ -116,6 +116,13 @@
         [self presentMHGalleryController:gallery animated:YES completion:nil];
         
         
+    }else{
+        UIAlertView *alterView = [[UIAlertView alloc]initWithTitle:@"Hint"
+                                                           message:@"You don't have images to your Simulator"
+                                                          delegate:nil
+                                                 cancelButtonTitle:@"OK"
+                                                 otherButtonTitles:nil, nil];
+        [alterView show];
     }
 }
 

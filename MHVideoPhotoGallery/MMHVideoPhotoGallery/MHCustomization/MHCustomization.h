@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
+    MHGalleryViewModeImageViewerNavigationBarHidden =0,
+    MHGalleryViewModeImageViewerNavigationBarShown =1,
+    MHGalleryViewModeOverView =2
+};
+
+
+
 @interface MHTransitionCustomization : NSObject
 @property (nonatomic)       BOOL interactiveDismiss;
 @property (nonatomic)       BOOL dismissWithScrollGestureOnFirstAndLastImage;
@@ -16,8 +24,14 @@
 
 
 @interface MHUICustomization : NSObject
+@property (nonatomic,)       UIBarStyle barStyle;
 @property (nonatomic,strong) UIColor *barTintColor;
+@property (nonatomic,strong) UIColor *barButtonsTintColor;
 @property (nonatomic)        BOOL showMHShareViewInsteadOfActivityViewController;
 @property (nonatomic)        BOOL useCustomBackButtomImageOnImageViewer;
 @property (nonatomic)        BOOL showOverView;
+
+-(void)setMHGalleryBackgroundColor:(UIColor*)color forViewMode:(MHGalleryViewMode)viewMode;
+-(UIColor*)MHGalleryBackgroundColorForViewMode:(MHGalleryViewMode)viewMode;
+
 @end
