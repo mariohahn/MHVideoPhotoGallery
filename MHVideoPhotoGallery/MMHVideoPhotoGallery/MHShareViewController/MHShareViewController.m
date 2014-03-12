@@ -107,8 +107,8 @@
 -(void) scrollViewWillEndDragging:(UIScrollView*)scrollView
                      withVelocity:(CGPoint)velocity
               targetContentOffset:(inout CGPoint*)targetContentOffset {
+   
     NSArray *visibleCells = [self sortObjectsWithFrame:self.collectionView.visibleCells];
-    
     MHGalleryOverViewCell *cell;
     if ((self.startPointScroll <  targetContentOffset->x) && (visibleCells.count >1)) {
         cell = visibleCells[1];
@@ -117,7 +117,6 @@
     }
     if (MHISIPAD) {
         *targetContentOffset = CGPointMake((cell.tag * 330+20), targetContentOffset->y);
-        
     }else{
         *targetContentOffset = CGPointMake((cell.tag * 250+20), targetContentOffset->y);
     }
@@ -232,6 +231,7 @@
     if([UIApplication sharedApplication].statusBarOrientation != UIInterfaceOrientationPortrait){
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(showShareSheet)];
     }
+    self.startPointScroll = self.collectionView.contentOffset.x;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
