@@ -765,10 +765,10 @@
         [self.imageView setUserInteractionEnabled:YES];
         
         [imageTap requireGestureRecognizerToFail: doubleTap];
-        if ([self.item.urlString rangeOfString:@"assets-library"].location != NSNotFound && self.item.urlString) {
+        if ([self.item.URLString rangeOfString:@"assets-library"].location != NSNotFound && self.item.URLString) {
             
             [self.act stopAnimating];
-            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:self.item.urlString
+            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:self.item.URLString
                                                                    assetType:MHAssetImageTypeFull
                                                                 successBlock:^(UIImage *image, NSError *error) {
                                                                     self.imageView.image = image;
@@ -779,7 +779,7 @@
         }else{
             if (self.item.galleryType == MHGalleryTypeImage) {
                 
-                [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:self.item.urlString]
+                [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:self.item.URLString]
                                                            options:SDWebImageContinueInBackground
                                                           progress:nil
                                                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
@@ -794,7 +794,7 @@
                                                          }];
             }else{
                 
-                [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:self.item.urlString
+                [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:self.item.URLString
                                                                       successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
                                                                           if (!error) {
                                                                               [self handleGeneratedThumb:image
@@ -823,8 +823,8 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if (!self.moviePlayer && self.item.galleryType == MHGalleryTypeVideo) {
-        if ([self.item.urlString rangeOfString:@"vimeo.com"].location != NSNotFound) {
-            [[MHGallerySharedManager sharedManager] getVimeoURLforMediaPlayer:self.item.urlString
+        if ([self.item.URLString rangeOfString:@"vimeo.com"].location != NSNotFound) {
+            [[MHGallerySharedManager sharedManager] getVimeoURLforMediaPlayer:self.item.URLString
                                                                  successBlock:^(NSURL *URL, NSError *error) {
                                                                      if (error) {
                                                                          [self changePlayButtonToUnPlay];
@@ -832,8 +832,8 @@
                                                                          [self addMoviePlayerToViewWithURL:URL];
                                                                      }
                                                                  }];
-        }else if ([self.item.urlString rangeOfString:@"youtube.com"].location != NSNotFound) {
-            [[MHGallerySharedManager sharedManager] getYoutubeURLforMediaPlayer:self.item.urlString
+        }else if ([self.item.URLString rangeOfString:@"youtube.com"].location != NSNotFound) {
+            [[MHGallerySharedManager sharedManager] getYoutubeURLforMediaPlayer:self.item.URLString
                                                                    successBlock:^(NSURL *URL, NSError *error) {
                                                                        if (error) {
                                                                            [self changePlayButtonToUnPlay];
@@ -842,7 +842,7 @@
                                                                        }
                                                                    }];
         }else{
-            [self addMoviePlayerToViewWithURL:[NSURL  URLWithString:self.item.urlString]];
+            [self addMoviePlayerToViewWithURL:[NSURL  URLWithString:self.item.URLString]];
         }
     }
 }

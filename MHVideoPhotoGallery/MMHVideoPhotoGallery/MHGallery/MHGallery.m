@@ -101,19 +101,19 @@ UIImage *MHGalleryImage(NSString *imageName){
     return self;
 }
 
-+(instancetype)itemWithURL:(NSString *)urlString
++(instancetype)itemWithURL:(NSString *)URLString
                galleryType:(MHGalleryType)galleryType{
     
-    return [[[self class] alloc]initWithURL:urlString
+    return [[[self class] alloc]initWithURL:URLString
                                 galleryType:galleryType];
 }
 
-- (instancetype)initWithURL:(NSString*)urlString
+- (instancetype)initWithURL:(NSString*)URLString
       galleryType:(MHGalleryType)galleryType{
     self = [super init];
     if (!self)
         return nil;
-    self.urlString = urlString;
+    self.URLString = URLString;
     self.description = nil;
     self.galleryType = galleryType;
     self.attributedString = nil;

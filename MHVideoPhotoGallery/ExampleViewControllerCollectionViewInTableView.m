@@ -248,10 +248,10 @@
         if (item.image) {
             cell.thumbnail.image = item.image;
         }else{
-            [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.urlString]];
+            [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.URLString]];
         }
     }else{
-        [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
+        [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.URLString
                                                               successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error,NSString *newURL) {
                                                                   cell.thumbnail.image = image;
                                                               }];

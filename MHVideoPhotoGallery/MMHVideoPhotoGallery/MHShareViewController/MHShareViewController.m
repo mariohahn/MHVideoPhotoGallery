@@ -384,21 +384,21 @@
     
     
     if (item.galleryType == MHGalleryTypeImage) {
-        if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound && item.urlString) {
-            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString assetType:MHAssetImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
+        if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
+            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.URLString assetType:MHAssetImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
                 cell.thumbnail.image = image;
             }];
         }else if(item.image){
             cell.thumbnail.image = item.image;
         }else{
-            [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.urlString] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.URLString] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                 if (!image) {
                     blockCell.thumbnail.image = [UIImage imageNamed:@"error"];
                 }
             }];
         }
     }else{
-        [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
+        [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.URLString
                                                               successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
                                                                   if (error) {
                                                                       cell.thumbnail.image = [UIImage imageNamed:@"error"];
@@ -620,7 +620,7 @@
         MHGalleryItem *item = [self itemForIndex:indexPath.row];
         
         if (item.galleryType == MHGalleryTypeVideo) {
-            [imagesData addObject:item.urlString];
+            [imagesData addObject:item.URLString];
         }
         if (imagesData.count == self.selectedRows.count) {
             SuccessBlock([NSArray arrayWithArray:imagesData]);
@@ -629,8 +629,8 @@
         
         if (item.galleryType == MHGalleryTypeImage) {
             
-            if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound && item.urlString) {
-                [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString
+            if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
+                [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.URLString
                                                                        assetType:MHAssetImageTypeFull
                                                                     successBlock:^(UIImage *image, NSError *error) {
                                                                         [imagesData addObject:item.image];
@@ -644,7 +644,7 @@
                     SuccessBlock([NSArray arrayWithArray:imagesData]);
                 }
             }else{
-                [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:item.urlString]
+                [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:item.URLString]
                                                        options:SDWebImageContinueInBackground
                                                       progress:nil
                                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {

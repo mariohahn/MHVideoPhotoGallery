@@ -123,7 +123,7 @@
     __block MHGalleryOverViewCell *blockCell = cell;
     
     if (item.galleryType == MHGalleryTypeVideo) {
-        [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.urlString
+        [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.URLString
                                                               successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
                                                                   
                                                                   if (error) {
@@ -142,14 +142,14 @@
                                                                   [[blockCell.contentView viewWithTag:405] setHidden:YES];
                                                               }];
     }else{
-        if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound && item.urlString) {
-            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString assetType:MHAssetImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
+        if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
+            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.URLString assetType:MHAssetImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
                 cell.thumbnail.image = image;
             }];
         }else if(item.image){
             cell.thumbnail.image = item.image;
         }else{
-            [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.urlString]
+            [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.URLString]
                            placeholderImage:nil
                                     options:SDWebImageContinueInBackground
                                    progress:nil
@@ -272,9 +272,9 @@
     MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     MHGalleryItem *item =  [self itemForIndex:indexPath.row];
     
-    if ([item.urlString rangeOfString:@"assets-library"].location != NSNotFound && item.urlString) {
+    if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
         
-        [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.urlString
+        [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.URLString
                                                                assetType:MHAssetImageTypeFull
                                                             successBlock:^(UIImage *image, NSError *error) {
                                                                 cell.thumbnail.image = image;
@@ -301,7 +301,7 @@
 
 -(void)getImageForItem:(MHGalleryItem*)item
         finishCallback:(void(^)(UIImage *image))FinishBlock{
-    [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:item.urlString]
+    [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:item.URLString]
                                                options:SDWebImageContinueInBackground
                                               progress:nil
                                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
