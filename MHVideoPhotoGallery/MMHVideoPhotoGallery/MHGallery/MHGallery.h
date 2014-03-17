@@ -214,7 +214,13 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 @end
 
+@protocol MHGalleryDelegate<NSObject>
+@optional
+-(void)galleryController:(MHGalleryController*)galleryController didShowIndex:(NSInteger)index;
+@end
+
 @protocol MHGalleryDataSource<NSObject>
+
 @required
 - (MHGalleryItem*)itemForIndex:(NSInteger)index;
 - (NSInteger)numberOfItemsInGallery:(MHGalleryController*)galleryController;
@@ -222,6 +228,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 @interface MHGalleryController : UINavigationController<MHGalleryDataSource>
 
+@property (nonatomic,assign) id<MHGalleryDelegate>              galleryDelegate;
 @property (nonatomic,assign) id<MHGalleryDataSource>            dataSource;
 @property (nonatomic,assign) NSInteger                          presentationIndex;
 @property (nonatomic,strong) UIImageView                        *presentingFromImageView;

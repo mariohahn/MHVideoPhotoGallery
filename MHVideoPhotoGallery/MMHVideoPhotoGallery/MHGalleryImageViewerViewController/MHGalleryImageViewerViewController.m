@@ -294,8 +294,10 @@
   previousViewControllers:(NSArray *)previousViewControllers
       transitionCompleted:(BOOL)completed{
     
-    self.pageIndex = [[pageViewController.viewControllers firstObject] pageIndex];
     
+    self.pageIndex = [[pageViewController.viewControllers firstObject] pageIndex];
+    [self showCurrentIndex:self.pageIndex];
+
     if (finished) {
         for (ImageViewController *imageViewController in previousViewControllers) {
             [self removeVideoPlayerForVC:imageViewController];
@@ -382,6 +384,7 @@
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
         blockSelf.pageIndex = imageViewController.pageIndex;
         [blockSelf updateToolBarForItem:[blockSelf itemForIndex:blockSelf.pageIndex]];
+        [blockSelf showCurrentIndex:blockSelf.pageIndex];
     }];
 }
 
@@ -400,9 +403,16 @@
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
         blockSelf.pageIndex = imageViewController.pageIndex;
         [blockSelf updateToolBarForItem:[blockSelf itemForIndex:blockSelf.pageIndex]];
+        [blockSelf showCurrentIndex:blockSelf.pageIndex];
     }];
 }
-
+-(void)showCurrentIndex:(NSInteger)currentIndex{
+    if ([self.gallerViewController.galleryDelegate respondsToSelector:@selector(galleryController:didShowIndex:)]) {
+        [self.gallerViewController.galleryDelegate galleryController:self.gallerViewController
+                                                        didShowIndex:currentIndex];
+    }
+    
+}
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerBeforeViewController:(ImageViewController *)vc{
     

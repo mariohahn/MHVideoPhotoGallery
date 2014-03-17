@@ -663,6 +663,7 @@ UIImage *MHGalleryImage(NSString *imageName){
     if (!galleryController.dataSource) {
         galleryController.dataSource = galleryController;
     }
+    
     [self presentViewController:galleryController animated:YES completion:completion];
 }
 

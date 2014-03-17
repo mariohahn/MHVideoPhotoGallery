@@ -184,6 +184,7 @@
     gallery.galleryItems = galleryData;
     gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
+   // gallery.galleryDelegate = self;
    // gallery.dataSource = self;
     __block MHGalleryController *blockGallery = gallery;
     
@@ -214,6 +215,7 @@
     [self presentMHGalleryController:gallery animated:YES completion:nil];
 }
 
+
 -(NSInteger)numberOfItemsInGallery:(MHGalleryController *)galleryController{
     return 10;
 }
@@ -230,7 +232,6 @@
 -(BOOL)shouldAutorotate{
     return YES;
 }
-
 
 -(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     MHGalleryItem *item = self.galleryDataSource[indexPath.section][indexPath.row];
