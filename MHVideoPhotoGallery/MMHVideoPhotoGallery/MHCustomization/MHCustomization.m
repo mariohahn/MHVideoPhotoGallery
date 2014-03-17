@@ -55,8 +55,6 @@
         flowLayoutPort.minimumLineSpacing = 4;
         flowLayoutPort.itemSize = CGSizeMake(screenSize.width/3.1, screenSize.width/3.1);
         self.overViewCollectionViewLayoutPortrait = flowLayoutPort;
-
-
         
     }
     return self;

@@ -14,6 +14,47 @@
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
 
+@implementation MHCollectionViewTableViewCell
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    if (!(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) return nil;
+    
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.sectionInset = UIEdgeInsetsMake(0, 25, 0, 25);
+    layout.itemSize = CGSizeMake(270, 210);
+    layout.minimumLineSpacing = 15;
+    layout.minimumInteritemSpacing = 15;
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    
+    
+    _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds
+                                         collectionViewLayout:layout];
+    
+    self.collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.showsHorizontalScrollIndicator = NO;
+    [self.collectionView registerClass:[MHGalleryOverViewCell class] forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
+    
+    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    [[self contentView] addSubview:self.collectionView];
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds];
+        self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+        [[self contentView] addSubview:self.collectionView];
+    }
+    return self;
+}
+-(void)prepareForReuse{
+    
+}
+
+@end
+
+
 @implementation MHShareCell
 
 - (id)initWithFrame:(CGRect)frame{
@@ -201,7 +242,7 @@
     self.tableViewShare.dataSource =self;
     self.tableViewShare.backgroundColor =[UIColor clearColor];
     self.tableViewShare.scrollEnabled =NO;
-    [self.tableViewShare registerClass:[MHGalleryCollectionViewCell class]
+    [self.tableViewShare registerClass:[MHCollectionViewTableViewCell class]
                 forCellReuseIdentifier:@"MHGalleryCollectionViewCell"];
     [self.view addSubview:self.tableViewShare];
     
@@ -255,9 +296,9 @@
     NSString *cellIdentifier = nil;
     cellIdentifier = @"MHGalleryCollectionViewCell";
     
-    MHGalleryCollectionViewCell *cell = (MHGalleryCollectionViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    MHCollectionViewTableViewCell *cell = (MHCollectionViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell){
-        cell = [[MHGalleryCollectionViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[MHCollectionViewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     cell.backgroundColor = [UIColor clearColor];
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -469,7 +510,7 @@
         }
         
         [self.shareDataSource addObject:newObjects];
-        MHGalleryCollectionViewCell *cell = (MHGalleryCollectionViewCell*)[self.tableViewShare cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index]];
+        MHCollectionViewTableViewCell *cell = (MHCollectionViewTableViewCell*)[self.tableViewShare cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index]];
         [cell.collectionView reloadData];
         index++;
     }

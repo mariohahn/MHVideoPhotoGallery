@@ -113,7 +113,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic,strong) NSString           *urlString;
 @property (nonatomic,strong) NSString           *description;
 @property (nonatomic,strong) NSAttributedString *attributedString;
-@property (nonatomic)        MHGalleryType       galleryType;
+@property (nonatomic,assign) MHGalleryType       galleryType;
 
 /**
  *  MHGalleryItem initWithURL:galleryType
@@ -125,6 +125,9 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 - (instancetype)initWithURL:(NSString*)urlString
       galleryType:(MHGalleryType)galleryType;
 
++ (instancetype)itemWithURL:(NSString*)urlString
+                galleryType:(MHGalleryType)galleryType;
+
 /**
  *  MHGalleryItem initWithImage
  *
@@ -132,6 +135,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  *
  */
 - (instancetype)initWithImage:(UIImage*)image;
++ (instancetype)itemWithImage:(UIImage*)image;
 
 @end
 

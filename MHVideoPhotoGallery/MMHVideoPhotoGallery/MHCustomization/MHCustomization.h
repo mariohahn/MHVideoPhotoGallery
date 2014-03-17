@@ -24,6 +24,7 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
 
 
 @interface MHUICustomization : NSObject
+
 @property (nonatomic,)       UIBarStyle barStyle;
 @property (nonatomic,strong) UIColor *barTintColor;
 @property (nonatomic,strong) UIColor *barButtonsTintColor;

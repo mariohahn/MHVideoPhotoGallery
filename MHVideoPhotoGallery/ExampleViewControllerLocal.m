@@ -118,7 +118,7 @@
         
     }else{
         UIAlertView *alterView = [[UIAlertView alloc]initWithTitle:@"Hint"
-                                                           message:@"You don't have images to your Simulator"
+                                                           message:@"You don't have images on your Simulator"
                                                           delegate:nil
                                                  cancelButtonTitle:@"OK"
                                                  otherButtonTitles:nil, nil];

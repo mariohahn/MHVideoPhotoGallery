@@ -92,7 +92,7 @@ UIImage *MHGalleryImage(NSString *imageName){
 
 @implementation MHGalleryItem
 
-- (id)initWithImage:(UIImage*)image{
+- (instancetype)initWithImage:(UIImage*)image{
     self = [super init];
     if (!self)
         return nil;
@@ -101,7 +101,14 @@ UIImage *MHGalleryImage(NSString *imageName){
     return self;
 }
 
-- (id)initWithURL:(NSString*)urlString
++(instancetype)itemWithURL:(NSString *)urlString
+               galleryType:(MHGalleryType)galleryType{
+    
+    return [[[self class] alloc]initWithURL:urlString
+                                galleryType:galleryType];
+}
+
+- (instancetype)initWithURL:(NSString*)urlString
       galleryType:(MHGalleryType)galleryType{
     self = [super init];
     if (!self)
@@ -112,6 +119,11 @@ UIImage *MHGalleryImage(NSString *imageName){
     self.attributedString = nil;
     return self;
 }
+
++(instancetype)itemWithImage:(UIImage *)image{
+    return [[[self class] alloc] initWithImage:image];
+}
+
 @end
 
 
@@ -125,28 +137,6 @@ UIImage *MHGalleryImage(NSString *imageName){
     });
     return sharedManagerInstance;
 }
-
--(void)qualityForVideos{
-    if (!self.youtubeThumbQuality) {
-        self.youtubeThumbQuality = MHYoutubeThumbQualityHQ;
-    }
-    if (!self.vimeoThumbQuality) {
-        self.vimeoThumbQuality = MHVimeoThumbQualityLarge;
-    }
-    if (!self.vimeoVideoQuality) {
-        self.vimeoVideoQuality = MHVimeoVideoQualityHD;
-    }
-    if (!self.youtubeVideoQuality) {
-        self.youtubeVideoQuality = MHYoutubeVideoQualityHD720;
-    }
-    if(!self.webThumbQuality){
-        self.webThumbQuality = MHWebThumbQualityHD720;
-    }
-    if (!self.webPointForThumb) {
-        self.webPointForThumb = MHWebPointForThumbStart;
-    }
-}
-
 
 -(void)getImageFromAssetLibrary:(NSString*)urlString
                       assetType:(MHAssetImageType)type

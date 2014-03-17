@@ -80,44 +80,4 @@
 @end
 
 
-@implementation MHGalleryCollectionViewCell
-
--(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
-    if (!(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) return nil;
-    
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.sectionInset = UIEdgeInsetsMake(0, 25, 0, 25);
-    layout.itemSize = CGSizeMake(270, 210);
-    layout.minimumLineSpacing = 15;
-    layout.minimumInteritemSpacing = 15;
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    
-  
-    _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds
-                                         collectionViewLayout:layout];
-    
-    self.collectionView.backgroundColor = [UIColor clearColor];
-    self.collectionView.showsHorizontalScrollIndicator = NO;
-    [self.collectionView registerClass:[MHGalleryOverViewCell class] forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
-    
-    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    [[self contentView] addSubview:self.collectionView];
-    return self;
-}
-
-- (id)initWithFrame:(CGRect)frame{
-    self = [super initWithFrame:frame];
-    if (self) {
-        _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds];
-        self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-        [[self contentView] addSubview:self.collectionView];
-    }
-    return self;
-}
--(void)prepareForReuse{
-    
-}
-
-@end
-
 

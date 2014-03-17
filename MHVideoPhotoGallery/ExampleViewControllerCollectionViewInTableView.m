@@ -46,6 +46,9 @@
     
     
     self.title = @"CollectionInTable";
+
+    MHGalleryItem *localVideo = [[MHGalleryItem alloc]initWithURL:[[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Sydney-iPhone" ofType:@"m4v"]] absoluteString]
+                                                      galleryType:MHGalleryTypeVideo];
     
     MHGalleryItem *youtube = [[MHGalleryItem alloc]initWithURL:@"http://www.youtube.com/watch?v=YSdJtNen-EA"
                                                    galleryType:MHGalleryTypeVideo];
@@ -100,7 +103,7 @@
     
     self.galleryDataSource = @[@[landschaft10,landschaft8,landschaft7,landschaft9,landschaft6,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1,landschaft10,landschaft8,landschaft7,landschaft9,landschaft6,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1,landschaft10,landschaft8,landschaft7,landschaft9,landschaft6,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1],
                                @[vimeo3,youtube,vimeo0,vimeo1,landschaft9,landschaft6,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1],
-                               @[landschaft9,landschaft6,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1]
+                               @[landschaft9,landschaft6,localVideo,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1]
                                ];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.83 green:0.84 blue:0.86 alpha:1];
     [self.tableView reloadData];
@@ -176,13 +179,11 @@
     UIImageView *imageView = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] thumbnail];
     
     NSArray *galleryData = self.galleryDataSource[collectionView.tag];
-    
-    
+        
     MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryPresentionStyleImageViewer];
     gallery.galleryItems = galleryData;
     gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
-    
    // gallery.dataSource = self;
     __block MHGalleryController *blockGallery = gallery;
     

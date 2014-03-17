@@ -19,6 +19,10 @@ _Pragma("clang diagnostic pop") \
 } while (0)
 
 
+@interface MHCollectionViewTableViewCell : UITableViewCell
+@property (strong, nonatomic) UICollectionView *collectionView;
+@end
+
 @interface MHShareCell : UICollectionViewCell
 @property (strong, nonatomic) UIImageView *thumbnailImageView;
 @property (strong, nonatomic) UILabel *descriptionLabel;

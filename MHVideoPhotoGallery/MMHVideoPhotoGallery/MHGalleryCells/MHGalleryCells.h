@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MHGalleryOverViewCell : UICollectionViewCell
+
 @property (nonatomic, strong) UIImageView             *thumbnail;
 @property (nonatomic, strong) UIActivityIndicatorView *act;
 @property (nonatomic, strong) UIButton                *playButton;
@@ -18,8 +19,4 @@
 @property (nonatomic, strong) UIImageView             *selectionImageView;
 
 @property (nonatomic, copy) void (^saveImage)(BOOL shouldSave);
-@end
-
-@interface MHGalleryCollectionViewCell : UITableViewCell
-@property (strong, nonatomic) UICollectionView *collectionView;
 @end

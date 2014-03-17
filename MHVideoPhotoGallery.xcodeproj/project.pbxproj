@@ -75,6 +75,7 @@
 		F553D32818967E5300BA4283 /* ic_square.png in Resources */ = {isa = PBXBuildFile; fileRef = F553D32618967E5300BA4283 /* ic_square.png */; };
 		F553D32918967E5300BA4283 /* ic_square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F553D32718967E5300BA4283 /* ic_square@2x.png */; };
 		F55CB5BC18C5FE2E0039941E /* MHCustomization.m in Sources */ = {isa = PBXBuildFile; fileRef = F55CB5BB18C5FE2E0039941E /* MHCustomization.m */; };
+		F577F33D18D73D3100880B72 /* Sydney-iPhone.m4v in Resources */ = {isa = PBXBuildFile; fileRef = F577F33B18D73C1100880B72 /* Sydney-iPhone.m4v */; };
 		F58F65051880899200D3A8F9 /* MHShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F58F65041880899200D3A8F9 /* MHShareViewController.m */; };
 		F58F65281882F97600D3A8F9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65271882F97600D3A8F9 /* Social.framework */; };
 		F58F652A1882F97B00D3A8F9 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65291882F97B00D3A8F9 /* MessageUI.framework */; };
@@ -197,6 +198,7 @@
 		F553D32718967E5300BA4283 /* ic_square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_square@2x.png"; path = "MMHVideoPhotoGallery/Images/ic_square@2x.png"; sourceTree = "<group>"; };
 		F55CB5BA18C5FE2E0039941E /* MHCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHCustomization.h; path = MMHVideoPhotoGallery/MHCustomization/MHCustomization.h; sourceTree = "<group>"; };
 		F55CB5BB18C5FE2E0039941E /* MHCustomization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHCustomization.m; path = MMHVideoPhotoGallery/MHCustomization/MHCustomization.m; sourceTree = "<group>"; };
+		F577F33B18D73C1100880B72 /* Sydney-iPhone.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sydney-iPhone.m4v"; sourceTree = "<group>"; };
 		F58F65031880899200D3A8F9 /* MHShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHShareViewController.h; path = MMHVideoPhotoGallery/MHShareViewController/MHShareViewController.h; sourceTree = "<group>"; };
 		F58F65041880899200D3A8F9 /* MHShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHShareViewController.m; path = MMHVideoPhotoGallery/MHShareViewController/MHShareViewController.m; sourceTree = "<group>"; };
 		F58F65271882F97600D3A8F9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -353,6 +355,7 @@
 				F53653491897D11100748466 /* ExampleViewControllerLocal.m */,
 				F5D24FFE1885D3D7004D97CA /* ExampleViewControllerImageView.h */,
 				F5D24FFF1885D3D7004D97CA /* ExampleViewControllerImageView.m */,
+				F577F33B18D73C1100880B72 /* Sydney-iPhone.m4v */,
 				F58F653C18852F6500D3A8F9 /* Storyboard-iPad.storyboard */,
 				F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */,
 				F53F925B17EB008100A9FE6A /* Images.xcassets */,
@@ -601,7 +604,7 @@
 		F53F923817EB008100A9FE6A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Mario Hahn";
 				TargetAttributes = {
 					F53F923F17EB008100A9FE6A = {
@@ -657,6 +660,7 @@
 				F553D3011892B58800BA4283 /* EditControlSelected@2x.png in Resources */,
 				F514263618911D8E0091E3DF /* 707-albums-selected@2x.png in Resources */,
 				F514263518911D8E0091E3DF /* 707-albums-selected.png in Resources */,
+				F577F33D18D73D3100880B72 /* Sydney-iPhone.m4v in Resources */,
 				F553D30C1892B58800BA4283 /* pause.png in Resources */,
 				F553D30E1892B58800BA4283 /* play.png in Resources */,
 				F553D3031892B58800BA4283 /* error@2x.png in Resources */,
@@ -787,7 +791,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -826,7 +829,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -906,7 +908,6 @@
 		F53F927617EB008100A9FE6A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MHVideoPhotoGallery.app/MHVideoPhotoGallery";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -929,7 +930,6 @@
 		F53F927717EB008100A9FE6A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MHVideoPhotoGallery.app/MHVideoPhotoGallery";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
