@@ -39,7 +39,7 @@
 
 @end
 
-@interface ImageViewController : UIViewController<UIScrollViewDelegate,UIGestureRecognizerDelegate>
+@interface MHImageViewController : UIViewController<UIScrollViewDelegate,UIGestureRecognizerDelegate>
 
 @property (nonatomic,strong)        MHTransitionDismissMHGallery *interactiveTransition;
 @property (nonatomic,strong)        MHTransitionShowOverView *interactiveOverView;
@@ -65,6 +65,6 @@
 -(void)playButtonPressed;
 -(void)centerImageView;
 
-+(ImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item
++(MHImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item
                                            viewController:(MHGalleryImageViewerViewController*)viewController;
 @end

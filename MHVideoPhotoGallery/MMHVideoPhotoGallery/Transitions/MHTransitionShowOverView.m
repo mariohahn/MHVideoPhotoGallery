@@ -250,7 +250,7 @@
         [self.backView removeFromSuperview];
         [self.transitionImageView removeFromSuperview];
         
-        ImageViewController *imageViewerViewController = [fromViewController.pageViewController.viewControllers firstObject];
+        MHImageViewController *imageViewerViewController = [fromViewController.pageViewController.viewControllers firstObject];
         imageViewerViewController.imageView.hidden = NO;
         imageViewerViewController.scrollView.zoomScale =1;
         [self.context completeTransition:NO];

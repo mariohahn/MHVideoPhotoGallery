@@ -60,7 +60,7 @@
 
 -(void)donePressed{
     MHGalleryController *gallery  =(MHGalleryController*)self.navigationController;
-    ImageViewController *imageViewer = self.pageViewController.viewControllers.firstObject;
+    MHImageViewController *imageViewer = self.pageViewController.viewControllers.firstObject;
     if (imageViewer.moviePlayer) {
         [imageViewer removeAllMoviePlayerViewsAndNotifications];
     }
@@ -95,7 +95,7 @@
     self.pageViewController.automaticallyAdjustsScrollViewInsets =NO;
     MHGalleryItem *item = [self itemForIndex:self.pageIndex];
     
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:item viewController:self];
+    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:item viewController:self];
     imageViewController.pageIndex = self.pageIndex;
     
     [self.pageViewController setViewControllers:@[imageViewController]
@@ -209,7 +209,7 @@
 }
 
 -(void)playStopButtonPressed{
-    for (ImageViewController *imageViewController in self.pageViewController.viewControllers) {
+    for (MHImageViewController *imageViewController in self.pageViewController.viewControllers) {
         if (imageViewController.pageIndex == self.pageIndex) {
             if (imageViewController.isPlayingVideo) {
                 [imageViewController stopMovie];
@@ -230,7 +230,7 @@
         [self.navigationController pushViewController:share
                                              animated:YES];
     }else{
-        UIActivityViewController *act = [[UIActivityViewController alloc]initWithActivityItems:@[[(ImageViewController*)[self.pageViewController.viewControllers firstObject] imageView].image] applicationActivities:nil];
+        UIActivityViewController *act = [[UIActivityViewController alloc]initWithActivityItems:@[[(MHImageViewController*)[self.pageViewController.viewControllers firstObject] imageView].image] applicationActivities:nil];
         [self presentViewController:act animated:YES completion:nil];
         
     }
@@ -299,7 +299,7 @@
     [self showCurrentIndex:self.pageIndex];
 
     if (finished) {
-        for (ImageViewController *imageViewController in previousViewControllers) {
+        for (MHImageViewController *imageViewController in previousViewControllers) {
             [self removeVideoPlayerForVC:imageViewController];
         }
     }
@@ -312,7 +312,7 @@
     return [self.gallerViewController.dataSource itemForIndex:index];
 }
 
--(void)removeVideoPlayerForVC:(ImageViewController*)vc{
+-(void)removeVideoPlayerForVC:(MHImageViewController*)vc{
     if (vc.pageIndex != self.pageIndex) {
         if (vc.moviePlayer) {
             if (vc.item.galleryType == MHGalleryTypeVideo) {
@@ -340,7 +340,7 @@
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
                          interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
     if ([animationController isKindOfClass:[MHTransitionShowOverView class]]) {
-        ImageViewController *imageViewController = [self.pageViewController.viewControllers firstObject];
+        MHImageViewController *imageViewController = [self.pageViewController.viewControllers firstObject];
         return imageViewController.interactiveOverView;
     }else {
         return nil;
@@ -352,7 +352,7 @@
                                                fromViewController:(UIViewController *)fromVC
                                                  toViewController:(UIViewController *)toVC {
     
-    ImageViewController *theCurrentViewController = [self.pageViewController.viewControllers firstObject];
+    MHImageViewController *theCurrentViewController = [self.pageViewController.viewControllers firstObject];
     if (theCurrentViewController.moviePlayer) {
         [theCurrentViewController removeAllMoviePlayerViewsAndNotifications];
     }
@@ -371,9 +371,9 @@
 -(void)leftPressed:(id)sender{
     self.rightBarButton.enabled = YES;
     
-    ImageViewController *theCurrentViewController = [self.pageViewController.viewControllers firstObject];
+    MHImageViewController *theCurrentViewController = [self.pageViewController.viewControllers firstObject];
     NSUInteger indexPage = theCurrentViewController.pageIndex;
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
+    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
     imageViewController.pageIndex = indexPage-1;
     
     if (indexPage-1 == 0) {
@@ -390,9 +390,9 @@
 
 -(void)rightPressed:(id)sender{
     [self.leftBarButton setEnabled:YES];
-    ImageViewController *theCurrentViewController = [self.pageViewController.viewControllers firstObject];
+    MHImageViewController *theCurrentViewController = [self.pageViewController.viewControllers firstObject];
     NSUInteger indexPage = theCurrentViewController.pageIndex;
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
+    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
     imageViewController.pageIndex = indexPage+1;
     
     if (indexPage+1 == self.numberOfGalleryItems-1) {
@@ -414,7 +414,7 @@
     
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerBeforeViewController:(ImageViewController *)vc{
+- (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerBeforeViewController:(MHImageViewController *)vc{
     
     NSInteger indexPage = vc.pageIndex;
 
@@ -429,18 +429,18 @@
     
     if (indexPage ==0) {
         self.leftBarButton.enabled = NO;
-        ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:nil viewController:self];
+        MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:nil viewController:self];
         imageViewController.pageIndex = 0;
         return imageViewController;
     }
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
+    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
     imageViewController.pageIndex = indexPage-1;
     
     return imageViewController;
 }
 
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerAfterViewController:(ImageViewController *)vc{
+- (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerAfterViewController:(MHImageViewController *)vc{
     
     
     NSInteger indexPage = vc.pageIndex;
@@ -455,11 +455,11 @@
     
     if (indexPage ==self.numberOfGalleryItems-1) {
         self.rightBarButton.enabled = NO;
-        ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:nil viewController:self];
+        MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:nil viewController:self];
         imageViewController.pageIndex = self.numberOfGalleryItems-1;
         return imageViewController;
     }
-    ImageViewController *imageViewController =[ImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
+    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
     imageViewController.pageIndex  = indexPage+1;
     return imageViewController;
 }
@@ -473,7 +473,7 @@
 
 @end
 
-@interface ImageViewController ()
+@interface MHImageViewController ()
 @property (nonatomic, strong) UIButton                 *moviewPlayerButtonBehinde;
 @property (nonatomic, strong) UIToolbar                *moviePlayerToolBarTop;
 @property (nonatomic, strong) UISlider                 *slider;
@@ -496,10 +496,10 @@
 
 @end
 
-@implementation ImageViewController
+@implementation MHImageViewController
 
 
-+(ImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item
++(MHImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item
                                            viewController:(MHGalleryImageViewerViewController*)viewController{
     if (item) {
         return [[self alloc]initWithMHMediaItem:item

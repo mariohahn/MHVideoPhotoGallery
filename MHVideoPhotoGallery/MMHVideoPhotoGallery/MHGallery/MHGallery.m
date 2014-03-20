@@ -635,8 +635,6 @@ UIImage *MHGalleryImage(NSString *imageName){
 
 @implementation UIViewController(MHGalleryViewController)
 
-
-
 -(void)presentMHGalleryController:(MHGalleryController *)galleryController
                          animated:(BOOL)animated
                        completion:(void (^)(void))completion{
@@ -705,7 +703,7 @@ UIImage *MHGalleryImage(NSString *imageName){
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
     if ([[(UINavigationController*)dismissed  viewControllers].lastObject isKindOfClass:[MHGalleryImageViewerViewController class]]) {
         MHGalleryImageViewerViewController *imageViewer = [(UINavigationController*)dismissed  viewControllers].lastObject;
-        ImageViewController *viewer = imageViewer.pageViewController.viewControllers.firstObject;
+        MHImageViewController *viewer = imageViewer.pageViewController.viewControllers.firstObject;
        
         if (viewer.interactiveTransition) {
             MHTransitionDismissMHGallery *detail = viewer.interactiveTransition;

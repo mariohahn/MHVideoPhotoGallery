@@ -41,7 +41,7 @@
     
     UIImage *image;
     __block NSNumber *pageIndex;
-    for (ImageViewController *imageViewerIndex in imageViewer.pageViewController.viewControllers) {
+    for (MHImageViewController *imageViewerIndex in imageViewer.pageViewController.viewControllers) {
         if (imageViewerIndex.pageIndex == imageViewer.pageIndex) {
             pageIndex = @(imageViewerIndex.pageIndex);
             image = imageViewerIndex.imageView.image;
@@ -136,9 +136,9 @@
     UIImage *image;
     __block NSNumber *pageIndex;
     
-    ImageViewController *imageViewerCurrent;
+    MHImageViewController *imageViewerCurrent;
     
-    for (ImageViewController *imageViewerIndex in imageViewer.pageViewController.viewControllers) {
+    for (MHImageViewController *imageViewerIndex in imageViewer.pageViewController.viewControllers) {
         if (imageViewerIndex.pageIndex == imageViewer.pageIndex) {
             imageViewerCurrent = imageViewerIndex;
             pageIndex = @(imageViewerIndex.pageIndex);
@@ -327,7 +327,7 @@
         [imageViewer.pageViewController.view setHidden:NO];
         
         if (self.moviePlayer) {
-            ImageViewController *imageViewController = (ImageViewController*)[imageViewer.pageViewController.viewControllers firstObject];
+            MHImageViewController *imageViewController = (MHImageViewController*)[imageViewer.pageViewController.viewControllers firstObject];
             [imageViewController.view insertSubview:self.moviePlayer.view atIndex:2];
         }
         

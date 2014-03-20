@@ -22,7 +22,7 @@
         UIView *containerView = [transitionContext containerView];
         NSTimeInterval duration = [self transitionDuration:transitionContext];
         
-        ImageViewController *imageViewController = [[fromViewController.pageViewController viewControllers]firstObject];
+        MHImageViewController *imageViewController = [[fromViewController.pageViewController viewControllers]firstObject];
         
         
         MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:[containerView convertRect:imageViewController.imageView.frame fromView:imageViewController.imageView.superview]];
@@ -129,7 +129,7 @@
         MHGalleryItem *item = [galleryController.dataSource itemForIndex:toViewController.pageIndex];
         [toViewController updateToolBarForItem:item];
 
-        ImageViewController *ivC =[ImageViewController imageViewControllerForMHMediaItem:item viewController:toViewController];
+        MHImageViewController *ivC =[MHImageViewController imageViewControllerForMHMediaItem:item viewController:toViewController];
         ivC.pageIndex = toViewController.pageIndex;
         
         [toViewController.pageViewController setViewControllers:@[ivC]
