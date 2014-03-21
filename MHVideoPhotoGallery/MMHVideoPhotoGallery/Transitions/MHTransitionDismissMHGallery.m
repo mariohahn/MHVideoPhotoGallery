@@ -47,6 +47,11 @@
             image = imageViewerIndex.imageView.image;
         }
     }
+    if(!image){
+        UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
+        view.backgroundColor = [UIColor whiteColor];
+        image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
+    }
     
     MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:fromViewController.view.bounds];
     cellImageSnapshot.image = image;
