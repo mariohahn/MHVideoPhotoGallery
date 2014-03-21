@@ -5,6 +5,7 @@
 #import "SDWebImageDecoder.h"
 #import <objc/runtime.h>
 
+NSString * const MHYoutubeBaseURL          = @"http://www.youtube.com/watch?v=%@";
 NSString * const MHYoutubeChannel          = @"https://gdata.youtube.com/feeds/api/users/%@/uploads?&max-results=50&alt=json";
 NSString * const MHYoutubePlayBaseURL      = @"https://www.youtube.com/get_video_info?video_id=%@&el=embedded&ps=default&eurl=&gl=US&hl=%@";
 NSString * const MHYoutubeInfoBaseURL      = @"http://gdata.youtube.com/feeds/api/videos/%@?v=2&alt=jsonc";
@@ -99,6 +100,11 @@ UIImage *MHGalleryImage(NSString *imageName){
     self.galleryType = MHGalleryTypeImage;
     self.image = image;
     return self;
+}
+
++ (instancetype)youtubeVideoWithID:(NSString*)ID{
+    return [[[self class] alloc]initWithURL:[NSString stringWithFormat:MHYoutubeBaseURL,ID]
+                                galleryType:MHGalleryTypeVideo];
 }
 
 +(instancetype)itemWithURL:(NSString *)URLString

@@ -36,7 +36,7 @@ extern NSString *const MHVimeoBaseURL;
 extern NSString *const MHVimeoThumbBaseURL;
 extern NSString *const MHYoutubeInfoBaseURL;
 extern NSString *const MHYoutubePlayBaseURL;
-
+extern NSString *const MHYoutubeBaseURL;
 
 
 typedef NS_ENUM(NSUInteger, MHGalleryPresentionStyle) {
@@ -127,6 +127,8 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 + (instancetype)itemWithURL:(NSString*)URLString
                 galleryType:(MHGalleryType)galleryType;
+
++ (instancetype)youtubeVideoWithID:(NSString*)ID;
 
 /**
  *  MHGalleryItem initWithImage
