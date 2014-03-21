@@ -10,7 +10,7 @@
 "overview.title.current"          = "Pregled";
 "overview.menue.item.save"        = "Spremi";
 "shareview.message"               = "Poruka";
-"shareview.mail"                  = "E-Mail";
+"shareview.mail"                  = "E-mail";
 "shareview.save.cameraRoll"       = "Spremi U \nAlbume";
-"shareview.title.select.plural"   = "%@ Fotografije Odabrane";
-"shareview.title.select.singular" = "%@ Fotografija Odabrana";
+"shareview.title.select.plural"   = "Odabrane fotografije: %@";
+"shareview.title.select.singular" = "Odabrane fotografije: %@";
