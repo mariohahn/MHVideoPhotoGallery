@@ -140,16 +140,7 @@
                                                                        target:self
                                                                        action:@selector(sharePressed)];
 
-    
-    UIBarButtonItem *flex = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                         target:self
-                                                                         action:nil];
-    
-    if (item.galleryType == MHGalleryTypeVideo) {
-        self.toolbar.items = @[self.shareBarButton,flex,self.leftBarButton,flex,self.playStopBarButton,flex,self.rightBarButton,flex];
-    }else{
-        self.toolbar.items =@[self.shareBarButton,flex,self.leftBarButton,flex,self.rightBarButton,flex];
-    }
+    [self updateToolBarForItem:item];
     
     if (self.pageIndex == 0) {
         self.leftBarButton.enabled =NO;
