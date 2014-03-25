@@ -123,7 +123,10 @@
     self.toolbar.tag = 307;
     self.toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     
-    self.playStopBarButton = [[UIBarButtonItem alloc]initWithImage:MHGalleryImage(@"play") style:UIBarButtonItemStyleBordered target:self action:@selector(playStopButtonPressed)];
+    self.playStopBarButton = [[UIBarButtonItem alloc]initWithImage:MHGalleryImage(@"play")
+                                                             style:UIBarButtonItemStyleBordered
+                                                            target:self
+                                                            action:@selector(playStopButtonPressed)];
     
     
     self.leftBarButton = [[UIBarButtonItem alloc]initWithImage:MHGalleryImage(@"left_arrow")
@@ -244,10 +247,10 @@
         
         self.descriptionView.frame = CGRectMake(10, self.view.frame.size.height -size.height-44, self.view.frame.size.width-20, size.height);
         if (self.descriptionView.text.length >0) {
-            [self.descriptionViewBackground setHidden:NO];
+            self.descriptionViewBackground.hidden =NO;
             self.descriptionViewBackground.frame = CGRectMake(0, self.view.frame.size.height -size.height-44, self.view.frame.size.width, size.height);
         }else{
-            [self.descriptionViewBackground setHidden:YES];
+            self.descriptionViewBackground.hidden =YES;
         }
     }
 }
@@ -264,17 +267,13 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
     NSInteger pageIndex =self.pageIndex;
-    
-    [self updateDescriptionLabelForIndex:pageIndex];
-    
     if (scrollView.contentOffset.x > (self.view.frame.size.width+self.view.frame.size.width/2)) {
         pageIndex++;
-        [self updateDescriptionLabelForIndex:pageIndex];
     }
     if (scrollView.contentOffset.x < self.view.frame.size.width/2) {
         pageIndex--;
-        [self updateDescriptionLabelForIndex:pageIndex];
     }
+    [self updateDescriptionLabelForIndex:pageIndex];
     [self updateTitleForIndex:pageIndex];
     
 }
