@@ -239,8 +239,9 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic,strong) NSArray                            *galleryItems;
 @property (nonatomic,strong) MHTransitionCustomization          *transitionCustomization;
 @property (nonatomic,strong) MHUICustomization                  *UICustomization;
-@property (nonatomic,strong) MHTransitionPresentMHGallery       *interactivePresentationTranstion;
+@property (nonatomic,strong) MHTransitionPresentMHGallery       *interactivePresentationTransition;
 @property (nonatomic,assign) MHGalleryPresentionStyle           presentationStyle;
+@property (nonatomic,assign) UIStatusBarStyle                   preferredStatusBarStyleMH;
 
 - (id)initWithPresentationStyle:(MHGalleryPresentionStyle)presentationStyle;
 

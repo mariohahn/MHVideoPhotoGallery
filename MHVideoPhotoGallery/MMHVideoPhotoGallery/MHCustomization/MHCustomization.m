@@ -33,7 +33,7 @@
         self.barStyle = UIBarStyleDefault;
         self.barTintColor = nil;
 		self.showMHShareViewInsteadOfActivityViewController = YES;
-        self.useCustomBackButtomImageOnImageViewer = YES;
+        self.useCustomBackButtonImageOnImageViewer = YES;
         self.showOverView = YES;
         self.backgroundColorsForViewModes = [NSMutableDictionary  dictionaryWithDictionary:@{@"0":[UIColor blackColor],
                                                                                              @"1" :[UIColor whiteColor],

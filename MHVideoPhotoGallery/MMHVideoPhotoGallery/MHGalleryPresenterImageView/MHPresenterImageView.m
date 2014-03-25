@@ -108,7 +108,7 @@
     gallery.galleryItems = self.galleryItems;
     gallery.presentingFromImageView = self;
     gallery.presentationIndex =  self.currentImageIndex;
-    gallery.interactivePresentationTranstion = self.presenter;
+    gallery.interactivePresentationTransition = self.presenter;
     if (self.finishedCallback) {
        gallery.finishedCallback = self.finishedCallback;
     }

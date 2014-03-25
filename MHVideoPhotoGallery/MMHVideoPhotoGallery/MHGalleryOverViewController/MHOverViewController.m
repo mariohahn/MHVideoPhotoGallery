@@ -65,6 +65,16 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return self.gallerViewController.preferredStatusBarStyleMH;
+}
+
 -(UICollectionViewFlowLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation{
     if (orientation == UIInterfaceOrientationPortrait ) {
         return self.gallerViewController.UICustomization.overViewCollectionViewLayoutPortrait;
@@ -73,7 +83,7 @@
 }
 
 -(MHGalleryController*)gallerViewController{
-    return  (MHGalleryController*)self.navigationController;
+    return (MHGalleryController*)self.navigationController;
 }
 
 

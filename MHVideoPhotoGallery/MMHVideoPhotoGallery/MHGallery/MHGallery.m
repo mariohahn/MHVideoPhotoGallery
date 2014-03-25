@@ -593,6 +593,8 @@ UIImage *MHGalleryImage(NSString *imageName){
     self = [super init];
     if (!self)
         return nil;
+    
+    self.preferredStatusBarStyleMH = UIStatusBarStyleDefault;
     self.presentationStyle = presentationStyle;
     self.transitionCustomization = [MHTransitionCustomization new];
     self.UICustomization = [MHUICustomization new];
@@ -624,9 +626,9 @@ UIImage *MHGalleryImage(NSString *imageName){
     self.imageViewerViewController.presentingFromImageView = presentingFromImageView;
     _presentingFromImageView = presentingFromImageView;
 }
--(void)setInteractivePresentationTranstion:(MHTransitionPresentMHGallery *)interactivePresentationTranstion{
+-(void)setInteractivePresentationTransition:(MHTransitionPresentMHGallery *)interactivePresentationTranstion{
     self.imageViewerViewController.interactivePresentationTranstion = interactivePresentationTranstion;
-    _interactivePresentationTranstion = interactivePresentationTranstion;
+    _interactivePresentationTransition = interactivePresentationTranstion;
 }
 
 -(MHGalleryItem *)itemForIndex:(NSInteger)index{
@@ -645,7 +647,8 @@ UIImage *MHGalleryImage(NSString *imageName){
                          animated:(BOOL)animated
                        completion:(void (^)(void))completion{
    
-    if(galleryController.UICustomization.useCustomBackButtomImageOnImageViewer){
+    
+    if(galleryController.UICustomization.useCustomBackButtonImageOnImageViewer){
         UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc]initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
                                                                          style:UIBarButtonItemStyleBordered
                                                                         target:self

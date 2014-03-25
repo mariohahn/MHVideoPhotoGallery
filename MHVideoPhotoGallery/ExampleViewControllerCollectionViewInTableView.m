@@ -21,6 +21,10 @@
 
 @implementation UINavigationController (autoRotate)
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return [self.viewControllers.lastObject preferredStatusBarStyle];
+}
+
 - (BOOL)shouldAutorotate {
     return [self.viewControllers.lastObject shouldAutorotate];
 }
@@ -107,7 +111,20 @@
                                ];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.83 green:0.84 blue:0.86 alpha:1];
     [self.tableView reloadData];
+    
+    [self setNeedsStatusBarAppearanceUpdate];
+    
 }
+
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    if ([self.presentedViewController isKindOfClass:[MHGalleryController class]]) {
+        MHGalleryController *gallerController = (MHGalleryController*)self.presentedViewController;
+        return gallerController.preferredStatusBarStyleMH;
+    }
+    return UIStatusBarStyleDefault;
+}
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return self.galleryDataSource.count;
@@ -203,6 +220,8 @@
             
             [blockGallery dismissViewControllerAnimated:YES dismissImageView:cell.thumbnail completion:^{
                 
+                [self setNeedsStatusBarAppearanceUpdate];
+
                 MPMoviePlayerController *player = interactiveTransition.moviePlayer;
                 
                 player.controlStyle = MPMovieControlStyleEmbedded;

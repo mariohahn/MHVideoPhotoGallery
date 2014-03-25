@@ -25,11 +25,11 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
 
 @interface MHUICustomization : NSObject
 
-@property (nonatomic,)       UIBarStyle barStyle;
+@property (nonatomic)        UIBarStyle barStyle;
 @property (nonatomic,strong) UIColor *barTintColor;
 @property (nonatomic,strong) UIColor *barButtonsTintColor;
 @property (nonatomic)        BOOL showMHShareViewInsteadOfActivityViewController;
-@property (nonatomic)        BOOL useCustomBackButtomImageOnImageViewer;
+@property (nonatomic)        BOOL useCustomBackButtonImageOnImageViewer;
 @property (nonatomic)        BOOL showOverView;
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutLandscape;
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutPortrait;
