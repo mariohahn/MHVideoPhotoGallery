@@ -50,7 +50,7 @@
     
     
     self.title = @"CollectionInTable";
-
+    
     MHGalleryItem *localVideo = [[MHGalleryItem alloc]initWithURL:[[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Sydney-iPhone" ofType:@"m4v"]] absoluteString]
                                                       galleryType:MHGalleryTypeVideo];
     
@@ -63,12 +63,12 @@
                                                   galleryType:MHGalleryTypeVideo];
     MHGalleryItem *vimeo3 = [[MHGalleryItem alloc]initWithURL:@"http://vimeo.com/66841007"
                                                   galleryType:MHGalleryTypeVideo];
-   
+    
     MHGalleryItem *landschaft = [[MHGalleryItem alloc]initWithURL:@"http://alles-bilder.de/landschaften/HD%20Landschaftsbilder%20(47).jpg"
-                                                 galleryType:MHGalleryTypeImage];
+                                                      galleryType:MHGalleryTypeImage];
     
     MHGalleryItem *landschaft1 = [[MHGalleryItem alloc]initWithURL:@"http://de.flash-screen.com/free-wallpaper/bezaubernde-landschaftsabbildung-hd/hd-bezaubernde-landschaftsder-tapete,1920x1200,56420.jpg"
-                                                      galleryType:MHGalleryTypeImage];
+                                                       galleryType:MHGalleryTypeImage];
     
     MHGalleryItem *landschaft2 = [[MHGalleryItem alloc]initWithURL:@"http://alles-bilder.de/landschaften/HD%20Landschaftsbilder%20(64).jpg"
                                                        galleryType:MHGalleryTypeImage];
@@ -95,7 +95,7 @@
                                                        galleryType:MHGalleryTypeImage];
     
     MHGalleryItem *landschaft10 = [[MHGalleryItem alloc]initWithURL:@"http://4.bp.blogspot.com/-8O0ZkAgb6Bo/Ulf_80tUN6I/AAAAAAAAH34/I1L2lKjzE9M/s1600/Beautiful-Scenery-Wallpapers.jpg"
-                                                       galleryType:MHGalleryTypeImage];
+                                                        galleryType:MHGalleryTypeImage];
     
     
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc]initWithString:@"Awesome!!\nOr isn't it?"];
@@ -196,40 +196,45 @@
     UIImageView *imageView = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] thumbnail];
     
     NSArray *galleryData = self.galleryDataSource[collectionView.tag];
-        
+    
     MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryViewModeImageViewerNavigationBarShown];
     gallery.galleryItems = galleryData;
     gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
-   // gallery.galleryDelegate = self;
-   // gallery.dataSource = self;
+    // gallery.galleryDelegate = self;
+    // gallery.dataSource = self;
     __block MHGalleryController *blockGallery = gallery;
     
-    gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition){
-        
-        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:currentIndex inSection:0];
-        CGRect cellFrame  = [[collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:newIndexPath].frame;
-        [collectionView scrollRectToVisible:cellFrame
-                                   animated:NO];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [collectionView reloadItemsAtIndexPaths:@[newIndexPath]];
-            [collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-            
-            MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:newIndexPath];
-            
-            [blockGallery dismissViewControllerAnimated:YES dismissImageView:cell.thumbnail completion:^{
-                
+    gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode){
+        if (viewMode == MHGalleryViewModeOverView) {
+            [blockGallery dismissViewControllerAnimated:YES completion:^{
                 [self setNeedsStatusBarAppearanceUpdate];
-
-                MPMoviePlayerController *player = interactiveTransition.moviePlayer;
-                
-                player.controlStyle = MPMovieControlStyleEmbedded;
-                player.view.frame = cell.bounds;
-                player.scalingMode = MPMovieScalingModeAspectFill;
-                [cell.contentView addSubview:player.view];
             }];
-        });
+        }else{
+            NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:currentIndex inSection:0];
+            CGRect cellFrame  = [[collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:newIndexPath].frame;
+            [collectionView scrollRectToVisible:cellFrame
+                                       animated:NO];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [collectionView reloadItemsAtIndexPaths:@[newIndexPath]];
+                [collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+                
+                MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:newIndexPath];
+                
+                [blockGallery dismissViewControllerAnimated:YES dismissImageView:cell.thumbnail completion:^{
+                    
+                    [self setNeedsStatusBarAppearanceUpdate];
+                    
+                    MPMoviePlayerController *player = interactiveTransition.moviePlayer;
+                    
+                    player.controlStyle = MPMovieControlStyleEmbedded;
+                    player.view.frame = cell.bounds;
+                    player.scalingMode = MPMovieScalingModeAspectFill;
+                    [cell.contentView addSubview:player.view];
+                }];
+            });
+        }
     };
     [self presentMHGalleryController:gallery animated:YES completion:nil];
 }

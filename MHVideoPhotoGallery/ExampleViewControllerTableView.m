@@ -111,7 +111,7 @@
     
     __block MHGalleryController *blockGallery = gallery;
     
-    gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition){
+    gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode){
         
         NSIndexPath *newIndex = [NSIndexPath indexPathForRow:currentIndex inSection:0];
         

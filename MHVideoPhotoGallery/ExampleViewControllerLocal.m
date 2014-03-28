@@ -109,7 +109,7 @@
         
         __block MHGalleryController *blockGallery = gallery;
         
-        gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition){
+        gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode){
             [blockGallery dismissViewControllerAnimated:YES dismissImageView:nil completion:nil];
         };
         

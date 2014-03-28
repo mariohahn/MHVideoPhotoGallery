@@ -72,7 +72,14 @@
     MHTransitionDismissMHGallery *dismissTransiton = [MHTransitionDismissMHGallery new];
     dismissTransiton.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     imageViewer.interactiveTransition = dismissTransiton;
-    gallery.finishedCallback(self.pageIndex,imageViewer.imageView.image,dismissTransiton);
+    gallery.finishedCallback(self.pageIndex,imageViewer.imageView.image,dismissTransiton,self.viewModeForBarStyle);
+}
+
+-(MHGalleryViewMode)viewModeForBarStyle{
+    if (self.isHiddingToolBarAndNavigationBar) {
+        return MHGalleryViewModeImageViewerNavigationBarHidden;
+    }
+    return MHGalleryViewModeImageViewerNavigationBarShown;
 }
 
 -(void)viewDidLoad{
@@ -615,7 +622,7 @@
                 self.interactiveTransition.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
                 self.interactiveTransition.interactive = YES;
                 
-                self.viewController.galleryViewController.finishedCallback(self.pageIndex,self.imageView.image,self.interactiveTransition);
+                self.viewController.galleryViewController.finishedCallback(self.pageIndex,self.imageView.image,self.interactiveTransition,self.viewController.viewModeForBarStyle);
                 
             }else{
                 CGPoint currentPoint = [recognizer translationInView:self.view];

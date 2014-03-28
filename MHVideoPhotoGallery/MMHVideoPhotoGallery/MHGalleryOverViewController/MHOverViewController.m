@@ -96,7 +96,8 @@
 }
 -(void)donePressed{
     self.navigationController.transitioningDelegate = nil;
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    self.galleryViewController.finishedCallback(0,nil,nil,MHGalleryViewModeOverView);
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{

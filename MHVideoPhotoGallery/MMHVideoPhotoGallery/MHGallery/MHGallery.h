@@ -240,7 +240,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 - (id)initWithPresentationStyle:(MHGalleryViewMode)presentationStyle;
 
-@property (nonatomic, copy) void (^finishedCallback)(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition);
+@property (nonatomic, copy) void (^finishedCallback)(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode);
 
 @end
 

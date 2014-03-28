@@ -66,10 +66,14 @@
     
     __block ExampleViewControllerImageView *blockSelf = self;
 
-    [self.iv setInseractiveGalleryPresentionWithItems:galleryItems currentImageIndex:0 currentViewController:self finishCallback:^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition) {
-        blockSelf.iv.image = image;
-        blockSelf.iv.currentImageIndex = currentIndex;
-        [blockSelf.presentedViewController dismissViewControllerAnimated:YES dismissImageView:blockSelf.iv completion:nil];
+    [self.iv setInseractiveGalleryPresentionWithItems:galleryItems currentImageIndex:0 currentViewController:self finishCallback:^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode) {
+        if (viewMode == MHGalleryViewModeOverView) {
+            [blockSelf dismissViewControllerAnimated:YES completion:nil];
+        }else{
+            blockSelf.iv.image = image;
+            blockSelf.iv.currentImageIndex = currentIndex;
+            [blockSelf.presentedViewController dismissViewControllerAnimated:YES dismissImageView:blockSelf.iv completion:nil];
+        }
     }];
     
     
