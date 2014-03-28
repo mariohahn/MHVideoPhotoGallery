@@ -39,11 +39,6 @@ extern NSString *const MHYoutubePlayBaseURL;
 extern NSString *const MHYoutubeBaseURL;
 
 
-typedef NS_ENUM(NSUInteger, MHGalleryPresentionStyle) {
-    MHGalleryPresentionStyleOverView,
-    MHGalleryPresentionStyleImageViewer
-};
-
 typedef NS_ENUM(NSUInteger, MHAssetImageType) {
     MHAssetImageTypeFull,
     MHAssetImageTypeThumb
@@ -89,6 +84,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
     MHYoutubeThumbQualitySQ
 };
 
+
 @interface MHShareItem : NSObject
 @property (nonatomic,strong) NSString *imageName;
 @property (nonatomic,strong) NSString *title;
@@ -128,7 +124,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 + (instancetype)itemWithURL:(NSString*)URLString
                 galleryType:(MHGalleryType)galleryType;
 
-+ (instancetype)youtubeVideoWithID:(NSString*)ID;
++ (instancetype)itemWithYoutubeVideoID:(NSString*)ID;
 
 /**
  *  MHGalleryItem initWithImage
@@ -143,7 +139,6 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 
 @interface MHGallerySharedManager : NSObject
 
-@property (nonatomic,assign) UIStatusBarStyle oldStatusBarStyle;
 /**
  *  default is MHYoutubeThumbQualityHQ
  */
@@ -240,10 +235,10 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 @property (nonatomic,strong) MHTransitionCustomization          *transitionCustomization;
 @property (nonatomic,strong) MHUICustomization                  *UICustomization;
 @property (nonatomic,strong) MHTransitionPresentMHGallery       *interactivePresentationTransition;
-@property (nonatomic,assign) MHGalleryPresentionStyle           presentationStyle;
+@property (nonatomic,assign) MHGalleryViewMode                  presentationStyle;
 @property (nonatomic,assign) UIStatusBarStyle                   preferredStatusBarStyleMH;
 
-- (id)initWithPresentationStyle:(MHGalleryPresentionStyle)presentationStyle;
+- (id)initWithPresentationStyle:(MHGalleryViewMode)presentationStyle;
 
 @property (nonatomic, copy) void (^finishedCallback)(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition);
 

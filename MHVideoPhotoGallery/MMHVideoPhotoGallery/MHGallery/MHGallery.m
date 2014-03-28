@@ -102,7 +102,7 @@ UIImage *MHGalleryImage(NSString *imageName){
     return self;
 }
 
-+ (instancetype)youtubeVideoWithID:(NSString*)ID{
++ (instancetype)itemWithYoutubeVideoID:(NSString*)ID{
     return [[[self class] alloc]initWithURL:[NSString stringWithFormat:MHYoutubeBaseURL,ID]
                                 galleryType:MHGalleryTypeVideo];
 }
@@ -589,7 +589,7 @@ UIImage *MHGalleryImage(NSString *imageName){
 
 @implementation MHGalleryController
 
-- (id)initWithPresentationStyle:(MHGalleryPresentionStyle)presentationStyle{
+- (id)initWithPresentationStyle:(MHGalleryViewMode)presentationStyle{
     self = [super init];
     if (!self)
         return nil;
@@ -602,7 +602,7 @@ UIImage *MHGalleryImage(NSString *imageName){
     self.overViewViewController= [MHOverViewController new];    
     self.imageViewerViewController = [MHGalleryImageViewerViewController new];
     
-    if (presentationStyle == MHGalleryPresentionStyleImageViewer) {
+    if (presentationStyle != MHGalleryViewModeOverView) {
         self.viewControllers = @[self.overViewViewController,self.imageViewerViewController];
     }else{
         self.viewControllers = @[self.overViewViewController];
@@ -670,7 +670,9 @@ UIImage *MHGalleryImage(NSString *imageName){
     if (!galleryController.dataSource) {
         galleryController.dataSource = galleryController;
     }
-    
+    if (galleryController.presentationStyle == MHGalleryViewModeImageViewerNavigationBarHidden) {
+        galleryController.imageViewerViewController.hiddingToolBarAndNavigationBar = YES;
+    }
     [self presentViewController:galleryController animated:YES completion:completion];
 }
 

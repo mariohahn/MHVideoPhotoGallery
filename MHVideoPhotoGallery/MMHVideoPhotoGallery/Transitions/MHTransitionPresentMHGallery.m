@@ -23,6 +23,17 @@
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
         
     MHGalleryController *toViewController = (MHGalleryController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    MHGalleryImageViewerViewController *imageViewer;
+    if (toViewController.presentationStyle == MHGalleryViewModeImageViewerNavigationBarHidden) {
+        imageViewer = toViewController.viewControllers.lastObject;
+        toViewController.navigationBar.hidden = YES;
+        imageViewer.descriptionView.alpha = 0;
+        imageViewer.descriptionViewBackground.alpha = 0;
+        imageViewer.toolbar.alpha = 0;
+        imageViewer.statusBarObject.alpha =0;
+        imageViewer.view.backgroundColor = [toViewController.UICustomization MHGalleryBackgroundColorForViewMode:toViewController.presentationStyle];
+    }
+
     
     UIView *containerView = [transitionContext containerView];
     NSTimeInterval duration = [self transitionDuration:transitionContext];
@@ -36,7 +47,7 @@
     
     
     UIView *backView = [[UIView alloc]initWithFrame:toViewController.view.frame];
-    backView.backgroundColor = [toViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
+    backView.backgroundColor = [toViewController.UICustomization MHGalleryBackgroundColorForViewMode:toViewController.presentationStyle];
     backView.alpha =0;
     
     [containerView addSubview:backView];
@@ -51,6 +62,7 @@
                                     finished:^(BOOL finished) {
                                     }];
     }
+    
     if(self.presentingImageView.contentMode == UIViewContentModeScaleAspectFit){
         cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
     }
@@ -61,6 +73,10 @@
         }
         backView.alpha =1;
     } completion:^(BOOL finished) {
+        if (toViewController.presentationStyle == MHGalleryViewModeImageViewerNavigationBarHidden) {
+            imageViewer.descriptionViewBackground.alpha = 0;
+        }
+
         [UIView animateWithDuration:0.1 animations:^{
             cellImageSnapshot.transform = CGAffineTransformScale(CGAffineTransformIdentity,1.02,1.02);
         } completion:^(BOOL finished) {

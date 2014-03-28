@@ -36,7 +36,8 @@
     [self setNeedsStatusBarAppearanceUpdate];
 
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    [[UIApplication sharedApplication] setStatusBarStyle:self.galleryViewController.preferredStatusBarStyleMH
+                                                animated:YES];
     
     if (![self.descriptionViewBackground isDescendantOfView:self.view]) {
         [self.view addSubview:self.descriptionViewBackground];
@@ -80,8 +81,7 @@
     if (!self.galleryViewController.UICustomization.showOverView) {
         self.navigationItem.hidesBackButton = YES;
     }
-    
-    
+        
     UIBarButtonItem *doneBarButton =  [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                    target:self
                                                                                    action:@selector(donePressed)];
@@ -435,7 +435,11 @@
     return imageViewController;
 }
 
-
+-(MHImageViewController*)imageViewControllerWithItem:(MHGalleryItem*)item pageIndex:(NSInteger)pageIndex{
+    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:pageIndex] viewController:self];
+    imageViewController.pageIndex  = pageIndex;
+    return imageViewController;
+}
 - (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerAfterViewController:(MHImageViewController *)vc{
     
     
@@ -465,6 +469,16 @@
     self.pageViewController.view.bounds = self.view.bounds;
     [[self.pageViewController.view.subviews firstObject] setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
     
+}
+
+-(UIView*)statusBarObject{
+    NSString *key = [[NSString alloc] initWithData:[NSData dataWithBytes:(unsigned char []){0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0x61, 0x72} length:9] encoding:NSASCIIStringEncoding];
+    id object = [UIApplication sharedApplication];
+    UIView *statusBar;
+    if ([object respondsToSelector:NSSelectorFromString(key)]) {
+        statusBar = [object valueForKey:key];
+    }
+    return statusBar;
 }
 
 @end
@@ -637,7 +651,7 @@
                 }
                 
                 if (progressY > 0.35 || velocityY >700) {
-                    [[self statusBarObject] setAlpha:1];
+                    self.viewController.statusBarObject.alpha =1;
                     [self.interactiveTransition finishInteractiveTransition];
                 }else {
                     [self setNeedsStatusBarAppearanceUpdate];
@@ -826,6 +840,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    
     if (!self.moviePlayer && self.item.galleryType == MHGalleryTypeVideo) {
         if ([self.item.URLString rangeOfString:@"vimeo.com"].location != NSNotFound) {
             [[MHGallerySharedManager sharedManager] getVimeoURLforMediaPlayer:self.item.URLString
@@ -1198,7 +1213,7 @@
     }
     self.moviePlayer.shouldAutoplay =NO;
     self.moviePlayer.view.frame =self.view.bounds;
-    [self.moviePlayer.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    self.moviePlayer.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.moviePlayer.view.hidden = YES;
     
     [self.view addSubview: self.moviePlayer.view];
@@ -1251,7 +1266,7 @@
         
         self.scrollView.backgroundColor = [self.viewController.galleryViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
         self.act.color = [UIColor whiteColor];
-        [self.moviePlayerToolBarTop setAlpha:0];
+        self.moviePlayerToolBarTop.alpha =0;
     }else{
         
         if (self.moviePlayer) {
@@ -1260,7 +1275,7 @@
         if (self.moviePlayerToolBarTop) {
             if (self.item.galleryType == MHGalleryTypeVideo) {
                 if (self.videoWasPlayable && self.wholeTimeMovie >0) {
-                    [self.moviePlayerToolBarTop setAlpha:1];
+                    self.moviePlayerToolBarTop.alpha =1;
                 }
             }
         }
@@ -1298,16 +1313,6 @@
     }
 }
 
--(UIView*)statusBarObject{
-    NSString *key = [[NSString alloc] initWithData:[NSData dataWithBytes:(unsigned char []){0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0x61, 0x72} length:9] encoding:NSASCIIStringEncoding];
-    id object = [UIApplication sharedApplication];
-    UIView *statusBar;
-    if ([object respondsToSelector:NSSelectorFromString(key)]) {
-        statusBar = [object valueForKey:key];
-    }
-    return statusBar;
-}
-
 -(void)handelImageTap:(UIGestureRecognizer *)gestureRecognizer{
     if (!self.viewController.isHiddingToolBarAndNavigationBar) {
         [UIView animateWithDuration:0.3 animations:^{
@@ -1325,7 +1330,7 @@
             
             self.viewController.descriptionView.alpha =0;
             self.viewController.descriptionViewBackground.alpha =0;
-            self.statusBarObject.alpha =0 ;
+            self.viewController.statusBarObject.alpha =0;
         } completion:^(BOOL finished) {
             
             self.viewController.hiddingToolBarAndNavigationBar = YES;
@@ -1349,7 +1354,7 @@
                     self.moviePlayerToolBarTop.alpha =1;
                 }
             }
-            self.statusBarObject.alpha =1;
+            self.viewController.statusBarObject.alpha =1;
             self.viewController.descriptionView.alpha =1;
             self.viewController.descriptionViewBackground.alpha =1;
         } completion:^(BOOL finished) {

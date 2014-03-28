@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Mario Hahn. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
     MHGalleryViewModeImageViewerNavigationBarHidden =0,
     MHGalleryViewModeImageViewerNavigationBarShown =1,

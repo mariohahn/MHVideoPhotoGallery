@@ -13,6 +13,7 @@
 @property (nonatomic,strong) UIToolbar *toolbar;
 @property (nonatomic,strong) UITextView *descriptionLabel;
 @property (nonatomic,strong) UIToolbar *descriptionViewBackgroundToolbar;
+@property (nonatomic,strong) MHOverViewController *toViewController;
 @property (nonatomic,strong) MHGalleryOverViewCell *cellInteractive;
 @property (nonatomic,strong) MHUIImageViewContentViewAnimation *transitionImageView;
 @property (nonatomic,strong) UIView *backView;
@@ -119,13 +120,13 @@
     self.context = transitionContext;
     
     MHGalleryImageViewerViewController *fromViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    MHOverViewController *toViewController = (MHOverViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    self.toViewController = (MHOverViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     UIView *containerView = [transitionContext containerView];
     
     
     UIImageView *iv =  (UIImageView*)[[[fromViewController.pageViewController.viewControllers firstObject] view]viewWithTag:506];
-    toViewController.currentPage =  [[fromViewController.pageViewController.viewControllers firstObject] pageIndex];
+    self.toViewController.currentPage =  [[fromViewController.pageViewController.viewControllers firstObject] pageIndex];
     self.transitionImageView = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height)];
     self.transitionImageView.image = iv.image;
     self.transitionImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -141,11 +142,15 @@
     
     self.startFrame = self.transitionImageView.frame;
     
-    toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
-    [containerView addSubview:toViewController.view];
+    self.toViewController.view.frame = [transitionContext finalFrameForViewController:self.toViewController];
+    [containerView addSubview:self.toViewController.view];
     
-    self.backView = [[UIView alloc]initWithFrame:toViewController.view.frame];
-    self.backView.backgroundColor = [UIColor whiteColor];
+    MHGalleryController *galleryViewController = (MHGalleryController*)fromViewController.navigationController;
+    
+
+    
+    self.backView = [[UIView alloc]initWithFrame:self.toViewController.view.frame];
+    self.backView.backgroundColor = [galleryViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
     
     [containerView addSubview:self.backView];
     [containerView addSubview:self.transitionImageView];
@@ -165,22 +170,23 @@
         [containerView addSubview:self.toolbar];
         [containerView addSubview:self.descriptionLabel];
     }else{
-        [toViewController.navigationController.navigationBar setHidden:NO];
-        self.backView.backgroundColor = [UIColor blackColor];
+        self.backView.backgroundColor = [galleryViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
+        self.toViewController.navigationController.navigationBar.hidden = NO;
+        self.toViewController.navigationController.navigationBar.alpha = 0;
     }
     
-    CGRect cellFrame  = [toViewController.collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]].frame;
+    CGRect cellFrame  = [self.toViewController.collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:self.toViewController.currentPage inSection:0]].frame;
     
-    [toViewController.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]
+    [self.toViewController.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.toViewController.currentPage inSection:0]
                                 atScrollPosition:UICollectionViewScrollPositionCenteredVertically
                                         animated:NO];
     
-    [toViewController.collectionView scrollRectToVisible:cellFrame
+    [self.toViewController.collectionView scrollRectToVisible:cellFrame
                                     animated:NO];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.cellInteractive = (MHGalleryOverViewCell*)[toViewController.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]];
-        [self.cellInteractive.thumbnail setHidden:YES];
+        self.cellInteractive = (MHGalleryOverViewCell*)[self.toViewController.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.toViewController.currentPage inSection:0]];
+        self.cellInteractive.thumbnail.hidden = YES;
         
         BOOL videoIconsHidden = YES;
         if (!self.cellInteractive.videoGradient.isHidden) {
@@ -198,11 +204,12 @@
     CGRect frame = self.transitionImageView.frame;
     self.transitionImageView.transform = CGAffineTransformIdentity;
     self.transitionImageView.frame = frame;
-    
+    MHGalleryImageViewerViewController *fromViewController = (MHGalleryImageViewerViewController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
+
     [UIView animateWithDuration:0.3 animations:^{
         if (self.isHiddingToolBarAndNavigationBar) {
-            MHOverViewController *toViewController = (MHOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
-            toViewController.navigationController.navigationBar.alpha = 1;
+            self.toViewController.navigationController.navigationBar.alpha = 1;
+            fromViewController.statusBarObject.alpha =1;
         }
         self.toolbar.alpha = 0;
         self.descriptionLabel.alpha =0;
@@ -211,7 +218,7 @@
         self.transitionImageView.frame = [containerView convertRect:self.cellInteractive.thumbnail.frame fromView:self.cellInteractive.thumbnail.superview];
         self.transitionImageView.contentMode = UIViewContentModeScaleAspectFill;
     } completion:^(BOOL finished) {
-        [self.cellInteractive.thumbnail setHidden:NO];
+        self.cellInteractive.thumbnail.hidden =NO;
         [self.descriptionLabel removeFromSuperview];
         [self.toolbar removeFromSuperview];
         [self.transitionImageView removeFromSuperview];
@@ -232,8 +239,7 @@
     
     [UIView animateWithDuration:0.4 animations:^{
         if (self.isHiddingToolBarAndNavigationBar) {
-            MHOverViewController *toViewController = (MHOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
-            toViewController.navigationController.navigationBar.alpha = 0;
+            self.toViewController.navigationController.navigationBar.alpha = 0;
         }
         self.backView.alpha =1;
         self.toolbar.alpha = 1;
@@ -243,8 +249,7 @@
         self.transitionImageView.frame = self.startFrame;
     } completion:^(BOOL finished) {
         if (self.isHiddingToolBarAndNavigationBar) {
-            MHOverViewController *toViewController = (MHOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
-            [toViewController.navigationController.navigationBar setHidden:YES];
+            self.toViewController.navigationController.navigationBar.hidden = YES;
         }
         [self.cellInteractive.thumbnail setHidden:NO];
         [self.backView removeFromSuperview];
@@ -259,17 +264,20 @@
 
 -(void)updateInteractiveTransition:(CGFloat)percentComplete{
     [super updateInteractiveTransition:percentComplete];
+
     if (!self.isHiddingToolBarAndNavigationBar) {
         self.toolbar.alpha = 1-percentComplete;
         self.descriptionLabel.alpha = 1-percentComplete;
         self.descriptionViewBackgroundToolbar.alpha = 1-percentComplete;
     }else{
-        MHOverViewController *toViewController = (MHOverViewController*)[self.context viewControllerForKey:UITransitionContextToViewControllerKey];
-        toViewController.navigationController.navigationBar.alpha = percentComplete;
+        self.toViewController.navigationController.navigationBar.alpha = percentComplete;
     }
+    
     self.backView.alpha = 1-percentComplete;
+
     self.transitionImageView.transform = CGAffineTransformMakeScale(self.scale, self.scale);
     self.transitionImageView.center = CGPointMake(self.transitionImageView.center.x-self.changedPoint.x, self.transitionImageView.center.y-self.changedPoint.y);
+
 
 }
 @end

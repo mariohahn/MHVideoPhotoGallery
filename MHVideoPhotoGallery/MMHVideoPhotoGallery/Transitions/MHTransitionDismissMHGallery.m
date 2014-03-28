@@ -118,8 +118,6 @@
         } completion:^(BOOL finished) {
             self.transitionImageView.hidden = NO;
             [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
-            
-            [[UIApplication sharedApplication] setStatusBarStyle:[MHGallerySharedManager sharedManager].oldStatusBarStyle];
         }];
         
     });
@@ -243,6 +241,10 @@
 -(void)finishInteractiveTransition{
     [super finishInteractiveTransition];
     
+    MHGalleryController *fromViewController = (MHGalleryController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
+    
+    MHGalleryImageViewerViewController *imageViewer  = (MHGalleryImageViewerViewController*)fromViewController.visibleViewController;
+    
     CGFloat delayTime  = 0.0;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
         [UIView animateWithDuration:0.2 animations:^{
@@ -269,7 +271,8 @@
         }
         
         [UIView animateWithDuration:0.3 animations:^{
-            
+            imageViewer.statusBarObject.alpha =1;
+
             if (self.moviePlayer) {
                 self.moviePlayer.view.frame = [self.containerView convertRect:self.transitionImageView.frame fromView:self.transitionImageView.superview];
             }else{
@@ -285,7 +288,6 @@
             [self.backView removeFromSuperview];
             [self.context completeTransition:!self.context.transitionWasCancelled];
             self.context = nil;
-            [[UIApplication sharedApplication] setStatusBarStyle:[MHGallerySharedManager sharedManager].oldStatusBarStyle];
         }];
     });
     

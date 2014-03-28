@@ -102,7 +102,7 @@
     NSArray *galleryData = section.galleryItems;
     if (galleryData.count >0) {
         
-        MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryPresentionStyleOverView];
+        MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryViewModeOverView];
         gallery.galleryItems = galleryData;
         gallery.presentationIndex = indexPath.row;
         gallery.transitionCustomization.interactiveDismiss = NO;

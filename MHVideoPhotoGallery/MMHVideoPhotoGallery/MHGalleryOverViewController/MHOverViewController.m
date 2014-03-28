@@ -38,7 +38,7 @@
     self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds
                                             collectionViewLayout:[self layoutForOrientation:UIApplication.sharedApplication.statusBarOrientation]];
     
-    self.collectionView.backgroundColor = [self.gallerViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeOverView];
+    self.collectionView.backgroundColor = [self.galleryViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeOverView];
     self.collectionView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
     [self.collectionView registerClass:[MHGalleryOverViewCell class]
@@ -69,26 +69,30 @@
     [super viewWillAppear:animated];
     
     [self setNeedsStatusBarAppearanceUpdate];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:self.galleryViewController.preferredStatusBarStyleMH
+                                                animated:YES];
+
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
-    return self.gallerViewController.preferredStatusBarStyleMH;
+    return self.galleryViewController.preferredStatusBarStyleMH;
 }
 
 -(UICollectionViewFlowLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation{
     if (orientation == UIInterfaceOrientationPortrait ) {
-        return self.gallerViewController.UICustomization.overViewCollectionViewLayoutPortrait;
+        return self.galleryViewController.UICustomization.overViewCollectionViewLayoutPortrait;
     }
-    return self.gallerViewController.UICustomization.overViewCollectionViewLayoutLandscape;
+    return self.galleryViewController.UICustomization.overViewCollectionViewLayoutLandscape;
 }
 
--(MHGalleryController*)gallerViewController{
+-(MHGalleryController*)galleryViewController{
     return (MHGalleryController*)self.navigationController;
 }
 
 
 -(MHGalleryItem*)itemForIndex:(NSInteger)index{
-    return [self.gallerViewController.dataSource itemForIndex:index];
+    return [self.galleryViewController.dataSource itemForIndex:index];
 }
 -(void)donePressed{
     self.navigationController.transitioningDelegate = nil;
@@ -96,7 +100,7 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return [self.gallerViewController.dataSource numberOfItemsInGallery:self.gallerViewController];
+    return [self.galleryViewController.dataSource numberOfItemsInGallery:self.galleryViewController];
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
