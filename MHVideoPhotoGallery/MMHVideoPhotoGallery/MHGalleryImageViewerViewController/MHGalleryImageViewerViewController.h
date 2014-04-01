@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MHTransitionShowOverView.h"
 #import "MHGallery.h"
-#import "MHShareViewController.h"
+
+@class MHTransitionShowOverView;
+@class MHTransitionDismissMHGallery;
+@class MHGalleryController;
 
 @interface MHPinchGestureRecognizer : UIPinchGestureRecognizer
 @property (nonatomic)NSInteger tag;

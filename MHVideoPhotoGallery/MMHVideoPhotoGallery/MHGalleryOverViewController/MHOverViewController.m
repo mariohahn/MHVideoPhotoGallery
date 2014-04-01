@@ -212,6 +212,7 @@
             self.interactivePushTransition = [MHTransitionShowDetail new];
             self.interactivePushTransition.indexPath = recognizer.indexPath;
             self.lastPoint = [recognizer locationInView:self.view];
+            
             MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
             detail.galleryItems = self.galleryItems;
             detail.pageIndex = recognizer.indexPath.row;
@@ -219,13 +220,13 @@
             [self.navigationController pushViewController:detail
                                                  animated:YES];
         }else{
-            [recognizer setCancelsTouchesInView:YES];
+            recognizer.cancelsTouchesInView = YES;
         }
     }else if (recognizer.state == UIGestureRecognizerStateChanged) {
         
         if (recognizer.numberOfTouches <2) {
-            [recognizer setEnabled:NO];
-            [recognizer setEnabled:YES];
+            recognizer.enabled = NO;
+            recognizer.enabled = YES;
         }
         
         CGPoint point = [recognizer locationInView:self.view];

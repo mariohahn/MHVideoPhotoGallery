@@ -14,6 +14,26 @@
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
 
+
+@implementation MHShareItem
+
+- (id)initWithImageName:(NSString*)imageName
+                  title:(NSString*)title
+   withMaxNumberOfItems:(NSInteger)maxNumberOfItems
+           withSelector:(NSString*)selectorName
+       onViewController:(id)onViewController{
+    self = [super init];
+    if (!self)
+        return nil;
+    self.imageName = imageName;
+    self.title = title;
+    self.maxNumberOfItems = maxNumberOfItems;
+    self.selectorName = selectorName;
+    self.onViewController = onViewController;
+    return self;
+}
+@end
+
 @implementation MHCollectionViewTableViewCell
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
@@ -115,13 +135,11 @@
                                                withSelector:@"mailImages:"
                                            onViewController:self];
     
-    
     self.messageObject = [[MHShareItem alloc]initWithImageName:@"messageMH"
                                                          title:MHGalleryLocalizedString(@"shareview.message")
                                           withMaxNumberOfItems:15
                                                   withSelector:@"smsImages:"
                                               onViewController:self];
-    
     
     self.twitterObject = [[MHShareItem alloc]initWithImageName:@"twitterMH"
                                                          title:@"Twitter"
@@ -171,6 +189,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
     if (self.navigationController.delegate == self) {
         self.navigationController.delegate = nil;
     }
@@ -383,6 +402,7 @@
     cell.descriptionLabel.text = shareItem.title;
     cell.backgroundColor = [UIColor clearColor];
 }
+
 -(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     __block MHGalleryOverViewCell *blockCell = cell;
     
@@ -814,6 +834,7 @@
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:cell.tag inSection:0]
                                 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                         animated:YES];
+    
     if (self.isShowingShareViewInLandscapeMode) {
         self.showingShareViewInLandscapeMode = NO;
     }
@@ -840,7 +861,10 @@
     self.showingShareViewInLandscapeMode = YES;
     self.navigationItem.rightBarButtonItem = nil;
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelShareSheet)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                         target:self
+                                                                                         action:@selector(cancelShareSheet)];
+    
     self.toolbar.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
     self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 240);
     
