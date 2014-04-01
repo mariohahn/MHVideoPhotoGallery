@@ -14,3 +14,4 @@
 "shareview.save.cameraRoll"       = "Guardar imagen";
 "shareview.title.select.plural"   = "%@ Fotos Seleccionadas";
 "shareview.title.select.singular" = "%@ Foto Seleccionada";
+"shareview.download"              = "Descargar datos\n";

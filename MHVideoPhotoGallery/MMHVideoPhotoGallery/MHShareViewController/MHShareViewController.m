@@ -89,6 +89,12 @@
 @property(nonatomic,strong) MHShareItem *faceBookObject;
 @property(nonatomic,getter = isShowingShareViewInLandscapeMode) BOOL showingShareViewInLandscapeMode;
 @property (nonatomic, strong) NSNumberFormatter *numberFormatter;
+@property (nonatomic)         NSInteger saveCount;
+@property (nonatomic,strong)  NSMutableArray *dataDownload;
+@property (nonatomic,strong)  UILabel *downloadDataLabel;
+@property (nonatomic,strong)  UIToolbar *blurBackgroundToolbar;
+@property (nonatomic,strong)  UIButton *cancelDownloadButton;
+@property (nonatomic,strong)  NSMutableArray *sessions;
 
 @end
 
@@ -148,7 +154,7 @@
 -(void) scrollViewWillEndDragging:(UIScrollView*)scrollView
                      withVelocity:(CGPoint)velocity
               targetContentOffset:(inout CGPoint*)targetContentOffset {
-   
+    
     NSArray *visibleCells = [self sortObjectsWithFrame:self.collectionView.visibleCells];
     MHGalleryOverViewCell *cell;
     if ((self.startPointScroll <  targetContentOffset->x) && (visibleCells.count >1)) {
@@ -193,7 +199,7 @@
     UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                     target:self
                                                                                     action:@selector(cancelPressed)];
-        
+    
     self.navigationItem.leftBarButtonItem = cancelBarButton;
     
     UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
@@ -206,7 +212,7 @@
     flowLayout.minimumInteritemSpacing =20;
     flowLayout.sectionInset = UIEdgeInsetsMake(0, 60, 0, 0);
     self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-240)
-                                collectionViewLayout:flowLayout];
+                                            collectionViewLayout:flowLayout];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.allowsMultipleSelection=YES;
@@ -223,8 +229,9 @@
     [self.selectedRows addObject:[NSIndexPath indexPathForRow:self.pageIndex inSection:0]];
     
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.pageIndex inSection:0]
-                    atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
-                            animated:NO];
+                                atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                        animated:NO];
+    
     self.gradientView= [[UIView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240)];
     
     self.toolbar = [[UIToolbar alloc]initWithFrame:self.gradientView.frame];
@@ -273,7 +280,10 @@
     
     self.shareDataSourceStart = [NSArray arrayWithArray:self.shareDataSource];
     if([UIApplication sharedApplication].statusBarOrientation != UIInterfaceOrientationPortrait){
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(showShareSheet)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next"
+                                                                                 style:UIBarButtonItemStyleBordered
+                                                                                target:self
+                                                                                action:@selector(showShareSheet)];
     }
     self.startPointScroll = self.collectionView.contentOffset.x;
 }
@@ -378,10 +388,8 @@
     
     MHGalleryItem *item = [self itemForIndex:indexPath.row];
     cell.videoDurationLength.text = @"";
-    [cell.videoIcon setHidden:YES];
-    [cell.videoGradient setHidden:YES];
-    
-    
+    cell.videoIcon.hidden = YES;
+    cell.videoGradient.hidden = YES;
     
     if (item.galleryType == MHGalleryTypeImage) {
         if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
@@ -409,14 +417,14 @@
                                                                       
                                                                       blockCell.videoDurationLength.text = [NSString stringWithFormat:@"%@:%@",
                                                                                                             [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
-                                                                      [blockCell.thumbnail setImage:image];
-                                                                      [blockCell.videoIcon setHidden:NO];
-                                                                      [blockCell.videoGradient setHidden:NO];
+                                                                      blockCell.thumbnail.image =image;
+                                                                      blockCell.videoIcon.hidden =NO;
+                                                                      blockCell.videoGradient.hidden =NO;
                                                                   }
                                                               }];
     }
     
-    [cell.thumbnail setContentMode:UIViewContentModeScaleAspectFill];
+    cell.thumbnail.contentMode = UIViewContentModeScaleAspectFill;
     cell.selectionImageView.hidden =NO;
     
     cell.selectionImageView.layer.borderWidth =1;
@@ -486,7 +494,7 @@
     NSArray *storedData = [NSArray arrayWithArray:self.shareDataSource];
     
     self.shareDataSource = [NSMutableArray new];
-
+    
     for (NSArray *array in self.shareDataSourceStart) {
         NSMutableArray *newObjects  = [NSMutableArray new];
         
@@ -499,16 +507,6 @@
                 }
             }
         }
-        
-        for (NSIndexPath *indexPath in self.selectedRows) {
-            MHGalleryItem *item = [self itemForIndex:indexPath.row];
-            if (item.galleryType == MHGalleryTypeVideo) {
-                if ([newObjects containsObject:self.saveObject] ) {
-                    [newObjects removeObject:self.saveObject];
-                }
-            }
-        }
-        
         [self.shareDataSource addObject:newObjects];
         MHCollectionViewTableViewCell *cell = (MHCollectionViewTableViewCell*)[self.tableViewShare cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index]];
         [cell.collectionView reloadData];
@@ -517,7 +515,7 @@
 }
 -(void)presentSLComposeForServiceType:(NSString*)serviceType{
     
-    [self getAllImagesForSelectedRows:^(NSArray *images) {
+    [self getAllImagesForSelectedRows:^(NSArray *images){
         SLComposeViewController *shareconntroller=[SLComposeViewController composeViewControllerForServiceType:serviceType];
         SLComposeViewControllerCompletionHandler __block completionHandler=^(SLComposeViewControllerResult result){
             
@@ -537,7 +535,7 @@
         [self presentViewController:shareconntroller
                            animated:YES
                          completion:nil];
-    }];
+    } saveDataToCameraRoll:NO];
 }
 -(void)twShareImages:(NSArray*)object{
     [self presentSLComposeForServiceType:SLServiceTypeTwitter];
@@ -569,7 +567,7 @@
         [self presentViewController:picker
                            animated:YES
                          completion:nil];
-    }];
+    } saveDataToCameraRoll:NO];
 }
 
 -(void)mailImages:(NSArray*)object{
@@ -585,7 +583,6 @@
                                  fileName:@"image"];
             }else{
                 videoURLS = [videoURLS stringByAppendingString:[NSString stringWithFormat: @"%@ \n",data]];
-                
             }
         }
         [picker setMessageBody:videoURLS isHTML:NO];
@@ -595,7 +592,7 @@
                                animated:YES
                              completion:nil];
         }
-    }];
+    } saveDataToCameraRoll:NO];
 }
 -(void)messageComposeViewController:(MFMessageComposeViewController *)controller
                 didFinishWithResult:(MessageComposeResult)result{
@@ -613,46 +610,172 @@
                                    }];
 }
 
--(void)getAllImagesForSelectedRows:(void(^)(NSArray *images))SuccessBlock{
-    __block NSMutableArray *imagesData = [NSMutableArray new];
+-(void)setSaveCount:(NSInteger)saveCount{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (saveCount == self.selectedRows.count) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            if (self.blurBackgroundToolbar) {
+                [self removeBlurBlurBackgorundToolbarFromSuperView:^(BOOL complition) {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        self.finishedCallbackDownloadData(self.dataDownload);
+                    });
+                }];
+            }else{
+                self.finishedCallbackDownloadData(self.dataDownload);
+            }
+        }
+        self.downloadDataLabel.attributedText =[self attributedStringForDownloadLabelWithDownloadedDataNumber:@(saveCount)];
+    });
+    _saveCount = saveCount;
+}
+-(void)removeBlurBlurBackgorundToolbarFromSuperView:(void(^)(BOOL complition))SuccessBlock{
+    [UIView animateWithDuration:0.3 animations:^{
+        self.blurBackgroundToolbar.alpha =0;
+    } completion:^(BOOL finished) {
+        [self.blurBackgroundToolbar removeFromSuperview];
+        if (SuccessBlock) {
+            SuccessBlock(YES);
+        }
+    }];
+}
+-(void)addDataToDownloadArray:(id)data{
+    [self.dataDownload addObject:data];
+    self.saveCount++;
+}
+
+-(NSMutableAttributedString*)attributedStringForDownloadLabelWithDownloadedDataNumber:(NSNumber*)downloaded{
+    
+    NSString *downloadDataString = MHGalleryLocalizedString(@"shareview.download");
+    NSString *numberTitle = [NSString stringWithFormat:MHGalleryLocalizedString(@"imagedetail.title.current"),downloaded,@(self.selectedRows.count)];
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@%@",downloadDataString,numberTitle]];
+    [attributedString setAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30]} range:NSMakeRange(0, downloadDataString.length)];
+    
+    [attributedString setAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:20]} range:NSMakeRange(downloadDataString.length, numberTitle.length)];
+    return attributedString;
+}
+
+-(void)cancelDownload{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+    for (NSURLSession *session in self.sessions) {
+        [session invalidateAndCancel];
+    }
+    [self removeBlurBlurBackgorundToolbarFromSuperView:nil];
+}
+
+-(void)getAllImagesForSelectedRows:(void(^)(NSArray *images))SuccessBlock
+              saveDataToCameraRoll:(BOOL)saveToCameraRoll{
+    
+    BOOL containsVideo = NO;
+    for (NSIndexPath *indexPath in self.selectedRows) {
+        MHGalleryItem *item = [self itemForIndex:indexPath.row];
+        
+        if (item.galleryType == MHGalleryTypeVideo) {
+            containsVideo = YES;
+        }
+    }
+    self.sessions =[NSMutableArray new];
+
+    if (saveToCameraRoll && containsVideo) {
+        self.blurBackgroundToolbar = [[UIToolbar alloc]initWithFrame:self.view.bounds];
+        self.blurBackgroundToolbar.alpha =0;
+        self.blurBackgroundToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        [self.navigationController.view addSubview:self.blurBackgroundToolbar];
+        
+        UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0, -35, self.blurBackgroundToolbar.frame.size.width, self.blurBackgroundToolbar.frame.size.height-35)];
+        activityIndicatorView.color = [UIColor blackColor];
+        activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        [activityIndicatorView startAnimating];
+        
+        [self.blurBackgroundToolbar addSubview:activityIndicatorView];
+        
+        
+        self.downloadDataLabel = [[UILabel alloc]initWithFrame:self.blurBackgroundToolbar.bounds];
+        self.downloadDataLabel.textAlignment = NSTextAlignmentCenter;
+        self.downloadDataLabel.numberOfLines = MAXFLOAT;
+        self.downloadDataLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        self.downloadDataLabel.attributedText = [self attributedStringForDownloadLabelWithDownloadedDataNumber:@(0)];
+        [self.blurBackgroundToolbar addSubview:self.downloadDataLabel];
+        
+        self.cancelDownloadButton = [[UIButton alloc]initWithFrame:CGRectMake(0, self.blurBackgroundToolbar.frame.size.height-50, self.view.frame.size.width, 44)];
+        [self.cancelDownloadButton setTitle:@"Cancel" forState:UIControlStateNormal];
+        [self.cancelDownloadButton setTitleColor:[UIColor colorWithRed:1 green:0.18 blue:0.33 alpha:1] forState:UIControlStateNormal];
+        self.cancelDownloadButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:25];
+        [self.cancelDownloadButton addTarget:self action:@selector(cancelDownload) forControlEvents:UIControlEventTouchUpInside];
+        [self.blurBackgroundToolbar addSubview:self.cancelDownloadButton];
+        [UIView animateWithDuration:0.3 animations:^{
+            self.blurBackgroundToolbar.alpha =1;
+        }];
+    }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    self.dataDownload = [NSMutableArray new];
+    
+    self.finishedCallbackDownloadData = SuccessBlock;
+    
+    self.saveCount =0;
+    
+    __weak typeof(self) weakSelf = self;
     
     for (NSIndexPath *indexPath in self.selectedRows) {
         MHGalleryItem *item = [self itemForIndex:indexPath.row];
         
         if (item.galleryType == MHGalleryTypeVideo) {
-            [imagesData addObject:item.URLString];
-        }
-        if (imagesData.count == self.selectedRows.count) {
-            SuccessBlock([NSArray arrayWithArray:imagesData]);
-            return;
+            if (!saveToCameraRoll) {
+                [self addDataToDownloadArray:item.URLString];
+            }else{
+                [[MHGallerySharedManager sharedManager] getURLForMediaPlayer:item.URLString successBlock:^(NSURL *URL, NSError *error) {
+                    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+                    
+                    __block NSURLSession *blockSession = session;
+                    [self.sessions addObject:session];
+                    [[session downloadTaskWithURL:URL completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+                        if (error){
+                            weakSelf.saveCount++;
+                            return;
+                        }
+                        NSURL *documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] firstObject];
+                        NSURL *tempURL = [documentsURL URLByAppendingPathComponent:@"storeForShare.mp4"];
+                        
+                        NSError *moveItemError = nil;
+                        [[NSFileManager defaultManager] moveItemAtURL:location toURL:tempURL error:&moveItemError];
+                        
+                        if (moveItemError) {
+                            weakSelf.saveCount++;
+                            return;
+                        }
+                        ALAssetsLibrary* library = [ALAssetsLibrary new];
+                        [library writeVideoAtPathToSavedPhotosAlbum:tempURL
+                                                    completionBlock:^(NSURL *assetURL, NSError *error){
+                                                        NSError *removeError =nil;
+                                                        [[NSFileManager defaultManager] removeItemAtURL:tempURL error:&removeError];
+                                                        
+                                                        [weakSelf.sessions removeObject:blockSession];
+                                                        weakSelf.saveCount++;
+                                                    }];
+                    }] resume];
+                }];
+            }
+            
         }
         
         if (item.galleryType == MHGalleryTypeImage) {
-            
             if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
                 [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.URLString
                                                                        assetType:MHAssetImageTypeFull
                                                                     successBlock:^(UIImage *image, NSError *error) {
-                                                                        [imagesData addObject:item.image];
-                                                                        if (imagesData.count == self.selectedRows.count) {
-                                                                            SuccessBlock([NSArray arrayWithArray:imagesData]);
-                                                                        }
+                                                                        [weakSelf addDataToDownloadArray:image];
                                                                     }];
             }else if (item.image) {
-                [imagesData addObject:item.image];
-                if (imagesData.count == self.selectedRows.count) {
-                    SuccessBlock([NSArray arrayWithArray:imagesData]);
-                }
+                [self addDataToDownloadArray:item.image];
             }else{
                 [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:item.URLString]
-                                                       options:SDWebImageContinueInBackground
-                                                      progress:nil
-                                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                         [imagesData addObject:image];
-                                                         if (imagesData.count == self.selectedRows.count) {
-                                                             SuccessBlock([NSArray arrayWithArray:imagesData]);
-                                                         }
-                                                     }];
+                                                           options:SDWebImageContinueInBackground
+                                                          progress:nil
+                                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                             [weakSelf addDataToDownloadArray:image];
+                                                         }];
             }
         }
     }
@@ -672,8 +795,14 @@
         self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 240);
         self.toolbar.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
         self.collectionView.frame = self.view.bounds;
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(showShareSheet)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next"
+                                                                                 style:UIBarButtonItemStyleBordered
+                                                                                target:self
+                                                                                action:@selector(showShareSheet)];
     }
+    self.downloadDataLabel.frame = self.blurBackgroundToolbar.bounds;
+    self.cancelDownloadButton.frame= CGRectMake(0, self.blurBackgroundToolbar.frame.size.height-50, self.view.frame.size.width, 44);
+
     [self.collectionView.collectionViewLayout invalidateLayout];
 }
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
@@ -724,11 +853,15 @@
 -(void)saveImages:(NSArray*)object{
     [self getAllImagesForSelectedRows:^(NSArray *images) {
         for (UIImage *image in images) {
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+            if ([image isKindOfClass:[UIImage class]]) {
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+            }
         }
         [self cancelPressed];
-    }];
+    } saveDataToCameraRoll:YES];
 }
+
+
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -744,8 +877,8 @@
         [self.collectionView.delegate scrollViewDidScroll:self.collectionView];
         [UIView animateWithDuration:0.35 animations:^{
             [self.collectionView scrollToItemAtIndexPath:indexPath
-                            atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
-                                    animated:NO];
+                                        atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
+                                                animated:NO];
         } completion:^(BOOL finished) {
             [self.collectionView.delegate scrollViewDidScroll:self.collectionView];
         }];

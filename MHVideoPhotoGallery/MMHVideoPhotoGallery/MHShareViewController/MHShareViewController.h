@@ -10,6 +10,8 @@
 #import <MessageUI/MessageUI.h>
 #import <Social/Social.h>
 
+@import AssetsLibrary;
+
 #define SuppressPerformSelectorLeakWarning(Stuff) \
 do { \
 _Pragma("clang diagnostic push") \
@@ -37,5 +39,6 @@ _Pragma("clang diagnostic pop") \
 @property(nonatomic)        NSInteger pageIndex;
 @property(nonatomic,strong) NSArray *galleryItems;
 
+@property (nonatomic, copy) void (^finishedCallbackDownloadData)(NSArray *images);
 
 @end

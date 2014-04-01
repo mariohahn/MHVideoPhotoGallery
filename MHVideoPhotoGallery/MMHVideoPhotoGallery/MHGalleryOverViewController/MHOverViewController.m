@@ -94,6 +94,7 @@
 -(MHGalleryItem*)itemForIndex:(NSInteger)index{
     return [self.galleryViewController.dataSource itemForIndex:index];
 }
+
 -(void)donePressed{
     self.navigationController.transitioningDelegate = nil;
     

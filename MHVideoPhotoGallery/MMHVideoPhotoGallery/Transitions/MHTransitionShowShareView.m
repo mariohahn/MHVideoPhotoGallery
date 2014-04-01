@@ -24,7 +24,6 @@
         
         MHImageViewController *imageViewController = [[fromViewController.pageViewController viewControllers]firstObject];
         
-        
         MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:[containerView convertRect:imageViewController.imageView.frame fromView:imageViewController.imageView.superview]];
         cellImageSnapshot.image = imageViewController.imageView.image;
         
@@ -35,8 +34,6 @@
             cellImageSnapshot.image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
         }
         [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size, cellImageSnapshot.frame)];
-        
-        
         
         toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
         toViewController.tableViewShare.frame = CGRectMake(0, fromViewController.view.frame.size.height, fromViewController.view.frame.size.width, 240);
@@ -65,7 +62,7 @@
         [containerView addSubview:snapShot];
         
         
-        
+
         [toViewController.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.pageIndex inSection:0]
                                     atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                             animated:NO];
@@ -87,8 +84,7 @@
                     toViewController.gradientView.frame = CGRectMake(0, toViewController.view.frame.size.height, toViewController.view.frame.size.width,240);
                     toViewController.tableViewShare.frame = CGRectMake(0, toViewController.view.frame.size.height, toViewController.view.frame.size.width, 240);
                 }
-                
-                
+                fromViewController.view.alpha =0;
                 cellImageSnapshot.frame = [containerView convertRect:cell.thumbnail.frame fromView:cell.thumbnail.superview];
                 cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
                 whiteView.alpha =0;
@@ -109,12 +105,13 @@
         NSTimeInterval duration = [self transitionDuration:transitionContext];
         
         MHGalleryOverViewCell *cell;
+        NSArray *visible = fromViewController.collectionView.visibleCells;
+
         if (fromViewController.collectionView.visibleCells.count ==3) {
-            NSArray *visible = fromViewController.collectionView.visibleCells;
             visible =[self sortObjectsWithFrame:visible];
             cell = visible[1];
         }else{
-            cell = [fromViewController.collectionView.visibleCells firstObject];
+            cell =  [self sortObjectsWithFrame:visible].firstObject;
         }
         
         toViewController.pageIndex = cell.tag;

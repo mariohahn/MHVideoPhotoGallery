@@ -611,7 +611,7 @@
 						DevelopmentTeam = 22DEN472RY;
 					};
 					F53F926017EB008100A9FE6A = {
-						TestTargetID = F53F923F17EB008100A9FE6A /* MHVideoPhotoGallery */;
+						TestTargetID = F53F923F17EB008100A9FE6A;
 					};
 				};
 			};
@@ -868,6 +868,7 @@
 					"$(inherited)",
 					/Users/mario_hahn/Documents/Development/MHGallery,
 					/Users/mario_hahn/Documents/Development/MHGallery/MHVideoPhotoGallery,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MHVideoPhotoGallery/MHVideoPhotoGallery-Prefix.pch";
@@ -892,6 +893,7 @@
 					"$(inherited)",
 					/Users/mario_hahn/Documents/Development/MHGallery,
 					/Users/mario_hahn/Documents/Development/MHGallery/MHVideoPhotoGallery,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MHVideoPhotoGallery/MHVideoPhotoGallery-Prefix.pch";

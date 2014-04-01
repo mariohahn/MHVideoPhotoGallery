@@ -32,12 +32,12 @@ extern NSDictionary *MHDictionaryForQueryString(NSString *string);
 
 extern NSString *const MHYoutubeChannel;
 extern NSString *const MHGalleryViewModeShare;
-extern NSString *const MHVimeoBaseURL;
+extern NSString *const MHVimeoVideoBaseURL;
 extern NSString *const MHVimeoThumbBaseURL;
 extern NSString *const MHYoutubeInfoBaseURL;
 extern NSString *const MHYoutubePlayBaseURL;
 extern NSString *const MHYoutubeBaseURL;
-
+extern NSString *const MHVimeoBaseURL;
 
 typedef NS_ENUM(NSUInteger, MHAssetImageType) {
     MHAssetImageTypeFull,
@@ -124,7 +124,9 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
 + (instancetype)itemWithURL:(NSString*)URLString
                 galleryType:(MHGalleryType)galleryType;
 
+
 + (instancetype)itemWithYoutubeVideoID:(NSString*)ID;
++ (instancetype)itemWithVimeoVideoID:(NSString*)ID;
 
 /**
  *  MHGalleryItem initWithImage
@@ -184,6 +186,10 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  *  @param URL          The URL as a String
  *  @param succeedBlock you will get the absolute URL
  */
+
+-(void)getURLForMediaPlayer:(NSString*)URLString
+               successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock;
+
 -(void)getVimeoURLforMediaPlayer:(NSString*)URL
                     successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock;
 /**

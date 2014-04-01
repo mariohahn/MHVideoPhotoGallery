@@ -10,7 +10,8 @@ NSString * const MHYoutubeChannel          = @"https://gdata.youtube.com/feeds/a
 NSString * const MHYoutubePlayBaseURL      = @"https://www.youtube.com/get_video_info?video_id=%@&el=embedded&ps=default&eurl=&gl=US&hl=%@";
 NSString * const MHYoutubeInfoBaseURL      = @"http://gdata.youtube.com/feeds/api/videos/%@?v=2&alt=jsonc";
 NSString * const MHVimeoThumbBaseURL       = @"http://vimeo.com/api/v2/video/%@.json";
-NSString * const MHVimeoBaseURL            = @"http://player.vimeo.com/v2/video/%@/config";
+NSString * const MHVimeoVideoBaseURL       = @"http://player.vimeo.com/v2/video/%@/config";
+NSString * const MHVimeoBaseURL            = @"http://vimeo.com/%@";
 NSString * const MHGalleryViewModeShare    = @"MHGalleryViewModeShare";
 
 
@@ -100,6 +101,11 @@ UIImage *MHGalleryImage(NSString *imageName){
     self.galleryType = MHGalleryTypeImage;
     self.image = image;
     return self;
+}
+
++ (instancetype)itemWithVimeoVideoID:(NSString*)ID{
+    return [[[self class] alloc]initWithURL:[NSString stringWithFormat:MHVimeoBaseURL,ID]
+                                galleryType:MHGalleryTypeVideo];
 }
 
 + (instancetype)itemWithYoutubeVideoID:(NSString*)ID{
@@ -322,11 +328,31 @@ UIImage *MHGalleryImage(NSString *imageName){
     
 	return nil;
 }
+
+-(void)getURLForMediaPlayer:(NSString*)URLString
+               successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock{
+    
+    if ([URLString rangeOfString:@"vimeo.com"].location != NSNotFound) {
+       [self getVimeoURLforMediaPlayer:URLString successBlock:^(NSURL *URL, NSError *error) {
+           succeedBlock(URL,error);
+       }];
+    }else if([URLString rangeOfString:@"youtube.com"].location != NSNotFound) {
+        [self getYoutubeURLforMediaPlayer:URLString successBlock:^(NSURL *URL, NSError *error) {
+            succeedBlock(URL,error);
+        }];
+    }else{
+        succeedBlock([NSURL URLWithString:URLString],nil);
+    }
+    
+    
+}
+
+
 -(void)getVimeoURLforMediaPlayer:(NSString*)URL
                     successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock{
     
     NSString *videoID = [[URL componentsSeparatedByString:@"/"] lastObject];
-    NSURL *vimdeoURL= [NSURL URLWithString:[NSString stringWithFormat:MHVimeoBaseURL, videoID]];
+    NSURL *vimdeoURL= [NSURL URLWithString:[NSString stringWithFormat:MHVimeoVideoBaseURL, videoID]];
     
     NSMutableURLRequest *httpRequest = [NSMutableURLRequest requestWithURL:vimdeoURL
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy
