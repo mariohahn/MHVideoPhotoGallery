@@ -14,7 +14,7 @@
 #import "MHGalleryItem.h"
 #import "MHGallerySharedManager.h"
 #import "MHGalleryController.h"
-#import "MHOverViewController.h"
+#import "MHOverviewController.h"
 #import "MHTransitionShowOverView.h"
 #import "MHGalleryImageViewerViewController.h"
 

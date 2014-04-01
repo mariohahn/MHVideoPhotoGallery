@@ -8,7 +8,7 @@
 
 
 #import "MHGalleryImageViewerViewController.h"
-#import "MHOverViewController.h"
+#import "MHOverviewController.h"
 #import "MHTransitionShowShareView.h"
 #import "MHTransitionShowOverView.h"
 
@@ -367,7 +367,7 @@
         present.present = YES;
         return present;
     }
-    if ([toVC isKindOfClass:[MHOverViewController class]]) {
+    if ([toVC isKindOfClass:[MHOverviewController class]]) {
         return [MHTransitionShowOverView new];
     }
     return nil;
@@ -677,6 +677,9 @@
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         
+        __weak typeof(self) weakSelf = self;
+
+        
         self.viewController = viewController;
         
         self.view.backgroundColor = [UIColor blackColor];
@@ -737,7 +740,6 @@
         self.act.tag =507;
         self.act.autoresizingMask =UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
         [self.scrollView addSubview:self.act];
-        
         if (self.item.galleryType != MHGalleryTypeImage) {
             [self addPlayButtonToView];
             
@@ -745,7 +747,6 @@
             self.moviePlayerToolBarTop.autoresizingMask =UIViewAutoresizingFlexibleWidth;
             self.moviePlayerToolBarTop.alpha =0;
             self.moviePlayerToolBarTop.barTintColor = self.viewController.galleryViewController.UICustomization.barTintColor;
-
             [self.view addSubview:self.moviePlayerToolBarTop];
             
             self.currentTimeMovie =0;
@@ -757,7 +758,6 @@
             self.videoProgressView.trackTintColor =[UIColor clearColor];
             self.videoProgressView.progressTintColor =[UIColor colorWithWhite:0 alpha:0.3];
             self.videoProgressView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-            
             [self.moviePlayerToolBarTop addSubview:self.videoProgressView];
             
             self.slider = [[UISlider alloc]initWithFrame:CGRectMake(55, 0, self.view.frame.size.width-110, 44)];
@@ -772,7 +772,6 @@
             [self.moviePlayerToolBarTop addSubview:self.slider];
             
             self.leftSliderLabel = [[UILabel alloc]initWithFrame:CGRectMake(8, 0, 40, 43)];
-            
             self.leftSliderLabel.font =[UIFont systemFontOfSize:14];
             self.leftSliderLabel.text =@"00:00";
             [self.moviePlayerToolBarTop addSubview:self.leftSliderLabel];
@@ -801,7 +800,7 @@
                                                                 }];
         }else if(self.item.image){
             self.imageView.image = self.item.image;
-            [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
+            [self.act stopAnimating];
         }else{
             if (self.item.galleryType == MHGalleryTypeImage) {
                 
@@ -810,26 +809,26 @@
                                                           progress:nil
                                                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
                                                              if (!image) {
-                                                                 [self.scrollView setMaximumZoomScale:1];
-                                                                 [self changeToErrorImage];
+                                                                 weakSelf.scrollView.maximumZoomScale  =1;
+                                                                 [weakSelf changeToErrorImage];
                                                                  
                                                              }else{
-                                                                 self.imageView.image = image;
+                                                                 weakSelf.imageView.image = image;
                                                              }
-                                                             [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
+                                                             [weakSelf.act stopAnimating];
                                                          }];
             }else{
                 
                 [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:self.item.URLString
                                                                       successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
                                                                           if (!error) {
-                                                                              [self handleGeneratedThumb:image
+                                                                              [weakSelf handleGeneratedThumb:image
                                                                                            videoDuration:videoDuration
                                                                                                urlString:newURL];
                                                                           }else{
-                                                                              [self changeToErrorImage];
+                                                                              [weakSelf changeToErrorImage];
                                                                           }
-                                                                          [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
+                                                                          [weakSelf.act stopAnimating];
                                                                       }];
             }
         }
@@ -850,27 +849,13 @@
     [super viewDidAppear:animated];
     
     if (!self.moviePlayer && self.item.galleryType == MHGalleryTypeVideo) {
-        if ([self.item.URLString rangeOfString:@"vimeo.com"].location != NSNotFound) {
-            [[MHGallerySharedManager sharedManager] getVimeoURLforMediaPlayer:self.item.URLString
-                                                                 successBlock:^(NSURL *URL, NSError *error) {
-                                                                     if (error) {
-                                                                         [self changePlayButtonToUnPlay];
-                                                                     }else{
-                                                                         [self addMoviePlayerToViewWithURL:URL];
-                                                                     }
-                                                                 }];
-        }else if ([self.item.URLString rangeOfString:@"youtube.com"].location != NSNotFound) {
-            [[MHGallerySharedManager sharedManager] getYoutubeURLforMediaPlayer:self.item.URLString
-                                                                   successBlock:^(NSURL *URL, NSError *error) {
-                                                                       if (error) {
-                                                                           [self changePlayButtonToUnPlay];
-                                                                       }else{
-                                                                           [self addMoviePlayerToViewWithURL:URL];
-                                                                       }
-                                                                   }];
-        }else{
-            [self addMoviePlayerToViewWithURL:[NSURL  URLWithString:self.item.URLString]];
-        }
+        [[MHGallerySharedManager sharedManager] getURLForMediaPlayer:self.item.URLString successBlock:^(NSURL *URL, NSError *error) {
+            if (error) {
+                [self addMoviePlayerToViewWithURL:[NSURL  URLWithString:self.item.URLString]];
+            }else{
+                [self addMoviePlayerToViewWithURL:URL];
+            }
+        }];
     }
 }
 
@@ -878,19 +863,15 @@
               videoDuration:(NSInteger)videoDuration
                   urlString:(NSString*)urlString{
     self.wholeTimeMovie = videoDuration;
-    NSNumber *minutes = @(videoDuration / 60);
-    NSNumber *seconds = @(videoDuration % 60);
-    
-    self.rightSliderLabel.text = [NSString stringWithFormat:@"-%@:%@",
-                                  [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
+    self.rightSliderLabel.text = [self getStringForMinutesAndSecondsForSecons:videoDuration addMinues:YES];
     
     self.slider.maximumValue = videoDuration;
     [self.view viewWithTag:508].hidden =NO;
     self.imageView.image = image;
     
     self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
-    self.playButton.hidden =NO;
-    [(UIActivityIndicatorView*)[self.scrollView viewWithTag:507] stopAnimating];
+    self.playButton.hidden = NO;
+    [self.act stopAnimating];
 }
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
     if (self.interactiveOverView) {
@@ -1031,19 +1012,14 @@
     }
     
     if(self.playingVideo){
-        [self.view bringSubviewToFront:self.moviePlayer.view];
-        [self.view bringSubviewToFront:self.moviewPlayerButtonBehinde];
-        [self.view bringSubviewToFront:self.moviePlayerToolBarTop];
+        [self bringMoviePlayerToFront];
     }
     if (self.shouldPlayVideo) {
         self.shouldPlayVideo = NO;
         if (self.pageIndex == self.viewController.pageIndex) {
             [self playButtonPressed];
-            [self.view viewWithTag:304];
         }
     }
-    
-    
 }
 
 - (void)loadStateDidChange:(NSNotification *)notification{
@@ -1058,7 +1034,6 @@
         
 	}
     if (loadState & MPMovieLoadStatePlaythroughOK){
-        
         self.videoDownloaded = YES;
 	}
 	
@@ -1070,33 +1045,27 @@
 	}
 }
 
+-(NSString*)getStringForMinutesAndSecondsForSecons:(NSInteger)seconds
+                                         addMinues:(BOOL)addMinus{
+    NSNumber *minutesNumber = @(seconds / 60);
+    NSNumber *secondsNumber = @(seconds % 60);
+    
+    NSString *string = [NSString stringWithFormat:@"-%@:%@",[self.numberFormatter stringFromNumber:minutesNumber] ,[self.numberFormatter stringFromNumber:secondsNumber]];
+    if (addMinus) {
+        return string;
+    }
+    return [string stringByReplacingOccurrencesOfString:@"-" withString:@""];
+}
+
 -(void)updateTimerLabels{
     
     if (self.currentTimeMovie <=0) {
         self.leftSliderLabel.text =@"00:00";
         
-        NSNumber *minutes = @(self.wholeTimeMovie / 60);
-        NSNumber *seconds = @(self.wholeTimeMovie % 60);
-        
-        self.rightSliderLabel.text = [NSString stringWithFormat:@"-%@:%@",
-                                      [self.numberFormatter stringFromNumber:minutes] ,
-                                      [self.numberFormatter stringFromNumber:seconds]];
-        
+        self.rightSliderLabel.text = [self getStringForMinutesAndSecondsForSecons:self.wholeTimeMovie addMinues:YES];
     }else{
-        NSNumber *minutesGo = @(self.currentTimeMovie / 60);
-        NSNumber *secondsGo = @(self.currentTimeMovie % 60);
-        
-        self.leftSliderLabel.text = [NSString stringWithFormat:@"%@:%@",
-                                     [self.numberFormatter stringFromNumber:minutesGo] ,
-                                     [self.numberFormatter stringFromNumber:secondsGo]];
-        
-        NSNumber *minutes = @((self.wholeTimeMovie-self.currentTimeMovie) / 60);
-        NSNumber *seconds = @((self.wholeTimeMovie-self.currentTimeMovie) % 60);
-        
-        
-        self.rightSliderLabel.text = [NSString stringWithFormat:@"-%@:%@",
-                                      [self.numberFormatter stringFromNumber:minutes] ,
-                                      [self.numberFormatter stringFromNumber:seconds]];
+        self.leftSliderLabel.text = [self getStringForMinutesAndSecondsForSecons:self.currentTimeMovie addMinues:NO];
+        self.rightSliderLabel.text = [self getStringForMinutesAndSecondsForSecons:self.wholeTimeMovie-self.currentTimeMovie addMinues:YES];
     }
 }
 
@@ -1228,20 +1197,28 @@
     
     self.playingVideo =NO;
     
-    self.movieDownloadedTimer = [NSTimer timerWithTimeInterval:0.06f target:self selector:@selector(changeProgressBehinde:) userInfo:nil repeats:YES];
+    self.movieDownloadedTimer = [NSTimer timerWithTimeInterval:0.06f
+                                                        target:self
+                                                      selector:@selector(changeProgressBehinde:)
+                                                      userInfo:nil
+                                                       repeats:YES];
+    
     [[NSRunLoop currentRunLoop] addTimer:self.movieDownloadedTimer forMode:NSRunLoopCommonModes];
     
     [self changeToPlayable];
 }
 
+-(void)bringMoviePlayerToFront{
+    [self.view bringSubviewToFront:self.moviePlayer.view];
+    [self.view bringSubviewToFront:self.moviewPlayerButtonBehinde];
+    [self.view bringSubviewToFront:self.moviePlayerToolBarTop];
+}
 
 -(void)playButtonPressed{
     if (!self.playingVideo) {
-        [self.view bringSubviewToFront:self.moviePlayer.view];
-        [self.view bringSubviewToFront:self.moviewPlayerButtonBehinde];
-        [self.view bringSubviewToFront:self.moviePlayerToolBarTop];
+        [self bringMoviePlayerToFront];
         
-        [self.playButton setHidden:YES];
+        self.playButton.hidden = YES;
         self.playingVideo =YES;
         
         if (self.moviePlayer) {
@@ -1256,7 +1233,11 @@
             self.shouldPlayVideo = YES;
         }
         if (!self.movieTimer) {
-            self.movieTimer = [NSTimer timerWithTimeInterval:0.01f target:self selector:@selector(movieTimerChanged:) userInfo:nil repeats:YES];
+            self.movieTimer = [NSTimer timerWithTimeInterval:0.01f
+                                                      target:self
+                                                    selector:@selector(movieTimerChanged:)
+                                                    userInfo:nil
+                                                     repeats:YES];
             [[NSRunLoop currentRunLoop] addTimer:self.movieTimer forMode:NSRunLoopCommonModes];
         }
         
@@ -1373,12 +1354,10 @@
 }
 
 - (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer {
-    if ([self.imageView.image isEqual:MHGalleryImage(@"error")]) {
+    if (([self.imageView.image isEqual:MHGalleryImage(@"error")]) || (self.item.galleryType == MHGalleryTypeVideo)) {
         return;
     }
-    if (self.item.galleryType == MHGalleryTypeVideo) {
-        return;
-    }
+
     if (self.scrollView.zoomScale >1) {
         [self.scrollView setZoomScale:1 animated:YES];
         return;
@@ -1442,9 +1421,7 @@
         self.rightSliderLabel.frame = CGRectMake(self.view.frame.size.width-20, 0, 50, 43);
     }
     self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
-    
     self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width*self.scrollView.zoomScale, self.view.bounds.size.height*self.scrollView.zoomScale);
-    
     self.imageView.frame =CGRectMake(0,0 , self.scrollView.contentSize.width,self.scrollView.contentSize.height);
 }
 

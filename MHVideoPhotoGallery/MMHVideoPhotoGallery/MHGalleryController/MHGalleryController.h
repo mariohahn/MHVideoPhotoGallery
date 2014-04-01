@@ -10,7 +10,7 @@
 #import "MHGallery.h"
 
 @class MHGalleryController;
-@class MHOverViewController;
+@class MHOverviewController;
 @class MHGalleryImageViewerViewController;
 @class MHGalleryItem;
 @class MHTransitionDismissMHGallery;
@@ -34,7 +34,7 @@
 @property (nonatomic,assign) NSInteger                          presentationIndex;
 @property (nonatomic,strong) UIImageView                        *presentingFromImageView;
 @property (nonatomic,strong) MHGalleryImageViewerViewController *imageViewerViewController;
-@property (nonatomic,strong) MHOverViewController               *overViewViewController;
+@property (nonatomic,strong) MHOverviewController               *overViewViewController;
 @property (nonatomic,strong) NSArray                            *galleryItems;
 @property (nonatomic,strong) MHTransitionCustomization          *transitionCustomization;
 @property (nonatomic,strong) MHUICustomization                  *UICustomization;
@@ -52,12 +52,24 @@
 
 @interface UIViewController(MHGalleryViewController)<UIViewControllerTransitioningDelegate>
 
-
+/**
+ *  For presenting MHGalleryController.
+ *
+ *  @param galleryController your created GalleryController
+ *  @param animated          animated or nonanimated
+ *  @param completion        complitionBlock
+ */
 -(void)presentMHGalleryController:(MHGalleryController*)galleryController
                          animated:(BOOL)animated
                        completion:(void (^)(void))completion;
-
-- (void)dismissViewControllerAnimated:(BOOL)flag
+/**
+ *  For dismissing MHGalleryController
+ *
+ *  @param flag             animated
+ *  @param dismissImageView if you use Custom transitions set your imageView for the Transition. For example if you use a tableView with imageViews in your cells. If you present MHGallery with an imageView on the first Index and dismiss it on the 4 Index, you have to return the imageView from your cell on the 4 index.
+ *  @param completion       complitionBlock
+ */
+- (void)dismissViewControllerAnimated:(BOOL)animated
                      dismissImageView:(UIImageView*)dismissImageView
                            completion:(void (^)(void))completion;
 

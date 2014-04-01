@@ -7,7 +7,7 @@
 //
 
 #import "MHTransitionDismissMHGallery.h"
-#import "MHOverViewController.h"
+#import "MHOverviewController.h"
 
 @interface MHTransitionDismissMHGallery()
 

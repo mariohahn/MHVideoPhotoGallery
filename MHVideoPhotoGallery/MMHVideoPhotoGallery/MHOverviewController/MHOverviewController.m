@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 Mario Hahn. All rights reserved.
 //
 
-#import "MHOverViewController.h"
+#import "MHOverviewController.h"
 
 @implementation MHIndexPinchGestureRecognizer
 @end
 
-@interface MHOverViewController ()
+@interface MHOverviewController ()
 
 @property (nonatomic, strong) MHTransitionShowDetail *interactivePushTransition;
 @property (nonatomic, strong) NSNumberFormatter  *numberFormatter;
@@ -22,7 +22,7 @@
 @end
 
 
-@implementation MHOverViewController
+@implementation MHOverviewController
 
 - (void)viewDidLoad{
     [super viewDidLoad];

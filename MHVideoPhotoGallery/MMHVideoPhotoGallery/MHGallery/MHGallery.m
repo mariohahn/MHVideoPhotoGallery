@@ -1,6 +1,6 @@
 
 #import "MHGallery.h"
-#import "MHOverViewController.h"
+#import "MHOverviewController.h"
 #import <objc/runtime.h>
 
 NSString * const MHYoutubeBaseURL          = @"http://www.youtube.com/watch?v=%@";

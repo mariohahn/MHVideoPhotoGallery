@@ -25,7 +25,7 @@
     self.transitionCustomization = [MHTransitionCustomization new];
     self.UICustomization = [MHUICustomization new];
     
-    self.overViewViewController= [MHOverViewController new];
+    self.overViewViewController= [MHOverviewController new];
     self.imageViewerViewController = [MHGalleryImageViewerViewController new];
     
     if (presentationStyle != MHGalleryViewModeOverView) {

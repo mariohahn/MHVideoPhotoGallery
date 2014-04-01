@@ -35,8 +35,19 @@ typedef NS_ENUM(NSUInteger, MHGalleryType) {
 + (instancetype)itemWithURL:(NSString*)URLString
                 galleryType:(MHGalleryType)galleryType;
 
-
+/**
+ *  MHGalleryItem itemWithYoutubeVideoID:
+ *
+ *  @param ID  Example: http://www.youtube.com/watch?v=YSdJtNen-EA - YSdJtNen-EA is the ID
+ *
+ */
 + (instancetype)itemWithYoutubeVideoID:(NSString*)ID;
+/**
+ *  MHGalleryItem itemWithVimeoVideoID:
+ *
+ *  @param ID Example: http://vimeo.com/35515926 - 35515926 is the ID
+ *
+ */
 + (instancetype)itemWithVimeoVideoID:(NSString*)ID;
 
 /**

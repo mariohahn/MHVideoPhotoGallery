@@ -7,13 +7,13 @@
 //
 
 #import "MHTransitionShowOverView.h"
-#import "MHOverViewController.h"
+#import "MHOverviewController.h"
 
 @interface MHTransitionShowOverView()
 @property (nonatomic,strong) UIToolbar *toolbar;
 @property (nonatomic,strong) UITextView *descriptionLabel;
 @property (nonatomic,strong) UIToolbar *descriptionViewBackgroundToolbar;
-@property (nonatomic,strong) MHOverViewController *toViewController;
+@property (nonatomic,strong) MHOverviewController *toViewController;
 @property (nonatomic,strong) MHGalleryOverViewCell *cellInteractive;
 @property (nonatomic,strong) MHUIImageViewContentViewAnimation *transitionImageView;
 @property (nonatomic,strong) UIView *backView;
@@ -25,7 +25,7 @@
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     MHGalleryImageViewerViewController *fromViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    MHOverViewController *toViewController = (MHOverViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    MHOverviewController *toViewController = (MHOverviewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     UIView *containerView = [transitionContext containerView];
     NSTimeInterval duration = [self transitionDuration:transitionContext];
@@ -120,7 +120,7 @@
     self.context = transitionContext;
     
     MHGalleryImageViewerViewController *fromViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    self.toViewController = (MHOverViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    self.toViewController = (MHOverviewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     UIView *containerView = [transitionContext containerView];
     

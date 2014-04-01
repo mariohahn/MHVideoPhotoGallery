@@ -19,7 +19,7 @@
 @property (strong, nonatomic) NSIndexPath *indexPath;
 @end
 
-@interface MHOverViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate>
+@interface MHOverviewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UICollectionView      *collectionView;
 @property (strong,nonatomic ) MHGalleryOverViewCell *clickedCell;
