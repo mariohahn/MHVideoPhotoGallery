@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Mario Hahn. All rights reserved.
 //
 
-#import "MHGalleryCells.h"
+#import "MHMediaPreviewCollectionViewCell.h"
 #import "MHGallery.h"
 
-@implementation MHGalleryOverViewCell
+@implementation MHMediaPreviewCollectionViewCell
 
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];

@@ -10,7 +10,7 @@
 #import "MHGalleryImageViewerViewController.h"
 #import "MHShareViewController.h"
 #import "MHUIImageViewContentViewAnimation.h"
-#import "MHGalleryCells.h"
+#import "MHMediaPreviewCollectionViewCell.h"
 
 @interface MHTransitionShowShareView : UIPercentDrivenInteractiveTransition<UIViewControllerAnimatedTransitioning>
 @property (nonatomic,assign) BOOL interactionInProgress;

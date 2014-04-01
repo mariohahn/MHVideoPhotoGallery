@@ -7,7 +7,7 @@
 //
 
 #import "MHShareViewController.h"
-#import "MHGalleryCells.h"
+#import "MHMediaPreviewCollectionViewCell.h"
 #import "MHGallery.h"
 #import "UIImageView+WebCache.h"
 #import "MHTransitionShowShareView.h"
@@ -52,7 +52,7 @@
     
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
-    [self.collectionView registerClass:[MHGalleryOverViewCell class] forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
+    [self.collectionView registerClass:[MHMediaPreviewCollectionViewCell class] forCellWithReuseIdentifier:@"MHMediaPreviewCollectionViewCell"];
     
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     [[self contentView] addSubview:self.collectionView];
@@ -174,7 +174,7 @@
               targetContentOffset:(inout CGPoint*)targetContentOffset {
     
     NSArray *visibleCells = [self sortObjectsWithFrame:self.collectionView.visibleCells];
-    MHGalleryOverViewCell *cell;
+    MHMediaPreviewCollectionViewCell *cell;
     if ((self.startPointScroll <  targetContentOffset->x) && (visibleCells.count >1)) {
         cell = visibleCells[1];
     }else{
@@ -238,8 +238,8 @@
     self.collectionView.contentInset =UIEdgeInsetsMake(0, 0, 0, 0);
     self.collectionView.showsHorizontalScrollIndicator =NO;
     self.collectionView.backgroundColor =[UIColor whiteColor];
-    [self.collectionView registerClass:[MHGalleryOverViewCell class]
-            forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
+    [self.collectionView registerClass:[MHMediaPreviewCollectionViewCell class]
+            forCellWithReuseIdentifier:@"MHMediaPreviewCollectionViewCell"];
     
     self.collectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
     [self.view addSubview:self.collectionView];
@@ -271,7 +271,7 @@
     self.tableViewShare.backgroundColor =[UIColor clearColor];
     self.tableViewShare.scrollEnabled =NO;
     [self.tableViewShare registerClass:[MHCollectionViewTableViewCell class]
-                forCellReuseIdentifier:@"MHGalleryCollectionViewCell"];
+                forCellReuseIdentifier:@"MHCollectionViewTableViewCell"];
     [self.view addSubview:self.tableViewShare];
     
     UIView *sep = [[UIView alloc]initWithFrame:CGRectMake(0,115, self.view.frame.size.width, 1)];
@@ -325,7 +325,7 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cellIdentifier = nil;
-    cellIdentifier = @"MHGalleryCollectionViewCell";
+    cellIdentifier = @"MHCollectionViewTableViewCell";
     
     MHCollectionViewTableViewCell *cell = (MHCollectionViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell){
@@ -376,16 +376,15 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell =nil;
     if ([collectionView isEqual:self.collectionView]) {
-        NSString *cellIdentifier = @"MHGalleryOverViewCell";
+        NSString *cellIdentifier = @"MHMediaPreviewCollectionViewCell";
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-        [self makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:indexPath];
+        [self makeOverViewDetailCell:(MHMediaPreviewCollectionViewCell*)cell atIndexPath:indexPath];
     }else{
         NSString *cellIdentifier = @"MHShareCell";
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         NSIndexPath *indexPathNew = [NSIndexPath indexPathForRow:indexPath.row inSection:collectionView.tag];
         [self makeMHShareCell:(MHShareCell*)cell atIndexPath:indexPathNew];
     }
-    
     return cell;
 }
 -(void)makeMHShareCell:(MHShareCell*)cell atIndexPath:(NSIndexPath*)indexPath{
@@ -405,8 +404,8 @@
     cell.backgroundColor = [UIColor clearColor];
 }
 
--(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
-    __block MHGalleryOverViewCell *blockCell = cell;
+-(void)makeOverViewDetailCell:(MHMediaPreviewCollectionViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
+    __block MHMediaPreviewCollectionViewCell *blockCell = cell;
     
     MHGalleryItem *item = [self itemForIndex:indexPath.row];
     cell.videoDurationLength.text = @"";
@@ -482,7 +481,7 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if ([scrollView isEqual:self.collectionView]) {
         NSArray *visibleCells = [self sortObjectsWithFrame:self.collectionView.visibleCells];
-        for (MHGalleryOverViewCell *cellOther in visibleCells) {
+        for (MHMediaPreviewCollectionViewCell *cellOther in visibleCells) {
             if (!cellOther.videoIcon.isHidden){
                 cellOther.selectionImageView.frame = CGRectMake(cellOther.bounds.size.width-30,  cellOther.bounds.size.height-50, 22, 22);
             }else{
@@ -490,7 +489,7 @@
             }
         }
         
-        MHGalleryOverViewCell *cell = [visibleCells lastObject];
+        MHMediaPreviewCollectionViewCell *cell = [visibleCells lastObject];
         CGRect rect = [self.view convertRect:cell.thumbnail.frame
                                     fromView:cell.thumbnail.superview];
         
@@ -721,9 +720,9 @@
         [self.blurBackgroundToolbar addSubview:self.downloadDataLabel];
         
         self.cancelDownloadButton = [[UIButton alloc]initWithFrame:CGRectMake(0, self.blurBackgroundToolbar.frame.size.height-50, self.view.frame.size.width, 44)];
-        [self.cancelDownloadButton setTitle:@"Cancel" forState:UIControlStateNormal];
+        [self.cancelDownloadButton setTitle:MHGalleryLocalizedString(@"shareview.download.cancel") forState:UIControlStateNormal];
         [self.cancelDownloadButton setTitleColor:[UIColor colorWithRed:1 green:0.18 blue:0.33 alpha:1] forState:UIControlStateNormal];
-        self.cancelDownloadButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:25];
+        self.cancelDownloadButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20];
         [self.cancelDownloadButton addTarget:self action:@selector(cancelDownload) forControlEvents:UIControlEventTouchUpInside];
         [self.blurBackgroundToolbar addSubview:self.cancelDownloadButton];
         [UIView animateWithDuration:0.3 animations:^{
@@ -831,7 +830,7 @@
     
     NSArray *visibleCells = [self sortObjectsWithFrame:self.collectionView.visibleCells];
     NSInteger numberToScrollTo =  visibleCells.count/2;
-    MHGalleryOverViewCell *cell =  (MHGalleryOverViewCell*)visibleCells[numberToScrollTo];
+    MHMediaPreviewCollectionViewCell *cell =  (MHMediaPreviewCollectionViewCell*)visibleCells[numberToScrollTo];
     
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:cell.tag inSection:0]
                                 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally

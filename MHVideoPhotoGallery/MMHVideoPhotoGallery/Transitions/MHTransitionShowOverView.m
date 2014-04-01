@@ -14,7 +14,7 @@
 @property (nonatomic,strong) UITextView *descriptionLabel;
 @property (nonatomic,strong) UIToolbar *descriptionViewBackgroundToolbar;
 @property (nonatomic,strong) MHOverviewController *toViewController;
-@property (nonatomic,strong) MHGalleryOverViewCell *cellInteractive;
+@property (nonatomic,strong) MHMediaPreviewCollectionViewCell *cellInteractive;
 @property (nonatomic,strong) MHUIImageViewContentViewAnimation *transitionImageView;
 @property (nonatomic,strong) UIView *backView;
 @property (nonatomic)        CGRect startFrame;
@@ -78,7 +78,7 @@
                                     animated:NO];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        MHGalleryOverViewCell *cellNew = (MHGalleryOverViewCell*)[toViewController.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]];
+        MHMediaPreviewCollectionViewCell *cellNew = (MHMediaPreviewCollectionViewCell*)[toViewController.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]];
         cellNew.thumbnail.hidden = YES;
         
         BOOL videoIconsHidden = YES;
@@ -185,7 +185,7 @@
                                     animated:NO];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.cellInteractive = (MHGalleryOverViewCell*)[self.toViewController.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.toViewController.currentPage inSection:0]];
+        self.cellInteractive = (MHMediaPreviewCollectionViewCell*)[self.toViewController.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.toViewController.currentPage inSection:0]];
         self.cellInteractive.thumbnail.hidden = YES;
         
         BOOL videoIconsHidden = YES;

@@ -41,8 +41,8 @@
     self.collectionView.backgroundColor = [self.galleryViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeOverView];
     self.collectionView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
-    [self.collectionView registerClass:[MHGalleryOverViewCell class]
-            forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
+    [self.collectionView registerClass:[MHMediaPreviewCollectionViewCell class]
+            forCellWithReuseIdentifier:@"MHMediaPreviewCollectionViewCell"];
     
     self.collectionView.dataSource =self;
     self.collectionView.alwaysBounceVertical = YES;
@@ -108,9 +108,9 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell =nil;
     NSString *cellIdentifier = nil;
-    cellIdentifier = @"MHGalleryOverViewCell";
-    cell = (MHGalleryOverViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    [self makeMHGalleryOverViewCell:(MHGalleryOverViewCell*)cell
+    cellIdentifier = @"MHMediaPreviewCollectionViewCell";
+    cell = (MHMediaPreviewCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    [self makeMHGalleryOverViewCell:(MHMediaPreviewCollectionViewCell*)cell
                         atIndexPath:indexPath];
     
     return cell;
@@ -118,7 +118,7 @@
 
 
 
--(void)makeMHGalleryOverViewCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
+-(void)makeMHGalleryOverViewCell:(MHMediaPreviewCollectionViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     
     MHGalleryItem *item =  [self itemForIndex:indexPath.row];
     cell.thumbnail.image = nil;
@@ -136,7 +136,7 @@
     };
     cell.videoDurationLength.text = @"";
     cell.thumbnail.backgroundColor = [UIColor lightGrayColor];
-    __block MHGalleryOverViewCell *blockCell = cell;
+    __block MHMediaPreviewCollectionViewCell *blockCell = cell;
     
     if (item.galleryType == MHGalleryTypeVideo) {
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.URLString
@@ -286,7 +286,7 @@
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    MHMediaPreviewCollectionViewCell *cell = (MHMediaPreviewCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     MHGalleryItem *item =  [self itemForIndex:indexPath.row];
     
     if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {

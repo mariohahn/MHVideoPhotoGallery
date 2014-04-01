@@ -14,7 +14,7 @@
 @property (nonatomic, strong) UIToolbar *descriptionViewBackgroundToolbar;
 @property (nonatomic, strong) UIToolbar *toolbar;
 @property (nonatomic, strong) UIView *backView;
-@property (nonatomic, strong) MHGalleryOverViewCell *cell;
+@property (nonatomic, strong) MHMediaPreviewCollectionViewCell *cell;
 @property (nonatomic)         CGRect startFrame;
 @property (nonatomic)         CGRect changedFrame;
 
@@ -29,7 +29,7 @@
     UIView *containerView = [transitionContext containerView];
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     
-    MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[fromViewController.collectionView cellForItemAtIndexPath:[[fromViewController.collectionView indexPathsForSelectedItems] firstObject]];
+    MHMediaPreviewCollectionViewCell *cell = (MHMediaPreviewCollectionViewCell*)[fromViewController.collectionView cellForItemAtIndexPath:[[fromViewController.collectionView indexPathsForSelectedItems] firstObject]];
     
     
     MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:[containerView convertRect:cell.thumbnail.frame fromView:cell.thumbnail.superview]];
@@ -122,7 +122,7 @@
     MHGalleryImageViewerViewController *toViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *containerView = [transitionContext containerView];
     
-    self.cell = (MHGalleryOverViewCell*)[fromViewController.collectionView cellForItemAtIndexPath:self.indexPath];
+    self.cell = (MHMediaPreviewCollectionViewCell*)[fromViewController.collectionView cellForItemAtIndexPath:self.indexPath];
     
     self.cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:[containerView convertRect:self.cell.thumbnail.frame fromView:self.cell.thumbnail.superview]];
     self.cellImageSnapshot.image = self.cell.thumbnail.image;

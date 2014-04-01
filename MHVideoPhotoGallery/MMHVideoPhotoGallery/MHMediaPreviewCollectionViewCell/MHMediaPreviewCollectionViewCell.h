@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MHGalleryOverViewCell : UICollectionViewCell
+@interface MHMediaPreviewCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) UIImageView             *thumbnail;
 @property (nonatomic, strong) UIActivityIndicatorView *act;

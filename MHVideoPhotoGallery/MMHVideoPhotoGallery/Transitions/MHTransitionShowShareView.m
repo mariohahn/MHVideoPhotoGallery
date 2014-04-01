@@ -70,7 +70,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
             [snapShot removeFromSuperview];
-            MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[toViewController.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.pageIndex inSection:0]];
+            MHMediaPreviewCollectionViewCell *cell = (MHMediaPreviewCollectionViewCell*)[toViewController.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.pageIndex inSection:0]];
             
             cell.thumbnail.hidden =YES;
             [UIView animateWithDuration:duration animations:^{
@@ -104,7 +104,7 @@
         UIView *containerView = [transitionContext containerView];
         NSTimeInterval duration = [self transitionDuration:transitionContext];
         
-        MHGalleryOverViewCell *cell;
+        MHMediaPreviewCollectionViewCell *cell;
         NSArray *visible = fromViewController.collectionView.visibleCells;
 
         if (fromViewController.collectionView.visibleCells.count ==3) {

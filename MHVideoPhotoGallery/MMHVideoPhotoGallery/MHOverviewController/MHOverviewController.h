@@ -12,7 +12,7 @@
 #import "SDWebImageManager.h"
 #import "MHTransitionShowDetail.h"
 #import "UIImageView+WebCache.h"
-#import "MHGalleryCells.h"
+#import "MHMediaPreviewCollectionViewCell.h"
 
 
 @interface MHIndexPinchGestureRecognizer : UIPinchGestureRecognizer
@@ -22,7 +22,7 @@
 @interface MHOverviewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UICollectionView      *collectionView;
-@property (strong,nonatomic ) MHGalleryOverViewCell *clickedCell;
+@property (strong,nonatomic ) MHMediaPreviewCollectionViewCell *clickedCell;
 @property (nonatomic)         NSInteger             currentPage;
 @property (nonatomic, strong) NSArray               *galleryItems;
 

@@ -16,3 +16,5 @@
 "shareview.title.select.plural"   = "%@ Photos Selected";
 "shareview.title.select.singular" = "%@ Photo Selected";
 "shareview.download"              = "download data\n";
+"shareview.download.cancel"       = "Cancel";
+

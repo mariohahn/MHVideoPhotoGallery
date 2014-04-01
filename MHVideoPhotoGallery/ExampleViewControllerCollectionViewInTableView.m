@@ -167,7 +167,7 @@
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     cell.collectionView.collectionViewLayout = layout;
     
-    [cell.collectionView registerClass:[MHGalleryOverViewCell class] forCellWithReuseIdentifier:@"MHGalleryOverViewCell"];
+    [cell.collectionView registerClass:[MHMediaPreviewCollectionViewCell class] forCellWithReuseIdentifier:@"MHMediaPreviewCollectionViewCell"];
     
     cell.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     
@@ -182,10 +182,10 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell =nil;
-    NSString *cellIdentifier = @"MHGalleryOverViewCell";
+    NSString *cellIdentifier = @"MHMediaPreviewCollectionViewCell";
     cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     NSIndexPath *indexPathNew = [NSIndexPath indexPathForRow:indexPath.row inSection:collectionView.tag];
-    [self makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:indexPathNew];
+    [self makeOverViewDetailCell:(MHMediaPreviewCollectionViewCell*)cell atIndexPath:indexPathNew];
     
     return cell;
 }
@@ -193,7 +193,7 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    UIImageView *imageView = [(MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:indexPath] thumbnail];
+    UIImageView *imageView = [(MHMediaPreviewCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath] thumbnail];
     
     NSArray *galleryData = self.galleryDataSource[collectionView.tag];
     
@@ -220,7 +220,7 @@
                 [collectionView reloadItemsAtIndexPaths:@[newIndexPath]];
                 [collectionView scrollToItemAtIndexPath:newIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
                 
-                MHGalleryOverViewCell *cell = (MHGalleryOverViewCell*)[collectionView cellForItemAtIndexPath:newIndexPath];
+                MHMediaPreviewCollectionViewCell *cell = (MHMediaPreviewCollectionViewCell*)[collectionView cellForItemAtIndexPath:newIndexPath];
                 
                 [blockGallery dismissViewControllerAnimated:YES dismissImageView:cell.thumbnail completion:^{
                     
@@ -257,7 +257,7 @@
     return YES;
 }
 
--(void)makeOverViewDetailCell:(MHGalleryOverViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
+-(void)makeOverViewDetailCell:(MHMediaPreviewCollectionViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     MHGalleryItem *item = self.galleryDataSource[indexPath.section][indexPath.row];
     [cell.thumbnail setContentMode:UIViewContentModeScaleAspectFill];
     
