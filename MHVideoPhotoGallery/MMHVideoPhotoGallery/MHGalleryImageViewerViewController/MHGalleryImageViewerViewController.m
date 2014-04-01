@@ -594,7 +594,6 @@
                     if ([recognizer translationInView:self.view].x <=0) {
                         userScrolls =NO;
                         self.viewController.userScrolls = NO;
-                        
                     }else{
                         recognizer.cancelsTouchesInView = YES;
                         recognizer.enabled =NO;
@@ -848,12 +847,14 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
+    __weak typeof(self) weakSelf = self;
+
     if (!self.moviePlayer && self.item.galleryType == MHGalleryTypeVideo) {
         [[MHGallerySharedManager sharedManager] getURLForMediaPlayer:self.item.URLString successBlock:^(NSURL *URL, NSError *error) {
             if (error) {
-                [self addMoviePlayerToViewWithURL:[NSURL  URLWithString:self.item.URLString]];
+               [weakSelf changePlayButtonToUnPlay];
             }else{
-                [self addMoviePlayerToViewWithURL:URL];
+                [weakSelf addMoviePlayerToViewWithURL:URL];
             }
         }];
     }
@@ -1216,6 +1217,7 @@
 
 -(void)playButtonPressed{
     if (!self.playingVideo) {
+        
         [self bringMoviePlayerToFront];
         
         self.playButton.hidden = YES;
