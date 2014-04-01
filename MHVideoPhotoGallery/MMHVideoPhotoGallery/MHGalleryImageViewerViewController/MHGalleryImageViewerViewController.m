@@ -864,7 +864,7 @@
               videoDuration:(NSInteger)videoDuration
                   urlString:(NSString*)urlString{
     self.wholeTimeMovie = videoDuration;
-    self.rightSliderLabel.text = [self getStringForMinutesAndSecondsForSecons:videoDuration addMinues:YES];
+    self.rightSliderLabel.text = [self stringForMinutesAndSeconds:videoDuration addMinus:YES];
     
     self.slider.maximumValue = videoDuration;
     [self.view viewWithTag:508].hidden =NO;
@@ -1046,8 +1046,8 @@
 	}
 }
 
--(NSString*)getStringForMinutesAndSecondsForSecons:(NSInteger)seconds
-                                         addMinues:(BOOL)addMinus{
+-(NSString*)stringForMinutesAndSeconds:(NSInteger)seconds
+                                         addMinus:(BOOL)addMinus{
     NSNumber *minutesNumber = @(seconds / 60);
     NSNumber *secondsNumber = @(seconds % 60);
     
@@ -1063,10 +1063,10 @@
     if (self.currentTimeMovie <=0) {
         self.leftSliderLabel.text =@"00:00";
         
-        self.rightSliderLabel.text = [self getStringForMinutesAndSecondsForSecons:self.wholeTimeMovie addMinues:YES];
+        self.rightSliderLabel.text = [self stringForMinutesAndSeconds:self.wholeTimeMovie addMinus:YES];
     }else{
-        self.leftSliderLabel.text = [self getStringForMinutesAndSecondsForSecons:self.currentTimeMovie addMinues:NO];
-        self.rightSliderLabel.text = [self getStringForMinutesAndSecondsForSecons:self.wholeTimeMovie-self.currentTimeMovie addMinues:YES];
+        self.leftSliderLabel.text = [self stringForMinutesAndSeconds:self.currentTimeMovie addMinus:NO];
+        self.rightSliderLabel.text = [self stringForMinutesAndSeconds:self.wholeTimeMovie-self.currentTimeMovie addMinus:YES];
     }
 }
 
@@ -1190,11 +1190,11 @@
         self.moviePlayer.view.backgroundColor = [self.viewController.galleryViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
     }
     self.moviePlayer.shouldAutoplay =NO;
-    self.moviePlayer.view.frame =self.view.bounds;
+    self.moviePlayer.view.frame = self.view.bounds;
     self.moviePlayer.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.moviePlayer.view.hidden = YES;
     
-    [self.view addSubview: self.moviePlayer.view];
+    [self.view addSubview:self.moviePlayer.view];
     
     self.playingVideo =NO;
     
