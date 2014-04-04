@@ -151,9 +151,9 @@
                                                                       
                                                                       blockCell.videoDurationLength.text = [NSString stringWithFormat:@"%@:%@",
                                                                                                             [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
-                                                                      [blockCell.thumbnail setImage:image];
-                                                                      [blockCell.videoIcon setHidden:NO];
-                                                                      [blockCell.videoGradient setHidden:NO];
+                                                                      blockCell.thumbnail.image = image;
+                                                                      blockCell.videoIcon.hidden = NO;
+                                                                      blockCell.videoGradient.hidden = NO;
                                                                   }
                                                                   [[blockCell.contentView viewWithTag:405] setHidden:YES];
                                                               }];

@@ -48,8 +48,6 @@
 
 @end
 
-
-
 @interface UIViewController(MHGalleryViewController)<UIViewControllerTransitioningDelegate>
 
 /**

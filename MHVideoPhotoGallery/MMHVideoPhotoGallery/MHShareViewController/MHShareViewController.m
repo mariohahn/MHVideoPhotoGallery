@@ -711,7 +711,6 @@
         
         [self.blurBackgroundToolbar addSubview:activityIndicatorView];
         
-        
         self.downloadDataLabel = [[UILabel alloc]initWithFrame:self.blurBackgroundToolbar.bounds];
         self.downloadDataLabel.textAlignment = NSTextAlignmentCenter;
         self.downloadDataLabel.numberOfLines = MAXFLOAT;
@@ -816,16 +815,21 @@
         self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 240);
         self.toolbar.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
         self.collectionView.frame = self.view.bounds;
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next"
-                                                                                 style:UIBarButtonItemStyleBordered
-                                                                                target:self
-                                                                                action:@selector(showShareSheet)];
+        self.navigationItem.rightBarButtonItem = [self nextBarButtonItem];
     }
     self.downloadDataLabel.frame = self.blurBackgroundToolbar.bounds;
     self.cancelDownloadButton.frame= CGRectMake(0, self.blurBackgroundToolbar.frame.size.height-50, self.view.frame.size.width, 44);
 
     [self.collectionView.collectionViewLayout invalidateLayout];
 }
+
+-(UIBarButtonItem*)nextBarButtonItem{
+    return [[UIBarButtonItem alloc]initWithTitle:@"Next"
+                                           style:UIBarButtonItemStyleBordered
+                                          target:self
+                                          action:@selector(showShareSheet)];
+}
+
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     
     NSArray *visibleCells = [self sortObjectsWithFrame:self.collectionView.visibleCells];
@@ -848,10 +852,7 @@
                                                                                          target:self
                                                                                          action:@selector(cancelPressed)];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next"
-                                                                             style:UIBarButtonItemStyleBordered
-                                                                            target:self
-                                                                            action:@selector(showShareSheet)];
+    self.navigationItem.rightBarButtonItem = [self nextBarButtonItem];
     
     [UIView animateWithDuration:0.3 animations:^{
         self.toolbar.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);

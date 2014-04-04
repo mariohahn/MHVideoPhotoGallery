@@ -193,12 +193,16 @@
     [self updateTitleForIndex:self.pageIndex];
 
 }
+
 -(NSInteger)numberOfGalleryItems{
     return [self.galleryViewController.dataSource numberOfItemsInGallery:self.galleryViewController];
 }
 
 -(MHGalleryController*)galleryViewController{
-    return  (MHGalleryController*)self.navigationController;
+    if ([self.navigationController isKindOfClass:[MHGalleryController class]]) {
+        return  (MHGalleryController*)self.navigationController;
+    }
+    return nil;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {

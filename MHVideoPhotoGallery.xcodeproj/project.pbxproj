@@ -85,6 +85,7 @@
 		F58F65281882F97600D3A8F9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65271882F97600D3A8F9 /* Social.framework */; };
 		F58F652A1882F97B00D3A8F9 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65291882F97B00D3A8F9 /* MessageUI.framework */; };
 		F58F653D18852F6500D3A8F9 /* Storyboard-iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F58F653C18852F6500D3A8F9 /* Storyboard-iPad.storyboard */; };
+		F5B1AA8A18ED82CE00FE4682 /* SubclassMHImageviewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5B1AA8918ED82CE00FE4682 /* SubclassMHImageviewerViewController.m */; };
 		F5B2EC8017F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5B2EC7F17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m */; };
 		F5B2EC8217F9D70C000ADC51 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */; };
 		F5C52E8C18C0828E001E431E /* MHTransitionDismissMHGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = F5C52E8318C0828D001E431E /* MHTransitionDismissMHGallery.m */; };
@@ -217,6 +218,8 @@
 		F58F65271882F97600D3A8F9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		F58F65291882F97B00D3A8F9 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F58F653C18852F6500D3A8F9 /* Storyboard-iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Storyboard-iPad.storyboard"; sourceTree = "<group>"; };
+		F5B1AA8818ED82CE00FE4682 /* SubclassMHImageviewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubclassMHImageviewerViewController.h; sourceTree = "<group>"; };
+		F5B1AA8918ED82CE00FE4682 /* SubclassMHImageviewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubclassMHImageviewerViewController.m; sourceTree = "<group>"; };
 		F5B2EC7E17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleViewControllerCollectionViewInTableView.h; sourceTree = "<group>"; };
 		F5B2EC7F17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleViewControllerCollectionViewInTableView.m; sourceTree = "<group>"; };
 		F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
@@ -358,6 +361,8 @@
 				F53F925317EB008100A9FE6A /* AppDelegate.m */,
 				F5B2EC7E17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.h */,
 				F5B2EC7F17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m */,
+				F5B1AA8818ED82CE00FE4682 /* SubclassMHImageviewerViewController.h */,
+				F5B1AA8918ED82CE00FE4682 /* SubclassMHImageviewerViewController.m */,
 				F5D24FFB1885CDDD004D97CA /* ExampleViewControllerTableView.h */,
 				F5D24FFC1885CDDD004D97CA /* ExampleViewControllerTableView.m */,
 				F53653481897D11100748466 /* ExampleViewControllerLocal.h */,
@@ -760,6 +765,7 @@
 				F53F925417EB008100A9FE6A /* AppDelegate.m in Sources */,
 				F5C52E9318C086E4001E431E /* MHGallery.m in Sources */,
 				F5245DB418AA16D3004C6FFA /* UIImage+GIF.m in Sources */,
+				F5B1AA8A18ED82CE00FE4682 /* SubclassMHImageviewerViewController.m in Sources */,
 				F5245DB618AA16D3004C6FFA /* UIImageView+WebCache.m in Sources */,
 				F543E51118EB0D25008D7590 /* MHMediaPreviewCollectionViewCell.m in Sources */,
 				F5DBBF31187D584C00BEFE29 /* MHGalleryImageViewerViewController.m in Sources */,
