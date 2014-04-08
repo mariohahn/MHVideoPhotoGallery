@@ -12,12 +12,20 @@
 @class MHTransitionShowOverView;
 @class MHTransitionDismissMHGallery;
 @class MHGalleryController;
+@class MHImageViewController;
 
 @interface MHPinchGestureRecognizer : UIPinchGestureRecognizer
 @property (nonatomic)NSInteger tag;
 @end
 
-@interface MHGalleryImageViewerViewController : UIViewController<UIPageViewControllerDelegate,UIPageViewControllerDataSource,UINavigationControllerDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate,UINavigationBarDelegate>
+
+@protocol MHImageViewerDataSource<NSObject>
+@required
+-(MHGalleryItem*)itemForIndex:(NSInteger)index;
+-(NSInteger)numberOfGalleryItems;
+@end
+
+@interface MHGalleryImageViewerViewController : UIViewController<UIPageViewControllerDelegate,UIPageViewControllerDataSource,UINavigationControllerDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate,UINavigationBarDelegate,MHImageViewerDataSource>
 
 @property (nonatomic, strong)          NSArray *galleryItems;
 @property (nonatomic, strong)          UIToolbar *toolbar;
@@ -28,14 +36,11 @@
 @property (nonatomic, strong)          UIImageView *presentingFromImageView;
 @property (nonatomic, strong)          UIImageView *dismissFromImageView;
 @property (nonatomic, strong)          MHTransitionPresentMHGallery *interactivePresentationTranstion;
+@property (nonatomic, strong)          MHTransitionCustomization *transitionCustomization;
 @property (nonatomic,strong)           MHUICustomization *UICustomization;
 
 @property (nonatomic,getter = isUserScrolling)                   BOOL userScrolls;
 @property (nonatomic,getter = isHiddingToolBarAndNavigationBar)  BOOL hiddingToolBarAndNavigationBar;
-
-
--(MHGalleryItem*)itemForIndex:(NSInteger)index;
--(NSInteger)numberOfGalleryItems;
 
 -(MHGalleryController*)galleryViewController;
 -(void)updateToolBarForItem:(MHGalleryItem*)item;

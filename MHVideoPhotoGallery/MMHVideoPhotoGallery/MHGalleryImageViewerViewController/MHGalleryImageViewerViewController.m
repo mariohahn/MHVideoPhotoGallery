@@ -65,7 +65,6 @@
 }
 
 -(void)donePressed{
-    MHGalleryController *gallery  =(MHGalleryController*)self.navigationController;
     MHImageViewController *imageViewer = self.pageViewController.viewControllers.firstObject;
     if (imageViewer.moviePlayer) {
         [imageViewer removeAllMoviePlayerViewsAndNotifications];
@@ -73,7 +72,7 @@
     MHTransitionDismissMHGallery *dismissTransiton = [MHTransitionDismissMHGallery new];
     dismissTransiton.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     imageViewer.interactiveTransition = dismissTransiton;
-    gallery.finishedCallback(self.pageIndex,imageViewer.imageView.image,dismissTransiton,self.viewModeForBarStyle);
+    self.galleryViewController.finishedCallback(self.pageIndex,imageViewer.imageView.image,dismissTransiton,self.viewModeForBarStyle);
 }
 
 -(MHGalleryViewMode)viewModeForBarStyle{
@@ -87,7 +86,7 @@
     [super viewDidLoad];
     
     self.UICustomization = self.galleryViewController.UICustomization;
-
+    self.transitionCustomization = self.galleryViewController.transitionCustomization;
     
     if (!self.UICustomization.showOverView) {
         self.navigationItem.hidesBackButton = YES;
@@ -198,6 +197,10 @@
     return [self.galleryViewController.dataSource numberOfItemsInGallery:self.galleryViewController];
 }
 
+-(MHGalleryItem*)itemForIndex:(NSInteger)index{
+    return [self.galleryViewController.dataSource itemForIndex:index];
+}
+
 -(MHGalleryController*)galleryViewController{
     if ([self.navigationController isKindOfClass:[MHGalleryController class]]) {
         return  (MHGalleryController*)self.navigationController;
@@ -236,8 +239,7 @@
 }
 
 -(void)sharePressed{
-    MHGalleryController *gallery  =(MHGalleryController*)self.navigationController;
-    if (gallery.UICustomization.showMHShareViewInsteadOfActivityViewController) {
+    if (self.UICustomization.showMHShareViewInsteadOfActivityViewController) {
         MHShareViewController *share = [MHShareViewController new];
         share.pageIndex = self.pageIndex;
         share.galleryItems = self.galleryItems;
@@ -317,9 +319,7 @@
     }
 }
 
--(MHGalleryItem*)itemForIndex:(NSInteger)index{
-    return [self.galleryViewController.dataSource itemForIndex:index];
-}
+
 
 -(void)removeVideoPlayerForVC:(MHImageViewController*)vc{
     if (vc.pageIndex != self.pageIndex) {
@@ -581,7 +581,7 @@
 -(void)userDidPan:(UIPanGestureRecognizer*)recognizer{
     
     BOOL userScrolls = self.viewController.userScrolls;
-    if (self.viewController.galleryViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
+    if (self.viewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
         if (!self.interactiveTransition) {
             if (self.viewController.numberOfGalleryItems ==1) {
                 userScrolls = NO;
@@ -634,7 +634,7 @@
             }else{
                 CGPoint currentPoint = [recognizer translationInView:self.view];
                 
-                if (self.viewController.galleryViewController.transitionCustomization.fixXValueForDismiss) {
+                if (self.viewController.transitionCustomization.fixXValueForDismiss) {
                     self.interactiveTransition.changedPoint = CGPointMake(self.startPoint.x, self.lastPoint.y-currentPoint.y);
                 }else{
                     self.interactiveTransition.changedPoint = CGPointMake(self.lastPoint.x-currentPoint.x, self.lastPoint.y-currentPoint.y);
@@ -642,7 +642,7 @@
                 progressY = [self checkProgressValue:progressY];
                 progressX = [self checkProgressValue:progressX];
                 
-                if (!self.viewController.galleryViewController.transitionCustomization.fixXValueForDismiss) {
+                if (!self.viewController.transitionCustomization.fixXValueForDismiss) {
                     if (progressX> progressY) {
                         progressY = progressX;
                     }
@@ -658,7 +658,7 @@
                 if (velocityY <0) {
                     velocityY = -velocityY;
                 }
-                if (!self.viewController.galleryViewController.transitionCustomization.fixXValueForDismiss) {
+                if (!self.viewController.transitionCustomization.fixXValueForDismiss) {
                     if (progressX> progressY) {
                         progressY = progressX;
                     }
@@ -728,7 +728,7 @@
         
         self.pan.delegate = self;
         
-        if(self.viewController.galleryViewController.transitionCustomization.interactiveDismiss){
+        if(self.viewController.transitionCustomization.interactiveDismiss){
             [self.imageView addGestureRecognizer:self.pan];
             self.pan.maximumNumberOfTouches =1;
             self.pan.delaysTouchesBegan = YES;
@@ -893,7 +893,7 @@
         }
         return NO;
     }
-    if (self.viewController.galleryViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
+    if (self.viewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
         if ((self.pageIndex ==0 || self.pageIndex == self.viewController.numberOfGalleryItems -1)) {
             if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]|| [otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewDelayedTouchesBeganGestureRecognizer")] ) {
                 return YES;
@@ -933,7 +933,7 @@
         }
         return NO;
     }
-    if (self.viewController.galleryViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
+    if (self.viewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
         if ((self.pageIndex ==0 || self.pageIndex == self.viewController.numberOfGalleryItems -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
             
             return YES;
@@ -955,7 +955,7 @@
     if ([gestureRecognizer isKindOfClass:[MHPinchGestureRecognizer class]]) {
         return YES;
     }
-    if (self.viewController.galleryViewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
+    if (self.viewController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage) {
         if ((self.pageIndex ==0 || self.pageIndex == self.viewController.numberOfGalleryItems -1) && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
             return YES;
         }
@@ -1009,7 +1009,7 @@
     [self.view bringSubviewToFront:self.moviePlayerToolBarTop];
     [self.view bringSubviewToFront:self.playButton];
     
-    if(self.viewController.galleryViewController.transitionCustomization.interactiveDismiss){
+    if(self.viewController.transitionCustomization.interactiveDismiss){
         [self.moviewPlayerButtonBehinde addGestureRecognizer:self.pan];
     }
     

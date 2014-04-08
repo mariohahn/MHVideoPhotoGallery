@@ -15,14 +15,15 @@
 @implementation SubclassMHImageviewerViewController
 
 -(NSInteger)numberOfGalleryItems{
-    [super numberOfGalleryItems];
     return 10;
 }
 
--(MHGalleryItem *)itemForIndex:(NSInteger)index{
-    [super itemForIndex:index];
-    
+-(MHGalleryItem *)itemForIndex:(NSInteger)index{    
    return [MHGalleryItem itemWithURL:@"http://alles-bilder.de/landschaften/HD%20Landschaftsbilder%20(47).jpg" galleryType:MHGalleryTypeImage];
 }
-
+-(void)viewDidLoad{
+    [super viewDidLoad];
+    
+    self.navigationItem.rightBarButtonItem = nil;
+}
 @end
