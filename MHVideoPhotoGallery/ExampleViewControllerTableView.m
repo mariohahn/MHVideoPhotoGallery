@@ -88,7 +88,7 @@
         [cell.iv setImageWithURL:[NSURL URLWithString:item.URLString]];
     }else{
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.URLString
-                                                              successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error,NSString *newURL) {
+                                                              successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
                                                                   cell.iv.image = image;
                                                               }];
     }

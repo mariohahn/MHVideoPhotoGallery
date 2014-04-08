@@ -21,11 +21,12 @@
         self.thumbnail.clipsToBounds = YES;
         [self.contentView addSubview:self.thumbnail];
         
-        _act = [[UIActivityIndicatorView alloc]initWithFrame:self.bounds];
-        self.act.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-        self.act.color = [UIColor whiteColor];
-        self.act.tag = 405;
-        [self.contentView addSubview:self.act];
+        _activityIndicator = [[UIActivityIndicatorView alloc]initWithFrame:self.bounds];
+        self.activityIndicator.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+        self.activityIndicator.color = [UIColor whiteColor];
+        self.activityIndicator.hidesWhenStopped = YES;
+        self.activityIndicator.tag = 405;
+        [self.contentView addSubview:self.activityIndicator];
         
         _playButton = [[UIButton alloc]initWithFrame:self.bounds];
         

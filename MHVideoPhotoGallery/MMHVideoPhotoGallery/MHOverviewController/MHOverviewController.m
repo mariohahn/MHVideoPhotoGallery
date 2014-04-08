@@ -7,6 +7,8 @@
 //
 
 #import "MHOverviewController.h"
+#import "MHGalleryController.h"
+#import "MHGallerySharedManagerPrivate.h"
 
 @implementation MHIndexPinchGestureRecognizer
 @end
@@ -14,8 +16,6 @@
 @interface MHOverviewController ()
 
 @property (nonatomic, strong) MHTransitionShowDetail *interactivePushTransition;
-@property (nonatomic, strong) NSNumberFormatter  *numberFormatter;
-
 @property (nonatomic) CGPoint lastPoint;
 @property (nonatomic) CGFloat startScale;
 
@@ -50,9 +50,6 @@
     self.collectionView.autoresizingMask =UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:self.collectionView];
     [self.collectionView reloadData];
-        
-    self.numberFormatter = [NSNumberFormatter new];
-    [self.numberFormatter setMinimumIntegerDigits:2];
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
@@ -72,7 +69,7 @@
     
     [[UIApplication sharedApplication] setStatusBarStyle:self.galleryViewController.preferredStatusBarStyleMH
                                                 animated:YES];
-
+    
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -135,48 +132,35 @@
                }];
     };
     cell.videoDurationLength.text = @"";
+    
     cell.thumbnail.backgroundColor = [UIColor lightGrayColor];
     __block MHMediaPreviewCollectionViewCell *blockCell = cell;
     
     if (item.galleryType == MHGalleryTypeVideo) {
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.URLString
-                                                              successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
+                                                              successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
                                                                   
                                                                   if (error) {
                                                                       blockCell.thumbnail.backgroundColor = [UIColor whiteColor];
                                                                       blockCell.thumbnail.image = MHGalleryImage(@"error");
                                                                   }else{
-                                                                      NSNumber *minutes = @(videoDuration / 60);
-                                                                      NSNumber *seconds = @(videoDuration % 60);
                                                                       
-                                                                      blockCell.videoDurationLength.text = [NSString stringWithFormat:@"%@:%@",
-                                                                                                            [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
+                                                                      blockCell.videoDurationLength.text  = [MHGallerySharedManager stringForMinutesAndSeconds:videoDuration addMinus:NO];
+                                                                      
                                                                       blockCell.thumbnail.image = image;
                                                                       blockCell.videoIcon.hidden = NO;
                                                                       blockCell.videoGradient.hidden = NO;
                                                                   }
-                                                                  [[blockCell.contentView viewWithTag:405] setHidden:YES];
+                                                                  [blockCell.activityIndicator stopAnimating];
                                                               }];
     }else{
-        if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
-            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.URLString assetType:MHAssetImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
-                cell.thumbnail.image = image;
-            }];
-        }else if(item.image){
-            cell.thumbnail.image = item.image;
-        }else{
-            [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.URLString]
-                           placeholderImage:nil
-                                    options:SDWebImageContinueInBackground
-                                   progress:nil
-                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                      if (!image) {
-                                          blockCell.thumbnail.backgroundColor = [UIColor whiteColor];
-                                          blockCell.thumbnail.image = MHGalleryImage(@"error");
-                                      }
-                                      [[blockCell.contentView viewWithTag:405] setHidden:YES];
-                                  }];
-        }
+        [cell.thumbnail setImageForMHGalleryItem:item imageType:MHImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
+            if (!image) {
+                blockCell.thumbnail.backgroundColor = [UIColor whiteColor];
+                blockCell.thumbnail.image = MHGalleryImage(@"error");
+            }
+        }];
+        
     }
     cell.thumbnail.userInteractionEnabled =YES;
     
@@ -204,7 +188,7 @@
     }
 }
 -(void)userDidPinch:(MHIndexPinchGestureRecognizer*)recognizer{
-
+    
     CGFloat scale = recognizer.scale/5;
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {

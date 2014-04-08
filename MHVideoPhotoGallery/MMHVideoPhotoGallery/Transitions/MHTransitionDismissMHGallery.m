@@ -8,6 +8,7 @@
 
 #import "MHTransitionDismissMHGallery.h"
 #import "MHOverviewController.h"
+#import "MHGallerySharedManagerPrivate.h"
 
 @interface MHTransitionDismissMHGallery()
 
@@ -50,7 +51,7 @@
     if(!image){
         UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
         view.backgroundColor = [UIColor whiteColor];
-        image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
+        image = [MHGallerySharedManager imageByRenderingView:view];
     }
     
     MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:fromViewController.view.bounds];

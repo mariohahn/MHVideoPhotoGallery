@@ -28,6 +28,7 @@
 extern void MHGalleryCustomLocalizationBlock(NSString *(^customLocalizationBlock)(NSString *stringToLocalize));
 extern void MHGalleryCustomImageBlock(UIImage *(^customImageBlock)(NSString *imageToChangeName));
 
+extern NSNumberFormatter *MHNumberFormatterVideo(void);
 extern NSBundle *MHGalleryBundle(void);
 extern NSString *MHGalleryLocalizedString(NSString *localizeString);
 extern UIImage  *MHGalleryImage(NSString *imageName);

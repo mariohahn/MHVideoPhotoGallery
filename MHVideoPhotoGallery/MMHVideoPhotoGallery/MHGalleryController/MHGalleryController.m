@@ -64,6 +64,19 @@
     return self.galleryItems.count;
 }
 
++(NSString*)stringForMinutesAndSeconds:(NSInteger)seconds
+                              addMinus:(BOOL)addMinus{
+    
+    NSNumber *minutesNumber = @(seconds / 60);
+    NSNumber *secondsNumber = @(seconds % 60);
+    
+    NSString *string = [NSString stringWithFormat:@"-%@:%@",[MHNumberFormatterVideo() stringFromNumber:minutesNumber] ,[MHNumberFormatterVideo() stringFromNumber:secondsNumber]];
+    if (addMinus) {
+        return string;
+    }
+    return [string stringByReplacingOccurrencesOfString:@"-" withString:@""];
+}
+
 @end
 
 

@@ -11,7 +11,7 @@
 @interface MHMediaPreviewCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) UIImageView             *thumbnail;
-@property (nonatomic, strong) UIActivityIndicatorView *act;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) UIButton                *playButton;
 @property (nonatomic, strong) UILabel                 *videoDurationLength;
 @property (nonatomic, strong) UIImageView             *videoIcon;

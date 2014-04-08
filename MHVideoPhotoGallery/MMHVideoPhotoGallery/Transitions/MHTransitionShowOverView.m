@@ -7,7 +7,7 @@
 //
 
 #import "MHTransitionShowOverView.h"
-#import "MHOverviewController.h"
+#import "MHGallerySharedManagerPrivate.h"
 
 @interface MHTransitionShowOverView()
 @property (nonatomic,strong) UIToolbar *toolbar;
@@ -40,7 +40,7 @@
     if (!cellImageSnapshot.imageMH) {
         UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
         view.backgroundColor = [UIColor whiteColor];
-        cellImageSnapshot.image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
+        cellImageSnapshot.image = [MHGallerySharedManager imageByRenderingView:view];
     }
     [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size, cellImageSnapshot.frame)];
     
@@ -136,7 +136,7 @@
     if (!self.transitionImageView.imageMH) {
         UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
         view.backgroundColor = [UIColor whiteColor];
-        self.transitionImageView.image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
+        self.transitionImageView.image = [MHGallerySharedManager imageByRenderingView:view];
     }
     [self.transitionImageView setFrame:AVMakeRectWithAspectRatioInsideRect(self.transitionImageView.imageMH.size, self.transitionImageView.frame)];
     

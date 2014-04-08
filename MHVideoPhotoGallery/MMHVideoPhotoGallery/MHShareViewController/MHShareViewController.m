@@ -13,6 +13,84 @@
 #import "MHTransitionShowShareView.h"
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
+#import "MHGallerySharedManagerPrivate.h"
+
+@implementation MHDownloadView
+
+-(id)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (!self)
+        return nil;
+    
+    self.backgroundColor = [UIColor clearColor];
+    self.blurBackgroundToolbar = [[UIToolbar alloc]initWithFrame:self.bounds];
+    self.blurBackgroundToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    [self addSubview:self.blurBackgroundToolbar];
+    
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0, -35, self.blurBackgroundToolbar.frame.size.width, self.blurBackgroundToolbar.frame.size.height-35)];
+    self.activityIndicatorView.color = [UIColor blackColor];
+    self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    [self.activityIndicatorView startAnimating];
+    [self.blurBackgroundToolbar addSubview:self.activityIndicatorView];
+    
+    self.downloadDataLabel = [[UILabel alloc]initWithFrame:self.blurBackgroundToolbar.bounds];
+    self.downloadDataLabel.textAlignment = NSTextAlignmentCenter;
+    self.downloadDataLabel.numberOfLines = MAXFLOAT;
+    self.downloadDataLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    [self.blurBackgroundToolbar addSubview:self.downloadDataLabel];
+    
+    self.cancelDownloadButton = [[UIButton alloc]initWithFrame:CGRectMake(0, self.blurBackgroundToolbar.frame.size.height-50, self.frame.size.width, 44)];
+    
+    self.cancelDownloadButton.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
+    [self.cancelDownloadButton setTitle:MHGalleryLocalizedString(@"shareview.download.cancel") forState:UIControlStateNormal];
+    [self.cancelDownloadButton setTitleColor:[UIColor colorWithRed:1 green:0.18 blue:0.33 alpha:1] forState:UIControlStateNormal];
+    self.cancelDownloadButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20];
+    [self.cancelDownloadButton addTarget:self action:@selector(cancelDownload) forControlEvents:UIControlEventTouchUpInside];
+    [self.blurBackgroundToolbar addSubview:self.cancelDownloadButton];
+    self.cancelDownloadButton.translatesAutoresizingMaskIntoConstraints = NO;
+
+    NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:self.cancelDownloadButton
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.blurBackgroundToolbar
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1
+                                                               constant:-5];
+    
+    NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:self.cancelDownloadButton
+                                                               attribute:NSLayoutAttributeCenterX
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:self.blurBackgroundToolbar
+                                                               attribute:NSLayoutAttributeCenterX
+                                                              multiplier:1.f constant:0.f];
+    
+    [self.blurBackgroundToolbar addConstraint:bottom];
+    [self.blurBackgroundToolbar addConstraint:centerX];
+
+    return self;
+}
+
+-(void)cancelDownload{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.cancelCallbackDownloadData(YES);
+    });
+}
+
+-(void)attributedStringForDownloadLabelWithDownloadedDataNumber:(NSNumber*)downloaded maxNumber:(NSNumber*)maxNumber{
+    
+    NSString *downloadDataString = MHGalleryLocalizedString(@"shareview.download");
+    NSString *numberTitle = [NSString stringWithFormat:MHGalleryLocalizedString(@"imagedetail.title.current"),downloaded,maxNumber];
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@%@",downloadDataString,numberTitle]];
+    [attributedString setAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30]} range:NSMakeRange(0, downloadDataString.length)];
+    
+    [attributedString setAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:20]} range:NSMakeRange(downloadDataString.length, numberTitle.length)];
+    
+    self.downloadDataLabel.attributedText = attributedString;
+}
+
+
+@end
 
 
 @implementation MHShareItem
@@ -98,6 +176,7 @@
 
 
 @interface MHShareViewController ()
+@property(nonatomic,strong) MHDownloadView *downloadView;
 @property(nonatomic,strong) NSMutableArray *shareDataSource;
 @property(nonatomic,strong) NSArray *shareDataSourceStart;
 @property(nonatomic,strong) NSMutableArray *selectedRows;
@@ -108,12 +187,8 @@
 @property(nonatomic,strong) MHShareItem *twitterObject;
 @property(nonatomic,strong) MHShareItem *faceBookObject;
 @property(nonatomic,getter = isShowingShareViewInLandscapeMode) BOOL showingShareViewInLandscapeMode;
-@property (nonatomic, strong) NSNumberFormatter *numberFormatter;
 @property (nonatomic)         NSInteger saveCount;
 @property (nonatomic,strong)  NSMutableArray *dataDownload;
-@property (nonatomic,strong)  UILabel *downloadDataLabel;
-@property (nonatomic,strong)  UIToolbar *blurBackgroundToolbar;
-@property (nonatomic,strong)  UIButton *cancelDownloadButton;
 @property (nonatomic,strong)  NSMutableArray *sessions;
 
 @end
@@ -206,11 +281,6 @@
 {
     [super viewDidLoad];
     
-    self.numberFormatter = [NSNumberFormatter new];
-    [self.numberFormatter setMinimumIntegerDigits:2];
-    
-    
-    
     self.selectedRows = [NSMutableArray new];
     self.view.backgroundColor =[UIColor whiteColor];
     self.navigationItem.hidesBackButton =YES;
@@ -301,10 +371,7 @@
     
     self.shareDataSourceStart = [NSArray arrayWithArray:self.shareDataSource];
     if([UIApplication sharedApplication].statusBarOrientation != UIInterfaceOrientationPortrait){
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Next"
-                                                                                 style:UIBarButtonItemStyleBordered
-                                                                                target:self
-                                                                                action:@selector(showShareSheet)];
+        self.navigationItem.rightBarButtonItem = [self nextBarButtonItem];
     }
     self.startPointScroll = self.collectionView.contentOffset.x;
 }
@@ -361,8 +428,13 @@
 }
 
 -(MHGalleryController*)gallerViewController{
-    return  (MHGalleryController*)self.navigationController;
+    if ([self.navigationController isKindOfClass:[MHGalleryController class]]) {
+        return  (MHGalleryController*)self.navigationController;
+    }
+    return nil;
 }
+
+
 -(MHGalleryItem*)itemForIndex:(NSInteger)index{
     return [self.gallerViewController.dataSource itemForIndex:index];
 }
@@ -411,33 +483,22 @@
     cell.videoDurationLength.text = @"";
     cell.videoIcon.hidden = YES;
     cell.videoGradient.hidden = YES;
+    cell.thumbnail.image = nil;
     
     if (item.galleryType == MHGalleryTypeImage) {
-        if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
-            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.URLString assetType:MHAssetImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
-                cell.thumbnail.image = image;
-            }];
-        }else if(item.image){
-            cell.thumbnail.image = item.image;
-        }else{
-            [cell.thumbnail setImageWithURL:[NSURL URLWithString:item.URLString] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                if (!image) {
-                    blockCell.thumbnail.image = [UIImage imageNamed:@"error"];
-                }
-            }];
-        }
+        
+        [cell.thumbnail setImageForMHGalleryItem:item imageType:MHImageTypeFull successBlock:^(UIImage *image, NSError *error) {
+            if (!image) {
+                blockCell.thumbnail.image = MHGalleryImage(@"error");
+            }
+        }];
     }else{
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.URLString
-                                                              successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
+                                                              successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
                                                                   if (error) {
-                                                                      cell.thumbnail.image = [UIImage imageNamed:@"error"];
+                                                                      blockCell.thumbnail.image = MHGalleryImage(@"error");
                                                                   }else{
-                                                                      
-                                                                      NSNumber *minutes = @(videoDuration / 60);
-                                                                      NSNumber *seconds = @(videoDuration % 60);
-                                                                      
-                                                                      blockCell.videoDurationLength.text = [NSString stringWithFormat:@"%@:%@",
-                                                                                                            [self.numberFormatter stringFromNumber:minutes] ,[self.numberFormatter stringFromNumber:seconds]];
+                                                                      blockCell.videoDurationLength.text = [MHGallerySharedManager stringForMinutesAndSeconds:videoDuration addMinus:NO];
                                                                       blockCell.thumbnail.image =image;
                                                                       blockCell.videoIcon.hidden =NO;
                                                                       blockCell.videoGradient.hidden =NO;
@@ -457,7 +518,7 @@
     if ([self.selectedRows containsObject:indexPath]) {
         cell.selectionImageView.backgroundColor = [UIColor whiteColor];
         cell.selectionImageView.tintColor = [UIColor colorWithRed:0 green:0.46 blue:1 alpha:1];
-        cell.selectionImageView.image =  [[UIImage imageNamed:@"EditControlSelected"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        cell.selectionImageView.image =  [MHGalleryImage(@"EditControlSelected") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
     
     cell.tag = indexPath.row;
@@ -635,7 +696,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         if (saveCount == self.selectedRows.count) {
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-            if (self.blurBackgroundToolbar) {
+            if (self.downloadView) {
                 [self removeBlurBlurBackgorundToolbarFromSuperView:^(BOOL complition) {
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         self.finishedCallbackDownloadData(self.dataDownload);
@@ -645,15 +706,15 @@
                 self.finishedCallbackDownloadData(self.dataDownload);
             }
         }
-        self.downloadDataLabel.attributedText =[self attributedStringForDownloadLabelWithDownloadedDataNumber:@(saveCount)];
+        [self.downloadView attributedStringForDownloadLabelWithDownloadedDataNumber:@(saveCount) maxNumber:@(self.selectedRows.count)];
     });
     _saveCount = saveCount;
 }
 -(void)removeBlurBlurBackgorundToolbarFromSuperView:(void(^)(BOOL complition))SuccessBlock{
     [UIView animateWithDuration:0.3 animations:^{
-        self.blurBackgroundToolbar.alpha =0;
+        self.downloadView.blurBackgroundToolbar.alpha =0;
     } completion:^(BOOL finished) {
-        [self.blurBackgroundToolbar removeFromSuperview];
+        [self.downloadView removeFromSuperview];
         if (SuccessBlock) {
             SuccessBlock(YES);
         }
@@ -664,26 +725,6 @@
     self.saveCount++;
 }
 
--(NSMutableAttributedString*)attributedStringForDownloadLabelWithDownloadedDataNumber:(NSNumber*)downloaded{
-    
-    NSString *downloadDataString = MHGalleryLocalizedString(@"shareview.download");
-    NSString *numberTitle = [NSString stringWithFormat:MHGalleryLocalizedString(@"imagedetail.title.current"),downloaded,@(self.selectedRows.count)];
-    
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@%@",downloadDataString,numberTitle]];
-    [attributedString setAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30]} range:NSMakeRange(0, downloadDataString.length)];
-    
-    [attributedString setAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:20]} range:NSMakeRange(downloadDataString.length, numberTitle.length)];
-    return attributedString;
-}
-
--(void)cancelDownload{
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-
-    for (NSURLSession *session in self.sessions) {
-        [session invalidateAndCancel];
-    }
-    [self removeBlurBlurBackgorundToolbarFromSuperView:nil];
-}
 
 -(void)getAllImagesForSelectedRows:(void(^)(NSArray *images))SuccessBlock
               saveDataToCameraRoll:(BOOL)saveToCameraRoll{
@@ -699,33 +740,23 @@
     self.sessions =[NSMutableArray new];
 
     if (saveToCameraRoll && containsVideo) {
-        self.blurBackgroundToolbar = [[UIToolbar alloc]initWithFrame:self.view.bounds];
-        self.blurBackgroundToolbar.alpha =0;
-        self.blurBackgroundToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        [self.navigationController.view addSubview:self.blurBackgroundToolbar];
         
-        UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0, -35, self.blurBackgroundToolbar.frame.size.width, self.blurBackgroundToolbar.frame.size.height-35)];
-        activityIndicatorView.color = [UIColor blackColor];
-        activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        [activityIndicatorView startAnimating];
+        self.downloadView = [[MHDownloadView alloc]initWithFrame:self.view.bounds];
+        self.downloadView.blurBackgroundToolbar.alpha =0;
+        __weak typeof(self) weakSelf = self;
+        self.downloadView.cancelCallbackDownloadData = ^(BOOL cancel){
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            for (NSURLSession *session in weakSelf.sessions) {
+                [session invalidateAndCancel];
+            }
+            [weakSelf removeBlurBlurBackgorundToolbarFromSuperView:nil];
+        };
+        self.downloadView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        [self.downloadView attributedStringForDownloadLabelWithDownloadedDataNumber:@(0) maxNumber:@(self.selectedRows.count)];
+        [self.navigationController.view addSubview:self.downloadView];
         
-        [self.blurBackgroundToolbar addSubview:activityIndicatorView];
-        
-        self.downloadDataLabel = [[UILabel alloc]initWithFrame:self.blurBackgroundToolbar.bounds];
-        self.downloadDataLabel.textAlignment = NSTextAlignmentCenter;
-        self.downloadDataLabel.numberOfLines = MAXFLOAT;
-        self.downloadDataLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        self.downloadDataLabel.attributedText = [self attributedStringForDownloadLabelWithDownloadedDataNumber:@(0)];
-        [self.blurBackgroundToolbar addSubview:self.downloadDataLabel];
-        
-        self.cancelDownloadButton = [[UIButton alloc]initWithFrame:CGRectMake(0, self.blurBackgroundToolbar.frame.size.height-50, self.view.frame.size.width, 44)];
-        [self.cancelDownloadButton setTitle:MHGalleryLocalizedString(@"shareview.download.cancel") forState:UIControlStateNormal];
-        [self.cancelDownloadButton setTitleColor:[UIColor colorWithRed:1 green:0.18 blue:0.33 alpha:1] forState:UIControlStateNormal];
-        self.cancelDownloadButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20];
-        [self.cancelDownloadButton addTarget:self action:@selector(cancelDownload) forControlEvents:UIControlEventTouchUpInside];
-        [self.blurBackgroundToolbar addSubview:self.cancelDownloadButton];
         [UIView animateWithDuration:0.3 animations:^{
-            self.blurBackgroundToolbar.alpha =1;
+            self.downloadView.blurBackgroundToolbar.alpha =1;
         }];
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -781,6 +812,7 @@
         }
         
         if (item.galleryType == MHGalleryTypeImage) {
+            
             if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
                 [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.URLString
                                                                        assetType:MHAssetImageTypeFull
@@ -817,9 +849,6 @@
         self.collectionView.frame = self.view.bounds;
         self.navigationItem.rightBarButtonItem = [self nextBarButtonItem];
     }
-    self.downloadDataLabel.frame = self.blurBackgroundToolbar.bounds;
-    self.cancelDownloadButton.frame= CGRectMake(0, self.blurBackgroundToolbar.frame.size.height-50, self.view.frame.size.width, 44);
-
     [self.collectionView.collectionViewLayout invalidateLayout];
 }
 

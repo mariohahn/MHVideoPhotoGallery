@@ -28,6 +28,16 @@ NSDictionary *MHDictionaryForQueryString(NSString *string){
 	return dictionary;
 }
 
+NSNumberFormatter *MHNumberFormatterVideo(void){
+    static NSNumberFormatter *numberFormatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        numberFormatter = [NSNumberFormatter new];
+        numberFormatter.minimumIntegerDigits =2;
+    });
+    return numberFormatter;
+}
+
 NSBundle *MHGalleryBundle(void) {
     static NSBundle *bundle = nil;
     static dispatch_once_t onceToken;

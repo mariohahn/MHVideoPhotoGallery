@@ -202,6 +202,7 @@
     gallery.galleryItems = galleryData;
     gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
+    
     // gallery.galleryDelegate = self;
     // gallery.dataSource = self;
     __block MHGalleryController *blockGallery = gallery;
@@ -278,7 +279,7 @@
         }
     }else{
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.URLString
-                                                              successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error,NSString *newURL) {
+                                                              successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
                                                                   cell.thumbnail.image = image;
                                                               }];
     }

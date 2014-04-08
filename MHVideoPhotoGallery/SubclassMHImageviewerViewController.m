@@ -21,9 +21,14 @@
 -(MHGalleryItem *)itemForIndex:(NSInteger)index{    
    return [MHGalleryItem itemWithURL:@"http://alles-bilder.de/landschaften/HD%20Landschaftsbilder%20(47).jpg" galleryType:MHGalleryTypeImage];
 }
+
 -(void)viewDidLoad{
     [super viewDidLoad];
     
+    self.UICustomization = [MHUICustomization new];
+    
     self.navigationItem.rightBarButtonItem = nil;
+        
 }
+
 @end

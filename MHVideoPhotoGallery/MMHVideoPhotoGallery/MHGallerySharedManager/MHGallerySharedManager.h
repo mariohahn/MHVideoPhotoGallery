@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MHGallery.h"
 
+
 typedef NS_ENUM(NSUInteger, MHAssetImageType) {
     MHAssetImageTypeFull,
     MHAssetImageTypeThumb
@@ -86,9 +87,8 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  *  @param succeedBlock returns the image the duration of the video and an error
  */
 -(void)startDownloadingThumbImage:(NSString*)urlString
-                     successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL))succeedBlock;
+                     successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error))succeedBlock;
 
-- (UIImage *)imageByRenderingView:(id)view;
 
 -(BOOL)isUIViewControllerBasedStatusBarAppearance;
 

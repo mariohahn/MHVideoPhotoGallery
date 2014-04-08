@@ -27,7 +27,7 @@
 - (NSInteger)numberOfItemsInGallery:(MHGalleryController*)galleryController;
 @end
 
-@interface MHGalleryController : UINavigationController<MHGalleryDataSource>
+@interface MHGalleryController : UINavigationController <MHGalleryDataSource>
 
 @property (nonatomic,assign) id<MHGalleryDelegate>              galleryDelegate;
 @property (nonatomic,assign) id<MHGalleryDataSource>            dataSource;

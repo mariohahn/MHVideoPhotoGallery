@@ -7,7 +7,7 @@
 //
 
 #import "MHTransitionShowShareView.h"
-
+#import "MHGallerySharedManagerPrivate.h"
 
 @implementation MHTransitionShowShareView
 
@@ -31,7 +31,7 @@
         if (!cellImageSnapshot.imageMH) {
             UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
             view.backgroundColor = [UIColor whiteColor];
-            cellImageSnapshot.image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
+            cellImageSnapshot.image = [MHGallerySharedManager imageByRenderingView:view];
         }
         [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size, cellImageSnapshot.frame)];
         
@@ -107,11 +107,20 @@
         MHMediaPreviewCollectionViewCell *cell;
         NSArray *visible = fromViewController.collectionView.visibleCells;
 
+        NSArray *cellsSorted =[self sortObjectsWithFrame:visible];
+
         if (fromViewController.collectionView.visibleCells.count ==3) {
-            visible =[self sortObjectsWithFrame:visible];
-            cell = visible[1];
+            cell = cellsSorted[1];
         }else{
-            cell =  [self sortObjectsWithFrame:visible].firstObject;
+            if (MHISIPAD) {
+                cell = cellsSorted[cellsSorted.count/2];
+            }else{
+                if ([fromViewController.collectionView numberOfItemsInSection:0]-1 == [[self sortObjectsWithFrame:visible].lastObject tag]) {
+                    cell =  cellsSorted.lastObject;
+                }else{
+                    cell =  cellsSorted.firstObject;
+                }
+            }
         }
         
         toViewController.pageIndex = cell.tag;

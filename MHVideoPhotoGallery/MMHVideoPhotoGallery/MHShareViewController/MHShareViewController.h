@@ -20,13 +20,24 @@ Stuff; \
 _Pragma("clang diagnostic pop") \
 } while (0)
 
+@interface MHDownloadView : UIView
+@property (nonatomic,strong) UIToolbar *blurBackgroundToolbar;
+@property (nonatomic,strong) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic,strong) UILabel *downloadDataLabel;
+@property (nonatomic,strong) UIButton *cancelDownloadButton;
+
+-(void)attributedStringForDownloadLabelWithDownloadedDataNumber:(NSNumber*)downloaded maxNumber:(NSNumber*)maxNumber;
+
+@property (nonatomic, copy) void (^cancelCallbackDownloadData)(BOOL cancel);
+
+@end
+
 @interface MHShareItem : NSObject
 @property (nonatomic,strong) NSString *imageName;
 @property (nonatomic,strong) NSString *title;
 @property (nonatomic)        NSInteger maxNumberOfItems;
 @property (nonatomic,strong) NSString *selectorName;
 @property (nonatomic)        id onViewController;
-
 
 - (id)initWithImageName:(NSString*)imageName
                   title:(NSString*)title

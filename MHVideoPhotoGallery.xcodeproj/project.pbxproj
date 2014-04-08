@@ -220,6 +220,7 @@
 		F58F653C18852F6500D3A8F9 /* Storyboard-iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Storyboard-iPad.storyboard"; sourceTree = "<group>"; };
 		F5B1AA8818ED82CE00FE4682 /* SubclassMHImageviewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubclassMHImageviewerViewController.h; sourceTree = "<group>"; };
 		F5B1AA8918ED82CE00FE4682 /* SubclassMHImageviewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubclassMHImageviewerViewController.m; sourceTree = "<group>"; };
+		F5B1AA9618F4A62800FE4682 /* MHGallerySharedManagerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGallerySharedManagerPrivate.h; path = MMHVideoPhotoGallery/MHGallerySharedManager/MHGallerySharedManagerPrivate.h; sourceTree = "<group>"; };
 		F5B2EC7E17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleViewControllerCollectionViewInTableView.h; sourceTree = "<group>"; };
 		F5B2EC7F17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleViewControllerCollectionViewInTableView.m; sourceTree = "<group>"; };
 		F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
@@ -452,6 +453,7 @@
 		F543E50418EAB1C0008D7590 /* MHGallerySharedManager */ = {
 			isa = PBXGroup;
 			children = (
+				F5B1AA9618F4A62800FE4682 /* MHGallerySharedManagerPrivate.h */,
 				F543E50518EAB1D9008D7590 /* MHGallerySharedManager.h */,
 				F543E50618EAB1D9008D7590 /* MHGallerySharedManager.m */,
 			);

@@ -7,6 +7,7 @@
 //
 
 #import "MHGallerySharedManager.h"
+#import "MHGallerySharedManagerPrivate.h"
 
 @implementation MHGallerySharedManager
 
@@ -14,7 +15,7 @@
     static MHGallerySharedManager *sharedManagerInstance = nil;
     static dispatch_once_t onceQueue;
     dispatch_once(&onceQueue, ^{
-        sharedManagerInstance = [[self alloc] init];
+        sharedManagerInstance = [self new];
     });
     return sharedManagerInstance;
 }
@@ -397,21 +398,21 @@
 }
 
 -(void)startDownloadingThumbImage:(NSString*)urlString
-                     successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL))succeedBlock{
+                     successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error))succeedBlock{
     if ([urlString rangeOfString:@"vimeo.com"].location != NSNotFound) {
         [self getVimdeoThumbImage:urlString
                      successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
-                         succeedBlock(image,videoDuration,error,urlString);
+                         succeedBlock(image,videoDuration,error);
                      }];
     }else if([urlString rangeOfString:@"youtube.com"].location != NSNotFound) {
         [self getYoutubeThumbImage:urlString
                       successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
-                          succeedBlock(image,videoDuration,error,urlString);
+                          succeedBlock(image,videoDuration,error);
                       }];
     }else{
         [self createThumbURL:urlString
                 successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
-                    succeedBlock(image,videoDuration,error,urlString);
+                    succeedBlock(image,videoDuration,error);
                 }];
     }
 }
@@ -451,11 +452,23 @@
             });
         }
     }];
-    
 }
 
 
-- (UIImage *)imageByRenderingView:(id)view{
++(NSString*)stringForMinutesAndSeconds:(NSInteger)seconds
+                              addMinus:(BOOL)addMinus{
+    
+    NSNumber *minutesNumber = @(seconds / 60);
+    NSNumber *secondsNumber = @(seconds % 60);
+    
+    NSString *string = [NSString stringWithFormat:@"%@:%@",[MHNumberFormatterVideo() stringFromNumber:minutesNumber],[MHNumberFormatterVideo() stringFromNumber:secondsNumber]];
+    if (addMinus) {
+        return [NSString stringWithFormat:@"-%@",string];
+    }
+    return string;
+}
+
++ (UIImage *)imageByRenderingView:(id)view{
     CGFloat scale = 1.0;
     if([[UIScreen mainScreen]respondsToSelector:@selector(scale)]) {
         CGFloat tmp = [[UIScreen mainScreen]scale];

@@ -8,6 +8,7 @@
 
 #import "MHUIImageViewContentViewAnimation.h"
 #import "MHGallery.h"
+#import "MHGallerySharedManagerPrivate.h"
 
 @interface MHUIImageViewContentViewAnimation ()
 
@@ -79,7 +80,7 @@
     if (!self.imageView.image) {
         UIView *view = [[UIView alloc]initWithFrame:self.imageView.frame];
         view.backgroundColor = [UIColor whiteColor];
-        self.imageView.image = [[MHGallerySharedManager sharedManager] imageByRenderingView:view];
+        self.imageView.image = [MHGallerySharedManager imageByRenderingView:view];;
     }
 }
 

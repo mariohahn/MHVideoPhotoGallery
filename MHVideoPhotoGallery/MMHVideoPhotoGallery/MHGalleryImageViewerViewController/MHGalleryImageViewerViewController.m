@@ -11,6 +11,7 @@
 #import "MHOverviewController.h"
 #import "MHTransitionShowShareView.h"
 #import "MHTransitionShowOverView.h"
+#import "MHGallerySharedManagerPrivate.h"
 
 @implementation MHPinchGestureRecognizer
 @end
@@ -35,7 +36,7 @@
     [super viewWillAppear:animated];
     
     [self setNeedsStatusBarAppearanceUpdate];
-
+    
     
     [[UIApplication sharedApplication] setStatusBarStyle:self.galleryViewController.preferredStatusBarStyleMH
                                                 animated:YES];
@@ -85,13 +86,13 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    self.UICustomization = self.galleryViewController.UICustomization;
-    self.transitionCustomization = self.galleryViewController.transitionCustomization;
+    self.UICustomization          = self.galleryViewController.UICustomization;
+    self.transitionCustomization  = self.galleryViewController.transitionCustomization;
     
     if (!self.UICustomization.showOverView) {
         self.navigationItem.hidesBackButton = YES;
     }
-        
+    
     UIBarButtonItem *doneBarButton =  [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                    target:self
                                                                                    action:@selector(donePressed)];
@@ -99,7 +100,7 @@
     self.navigationItem.rightBarButtonItem = doneBarButton;
     
     self.view.backgroundColor = [self.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
-        
+    
     
     self.pageViewController =[[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
                                                              navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
@@ -148,11 +149,10 @@
                                                           style:UIBarButtonItemStyleBordered
                                                          target:self
                                                          action:@selector(rightPressed:)];
-
+    
     self.shareBarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction
                                                                        target:self
                                                                        action:@selector(sharePressed)];
-
     [self updateToolBarForItem:item];
     
     if (self.pageIndex == 0) {
@@ -190,7 +190,7 @@
     [(UIGestureRecognizer*)[[self.pageViewController.view.subviews[0] gestureRecognizers] firstObject] setDelegate:self];
     
     [self updateTitleForIndex:self.pageIndex];
-
+    
 }
 
 -(NSInteger)numberOfGalleryItems{
@@ -203,7 +203,7 @@
 
 -(MHGalleryController*)galleryViewController{
     if ([self.navigationController isKindOfClass:[MHGalleryController class]]) {
-        return  (MHGalleryController*)self.navigationController;
+        return (MHGalleryController*)self.navigationController;
     }
     return nil;
 }
@@ -308,7 +308,7 @@
     
     self.pageIndex = [pageViewController.viewControllers.firstObject pageIndex];
     [self showCurrentIndex:self.pageIndex];
-
+    
     if (finished) {
         for (MHImageViewController *imageViewController in previousViewControllers) {
             [self removeVideoPlayerForVC:imageViewController];
@@ -392,7 +392,7 @@
         self.leftBarButton.enabled = NO;
     }
     __block MHGalleryImageViewerViewController*blockSelf = self;
-
+    
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
         blockSelf.pageIndex = imageViewController.pageIndex;
         [blockSelf updateToolBarForItem:[blockSelf itemForIndex:blockSelf.pageIndex]];
@@ -422,7 +422,7 @@
 -(void)showCurrentIndex:(NSInteger)currentIndex{
     if ([self.galleryViewController.galleryDelegate respondsToSelector:@selector(galleryController:didShowIndex:)]) {
         [self.galleryViewController.galleryDelegate galleryController:self.galleryViewController
-                                                        didShowIndex:currentIndex];
+                                                         didShowIndex:currentIndex];
     }
     
 }
@@ -430,7 +430,7 @@
 - (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerBeforeViewController:(MHImageViewController *)vc{
     
     NSInteger indexPage = vc.pageIndex;
-
+    
     if (self.numberOfGalleryItems !=1 && self.numberOfGalleryItems-1 != indexPage) {
         self.leftBarButton.enabled =YES;
         self.rightBarButton.enabled =YES;
@@ -459,7 +459,7 @@
     
     
     NSInteger indexPage = vc.pageIndex;
-
+    
     if (self.numberOfGalleryItems !=1 && indexPage !=0) {
         self.leftBarButton.enabled = YES;
         self.rightBarButton.enabled = YES;
@@ -505,7 +505,6 @@
 @property (nonatomic, strong) UIProgressView           *videoProgressView;
 @property (nonatomic, strong) UILabel                  *leftSliderLabel;
 @property (nonatomic, strong) UILabel                  *rightSliderLabel;
-@property (nonatomic, strong) NSNumberFormatter        *numberFormatter;
 @property (nonatomic, strong) NSTimer                  *movieTimer;
 @property (nonatomic, strong) NSTimer                  *movieDownloadedTimer;
 @property (nonatomic,strong ) UIPanGestureRecognizer   *pan;
@@ -525,7 +524,7 @@
 
 
 +(MHImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item
-                                           viewController:(MHGalleryImageViewerViewController*)viewController{
+                                             viewController:(MHGalleryImageViewerViewController*)viewController{
     if (item) {
         return [[self alloc]initWithMHMediaItem:item
                                  viewController:viewController];
@@ -684,16 +683,13 @@
     if (self) {
         
         __weak typeof(self) weakSelf = self;
-
+        
         
         self.viewController = viewController;
         
         self.view.backgroundColor = [UIColor blackColor];
         
         self.shouldPlayVideo = NO;
-        
-        self.numberFormatter = [NSNumberFormatter new];
-        self.numberFormatter.minimumIntegerDigits =2;
         
         self.item = mediaItem;
         
@@ -795,52 +791,48 @@
         self.imageView.userInteractionEnabled = YES;
         
         [imageTap requireGestureRecognizerToFail: doubleTap];
-        if ([self.item.URLString rangeOfString:@"assets-library"].location != NSNotFound && self.item.URLString) {
-            
-            [self.act stopAnimating];
-            [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:self.item.URLString
-                                                                   assetType:MHAssetImageTypeFull
-                                                                successBlock:^(UIImage *image, NSError *error) {
-                                                                    self.imageView.image = image;
-                                                                }];
-        }else if(self.item.image){
-            self.imageView.image = self.item.image;
-            [self.act stopAnimating];
-        }else{
+        
+        
+        
             if (self.item.galleryType == MHGalleryTypeImage) {
                 
-                [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:self.item.URLString]
-                                                           options:SDWebImageContinueInBackground
-                                                          progress:nil
-                                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                             if (!image) {
-                                                                 weakSelf.scrollView.maximumZoomScale  =1;
-                                                                 [weakSelf changeToErrorImage];
-                                                                 
-                                                             }else{
-                                                                 weakSelf.imageView.image = image;
-                                                             }
-                                                             [weakSelf.act stopAnimating];
-                                                         }];
+                [self.imageView setImageForMHGalleryItem:self.item imageType:MHImageTypeFull successBlock:^(UIImage *image, NSError *error) {
+                    if (!image) {
+                        weakSelf.scrollView.maximumZoomScale  =1;
+                        [weakSelf changeToErrorImage];
+                    }
+                    [weakSelf.act stopAnimating];
+                }];
+                
             }else{
                 
                 [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:self.item.URLString
-                                                                      successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error,NSString *newURL) {
+                                                                      successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
                                                                           if (!error) {
                                                                               [weakSelf handleGeneratedThumb:image
-                                                                                           videoDuration:videoDuration
-                                                                                               urlString:newURL];
+                                                                                               videoDuration:videoDuration
+                                                                                                   urlString:self.item.URLString];
                                                                           }else{
                                                                               [weakSelf changeToErrorImage];
                                                                           }
                                                                           [weakSelf.act stopAnimating];
                                                                       }];
             }
-        }
     }
     
     return self;
 }
+
+-(void)setImageForImageViewWithImage:(UIImage*)image error:(NSError*)error{
+    if (!image) {
+        self.scrollView.maximumZoomScale  =1;
+        [self changeToErrorImage];
+    }else{
+        self.imageView.image = image;
+    }
+    [self.act stopAnimating];
+}
+
 -(void)changeToErrorImage{
     self.imageView.image = MHGalleryImage(@"error");
 }
@@ -854,11 +846,11 @@
     [super viewDidAppear:animated];
     
     __weak typeof(self) weakSelf = self;
-
+    
     if (!self.moviePlayer && self.item.galleryType == MHGalleryTypeVideo) {
         [[MHGallerySharedManager sharedManager] getURLForMediaPlayer:self.item.URLString successBlock:^(NSURL *URL, NSError *error) {
             if (error) {
-               [weakSelf changePlayButtonToUnPlay];
+                [weakSelf changePlayButtonToUnPlay];
             }else{
                 [weakSelf addMoviePlayerToViewWithURL:URL];
             }
@@ -869,8 +861,9 @@
 -(void)handleGeneratedThumb:(UIImage*)image
               videoDuration:(NSInteger)videoDuration
                   urlString:(NSString*)urlString{
+    
     self.wholeTimeMovie = videoDuration;
-    self.rightSliderLabel.text = [self stringForMinutesAndSeconds:videoDuration addMinus:YES];
+    self.rightSliderLabel.text = [MHGallerySharedManager stringForMinutesAndSeconds:videoDuration addMinus:YES];
     
     self.slider.maximumValue = videoDuration;
     [self.view viewWithTag:508].hidden =NO;
@@ -1047,27 +1040,15 @@
 	}
 }
 
--(NSString*)stringForMinutesAndSeconds:(NSInteger)seconds
-                                         addMinus:(BOOL)addMinus{
-    NSNumber *minutesNumber = @(seconds / 60);
-    NSNumber *secondsNumber = @(seconds % 60);
-    
-    NSString *string = [NSString stringWithFormat:@"-%@:%@",[self.numberFormatter stringFromNumber:minutesNumber] ,[self.numberFormatter stringFromNumber:secondsNumber]];
-    if (addMinus) {
-        return string;
-    }
-    return [string stringByReplacingOccurrencesOfString:@"-" withString:@""];
-}
-
 -(void)updateTimerLabels{
     
     if (self.currentTimeMovie <=0) {
         self.leftSliderLabel.text =@"00:00";
         
-        self.rightSliderLabel.text = [self stringForMinutesAndSeconds:self.wholeTimeMovie addMinus:YES];
+        self.rightSliderLabel.text = [MHGallerySharedManager stringForMinutesAndSeconds:self.wholeTimeMovie addMinus:YES];
     }else{
-        self.leftSliderLabel.text = [self stringForMinutesAndSeconds:self.currentTimeMovie addMinus:NO];
-        self.rightSliderLabel.text = [self stringForMinutesAndSeconds:self.wholeTimeMovie-self.currentTimeMovie addMinus:YES];
+        self.leftSliderLabel.text = [MHGallerySharedManager stringForMinutesAndSeconds:self.currentTimeMovie addMinus:NO];
+        self.rightSliderLabel.text = [MHGallerySharedManager stringForMinutesAndSeconds:self.wholeTimeMovie-self.currentTimeMovie addMinus:YES];
     }
 }
 
@@ -1181,7 +1162,7 @@
                                              selector:@selector(moviePlayBackDidFinish:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:self.moviePlayer];
-
+    
     self.moviePlayer.shouldAutoplay =NO;
     self.moviePlayer.view.frame = self.view.bounds;
     self.moviePlayer.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
@@ -1308,11 +1289,11 @@
     
     self.navigationController.navigationBar.alpha =alpha;
     self.viewController.toolbar.alpha =alpha;
-   
+    
     self.viewController.descriptionView.alpha =alpha;
     self.viewController.descriptionViewBackground.alpha =alpha;
     self.viewController.statusBarObject.alpha =alpha;
-
+    
 }
 
 -(void)handelImageTap:(UIGestureRecognizer *)gestureRecognizer{
@@ -1351,7 +1332,7 @@
     if (([self.imageView.image isEqual:MHGalleryImage(@"error")]) || (self.item.galleryType == MHGalleryTypeVideo)) {
         return;
     }
-
+    
     if (self.scrollView.zoomScale >1) {
         [self.scrollView setZoomScale:1 animated:YES];
         return;
