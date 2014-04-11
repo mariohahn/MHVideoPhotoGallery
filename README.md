@@ -7,7 +7,7 @@
 
 ```ruby
 platform :ios, '7.0'
-pod 'MHVideoPhotoGallery', '~> 1.4'
+pod 'MHVideoPhotoGallery', '~> 1.5‘
 ```
 ####Supported Videos
 ```ruby
