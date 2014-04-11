@@ -97,6 +97,38 @@
     MHGalleryItem *landschaft10 = [[MHGalleryItem alloc]initWithURL:@"http://4.bp.blogspot.com/-8O0ZkAgb6Bo/Ulf_80tUN6I/AAAAAAAAH34/I1L2lKjzE9M/s1600/Beautiful-Scenery-Wallpapers.jpg"
                                                         galleryType:MHGalleryTypeImage];
     
+    MHGalleryItem *landschaft11 = [[MHGalleryItem alloc]initWithURL:@"http://www.bestfon.info/images/joomgallery/originals/paisajes_18/paisaje_325_20120501_1124813185.jpg"
+                                                        galleryType:MHGalleryTypeImage];
+    MHGalleryItem *landschaft12 = [[MHGalleryItem alloc]initWithURL:@"http://www.stadt-bad-reichenhall.de/medien/landschaft-winter-1.jpg"
+                                                        galleryType:MHGalleryTypeImage];
+    MHGalleryItem *landschaft13 = [[MHGalleryItem alloc]initWithURL:@"http://www.foto-zumstein.ch/fotogalerie/1195564506_Kopie_vonLandschaft_33.jpg"
+                                                        galleryType:MHGalleryTypeImage];
+    MHGalleryItem *landschaft14 = [[MHGalleryItem alloc]initWithURL:@"http://img.galerie.chip.de/imgserver/communityimages/233900/233952/1280x.jpg"
+                                                        galleryType:MHGalleryTypeImage];
+    MHGalleryItem *landschaft15 = [[MHGalleryItem alloc]initWithURL:@"http://www.spreephoto.de/wp-content/uploads/2011/03/toskana-strohballen-landschaft.jpg"
+                                                        galleryType:MHGalleryTypeImage];
+    MHGalleryItem *landschaft16 = [[MHGalleryItem alloc]initWithURL:@"http://kwerfeldein.de/wp-content/uploads/2012/07/landschaft.jpg"
+                                                        galleryType:MHGalleryTypeImage];
+
+    MHGalleryItem *landschaft17 = [[MHGalleryItem alloc]initWithURL:@"http://www.picspack.de/blog/wp-content/uploads/2011/11/Liu2.jpg"
+                                                        galleryType:MHGalleryTypeImage];
+
+    MHGalleryItem *landschaft18 = [[MHGalleryItem alloc]initWithURL:@"http://images.fotocommunity.de/bilder/bach-fluss-see/see-teich-tuempel/symmetrische-landschaft-645f1ee5-f53b-4ae9-ad76-7bf5bde3935d.jpg"
+                                                        galleryType:MHGalleryTypeImage];
+
+    MHGalleryItem *landschaft19 = [[MHGalleryItem alloc]initWithURL:@"http://www.hd-gbpics.de/gbbilder/landschaften/landschaft10.jpg"
+                                                        galleryType:MHGalleryTypeImage];
+
+    MHGalleryItem *landschaft20 = [[MHGalleryItem alloc]initWithURL:@"http://www.stadt-bad-reichenhall.de/medien/landschaft-1.jpg"
+                                                        galleryType:MHGalleryTypeImage];
+    
+    MHGalleryItem *landschaft21 = [[MHGalleryItem alloc]initWithURL:@"http://i.imgur.com/qe8wIgn.gif"
+                                                        galleryType:MHGalleryTypeImage];
+    
+    MHGalleryItem *landschaft22 = [[MHGalleryItem alloc]initWithURL:@"http://i.imgur.com/d86g7Ps.gif"
+                                                        galleryType:MHGalleryTypeImage];
+
+    
     
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc]initWithString:@"Awesome!!\nOr isn't it?"];
     
@@ -105,7 +137,7 @@
     
     landschaft10.attributedString = string;
     
-    self.galleryDataSource = @[@[landschaft10,landschaft8,landschaft7,landschaft9,landschaft6,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1,landschaft10,landschaft8,landschaft7,landschaft9,landschaft6,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1,landschaft10,landschaft8,landschaft7,landschaft9,landschaft6,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1],
+    self.galleryDataSource = @[@[landschaft,landschaft1,landschaft2,landschaft3,landschaft4,landschaft5,landschaft22,landschaft21,landschaft6,landschaft7,landschaft8,landschaft9,landschaft10,landschaft11,landschaft12,landschaft13,landschaft14,landschaft15,landschaft16,landschaft17,landschaft18,landschaft19,landschaft20],
                                @[vimeo3,youtube,vimeo0,vimeo1,landschaft9,landschaft6,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1],
                                @[landschaft9,landschaft6,localVideo,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1]
                                ];

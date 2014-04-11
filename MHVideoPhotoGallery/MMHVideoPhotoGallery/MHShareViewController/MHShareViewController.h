@@ -20,6 +20,13 @@ Stuff; \
 _Pragma("clang diagnostic pop") \
 } while (0)
 
+
+
+@interface MHImageURL : NSObject
+@property (nonatomic,strong) NSString *URL;
+@property (nonatomic,strong) UIImage *image;
+@end
+
 @interface MHDownloadView : UIView
 @property (nonatomic,strong) UIToolbar *blurBackgroundToolbar;
 @property (nonatomic,strong) UIActivityIndicatorView *activityIndicatorView;

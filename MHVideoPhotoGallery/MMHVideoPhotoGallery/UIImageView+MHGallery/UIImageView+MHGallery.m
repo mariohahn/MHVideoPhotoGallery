@@ -31,6 +31,7 @@
                                                              });
                                                          }];
 }
+
 -(void)setImageForMHGalleryItem:(MHGalleryItem*)item
                       imageType:(MHImageType)imageType
                    successBlock:(void (^)(UIImage *image,NSError *error))succeedBlock{

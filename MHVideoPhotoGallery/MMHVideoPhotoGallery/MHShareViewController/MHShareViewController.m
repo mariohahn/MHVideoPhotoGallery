@@ -14,6 +14,29 @@
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
 #import "MHGallerySharedManagerPrivate.h"
+#import "SDImageCache.h"
+#import <MobileCoreServices/UTCoreTypes.h>
+
+@implementation MHImageURL
+
+- (id)initWithURL:(NSString*)URL
+            image:(UIImage*)image{
+    self = [super init];
+    if (!self)
+        return nil;
+    self.URL = URL;
+    self.image = image;
+    return self;
+}
+
+@end
+
+@interface SDImageCache (MHPrivateMethods)
+
+- (NSString *)defaultCachePathForKey:(NSString *)key;
+- (NSString *)cachedFileNameForKey:(NSString *)key;
+
+@end
 
 @implementation MHDownloadView
 
@@ -48,7 +71,7 @@
     [self.cancelDownloadButton addTarget:self action:@selector(cancelDownload) forControlEvents:UIControlEventTouchUpInside];
     [self.blurBackgroundToolbar addSubview:self.cancelDownloadButton];
     self.cancelDownloadButton.translatesAutoresizingMaskIntoConstraints = NO;
-
+    
     NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:self.cancelDownloadButton
                                                               attribute:NSLayoutAttributeBottom
                                                               relatedBy:NSLayoutRelationEqual
@@ -66,7 +89,7 @@
     
     [self.blurBackgroundToolbar addConstraint:bottom];
     [self.blurBackgroundToolbar addConstraint:centerX];
-
+    
     return self;
 }
 
@@ -597,19 +620,23 @@
 }
 -(void)presentSLComposeForServiceType:(NSString*)serviceType{
     
+    __weak typeof(self) weakSelf = self;
+
     [self getAllImagesForSelectedRows:^(NSArray *images){
         SLComposeViewController *shareconntroller=[SLComposeViewController composeViewControllerForServiceType:serviceType];
         SLComposeViewControllerCompletionHandler __block completionHandler=^(SLComposeViewControllerResult result){
             
             [shareconntroller dismissViewControllerAnimated:YES
-                                                 completion:nil];
+                                                 completion:^{
+                                                     [weakSelf cancelPressed];
+                                                 }];
         };
         NSString *videoURLS = [NSString new];
-        for (id data in images) {
-            if ([data isKindOfClass:[UIImage class]]) {
-                [shareconntroller addImage:data];
+        for (MHImageURL *dataURL in images) {
+            if ([dataURL.image isKindOfClass:[UIImage class]] && !dataURL.image.images) {
+                [shareconntroller addImage:dataURL.image];
             }else{
-                videoURLS = [videoURLS stringByAppendingString:[NSString stringWithFormat: @"%@ \n",data]];
+                videoURLS = [videoURLS stringByAppendingString:[NSString stringWithFormat: @"%@ \n",dataURL.URL]];
             }
         }
         [shareconntroller setInitialText:videoURLS];
@@ -633,22 +660,28 @@
         picker.messageComposeDelegate = self;
         NSString *videoURLS = [NSString new];
         
-        for (id data in images) {
-            if ([data isKindOfClass:[UIImage class]]) {
-                
-                [picker addAttachmentData:UIImageJPEGRepresentation(data, 1.0)
-                           typeIdentifier:@"public.image"
-                                 filename:@"image.JPG"];
+        for (MHImageURL *dataURL in images) {
+            if ([dataURL.image isKindOfClass:[UIImage class]]) {
+                UIImage *image = dataURL.image;
+                if (image.images) {
+                    [picker addAttachmentData:[NSData dataWithContentsOfFile:[[SDImageCache sharedImageCache] defaultCachePathForKey:dataURL.URL]]
+                               typeIdentifier:(__bridge NSString *)kUTTypeGIF
+                                     filename:@"animated.gif"];
+                }else{
+                    [picker addAttachmentData:UIImageJPEGRepresentation(dataURL.image, 1.0)
+                               typeIdentifier:@"public.image"
+                                     filename:@"image.JPG"];
+                }
             }else{
-                videoURLS = [videoURLS stringByAppendingString:[NSString stringWithFormat: @"%@ \n",data]];
+                videoURLS = [videoURLS stringByAppendingString:[NSString stringWithFormat: @"%@ \n",dataURL.URL]];
             }
         }
         picker.body = videoURLS;
         
-        
         [self presentViewController:picker
                            animated:YES
                          completion:nil];
+        
     } saveDataToCameraRoll:NO];
 }
 
@@ -658,13 +691,21 @@
         picker.mailComposeDelegate = self;
         NSString *videoURLS = [NSString new];
         
-        for (id data in images) {
-            if ([data isKindOfClass:[UIImage class]]) {
-                [picker addAttachmentData:UIImageJPEGRepresentation(data, 1.0)
-                                 mimeType:@"image/jpeg"
-                                 fileName:@"image"];
+        for (MHImageURL *dataURL in images) {
+            if ([dataURL.image isKindOfClass:[UIImage class]]) {
+                UIImage *image = dataURL.image;
+                if (image.images) {
+                    [picker addAttachmentData:[NSData dataWithContentsOfFile:[[SDImageCache sharedImageCache] defaultCachePathForKey:dataURL.URL]]
+                                     mimeType:@"image/gif"
+                                     fileName:@"pic.gif"];
+                }else{
+                    [picker addAttachmentData:UIImageJPEGRepresentation(dataURL.image, 1.0)
+                                     mimeType:@"image/jpeg"
+                                     fileName:@"image"];
+                }
+                
             }else{
-                videoURLS = [videoURLS stringByAppendingString:[NSString stringWithFormat: @"%@ \n",data]];
+                videoURLS = [videoURLS stringByAppendingString:[NSString stringWithFormat: @"%@ \n",dataURL.URL]];
             }
         }
         [picker setMessageBody:videoURLS isHTML:NO];
@@ -678,17 +719,21 @@
 }
 -(void)messageComposeViewController:(MFMessageComposeViewController *)controller
                 didFinishWithResult:(MessageComposeResult)result{
+    
+    __weak typeof(self) weakSelf = self;
     [controller dismissViewControllerAnimated:YES
                                    completion:^{
-                                       [self cancelPressed];
+                                       [weakSelf cancelPressed];
                                    }];
 }
 -(void)mailComposeController:(MFMailComposeViewController *)controller
          didFinishWithResult:(MFMailComposeResult)result
                        error:(NSError *)error{
+    
+    __weak typeof(self) weakSelf = self;
     [controller dismissViewControllerAnimated:YES
                                    completion:^{
-                                       [self cancelPressed];
+                                       [weakSelf cancelPressed];
                                    }];
 }
 
@@ -738,7 +783,7 @@
         }
     }
     self.sessions =[NSMutableArray new];
-
+    
     if (saveToCameraRoll && containsVideo) {
         
         self.downloadView = [[MHDownloadView alloc]initWithFrame:self.view.bounds];
@@ -774,7 +819,8 @@
         
         if (item.galleryType == MHGalleryTypeVideo) {
             if (!saveToCameraRoll) {
-                [self addDataToDownloadArray:item.URLString];
+                MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString image:nil];
+                [weakSelf addDataToDownloadArray:imageURL];
             }else{
                 [[MHGallerySharedManager sharedManager] getURLForMediaPlayer:item.URLString successBlock:^(NSURL *URL, NSError *error) {
                     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
@@ -817,7 +863,8 @@
                 [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.URLString
                                                                        assetType:MHAssetImageTypeFull
                                                                     successBlock:^(UIImage *image, NSError *error) {
-                                                                        [weakSelf addDataToDownloadArray:image];
+                                                                        MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString image:image];
+                                                                        [weakSelf addDataToDownloadArray:imageURL];
                                                                     }];
             }else if (item.image) {
                 [self addDataToDownloadArray:item.image];
@@ -826,7 +873,10 @@
                                                            options:SDWebImageContinueInBackground
                                                           progress:nil
                                                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                             [weakSelf addDataToDownloadArray:image];
+                                                             
+                                                             MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString image:image];
+                                                             
+                                                             [weakSelf addDataToDownloadArray:imageURL];
                                                          }];
             }
         }
@@ -907,9 +957,23 @@
 }
 -(void)saveImages:(NSArray*)object{
     [self getAllImagesForSelectedRows:^(NSArray *images) {
-        for (UIImage *image in images) {
-            if ([image isKindOfClass:[UIImage class]]) {
-                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+        for (MHImageURL *dataURL in images) {
+            if ([dataURL.image isKindOfClass:[UIImage class]]) {
+                
+                UIImage *imageToStore = dataURL.image;
+                
+                ALAssetsLibrary* library = [ALAssetsLibrary new];
+                
+                NSData *data = [NSData new];
+                if (imageToStore.images) {
+                    data = [NSData dataWithContentsOfFile:[[SDImageCache sharedImageCache] defaultCachePathForKey:dataURL.URL]];
+                }else{
+                    data = UIImageJPEGRepresentation(imageToStore, 1.0);
+                }
+                
+                [library writeImageDataToSavedPhotosAlbum:data metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+                    NSLog(@"%@",error);
+                }];
             }
         }
         [self cancelPressed];
