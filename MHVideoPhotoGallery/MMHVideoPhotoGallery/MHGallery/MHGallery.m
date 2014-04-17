@@ -14,7 +14,7 @@ NSString * const MHGalleryViewModeShare    = @"MHGalleryViewModeShare";
 
 
 NSDictionary *MHDictionaryForQueryString(NSString *string){
-	NSMutableDictionary *dictionary = [NSMutableDictionary new];
+	NSMutableDictionary *dictionary = NSMutableDictionary.new;
 	NSArray *allFieldsArray = [string componentsSeparatedByString:@"&"];
 	for (NSString *fieldString in allFieldsArray){
 		NSArray *pairArray = [fieldString componentsSeparatedByString:@"="];
@@ -32,7 +32,7 @@ NSNumberFormatter *MHNumberFormatterVideo(void){
     static NSNumberFormatter *numberFormatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        numberFormatter = [NSNumberFormatter new];
+        numberFormatter = NSNumberFormatter.new;
         numberFormatter.minimumIntegerDigits =2;
     });
     return numberFormatter;
@@ -42,7 +42,7 @@ NSBundle *MHGalleryBundle(void) {
     static NSBundle *bundle = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSString* path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:kMHGalleryBundleName];
+        NSString* path = [NSBundle.mainBundle.resourcePath stringByAppendingPathComponent:kMHGalleryBundleName];
         bundle = [NSBundle bundleWithPath:path];
     });
     return bundle;

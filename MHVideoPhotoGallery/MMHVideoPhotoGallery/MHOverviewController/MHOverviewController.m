@@ -31,17 +31,17 @@
     
     self.title =  MHGalleryLocalizedString(@"overview.title.current");
     
-    UIBarButtonItem *doneBarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
+    UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
     
     self.navigationItem.rightBarButtonItem = doneBarButton;
     
-    self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds
-                                            collectionViewLayout:[self layoutForOrientation:UIApplication.sharedApplication.statusBarOrientation]];
+    self.collectionView = [UICollectionView.alloc initWithFrame:self.view.bounds
+                                           collectionViewLayout:[self layoutForOrientation:UIApplication.sharedApplication.statusBarOrientation]];
     
     self.collectionView.backgroundColor = [self.galleryViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeOverView];
     self.collectionView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
-    [self.collectionView registerClass:[MHMediaPreviewCollectionViewCell class]
+    [self.collectionView registerClass:MHMediaPreviewCollectionViewCell.class
             forCellWithReuseIdentifier:@"MHMediaPreviewCollectionViewCell"];
     
     self.collectionView.dataSource =self;
@@ -54,11 +54,11 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     
-    UIMenuItem *saveItem = [[UIMenuItem alloc] initWithTitle:MHGalleryLocalizedString(@"overview.menue.item.save")
-                                                      action:@selector(saveImage:)];
+    UIMenuItem *saveItem = [UIMenuItem.alloc initWithTitle:MHGalleryLocalizedString(@"overview.menue.item.save")
+                                                    action:@selector(saveImage:)];
 #pragma clang diagnostic pop
     
-    [[UIMenuController sharedMenuController] setMenuItems:@[saveItem]];
+    UIMenuController.sharedMenuController.menuItems = @[saveItem];
     
 }
 
@@ -67,8 +67,8 @@
     
     [self setNeedsStatusBarAppearanceUpdate];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:self.galleryViewController.preferredStatusBarStyleMH
-                                                animated:YES];
+    [UIApplication.sharedApplication setStatusBarStyle:self.galleryViewController.preferredStatusBarStyleMH
+                                              animated:YES];
     
 }
 
@@ -137,22 +137,22 @@
     __block MHMediaPreviewCollectionViewCell *blockCell = cell;
     
     if (item.galleryType == MHGalleryTypeVideo) {
-        [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.URLString
-                                                              successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
-                                                                  
-                                                                  if (error) {
-                                                                      blockCell.thumbnail.backgroundColor = [UIColor whiteColor];
-                                                                      blockCell.thumbnail.image = MHGalleryImage(@"error");
-                                                                  }else{
-                                                                      
-                                                                      blockCell.videoDurationLength.text  = [MHGallerySharedManager stringForMinutesAndSeconds:videoDuration addMinus:NO];
-                                                                      
-                                                                      blockCell.thumbnail.image = image;
-                                                                      blockCell.videoIcon.hidden = NO;
-                                                                      blockCell.videoGradient.hidden = NO;
-                                                                  }
-                                                                  [blockCell.activityIndicator stopAnimating];
-                                                              }];
+        [MHGallerySharedManager.sharedManager startDownloadingThumbImage:item.URLString
+                                                            successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
+                                                                
+                                                                if (error) {
+                                                                    blockCell.thumbnail.backgroundColor = [UIColor whiteColor];
+                                                                    blockCell.thumbnail.image = MHGalleryImage(@"error");
+                                                                }else{
+                                                                    
+                                                                    blockCell.videoDurationLength.text  = [MHGallerySharedManager stringForMinutesAndSeconds:videoDuration addMinus:NO];
+                                                                    
+                                                                    blockCell.thumbnail.image = image;
+                                                                    blockCell.videoIcon.hidden = NO;
+                                                                    blockCell.videoGradient.hidden = NO;
+                                                                }
+                                                                [blockCell.activityIndicator stopAnimating];
+                                                            }];
     }else{
         [cell.thumbnail setImageForMHGalleryItem:item imageType:MHImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
             if (!image) {
@@ -164,13 +164,13 @@
     }
     cell.thumbnail.userInteractionEnabled =YES;
     
-    MHIndexPinchGestureRecognizer *pinch = [[MHIndexPinchGestureRecognizer alloc]initWithTarget:self
-                                                                                         action:@selector(userDidPinch:)];
+    MHIndexPinchGestureRecognizer *pinch = [MHIndexPinchGestureRecognizer.alloc initWithTarget:self
+                                                                                        action:@selector(userDidPinch:)];
     pinch.indexPath = indexPath;
     [cell.thumbnail addGestureRecognizer:pinch];
     
-    UIRotationGestureRecognizer *rotate = [[UIRotationGestureRecognizer alloc]initWithTarget:self
-                                                                                      action:@selector(userDidRoate:)];
+    UIRotationGestureRecognizer *rotate = [UIRotationGestureRecognizer.alloc initWithTarget:self
+                                                                                     action:@selector(userDidRoate:)];
     rotate.delegate = self;
     [cell.thumbnail addGestureRecognizer:rotate];
     
@@ -244,8 +244,8 @@
                                                fromViewController:(UIViewController *)fromVC
                                                  toViewController:(UIViewController *)toVC {
     
-    if (fromVC == self && [toVC isKindOfClass:[MHGalleryImageViewerViewController class]]) {
-        return [MHTransitionShowDetail new];
+    if (fromVC == self && [toVC isKindOfClass:MHGalleryImageViewerViewController.class]) {
+        return MHTransitionShowDetail.new;
     }else {
         return nil;
     }
@@ -275,12 +275,12 @@
     
     if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
         
-        [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.URLString
-                                                               assetType:MHAssetImageTypeFull
-                                                            successBlock:^(UIImage *image, NSError *error) {
-                                                                cell.thumbnail.image = image;
-                                                                [self pushToImageViewerForIndexPath:indexPath];
-                                                            }];
+        [MHGallerySharedManager.sharedManager getImageFromAssetLibrary:item.URLString
+                                                             assetType:MHAssetImageTypeFull
+                                                          successBlock:^(UIImage *image, NSError *error) {
+                                                              cell.thumbnail.image = image;
+                                                              [self pushToImageViewerForIndexPath:indexPath];
+                                                          }];
     }else{
         [self pushToImageViewerForIndexPath:indexPath];
     }
@@ -302,12 +302,12 @@
 
 -(void)getImageForItem:(MHGalleryItem*)item
         finishCallback:(void(^)(UIImage *image))FinishBlock{
-    [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:item.URLString]
-                                               options:SDWebImageContinueInBackground
-                                              progress:nil
-                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                 FinishBlock(image);
-                                             }];
+    [SDWebImageManager.sharedManager downloadWithURL:[NSURL URLWithString:item.URLString]
+                                             options:SDWebImageContinueInBackground
+                                            progress:nil
+                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                               FinishBlock(image);
+                                           }];
 }
 
 

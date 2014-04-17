@@ -50,22 +50,22 @@
     [self initGestureRecognizers];
 }
 -(void)initGestureRecognizers{
-    UIPinchGestureRecognizer *pinchToPresent = [[UIPinchGestureRecognizer alloc]initWithTarget:self
+    UIPinchGestureRecognizer *pinchToPresent = [UIPinchGestureRecognizer.alloc initWithTarget:self
                                                                                         action:@selector(presentMHGalleryPinch:)];
     [self addGestureRecognizer:pinchToPresent];
     
     
-    UIRotationGestureRecognizer *rotate = [[UIRotationGestureRecognizer alloc]initWithTarget:self
+    UIRotationGestureRecognizer *rotate = [UIRotationGestureRecognizer.alloc initWithTarget:self
                                                                                       action:@selector(userDidRoate:)];
     rotate.delegate = self;
     [self addGestureRecognizer:rotate];
     
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapOnImage)];
+    UITapGestureRecognizer *tap = [UITapGestureRecognizer.alloc initWithTarget:self action:@selector(didTapOnImage)];
     [self addGestureRecognizer:tap];
     
     
     if (self.shoudlUsePanGestureReconizer) {
-        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(presentMHGalleryPan:)];
+        UIPanGestureRecognizer *pan = [UIPanGestureRecognizer.alloc initWithTarget:self action:@selector(presentMHGalleryPan:)];
         [self addGestureRecognizer:pan];
     }
     self.userInteractionEnabled =YES;
@@ -86,7 +86,7 @@
 
 -(void)didTapOnImage{
     
-    MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryViewModeImageViewerNavigationBarShown];
+    MHGalleryController *gallery = [MHGalleryController.alloc initWithPresentationStyle:MHGalleryViewModeImageViewerNavigationBarShown];
     gallery.galleryItems = self.galleryItems;
     gallery.presentingFromImageView = self;
     gallery.presentationIndex =  self.currentImageIndex;
@@ -99,7 +99,7 @@
 }
 -(void)presentMHGallery{
     
-    self.presenter = [MHTransitionPresentMHGallery new];
+    self.presenter = MHTransitionPresentMHGallery.new;
     self.presenter.presentingImageView = self;
     self.presenter.interactive = YES;
     

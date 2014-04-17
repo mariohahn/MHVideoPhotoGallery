@@ -49,12 +49,10 @@
         }
     }
     if(!image){
-        UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
-        view.backgroundColor = [UIColor whiteColor];
-        image = [MHGallerySharedManager imageByRenderingView:view];
+        image = [self setDefaultImageForFrame:fromViewController.view.frame];
     }
     
-    MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:fromViewController.view.bounds];
+    MHUIImageViewContentViewAnimation *cellImageSnapshot = [MHUIImageViewContentViewAnimation.alloc initWithFrame:fromViewController.view.bounds];
     cellImageSnapshot.image = image;
     [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size,fromViewController.view.bounds)];
     cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
@@ -126,6 +124,13 @@
     
 }
 
+-(UIImage*)setDefaultImageForFrame:(CGRect)frame{
+    
+    UIView *view = [UIView.alloc initWithFrame:frame];
+    view.backgroundColor = [UIColor whiteColor];
+    return [MHGallerySharedManager imageByRenderingView:view];
+}
+
 -(void)startInteractiveTransition:(id<UIViewControllerContextTransitioning>)transitionContext{
     self.context = transitionContext;
     
@@ -150,8 +155,13 @@
         }
     }
     
-    self.cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:fromViewController.view.bounds];
+    self.cellImageSnapshot = [MHUIImageViewContentViewAnimation.alloc initWithFrame:fromViewController.view.bounds];
     self.cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
+    
+    if(!image){
+        image = [self setDefaultImageForFrame:fromViewController.view.frame];
+    }
+    
     self.cellImageSnapshot.image = image;
     [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.imageMH.size,fromViewController.view.bounds)];
     self.startFrame = self.cellImageSnapshot.frame;
@@ -332,10 +342,10 @@
         fromViewController.view.alpha =1;
         
         MHGalleryImageViewerViewController *imageViewer  = (MHGalleryImageViewerViewController*)fromViewController.visibleViewController;
-        [imageViewer.pageViewController.view setHidden:NO];
+        imageViewer.pageViewController.view.hidden = NO;
         
         if (self.moviePlayer) {
-            MHImageViewController *imageViewController = (MHImageViewController*)[imageViewer.pageViewController.viewControllers firstObject];
+            MHImageViewController *imageViewController = (MHImageViewController*)imageViewer.pageViewController.viewControllers.firstObject;
             [imageViewController.view insertSubview:self.moviePlayer.view atIndex:2];
         }
         
@@ -354,17 +364,17 @@
 
 -(void)doOrientationwithFromViewController:(UINavigationController*)fromViewController{
     fromViewController.view.transform = CGAffineTransformMakeRotation(self.startTransform);
-    fromViewController.view.center = [UIApplication sharedApplication].keyWindow.center;
+    fromViewController.view.center = UIApplication.sharedApplication.keyWindow.center;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
        
         NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
         NSString *status = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
         
-        [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationPortrait) forKey:status];
+        [UIDevice.currentDevice setValue:@(UIInterfaceOrientationPortrait) forKey:status];
         if (self.orientationTransformBeforeDismiss >0) {
-            [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationLandscapeRight) forKey:status];
+            [UIDevice.currentDevice setValue:@(UIInterfaceOrientationLandscapeRight) forKey:status];
         }else{
-            [[UIDevice currentDevice]setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:status];
+            [UIDevice.currentDevice setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:status];
         }
     }else{
         fromViewController.navigationBar.frame = CGRectMake(0, 0, fromViewController.navigationBar.frame.size.width, 64);

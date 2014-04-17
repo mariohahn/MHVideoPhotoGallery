@@ -22,11 +22,11 @@
     
     self.preferredStatusBarStyleMH = UIStatusBarStyleDefault;
     self.presentationStyle = presentationStyle;
-    self.transitionCustomization = [MHTransitionCustomization new];
-    self.UICustomization = [MHUICustomization new];
+    self.transitionCustomization = MHTransitionCustomization.new;
+    self.UICustomization = MHUICustomization.new;
     
-    self.overViewViewController= [MHOverviewController new];
-    self.imageViewerViewController = [MHGalleryImageViewerViewController new];
+    self.overViewViewController= MHOverviewController.new;
+    self.imageViewerViewController = MHGalleryImageViewerViewController.new;
     
     if (presentationStyle != MHGalleryViewModeOverView) {
         self.viewControllers = @[self.overViewViewController,self.imageViewerViewController];
@@ -64,19 +64,6 @@
     return self.galleryItems.count;
 }
 
-+(NSString*)stringForMinutesAndSeconds:(NSInteger)seconds
-                              addMinus:(BOOL)addMinus{
-    
-    NSNumber *minutesNumber = @(seconds / 60);
-    NSNumber *secondsNumber = @(seconds % 60);
-    
-    NSString *string = [NSString stringWithFormat:@"-%@:%@",[MHNumberFormatterVideo() stringFromNumber:minutesNumber] ,[MHNumberFormatterVideo() stringFromNumber:secondsNumber]];
-    if (addMinus) {
-        return string;
-    }
-    return [string stringByReplacingOccurrencesOfString:@"-" withString:@""];
-}
-
 @end
 
 
@@ -88,10 +75,10 @@
     
     
     if(galleryController.UICustomization.useCustomBackButtonImageOnImageViewer){
-        UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc]initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
-                                                                         style:UIBarButtonItemStyleBordered
-                                                                        target:self
-                                                                        action:nil];
+        UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+                                                                        style:UIBarButtonItemStyleBordered
+                                                                       target:self
+                                                                       action:nil];
         galleryController.overViewViewController.navigationItem.backBarButtonItem = backBarButton;
         galleryController.navigationBar.tintColor = galleryController.UICustomization.barButtonsTintColor;
     }
@@ -117,7 +104,7 @@
 
 
 - (void)dismissViewControllerAnimated:(BOOL)flag dismissImageView:(UIImageView*)dismissImageView completion:(void (^)(void))completion{
-    if ([[(UINavigationController*)self viewControllers].lastObject isKindOfClass:[MHGalleryImageViewerViewController class]]) {
+    if ([[(UINavigationController*)self viewControllers].lastObject isKindOfClass:MHGalleryImageViewerViewController.class]) {
         MHGalleryImageViewerViewController *imageViewer = [(UINavigationController*)self viewControllers].lastObject;
         imageViewer.dismissFromImageView = dismissImageView;
     }
@@ -126,7 +113,7 @@
 
 
 -(id<UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id<UIViewControllerAnimatedTransitioning>)animator{
-    if ([animator isKindOfClass:[MHTransitionPresentMHGallery class]]) {
+    if ([animator isKindOfClass:MHTransitionPresentMHGallery.class]) {
         MHTransitionPresentMHGallery *animatorPresent = (MHTransitionPresentMHGallery*)animator;
         if (animatorPresent.interactive) {
             return animatorPresent;
@@ -138,7 +125,7 @@
 }
 
 -(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator{
-    if ([animator isKindOfClass:[MHTransitionDismissMHGallery class]]) {
+    if ([animator isKindOfClass:MHTransitionDismissMHGallery.class]) {
         MHTransitionDismissMHGallery *animatorDismiss = (MHTransitionDismissMHGallery*)animator;
         if (animatorDismiss.interactive) {
             return animatorDismiss;
@@ -151,7 +138,7 @@
 
 
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
-    if ([[(UINavigationController*)dismissed  viewControllers].lastObject isKindOfClass:[MHGalleryImageViewerViewController class]]) {
+    if ([[(UINavigationController*)dismissed  viewControllers].lastObject isKindOfClass:MHGalleryImageViewerViewController.class]) {
         MHGalleryImageViewerViewController *imageViewer = [(UINavigationController*)dismissed  viewControllers].lastObject;
         MHImageViewController *viewer = imageViewer.pageViewController.viewControllers.firstObject;
         
@@ -160,7 +147,7 @@
             detail.transitionImageView = imageViewer.dismissFromImageView;
             return detail;
         }
-        MHTransitionDismissMHGallery *detail = [MHTransitionDismissMHGallery new];
+        MHTransitionDismissMHGallery *detail = MHTransitionDismissMHGallery.new;
         detail.transitionImageView = imageViewer.dismissFromImageView;
         return detail;
     }
@@ -171,14 +158,14 @@
                                                                   presentingController:(UIViewController *)presenting
                                                                       sourceController:(UIViewController *)source {
     UINavigationController *nav = (UINavigationController*)presented;
-    if ([nav.viewControllers.lastObject  isKindOfClass:[MHGalleryImageViewerViewController class]]) {
+    if ([nav.viewControllers.lastObject  isKindOfClass:MHGalleryImageViewerViewController.class]) {
         MHGalleryImageViewerViewController *imageViewer = nav.viewControllers.lastObject;
         if (imageViewer.interactivePresentationTranstion) {
             MHTransitionPresentMHGallery *detail = imageViewer.interactivePresentationTranstion;
             detail.presentingImageView = imageViewer.presentingFromImageView;
             return detail;
         }
-        MHTransitionPresentMHGallery *detail = [MHTransitionPresentMHGallery new];
+        MHTransitionPresentMHGallery *detail = MHTransitionPresentMHGallery.new;
         detail.presentingImageView = imageViewer.presentingFromImageView;
         return detail;
     }

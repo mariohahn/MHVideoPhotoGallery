@@ -23,7 +23,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.imageView = [[UIImageView alloc]init];
+        self.imageView = UIImageView.new;
         self.imageView.contentMode = UIViewContentModeCenter;
         [self addSubview:self.imageView];
         self.clipsToBounds = YES;
@@ -34,7 +34,7 @@
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        self.imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        self.imageView = [UIImageView.alloc initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         self.imageView.contentMode = UIViewContentModeCenter;
         [self addSubview:self.imageView];
         self.clipsToBounds = YES;
@@ -78,7 +78,7 @@
 }
 -(void)checkImageViewHasImage{
     if (!self.imageView.image) {
-        UIView *view = [[UIView alloc]initWithFrame:self.imageView.frame];
+        UIView *view = [UIView.alloc initWithFrame:self.imageView.frame];
         view.backgroundColor = [UIColor whiteColor];
         self.imageView.image = [MHGallerySharedManager imageByRenderingView:view];;
     }

@@ -46,23 +46,23 @@
         return nil;
     
     self.backgroundColor = [UIColor clearColor];
-    self.blurBackgroundToolbar = [[UIToolbar alloc]initWithFrame:self.bounds];
+    self.blurBackgroundToolbar = [UIToolbar.alloc initWithFrame:self.bounds];
     self.blurBackgroundToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [self addSubview:self.blurBackgroundToolbar];
     
-    self.activityIndicatorView = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0, -35, self.blurBackgroundToolbar.frame.size.width, self.blurBackgroundToolbar.frame.size.height-35)];
+    self.activityIndicatorView = [UIActivityIndicatorView.alloc initWithFrame:CGRectMake(0, -35, self.blurBackgroundToolbar.frame.size.width, self.blurBackgroundToolbar.frame.size.height-35)];
     self.activityIndicatorView.color = [UIColor blackColor];
     self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [self.activityIndicatorView startAnimating];
     [self.blurBackgroundToolbar addSubview:self.activityIndicatorView];
     
-    self.downloadDataLabel = [[UILabel alloc]initWithFrame:self.blurBackgroundToolbar.bounds];
+    self.downloadDataLabel = [UILabel.alloc initWithFrame:self.blurBackgroundToolbar.bounds];
     self.downloadDataLabel.textAlignment = NSTextAlignmentCenter;
     self.downloadDataLabel.numberOfLines = MAXFLOAT;
     self.downloadDataLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [self.blurBackgroundToolbar addSubview:self.downloadDataLabel];
     
-    self.cancelDownloadButton = [[UIButton alloc]initWithFrame:CGRectMake(0, self.blurBackgroundToolbar.frame.size.height-50, self.frame.size.width, 44)];
+    self.cancelDownloadButton = [UIButton.alloc initWithFrame:CGRectMake(0, self.blurBackgroundToolbar.frame.size.height-50, self.frame.size.width, 44)];
     
     self.cancelDownloadButton.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin;
     [self.cancelDownloadButton setTitle:MHGalleryLocalizedString(@"shareview.download.cancel") forState:UIControlStateNormal];
@@ -85,7 +85,8 @@
                                                                relatedBy:NSLayoutRelationEqual
                                                                   toItem:self.blurBackgroundToolbar
                                                                attribute:NSLayoutAttributeCenterX
-                                                              multiplier:1.f constant:0.f];
+                                                              multiplier:1.f
+                                                                constant:0.f];
     
     [self.blurBackgroundToolbar addConstraint:bottom];
     [self.blurBackgroundToolbar addConstraint:centerX];
@@ -104,7 +105,7 @@
     NSString *downloadDataString = MHGalleryLocalizedString(@"shareview.download");
     NSString *numberTitle = [NSString stringWithFormat:MHGalleryLocalizedString(@"imagedetail.title.current"),downloaded,maxNumber];
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@%@",downloadDataString,numberTitle]];
+    NSMutableAttributedString *attributedString = [NSMutableAttributedString.alloc initWithString:[NSString stringWithFormat:@"%@%@",downloadDataString,numberTitle]];
     [attributedString setAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30]} range:NSMakeRange(0, downloadDataString.length)];
     
     [attributedString setAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:20]} range:NSMakeRange(downloadDataString.length, numberTitle.length)];
@@ -140,7 +141,7 @@
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if (!(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) return nil;
     
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    UICollectionViewFlowLayout *layout = UICollectionViewFlowLayout.new;
     layout.sectionInset = UIEdgeInsetsMake(0, 25, 0, 25);
     layout.itemSize = CGSizeMake(270, 210);
     layout.minimumLineSpacing = 15;
@@ -153,7 +154,7 @@
     
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
-    [self.collectionView registerClass:[MHMediaPreviewCollectionViewCell class] forCellWithReuseIdentifier:@"MHMediaPreviewCollectionViewCell"];
+    [self.collectionView registerClass:MHMediaPreviewCollectionViewCell.class forCellWithReuseIdentifier:@"MHMediaPreviewCollectionViewCell"];
     
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     [[self contentView] addSubview:self.collectionView];
@@ -163,7 +164,7 @@
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds];
+        _collectionView = [UICollectionView.alloc initWithFrame:self.bounds];
         self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
         [[self contentView] addSubview:self.collectionView];
     }
@@ -181,17 +182,17 @@
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        _thumbnailImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.bounds.size.width/2-30, 1, 60, 60)];
+        _thumbnailImageView = [UIImageView.alloc initWithFrame:CGRectMake(self.bounds.size.width/2-30, 1, 60, 60)];
         self.thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
         self.thumbnailImageView.clipsToBounds = YES;
         [[self contentView] addSubview:self.thumbnailImageView];
         
-        _descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, self.bounds.size.height-40, self.bounds.size.width, 40)];
+        _descriptionLabel = [UILabel.alloc initWithFrame:CGRectMake(0, self.bounds.size.height-40, self.bounds.size.width, 40)];
         self.descriptionLabel.backgroundColor = [UIColor clearColor];
         self.descriptionLabel.textColor = [UIColor blackColor];
         self.descriptionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
-        [self.descriptionLabel setNumberOfLines:2];
-        [[self contentView] addSubview:self.descriptionLabel];
+        self.descriptionLabel.numberOfLines = 2;
+        [self.contentView addSubview:self.descriptionLabel];
     }
     return self;
 }
@@ -221,35 +222,35 @@
 -(void)initShareObjects{
     
     
-    self.saveObject = [[MHShareItem alloc]initWithImageName:@"activtyMH"
-                                                      title:MHGalleryLocalizedString(@"shareview.save.cameraRoll")
-                                       withMaxNumberOfItems:MAXFLOAT
-                                               withSelector:@"saveImages:"
-                                           onViewController:self];
+    self.saveObject = [MHShareItem.alloc initWithImageName:@"activtyMH"
+                                                     title:MHGalleryLocalizedString(@"shareview.save.cameraRoll")
+                                      withMaxNumberOfItems:MAXFLOAT
+                                              withSelector:@"saveImages:"
+                                          onViewController:self];
     
-    self.mailObject = [[MHShareItem alloc]initWithImageName:@"mailMH"
-                                                      title:MHGalleryLocalizedString(@"shareview.mail")
-                                       withMaxNumberOfItems:10
-                                               withSelector:@"mailImages:"
-                                           onViewController:self];
+    self.mailObject = [MHShareItem.alloc initWithImageName:@"mailMH"
+                                                     title:MHGalleryLocalizedString(@"shareview.mail")
+                                      withMaxNumberOfItems:10
+                                              withSelector:@"mailImages:"
+                                          onViewController:self];
     
-    self.messageObject = [[MHShareItem alloc]initWithImageName:@"messageMH"
-                                                         title:MHGalleryLocalizedString(@"shareview.message")
-                                          withMaxNumberOfItems:15
-                                                  withSelector:@"smsImages:"
+    self.messageObject = [MHShareItem.alloc initWithImageName:@"messageMH"
+                                                        title:MHGalleryLocalizedString(@"shareview.message")
+                                         withMaxNumberOfItems:15
+                                                 withSelector:@"smsImages:"
+                                             onViewController:self];
+    
+    self.twitterObject = [MHShareItem.alloc initWithImageName:@"twitterMH"
+                                                        title:@"Twitter"
+                                         withMaxNumberOfItems:2
+                                                 withSelector:@"twShareImages:"
+                                             onViewController:self] ;
+    
+    self.faceBookObject = [MHShareItem.alloc initWithImageName:@"facebookMH"
+                                                         title:@"Facebook"
+                                          withMaxNumberOfItems:10
+                                                  withSelector:@"fbShareImages:"
                                               onViewController:self];
-    
-    self.twitterObject = [[MHShareItem alloc]initWithImageName:@"twitterMH"
-                                                         title:@"Twitter"
-                                          withMaxNumberOfItems:2
-                                                  withSelector:@"twShareImages:"
-                                              onViewController:self] ;
-    
-    self.faceBookObject = [[MHShareItem alloc]initWithImageName:@"facebookMH"
-                                                          title:@"Facebook"
-                                           withMaxNumberOfItems:10
-                                                   withSelector:@"fbShareImages:"
-                                               onViewController:self];
 }
 
 -(void)cancelPressed{
@@ -276,7 +277,7 @@
     if ((self.startPointScroll <  targetContentOffset->x) && (visibleCells.count >1)) {
         cell = visibleCells[1];
     }else{
-        cell = [visibleCells firstObject];
+        cell = visibleCells.firstObject;
     }
     if (MHISIPAD) {
         *targetContentOffset = CGPointMake((cell.tag * 330+20), targetContentOffset->y);
@@ -297,24 +298,24 @@
                                   animationControllerForOperation:(UINavigationControllerOperation)operation
                                                fromViewController:(UIViewController *)fromVC
                                                  toViewController:(UIViewController *)toVC {
-    return [MHTransitionShowShareView new];
+    return MHTransitionShowShareView.new;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.selectedRows = [NSMutableArray new];
+    self.selectedRows = NSMutableArray.new;
     self.view.backgroundColor =[UIColor whiteColor];
     self.navigationItem.hidesBackButton =YES;
     
-    UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                                                    target:self
-                                                                                    action:@selector(cancelPressed)];
+    UIBarButtonItem *cancelBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                   target:self
+                                                                                   action:@selector(cancelPressed)];
     
     self.navigationItem.leftBarButtonItem = cancelBarButton;
     
-    UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
+    UICollectionViewFlowLayout *flowLayout = UICollectionViewFlowLayout.new;
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     if (MHISIPAD) {
         flowLayout.itemSize = CGSizeMake(320, self.view.frame.size.height-330);
@@ -323,15 +324,15 @@
     }
     flowLayout.minimumInteritemSpacing =20;
     flowLayout.sectionInset = UIEdgeInsetsMake(0, 60, 0, 0);
-    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-240)
-                                            collectionViewLayout:flowLayout];
+    self.collectionView = [UICollectionView.alloc initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-240)
+                                           collectionViewLayout:flowLayout];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.allowsMultipleSelection=YES;
-    self.collectionView.contentInset =UIEdgeInsetsMake(0, 0, 0, 0);
-    self.collectionView.showsHorizontalScrollIndicator =NO;
-    self.collectionView.backgroundColor =[UIColor whiteColor];
-    [self.collectionView registerClass:[MHMediaPreviewCollectionViewCell class]
+    self.collectionView.contentInset = UIEdgeInsetsZero;
+    self.collectionView.showsHorizontalScrollIndicator = NO;
+    self.collectionView.backgroundColor = [UIColor whiteColor];
+    [self.collectionView registerClass:MHMediaPreviewCollectionViewCell.class
             forCellWithReuseIdentifier:@"MHMediaPreviewCollectionViewCell"];
     
     self.collectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
@@ -344,9 +345,9 @@
                                 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally
                                         animated:NO];
     
-    self.gradientView= [[UIView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240)];
+    self.gradientView= [UIView.alloc initWithFrame:CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240)];
     
-    self.toolbar = [[UIToolbar alloc]initWithFrame:self.gradientView.frame];
+    self.toolbar = [UIToolbar.alloc initWithFrame:self.gradientView.frame];
     [self.view addSubview:self.toolbar];
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -357,17 +358,17 @@
     [self.gradientView.layer insertSublayer:gradient atIndex:0];
     [self.view addSubview:self.gradientView];
     
-    self.tableViewShare = [[UITableView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-230, self.view.frame.size.width, 240)];
-    self.tableViewShare.delegate =self;
-    self.tableViewShare.separatorStyle =UITableViewCellSeparatorStyleNone;
-    self.tableViewShare.dataSource =self;
-    self.tableViewShare.backgroundColor =[UIColor clearColor];
-    self.tableViewShare.scrollEnabled =NO;
-    [self.tableViewShare registerClass:[MHCollectionViewTableViewCell class]
+    self.tableViewShare = [UITableView.alloc initWithFrame:CGRectMake(0, self.view.frame.size.height-230, self.view.frame.size.width, 240)];
+    self.tableViewShare.delegate = self;
+    self.tableViewShare.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableViewShare.dataSource = self;
+    self.tableViewShare.backgroundColor = [UIColor clearColor];
+    self.tableViewShare.scrollEnabled = NO;
+    [self.tableViewShare registerClass:MHCollectionViewTableViewCell.class
                 forCellReuseIdentifier:@"MHCollectionViewTableViewCell"];
     [self.view addSubview:self.tableViewShare];
     
-    UIView *sep = [[UIView alloc]initWithFrame:CGRectMake(0,115, self.view.frame.size.width, 1)];
+    UIView *sep = [UIView.alloc initWithFrame:CGRectMake(0,115, self.view.frame.size.width, 1)];
     sep.backgroundColor = [UIColor colorWithRed:0.63 green:0.63 blue:0.63 alpha:1];
     sep.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.tableViewShare addSubview:sep];
@@ -393,7 +394,7 @@
                                                             ]];
     
     self.shareDataSourceStart = [NSArray arrayWithArray:self.shareDataSource];
-    if([UIApplication sharedApplication].statusBarOrientation != UIInterfaceOrientationPortrait){
+    if(UIApplication.sharedApplication.statusBarOrientation != UIInterfaceOrientationPortrait){
         self.navigationItem.rightBarButtonItem = [self nextBarButtonItem];
     }
     self.startPointScroll = self.collectionView.contentOffset.x;
@@ -419,10 +420,10 @@
     
     MHCollectionViewTableViewCell *cell = (MHCollectionViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell){
-        cell = [[MHCollectionViewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [MHCollectionViewTableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     cell.backgroundColor = [UIColor clearColor];
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    UICollectionViewFlowLayout *layout = UICollectionViewFlowLayout.new;
     layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
     layout.itemSize = CGSizeMake(70, 100);
     layout.minimumLineSpacing = 10;
@@ -433,10 +434,10 @@
     [cell.collectionView registerClass:[MHShareCell class]
             forCellWithReuseIdentifier:@"MHShareCell"];
     [cell.collectionView setShowsHorizontalScrollIndicator:NO];
-    [cell.collectionView setDelegate:self];
-    [cell.collectionView setDataSource:self];
-    [cell.collectionView setBackgroundColor:[UIColor clearColor]];
-    [cell.collectionView setTag:indexPath.section];
+    cell.collectionView.delegate =self;
+    cell.collectionView.dataSource=self;
+    cell.collectionView.backgroundColor = [UIColor clearColor];
+    cell.collectionView.tag = indexPath.section;
     [cell.collectionView reloadData];
     
     return cell;
@@ -487,7 +488,7 @@
     MHShareItem *shareItem = self.shareDataSource[indexPath.section][indexPath.row];
     
     cell.thumbnailImageView.image = [UIImage imageNamed:shareItem.imageName];
-    [cell.thumbnailImageView setContentMode:UIViewContentModeCenter];
+    cell.thumbnailImageView.contentMode =UIViewContentModeCenter;
     if (indexPath.section ==0) {
         cell.thumbnailImageView.layer.cornerRadius =15;
     }
@@ -516,17 +517,17 @@
             }
         }];
     }else{
-        [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.URLString
-                                                              successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
-                                                                  if (error) {
-                                                                      blockCell.thumbnail.image = MHGalleryImage(@"error");
-                                                                  }else{
-                                                                      blockCell.videoDurationLength.text = [MHGallerySharedManager stringForMinutesAndSeconds:videoDuration addMinus:NO];
-                                                                      blockCell.thumbnail.image =image;
-                                                                      blockCell.videoIcon.hidden =NO;
-                                                                      blockCell.videoGradient.hidden =NO;
-                                                                  }
-                                                              }];
+        [MHGallerySharedManager.sharedManager startDownloadingThumbImage:item.URLString
+                                                            successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
+                                                                if (error) {
+                                                                    blockCell.thumbnail.image = MHGalleryImage(@"error");
+                                                                }else{
+                                                                    blockCell.videoDurationLength.text = [MHGallerySharedManager stringForMinutesAndSeconds:videoDuration addMinus:NO];
+                                                                    blockCell.thumbnail.image =image;
+                                                                    blockCell.videoIcon.hidden =NO;
+                                                                    blockCell.videoGradient.hidden =NO;
+                                                                }
+                                                            }];
     }
     
     cell.thumbnail.contentMode = UIViewContentModeScaleAspectFill;
@@ -598,10 +599,10 @@
     NSInteger index =0;
     NSArray *storedData = [NSArray arrayWithArray:self.shareDataSource];
     
-    self.shareDataSource = [NSMutableArray new];
+    self.shareDataSource = NSMutableArray.new;
     
     for (NSArray *array in self.shareDataSourceStart) {
-        NSMutableArray *newObjects  = [NSMutableArray new];
+        NSMutableArray *newObjects  = NSMutableArray.new;
         
         for (MHShareItem *item in array) {
             if (self.selectedRows.count <= item.maxNumberOfItems) {
@@ -621,7 +622,7 @@
 -(void)presentSLComposeForServiceType:(NSString*)serviceType{
     
     __weak typeof(self) weakSelf = self;
-
+    
     [self getAllImagesForSelectedRows:^(NSArray *images){
         SLComposeViewController *shareconntroller=[SLComposeViewController composeViewControllerForServiceType:serviceType];
         SLComposeViewControllerCompletionHandler __block completionHandler=^(SLComposeViewControllerResult result){
@@ -631,7 +632,7 @@
                                                      [weakSelf cancelPressed];
                                                  }];
         };
-        NSString *videoURLS = [NSString new];
+        NSString *videoURLS = NSString.new;
         for (MHImageURL *dataURL in images) {
             if ([dataURL.image isKindOfClass:[UIImage class]] && !dataURL.image.images) {
                 [shareconntroller addImage:dataURL.image];
@@ -656,15 +657,15 @@
 
 -(void)smsImages:(NSArray*)object{
     [self getAllImagesForSelectedRows:^(NSArray *images) {
-        MFMessageComposeViewController *picker = [MFMessageComposeViewController new];
+        MFMessageComposeViewController *picker = MFMessageComposeViewController.new;
         picker.messageComposeDelegate = self;
-        NSString *videoURLS = [NSString new];
+        NSString *videoURLS = NSString.new;
         
         for (MHImageURL *dataURL in images) {
             if ([dataURL.image isKindOfClass:[UIImage class]]) {
                 UIImage *image = dataURL.image;
                 if (image.images) {
-                    [picker addAttachmentData:[NSData dataWithContentsOfFile:[[SDImageCache sharedImageCache] defaultCachePathForKey:dataURL.URL]]
+                    [picker addAttachmentData:[NSData dataWithContentsOfFile:[SDImageCache.sharedImageCache defaultCachePathForKey:dataURL.URL]]
                                typeIdentifier:(__bridge NSString *)kUTTypeGIF
                                      filename:@"animated.gif"];
                 }else{
@@ -687,7 +688,7 @@
 
 -(void)mailImages:(NSArray*)object{
     [self getAllImagesForSelectedRows:^(NSArray *images) {
-        MFMailComposeViewController *picker = [MFMailComposeViewController new];
+        MFMailComposeViewController *picker = MFMailComposeViewController.new;
         picker.mailComposeDelegate = self;
         NSString *videoURLS = [NSString new];
         
@@ -740,7 +741,7 @@
 -(void)setSaveCount:(NSInteger)saveCount{
     dispatch_async(dispatch_get_main_queue(), ^{
         if (saveCount == self.selectedRows.count) {
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
             if (self.downloadView) {
                 [self removeBlurBlurBackgorundToolbarFromSuperView:^(BOOL complition) {
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -782,15 +783,15 @@
             containsVideo = YES;
         }
     }
-    self.sessions =[NSMutableArray new];
+    self.sessions =NSMutableArray.new;
     
     if (saveToCameraRoll && containsVideo) {
         
-        self.downloadView = [[MHDownloadView alloc]initWithFrame:self.view.bounds];
+        self.downloadView = [MHDownloadView.alloc initWithFrame:self.view.bounds];
         self.downloadView.blurBackgroundToolbar.alpha =0;
         __weak typeof(self) weakSelf = self;
         self.downloadView.cancelCallbackDownloadData = ^(BOOL cancel){
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
             for (NSURLSession *session in weakSelf.sessions) {
                 [session invalidateAndCancel];
             }
@@ -804,7 +805,7 @@
             self.downloadView.blurBackgroundToolbar.alpha =1;
         }];
     }
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
     
     self.dataDownload = [NSMutableArray new];
     
@@ -822,8 +823,8 @@
                 MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString image:nil];
                 [weakSelf addDataToDownloadArray:imageURL];
             }else{
-                [[MHGallerySharedManager sharedManager] getURLForMediaPlayer:item.URLString successBlock:^(NSURL *URL, NSError *error) {
-                    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+                [MHGallerySharedManager.sharedManager getURLForMediaPlayer:item.URLString successBlock:^(NSURL *URL, NSError *error) {
+                    NSURLSession *session = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.defaultSessionConfiguration];
                     
                     __block NSURLSession *blockSession = session;
                     [self.sessions addObject:session];
@@ -832,21 +833,21 @@
                             weakSelf.saveCount++;
                             return;
                         }
-                        NSURL *documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] firstObject];
+                        NSURL *documentsURL = [[NSFileManager.defaultManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] firstObject];
                         NSURL *tempURL = [documentsURL URLByAppendingPathComponent:@"storeForShare.mp4"];
                         
                         NSError *moveItemError = nil;
-                        [[NSFileManager defaultManager] moveItemAtURL:location toURL:tempURL error:&moveItemError];
+                        [NSFileManager.defaultManager moveItemAtURL:location toURL:tempURL error:&moveItemError];
                         
                         if (moveItemError) {
                             weakSelf.saveCount++;
                             return;
                         }
-                        ALAssetsLibrary* library = [ALAssetsLibrary new];
+                        ALAssetsLibrary* library = ALAssetsLibrary.new;
                         [library writeVideoAtPathToSavedPhotosAlbum:tempURL
                                                     completionBlock:^(NSURL *assetURL, NSError *error){
                                                         NSError *removeError =nil;
-                                                        [[NSFileManager defaultManager] removeItemAtURL:tempURL error:&removeError];
+                                                        [NSFileManager.defaultManager removeItemAtURL:tempURL error:&removeError];
                                                         
                                                         [weakSelf.sessions removeObject:blockSession];
                                                         weakSelf.saveCount++;
@@ -860,24 +861,24 @@
         if (item.galleryType == MHGalleryTypeImage) {
             
             if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
-                [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.URLString
-                                                                       assetType:MHAssetImageTypeFull
-                                                                    successBlock:^(UIImage *image, NSError *error) {
-                                                                        MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString image:image];
-                                                                        [weakSelf addDataToDownloadArray:imageURL];
-                                                                    }];
+                [MHGallerySharedManager.sharedManager getImageFromAssetLibrary:item.URLString
+                                                                     assetType:MHAssetImageTypeFull
+                                                                  successBlock:^(UIImage *image, NSError *error) {
+                                                                      MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString image:image];
+                                                                      [weakSelf addDataToDownloadArray:imageURL];
+                                                                  }];
             }else if (item.image) {
                 [self addDataToDownloadArray:item.image];
             }else{
-                [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:item.URLString]
-                                                           options:SDWebImageContinueInBackground
-                                                          progress:nil
-                                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                             
-                                                             MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString image:image];
-                                                             
-                                                             [weakSelf addDataToDownloadArray:imageURL];
-                                                         }];
+                [SDWebImageManager.sharedManager downloadWithURL:[NSURL URLWithString:item.URLString]
+                                                         options:SDWebImageContinueInBackground
+                                                        progress:nil
+                                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                           
+                                                           MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString image:image];
+                                                           
+                                                           [weakSelf addDataToDownloadArray:imageURL];
+                                                       }];
             }
         }
     }
@@ -885,9 +886,9 @@
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                         duration:(NSTimeInterval)duration{
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait) {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                                                             target:self
-                                                                                             action:@selector(cancelPressed)];
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                            target:self
+                                                                                            action:@selector(cancelPressed)];
         self.navigationItem.rightBarButtonItem = nil;
         self.collectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-240);
         self.toolbar.frame = CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240);
@@ -903,10 +904,10 @@
 }
 
 -(UIBarButtonItem*)nextBarButtonItem{
-    return [[UIBarButtonItem alloc]initWithTitle:@"Next"
-                                           style:UIBarButtonItemStyleBordered
-                                          target:self
-                                          action:@selector(showShareSheet)];
+    return [UIBarButtonItem.alloc initWithTitle:@"Next"
+                                          style:UIBarButtonItemStyleBordered
+                                         target:self
+                                         action:@selector(showShareSheet)];
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
@@ -927,9 +928,9 @@
 -(void)cancelShareSheet{
     self.showingShareViewInLandscapeMode = NO;
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                                                         target:self
-                                                                                         action:@selector(cancelPressed)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                        target:self
+                                                                                        action:@selector(cancelPressed)];
     
     self.navigationItem.rightBarButtonItem = [self nextBarButtonItem];
     
@@ -942,9 +943,9 @@
     self.showingShareViewInLandscapeMode = YES;
     self.navigationItem.rightBarButtonItem = nil;
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                                                         target:self
-                                                                                         action:@selector(cancelShareSheet)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                        target:self
+                                                                                        action:@selector(cancelShareSheet)];
     
     self.toolbar.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
     self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 240);
@@ -962,9 +963,10 @@
                 
                 UIImage *imageToStore = dataURL.image;
                 
-                ALAssetsLibrary* library = [ALAssetsLibrary new];
+                ALAssetsLibrary* library = ALAssetsLibrary.new;
                 
-                NSData *data = [NSData new];
+                NSData *data = NSData.new;
+                
                 if (imageToStore.images) {
                     data = [NSData dataWithContentsOfFile:[[SDImageCache sharedImageCache] defaultCachePathForKey:dataURL.URL]];
                 }else{

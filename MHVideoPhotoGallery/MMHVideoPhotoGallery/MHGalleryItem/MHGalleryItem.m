@@ -20,20 +20,20 @@
 }
 
 + (instancetype)itemWithVimeoVideoID:(NSString*)ID{
-    return [[[self class] alloc]initWithURL:[NSString stringWithFormat:MHVimeoBaseURL,ID]
-                                galleryType:MHGalleryTypeVideo];
+    return [self.class.alloc initWithURL:[NSString stringWithFormat:MHVimeoBaseURL,ID]
+                             galleryType:MHGalleryTypeVideo];
 }
 
 + (instancetype)itemWithYoutubeVideoID:(NSString*)ID{
-    return [[[self class] alloc]initWithURL:[NSString stringWithFormat:MHYoutubeBaseURL,ID]
-                                galleryType:MHGalleryTypeVideo];
+    return [self.class.alloc initWithURL:[NSString stringWithFormat:MHYoutubeBaseURL,ID]
+                             galleryType:MHGalleryTypeVideo];
 }
 
 +(instancetype)itemWithURL:(NSString *)URLString
                galleryType:(MHGalleryType)galleryType{
     
-    return [[[self class] alloc]initWithURL:URLString
-                                galleryType:galleryType];
+    return [self.class.alloc initWithURL:URLString
+                             galleryType:galleryType];
 }
 
 - (instancetype)initWithURL:(NSString*)URLString
@@ -49,7 +49,7 @@
 }
 
 +(instancetype)itemWithImage:(UIImage *)image{
-    return [[[self class] alloc] initWithImage:image];
+    return [self.class.alloc initWithImage:image];
 }
 
 @end
