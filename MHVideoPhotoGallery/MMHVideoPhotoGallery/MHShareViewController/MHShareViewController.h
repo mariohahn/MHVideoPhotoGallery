@@ -55,7 +55,6 @@ _Pragma("clang diagnostic pop") \
 @end
 
 
-
 @interface MHCollectionViewTableViewCell : UITableViewCell
 @property (strong, nonatomic) UICollectionView *collectionView;
 @end

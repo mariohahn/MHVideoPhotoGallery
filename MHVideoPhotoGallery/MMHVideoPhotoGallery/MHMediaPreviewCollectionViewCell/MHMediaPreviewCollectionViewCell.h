@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class MHGalleryItem;
+
 @interface MHMediaPreviewCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) UIImageView             *thumbnail;
@@ -17,6 +19,7 @@
 @property (nonatomic, strong) UIImageView             *videoIcon;
 @property (nonatomic, strong) UIView                  *videoGradient;
 @property (nonatomic, strong) UIImageView             *selectionImageView;
+@property (nonatomic, strong) MHGalleryItem           *galleryItem;
 
 @property (nonatomic, copy) void (^saveImage)(BOOL shouldSave);
 @end

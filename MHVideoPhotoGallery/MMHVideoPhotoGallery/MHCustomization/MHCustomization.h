@@ -12,8 +12,6 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
     MHGalleryViewModeOverView =2
 };
 
-
-
 @interface MHTransitionCustomization : NSObject
 @property (nonatomic)       BOOL interactiveDismiss;
 @property (nonatomic)       BOOL dismissWithScrollGestureOnFirstAndLastImage;

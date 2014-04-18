@@ -16,6 +16,7 @@
 #import "MHGallerySharedManagerPrivate.h"
 #import "SDImageCache.h"
 #import <MobileCoreServices/UTCoreTypes.h>
+#import "MHGallery.h"
 
 @implementation MHImageURL
 
@@ -28,13 +29,6 @@
     self.image = image;
     return self;
 }
-
-@end
-
-@interface SDImageCache (MHPrivateMethods)
-
-- (NSString *)defaultCachePathForKey:(NSString *)key;
-- (NSString *)cachedFileNameForKey:(NSString *)key;
 
 @end
 
@@ -200,20 +194,20 @@
 
 
 @interface MHShareViewController ()
-@property(nonatomic,strong) MHDownloadView *downloadView;
-@property(nonatomic,strong) NSMutableArray *shareDataSource;
-@property(nonatomic,strong) NSArray *shareDataSourceStart;
-@property(nonatomic,strong) NSMutableArray *selectedRows;
-@property(nonatomic)        CGFloat startPointScroll;
-@property(nonatomic,strong) MHShareItem *saveObject;
-@property(nonatomic,strong) MHShareItem *mailObject;
-@property(nonatomic,strong) MHShareItem *messageObject;
-@property(nonatomic,strong) MHShareItem *twitterObject;
-@property(nonatomic,strong) MHShareItem *faceBookObject;
-@property(nonatomic,getter = isShowingShareViewInLandscapeMode) BOOL showingShareViewInLandscapeMode;
-@property (nonatomic)         NSInteger saveCount;
-@property (nonatomic,strong)  NSMutableArray *dataDownload;
-@property (nonatomic,strong)  NSMutableArray *sessions;
+@property (nonatomic,strong) MHDownloadView *downloadView;
+@property (nonatomic,strong) NSMutableArray *shareDataSource;
+@property (nonatomic,strong) NSArray *shareDataSourceStart;
+@property (nonatomic,strong) NSMutableArray *selectedRows;
+@property (nonatomic)        CGFloat startPointScroll;
+@property (nonatomic,strong) MHShareItem *saveObject;
+@property (nonatomic,strong) MHShareItem *mailObject;
+@property (nonatomic,strong) MHShareItem *messageObject;
+@property (nonatomic,strong) MHShareItem *twitterObject;
+@property (nonatomic,strong) MHShareItem *faceBookObject;
+@property (nonatomic,getter = isShowingShareViewInLandscapeMode) BOOL showingShareViewInLandscapeMode;
+@property (nonatomic)        NSInteger saveCount;
+@property (nonatomic,strong) NSMutableArray *dataDownload;
+@property (nonatomic,strong) NSMutableArray *sessions;
 
 @end
 
@@ -501,34 +495,14 @@
 }
 
 -(void)makeOverViewDetailCell:(MHMediaPreviewCollectionViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
-    __block MHMediaPreviewCollectionViewCell *blockCell = cell;
     
     MHGalleryItem *item = [self itemForIndex:indexPath.row];
+    
     cell.videoDurationLength.text = @"";
     cell.videoIcon.hidden = YES;
     cell.videoGradient.hidden = YES;
     cell.thumbnail.image = nil;
-    
-    if (item.galleryType == MHGalleryTypeImage) {
-        
-        [cell.thumbnail setImageForMHGalleryItem:item imageType:MHImageTypeFull successBlock:^(UIImage *image, NSError *error) {
-            if (!image) {
-                blockCell.thumbnail.image = MHGalleryImage(@"error");
-            }
-        }];
-    }else{
-        [MHGallerySharedManager.sharedManager startDownloadingThumbImage:item.URLString
-                                                            successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
-                                                                if (error) {
-                                                                    blockCell.thumbnail.image = MHGalleryImage(@"error");
-                                                                }else{
-                                                                    blockCell.videoDurationLength.text = [MHGallerySharedManager stringForMinutesAndSeconds:videoDuration addMinus:NO];
-                                                                    blockCell.thumbnail.image =image;
-                                                                    blockCell.videoIcon.hidden =NO;
-                                                                    blockCell.videoGradient.hidden =NO;
-                                                                }
-                                                            }];
-    }
+    cell.galleryItem = item;
     
     cell.thumbnail.contentMode = UIViewContentModeScaleAspectFill;
     cell.selectionImageView.hidden =NO;

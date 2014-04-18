@@ -8,11 +8,6 @@
 
 #import "MHGalleryController.h"
 
-@interface MHGalleryController()
--(MHGalleryItem*)itemForIndex:(NSInteger)index;
-@end
-
-
 @implementation MHGalleryController
 
 - (id)initWithPresentationStyle:(MHGalleryViewMode)presentationStyle{
@@ -36,6 +31,9 @@
     return self;
 }
 
++(instancetype)galleryWithPresentationStyle:(MHGalleryViewMode)presentationStyle{
+    return [self.class.alloc initWithPresentationStyle:presentationStyle];
+}
 
 -(void)setGalleryItems:(NSArray *)galleryItems{
     self.overViewViewController.galleryItems = galleryItems;
@@ -72,8 +70,7 @@
 -(void)presentMHGalleryController:(MHGalleryController *)galleryController
                          animated:(BOOL)animated
                        completion:(void (^)(void))completion{
-    
-    
+
     if(galleryController.UICustomization.useCustomBackButtonImageOnImageViewer){
         UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
                                                                         style:UIBarButtonItemStyleBordered

@@ -43,7 +43,8 @@ extern NSString *const MHYoutubePlayBaseURL;
 extern NSString *const MHYoutubeBaseURL;
 extern NSString *const MHVimeoBaseURL;
 
-
-
-
+@interface SDImageCache (MHPrivateMethods)
+- (NSString *)defaultCachePathForKey:(NSString *)key;
+- (NSString *)cachedFileNameForKey:(NSString *)key;
+@end
 

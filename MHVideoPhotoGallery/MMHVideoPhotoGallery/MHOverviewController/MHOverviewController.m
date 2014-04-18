@@ -9,6 +9,7 @@
 #import "MHOverviewController.h"
 #import "MHGalleryController.h"
 #import "MHGallerySharedManagerPrivate.h"
+#import <MobileCoreServices/UTCoreTypes.h>
 
 @implementation MHIndexPinchGestureRecognizer
 @end
@@ -16,8 +17,8 @@
 @interface MHOverviewController ()
 
 @property (nonatomic, strong) MHTransitionShowDetail *interactivePushTransition;
-@property (nonatomic) CGPoint lastPoint;
-@property (nonatomic) CGFloat startScale;
+@property (nonatomic        ) CGPoint                lastPoint;
+@property (nonatomic        ) CGFloat                startScale;
 
 @end
 
@@ -117,6 +118,8 @@
 
 -(void)makeMHGalleryOverViewCell:(MHMediaPreviewCollectionViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     
+    __weak typeof(self) weakSelf = self;
+    
     MHGalleryItem *item =  [self itemForIndex:indexPath.row];
     cell.thumbnail.image = nil;
     
@@ -126,42 +129,16 @@
     
     
     cell.saveImage = ^(BOOL shouldSave){
-        [self getImageForItem:item
-               finishCallback:^(UIImage *image) {
-                   UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-               }];
+        [weakSelf getImageForItem:item
+                   finishCallback:^(UIImage *image) {
+                       UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+                   }];
     };
+    
     cell.videoDurationLength.text = @"";
-    
     cell.thumbnail.backgroundColor = [UIColor lightGrayColor];
-    __block MHMediaPreviewCollectionViewCell *blockCell = cell;
+    cell.galleryItem = item;
     
-    if (item.galleryType == MHGalleryTypeVideo) {
-        [MHGallerySharedManager.sharedManager startDownloadingThumbImage:item.URLString
-                                                            successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
-                                                                
-                                                                if (error) {
-                                                                    blockCell.thumbnail.backgroundColor = [UIColor whiteColor];
-                                                                    blockCell.thumbnail.image = MHGalleryImage(@"error");
-                                                                }else{
-                                                                    
-                                                                    blockCell.videoDurationLength.text  = [MHGallerySharedManager stringForMinutesAndSeconds:videoDuration addMinus:NO];
-                                                                    
-                                                                    blockCell.thumbnail.image = image;
-                                                                    blockCell.videoIcon.hidden = NO;
-                                                                    blockCell.videoGradient.hidden = NO;
-                                                                }
-                                                                [blockCell.activityIndicator stopAnimating];
-                                                            }];
-    }else{
-        [cell.thumbnail setImageForMHGalleryItem:item imageType:MHImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
-            if (!image) {
-                blockCell.thumbnail.backgroundColor = [UIColor whiteColor];
-                blockCell.thumbnail.image = MHGalleryImage(@"error");
-            }
-        }];
-        
-    }
     cell.thumbnail.userInteractionEnabled =YES;
     
     MHIndexPinchGestureRecognizer *pinch = [MHIndexPinchGestureRecognizer.alloc initWithTarget:self
@@ -270,6 +247,8 @@
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
+    __weak typeof(self) weakSelf = self;
+    
     MHMediaPreviewCollectionViewCell *cell = (MHMediaPreviewCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     MHGalleryItem *item =  [self itemForIndex:indexPath.row];
     
@@ -279,7 +258,7 @@
                                                              assetType:MHAssetImageTypeFull
                                                           successBlock:^(UIImage *image, NSError *error) {
                                                               cell.thumbnail.image = image;
-                                                              [self pushToImageViewerForIndexPath:indexPath];
+                                                              [weakSelf pushToImageViewerForIndexPath:indexPath];
                                                           }];
     }else{
         [self pushToImageViewerForIndexPath:indexPath];
@@ -309,7 +288,11 @@
                                                FinishBlock(image);
                                            }];
 }
-
+-(void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    
+    
+}
 
 - (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender{
     if ([NSStringFromSelector(action) isEqualToString:@"copy:"]) {
@@ -318,9 +301,17 @@
         MHGalleryItem *item =  [self itemForIndex:indexPath.row];
         [self getImageForItem:item finishCallback:^(UIImage *image) {
             if (image) {
-                UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-                NSData *data = UIImagePNGRepresentation(image);
-                [pasteboard setData:data forPasteboardType:@"public.jpeg"];
+                UIPasteboard *pasteboard = UIPasteboard.generalPasteboard;
+                NSData *data = NSData.new;
+                
+                if (image.images) {
+                    data = [NSData dataWithContentsOfFile:[[SDImageCache sharedImageCache] defaultCachePathForKey:item.URLString]];
+                    [pasteboard setData:data forPasteboardType:(__bridge NSString *)kUTTypeGIF];
+                }else{
+                    data = UIImagePNGRepresentation(image);
+                    [pasteboard setData:data forPasteboardType:(__bridge NSString *)kUTTypeImage];
+                    
+                }
             }
         }];
     }
@@ -328,7 +319,6 @@
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     self.collectionView.collectionViewLayout = [self layoutForOrientation:toInterfaceOrientation];
-    
     [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
