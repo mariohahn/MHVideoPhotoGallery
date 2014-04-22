@@ -27,5 +27,6 @@
 @property (nonatomic, strong) NSArray               *galleryItems;
 
 -(UICollectionViewFlowLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation;
-
+-(MHGalleryItem*)itemForIndex:(NSInteger)index;
+-(void)pushToImageViewerForIndexPath:(NSIndexPath*)indexPath;
 @end

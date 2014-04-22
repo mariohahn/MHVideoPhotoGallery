@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="mXS-gW-vdx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="mXS-gW-vdx">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -80,7 +80,7 @@
         <scene sceneID="5er-y1-cHI">
             <objects>
                 <navigationController definesPresentationContext="YES" id="Xn7-tl-fTa" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Local " image="705-photos-selected.png" id="Ryf-gz-Twa"/>
+                    <tabBarItem key="tabBarItem" title="Local " image="750-home-selected" id="Ryf-gz-Twa"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="YYU-B7-gSa">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -418,6 +418,41 @@
             </objects>
             <point key="canvasLocation" x="824" y="223"/>
         </scene>
+        <!--Navigation Controller - Instagram-->
+        <scene sceneID="Err-6R-RgN">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="jKW-PO-ujo" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Instagram" image="707-albums-selected" id="x8X-r6-UzZ"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Klw-Z1-hnG">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="8Bh-Yb-9iK" kind="relationship" relationship="rootViewController" id="PNu-CW-h5R"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IgS-QZ-Afu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="318" y="1600"/>
+        </scene>
+        <!--Instagram View Controller-->
+        <scene sceneID="fBy-dS-zWg">
+            <objects>
+                <viewController id="8Bh-Yb-9iK" customClass="InstagramViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ksY-RK-Uue"/>
+                        <viewControllerLayoutGuide type="bottom" id="RS8-DK-ed4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xYp-hk-Vnh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="0oO-66-J8x"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j9K-Fb-ukj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="857" y="1600"/>
+        </scene>
         <!--Navigation Controller - ImageView-->
         <scene sceneID="ho1-MV-vUh">
             <objects>
@@ -465,8 +500,10 @@
     </scenes>
     <resources>
         <image name="705-photos-selected.png" width="28" height="22"/>
+        <image name="707-albums-selected" width="28" height="23"/>
         <image name="707-albums-selected.png" width="28" height="23"/>
         <image name="729-top-list-selected.png" width="28" height="22"/>
+        <image name="750-home-selected" width="28" height="28"/>
         <image name="testIcon.png" width="50" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -85,7 +85,10 @@
 }
 
 -(MHGalleryController*)galleryViewController{
-    return (MHGalleryController*)self.navigationController;
+    if ([self.navigationController isKindOfClass:MHGalleryController.class]) {
+        return (MHGalleryController*)self.navigationController;
+    }
+    return nil;
 }
 
 
@@ -170,11 +173,11 @@
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         if (recognizer.scale>1) {
-            self.interactivePushTransition = [MHTransitionShowDetail new];
+            self.interactivePushTransition = MHTransitionShowDetail.new;
             self.interactivePushTransition.indexPath = recognizer.indexPath;
             self.lastPoint = [recognizer locationInView:self.view];
             
-            MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
+            MHGalleryImageViewerViewController *detail = MHGalleryImageViewerViewController.new;
             detail.galleryItems = self.galleryItems;
             detail.pageIndex = recognizer.indexPath.row;
             self.startScale = recognizer.scale/8;
@@ -239,11 +242,13 @@
     }
 }
 -(void)pushToImageViewerForIndexPath:(NSIndexPath*)indexPath{
-    MHGalleryImageViewerViewController *detail = [MHGalleryImageViewerViewController new];
+    
+    MHGalleryImageViewerViewController *detail = MHGalleryImageViewerViewController.new;
     detail.pageIndex = indexPath.row;
     detail.galleryItems = self.galleryItems;
-    [self.navigationController pushViewController:detail animated:YES];
-    
+    if ([self.navigationController isKindOfClass:MHGalleryController.class]) {
+        [self.navigationController pushViewController:detail animated:YES];
+    }
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     

@@ -25,6 +25,7 @@
 		F5245DB418AA16D3004C6FFA /* UIImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = F5245DA618AA16D3004C6FFA /* UIImage+GIF.m */; };
 		F5245DB518AA16D3004C6FFA /* UIImage+MultiFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = F5245DA818AA16D3004C6FFA /* UIImage+MultiFormat.m */; };
 		F5245DB618AA16D3004C6FFA /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F5245DAA18AA16D3004C6FFA /* UIImageView+WebCache.m */; };
+		F52A4A441901A47F00E4E2BB /* InstagramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F52A4A431901A47F00E4E2BB /* InstagramViewController.m */; };
 		F536534A1897D11100748466 /* ExampleViewControllerLocal.m in Sources */ = {isa = PBXBuildFile; fileRef = F53653491897D11100748466 /* ExampleViewControllerLocal.m */; };
 		F53F924417EB008100A9FE6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924317EB008100A9FE6A /* Foundation.framework */; };
 		F53F924617EB008100A9FE6A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53F924517EB008100A9FE6A /* CoreGraphics.framework */; };
@@ -145,6 +146,8 @@
 		F5245DA818AA16D3004C6FFA /* UIImage+MultiFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+MultiFormat.m"; path = "External/SDWEBImage/UIImage+MultiFormat.m"; sourceTree = SOURCE_ROOT; };
 		F5245DA918AA16D3004C6FFA /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+WebCache.h"; path = "External/SDWEBImage/UIImageView+WebCache.h"; sourceTree = SOURCE_ROOT; };
 		F5245DAA18AA16D3004C6FFA /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+WebCache.m"; path = "External/SDWEBImage/UIImageView+WebCache.m"; sourceTree = SOURCE_ROOT; };
+		F52A4A421901A47F00E4E2BB /* InstagramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramViewController.h; sourceTree = "<group>"; };
+		F52A4A431901A47F00E4E2BB /* InstagramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramViewController.m; sourceTree = "<group>"; };
 		F53653481897D11100748466 /* ExampleViewControllerLocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleViewControllerLocal.h; sourceTree = "<group>"; };
 		F53653491897D11100748466 /* ExampleViewControllerLocal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleViewControllerLocal.m; sourceTree = "<group>"; };
 		F53F924017EB008100A9FE6A /* MHVideoPhotoGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHVideoPhotoGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -368,6 +371,8 @@
 				F5D24FFC1885CDDD004D97CA /* ExampleViewControllerTableView.m */,
 				F53653481897D11100748466 /* ExampleViewControllerLocal.h */,
 				F53653491897D11100748466 /* ExampleViewControllerLocal.m */,
+				F52A4A421901A47F00E4E2BB /* InstagramViewController.h */,
+				F52A4A431901A47F00E4E2BB /* InstagramViewController.m */,
 				F5D24FFE1885D3D7004D97CA /* ExampleViewControllerImageView.h */,
 				F5D24FFF1885D3D7004D97CA /* ExampleViewControllerImageView.m */,
 				F577F33B18D73C1100880B72 /* Sydney-iPhone.m4v */,
@@ -757,6 +762,7 @@
 				F54337CE18A3FA9100CA1DAB /* UIImageView+MHGallery.m in Sources */,
 				F5D250001885D3D7004D97CA /* ExampleViewControllerImageView.m in Sources */,
 				F5D24FFD1885CDDD004D97CA /* ExampleViewControllerTableView.m in Sources */,
+				F52A4A441901A47F00E4E2BB /* InstagramViewController.m in Sources */,
 				F5C52E8F18C0828E001E431E /* MHTransitionShowOverView.m in Sources */,
 				F5245DB118AA16D3004C6FFA /* SDWebImageManager.m in Sources */,
 				F5245DAE18AA16D3004C6FFA /* SDWebImageDecoder.m in Sources */,

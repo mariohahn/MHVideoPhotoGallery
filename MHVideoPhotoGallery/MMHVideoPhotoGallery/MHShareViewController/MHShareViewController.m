@@ -205,7 +205,7 @@
 @property (nonatomic,strong) MHShareItem *twitterObject;
 @property (nonatomic,strong) MHShareItem *faceBookObject;
 @property (nonatomic,getter = isShowingShareViewInLandscapeMode) BOOL showingShareViewInLandscapeMode;
-@property (nonatomic)        NSInteger saveCount;
+@property (nonatomic)        NSInteger saveCounter;
 @property (nonatomic,strong) NSMutableArray *dataDownload;
 @property (nonatomic,strong) NSMutableArray *sessions;
 
@@ -599,7 +599,7 @@
     
     [self getAllImagesForSelectedRows:^(NSArray *images){
         SLComposeViewController *shareconntroller=[SLComposeViewController composeViewControllerForServiceType:serviceType];
-        SLComposeViewControllerCompletionHandler __block completionHandler=^(SLComposeViewControllerResult result){
+        SLComposeViewControllerCompletionHandler completionHandler=^(SLComposeViewControllerResult result){
             
             [shareconntroller dismissViewControllerAnimated:YES
                                                  completion:^{
@@ -712,9 +712,9 @@
                                    }];
 }
 
--(void)setSaveCount:(NSInteger)saveCount{
+-(void)setSaveCounter:(NSInteger)saveCounter{
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (saveCount == self.selectedRows.count) {
+        if (saveCounter == self.selectedRows.count) {
             UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
             if (self.downloadView) {
                 [self removeBlurBlurBackgorundToolbarFromSuperView:^(BOOL complition) {
@@ -726,9 +726,10 @@
                 self.finishedCallbackDownloadData(self.dataDownload);
             }
         }
-        [self.downloadView attributedStringForDownloadLabelWithDownloadedDataNumber:@(saveCount) maxNumber:@(self.selectedRows.count)];
+        [self.downloadView attributedStringForDownloadLabelWithDownloadedDataNumber:@(saveCounter)
+                                                                          maxNumber:@(self.selectedRows.count)];
     });
-    _saveCount = saveCount;
+    _saveCounter = saveCounter;
 }
 -(void)removeBlurBlurBackgorundToolbarFromSuperView:(void(^)(BOOL complition))SuccessBlock{
     [UIView animateWithDuration:0.3 animations:^{
@@ -742,7 +743,7 @@
 }
 -(void)addDataToDownloadArray:(id)data{
     [self.dataDownload addObject:data];
-    self.saveCount++;
+    self.saveCounter++;
 }
 
 
@@ -785,7 +786,7 @@
     
     self.finishedCallbackDownloadData = SuccessBlock;
     
-    self.saveCount =0;
+    self.saveCounter =0;
     
     __weak typeof(self) weakSelf = self;
     
@@ -800,11 +801,10 @@
                 [MHGallerySharedManager.sharedManager getURLForMediaPlayer:item.URLString successBlock:^(NSURL *URL, NSError *error) {
                     NSURLSession *session = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.defaultSessionConfiguration];
                     
-                    __block NSURLSession *blockSession = session;
                     [self.sessions addObject:session];
                     [[session downloadTaskWithURL:URL completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
                         if (error){
-                            weakSelf.saveCount++;
+                            weakSelf.saveCounter++;
                             return;
                         }
                         NSURL *documentsURL = [[NSFileManager.defaultManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] firstObject];
@@ -814,7 +814,7 @@
                         [NSFileManager.defaultManager moveItemAtURL:location toURL:tempURL error:&moveItemError];
                         
                         if (moveItemError) {
-                            weakSelf.saveCount++;
+                            weakSelf.saveCounter++;
                             return;
                         }
                         ALAssetsLibrary* library = ALAssetsLibrary.new;
@@ -823,8 +823,8 @@
                                                         NSError *removeError =nil;
                                                         [NSFileManager.defaultManager removeItemAtURL:tempURL error:&removeError];
                                                         
-                                                        [weakSelf.sessions removeObject:blockSession];
-                                                        weakSelf.saveCount++;
+                                                        [weakSelf.sessions removeObject:session];
+                                                        weakSelf.saveCounter++;
                                                     }];
                     }] resume];
                 }];

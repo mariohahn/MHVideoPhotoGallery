@@ -41,7 +41,7 @@
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     
     UIImage *image;
-    __block NSNumber *pageIndex;
+    NSNumber *pageIndex;
     for (MHImageViewController *imageViewerIndex in imageViewer.pageViewController.viewControllers) {
         if (imageViewerIndex.pageIndex == imageViewer.pageIndex) {
             pageIndex = @(imageViewerIndex.pageIndex);
@@ -143,7 +143,7 @@
     self.containerView = [transitionContext containerView];
     
     UIImage *image;
-    __block NSNumber *pageIndex;
+    NSNumber *pageIndex;
     
     MHImageViewController *imageViewerCurrent;
     

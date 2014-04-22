@@ -109,7 +109,7 @@
     gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
     
-    __block MHGalleryController *blockGallery = gallery;
+    __weak MHGalleryController *blockGallery = gallery;
     
     gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode){
         

@@ -49,7 +49,7 @@
     [super viewDidLoad];
     
     
-    self.title = @"CollectionInTable";
+    self.title = @"CollectionView";
     
     MHGalleryItem *localVideo = [MHGalleryItem.alloc initWithURL:[[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Sydney-iPhone" ofType:@"m4v"]] absoluteString]
                                                      galleryType:MHGalleryTypeVideo];
@@ -145,8 +145,7 @@
     [self.tableView reloadData];
     
     [self setNeedsStatusBarAppearanceUpdate];
-    
-    
+        
 }
 
 
@@ -238,7 +237,7 @@
     
     //  gallery.galleryDelegate = self;
     //  gallery.dataSource = self;
-    __block MHGalleryController *blockGallery = gallery;
+    __weak MHGalleryController *blockGallery = gallery;
     
     gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode){
         if (viewMode == MHGalleryViewModeOverView) {

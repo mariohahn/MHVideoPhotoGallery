@@ -393,12 +393,13 @@
     if (indexPage-1 == 0) {
         self.leftBarButton.enabled = NO;
     }
-    __block MHGalleryImageViewerViewController*blockSelf = self;
     
+    __weak typeof(self) weakSelf = self;
+
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
-        blockSelf.pageIndex = imageViewController.pageIndex;
-        [blockSelf updateToolBarForItem:[blockSelf itemForIndex:blockSelf.pageIndex]];
-        [blockSelf showCurrentIndex:blockSelf.pageIndex];
+        weakSelf.pageIndex = imageViewController.pageIndex;
+        [weakSelf updateToolBarForItem:[weakSelf itemForIndex:weakSelf.pageIndex]];
+        [weakSelf showCurrentIndex:weakSelf.pageIndex];
     }];
 }
 
@@ -413,12 +414,12 @@
     if (indexPage+1 == self.numberOfGalleryItems-1) {
         self.rightBarButton.enabled = NO;
     }
-    __block MHGalleryImageViewerViewController*blockSelf = self;
+    __weak typeof(self) weakSelf = self;
     
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-        blockSelf.pageIndex = imageViewController.pageIndex;
-        [blockSelf updateToolBarForItem:[blockSelf itemForIndex:blockSelf.pageIndex]];
-        [blockSelf showCurrentIndex:blockSelf.pageIndex];
+        weakSelf.pageIndex = imageViewController.pageIndex;
+        [weakSelf updateToolBarForItem:[weakSelf itemForIndex:weakSelf.pageIndex]];
+        [weakSelf showCurrentIndex:weakSelf.pageIndex];
     }];
 }
 -(void)showCurrentIndex:(NSInteger)currentIndex{

@@ -358,7 +358,7 @@
                                        dispatch_async(dispatch_get_main_queue(), ^(void){
                                            if (jsonData.count) {
                                                
-                                               __block NSString *quality = NSString.new;
+                                               NSString *quality = NSString.new;
                                                if (self.vimeoThumbQuality == MHVimeoThumbQualityLarge) {
                                                    quality = @"thumbnail_large";
                                                } else if (self.vimeoThumbQuality == MHVimeoThumbQualityMedium){

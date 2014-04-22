@@ -107,7 +107,7 @@
         gallery.presentationIndex = indexPath.row;
         gallery.transitionCustomization.interactiveDismiss = NO;
         
-        __block MHGalleryController *blockGallery = gallery;
+        __weak MHGalleryController *blockGallery = gallery;
         
         gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode){
             [blockGallery dismissViewControllerAnimated:YES dismissImageView:nil completion:nil];
