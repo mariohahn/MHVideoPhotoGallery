@@ -28,6 +28,7 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
 @property (nonatomic)        BOOL hideShare;
 @property (nonatomic)        BOOL useCustomBackButtonImageOnImageViewer;
 @property (nonatomic)        BOOL showOverView;
+@property (nonatomic)        BOOL hideShareButton;
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutLandscape;
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutPortrait;
 

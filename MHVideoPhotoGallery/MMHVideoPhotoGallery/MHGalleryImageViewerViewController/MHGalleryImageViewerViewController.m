@@ -347,12 +347,25 @@
     UIBarButtonItem *flex = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                         target:self
                                                                         action:nil];
-    if (item.galleryType == MHGalleryTypeVideo) {
+    
+    NSMutableArray *items = [NSMutableArray new];
+    if (item.galleryType == MHGalleryTypeVideo)
+    {
         [self changeToPlayButton];
-        self.toolbar.items = @[self.shareBarButton,flex,self.leftBarButton,flex,self.playStopBarButton,flex,self.rightBarButton,flex];
-    }else{
-        self.toolbar.items =@[self.shareBarButton,flex,self.leftBarButton,flex,self.rightBarButton,flex];
+        
+        if (!self.UICustomization.hideShareButton)
+            [items addObjectsFromArray:@[self.shareBarButton, flex]];
+        
+        [items addObjectsFromArray:@[self.leftBarButton,flex,self.playStopBarButton,flex,self.rightBarButton,flex]];
     }
+    else
+    {
+        if (!self.UICustomization.hideShareButton)
+            [items addObjectsFromArray:@[self.shareBarButton, flex]];
+        
+        [items addObjectsFromArray:@[self.leftBarButton,flex,self.rightBarButton,flex]];
+    }
+    self.toolbar.items = [items copy];
 }
 
 
