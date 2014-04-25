@@ -125,10 +125,9 @@
 }
 
 -(UIImage*)setDefaultImageForFrame:(CGRect)frame{
-    
     UIView *view = [UIView.alloc initWithFrame:frame];
     view.backgroundColor = [UIColor whiteColor];
-    return [MHGallerySharedManager imageByRenderingView:view];
+    return  MHImageFromView(view);
 }
 
 -(void)startInteractiveTransition:(id<UIViewControllerContextTransitioning>)transitionContext{

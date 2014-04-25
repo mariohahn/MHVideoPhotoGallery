@@ -33,6 +33,7 @@ extern NSBundle *MHGalleryBundle(void);
 extern NSString *MHGalleryLocalizedString(NSString *localizeString);
 extern UIImage  *MHGalleryImage(NSString *imageName);
 extern NSDictionary *MHDictionaryForQueryString(NSString *string);
+extern UIImage *MHImageFromView(UIView *view);
 
 extern NSString *const MHYoutubeChannel;
 extern NSString *const MHGalleryViewModeShare;

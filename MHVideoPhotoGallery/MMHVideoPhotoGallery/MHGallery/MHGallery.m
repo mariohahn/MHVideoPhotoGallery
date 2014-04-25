@@ -58,6 +58,25 @@ void MHGalleryCustomLocalizationBlock(NSString *(^customLocalizationBlock)(NSStr
     CustomLocalizationBlock = customLocalizationBlock;
 }
 
+UIImage *MHImageFromView(UIView *view) {
+    CGFloat scale = 1.0;
+    if([UIScreen.mainScreen respondsToSelector:@selector(scale)]) {
+        CGFloat tmp = UIScreen.mainScreen.scale;
+        if (tmp > 1.5) {
+            scale = 2.0;
+        }
+    }
+    if(scale > 1.5) {
+        UIGraphicsBeginImageContextWithOptions([view bounds].size, NO, scale);
+    } else {
+        UIGraphicsBeginImageContext([view bounds].size);
+    }
+    [[view layer] renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *resultingImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return resultingImage;
+}
+
 NSString *MHGalleryLocalizedString(NSString *localizeString) {
     if (CustomLocalizationBlock) {
         NSString *string = CustomLocalizationBlock(localizeString);

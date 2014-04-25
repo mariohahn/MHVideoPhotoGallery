@@ -35,6 +35,7 @@
 		self.showMHShareViewInsteadOfActivityViewController = YES;
         self.useCustomBackButtonImageOnImageViewer = YES;
         self.showOverView = YES;
+        self.hideShare = NO;
         self.backgroundColorsForViewModes = [NSMutableDictionary  dictionaryWithDictionary:@{@"0":[UIColor blackColor],
                                                                                              @"1" :[UIColor whiteColor],
                                                                                              @"2": [UIColor whiteColor]}];

@@ -139,7 +139,6 @@
                                                            target:self
                                                            action:@selector(playStopButtonPressed)];
     
-    
     self.leftBarButton = [UIBarButtonItem.alloc initWithImage:MHGalleryImage(@"left_arrow")
                                                         style:UIBarButtonItemStyleBordered
                                                        target:self
@@ -153,6 +152,13 @@
     self.shareBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemAction
                                                                       target:self
                                                                       action:@selector(sharePressed)];
+    
+    if (self.UICustomization.hideShare) {
+        self.shareBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                          target:self
+                                                                          action:nil];
+    }
+    
     [self updateToolBarForItem:item];
     
     if (self.pageIndex == 0) {
@@ -422,6 +428,7 @@
         [weakSelf showCurrentIndex:weakSelf.pageIndex];
     }];
 }
+
 -(void)showCurrentIndex:(NSInteger)currentIndex{
     if ([self.galleryViewController.galleryDelegate respondsToSelector:@selector(galleryController:didShowIndex:)]) {
         [self.galleryViewController.galleryDelegate galleryController:self.galleryViewController
@@ -510,8 +517,8 @@
 @property (nonatomic, strong) UILabel                  *rightSliderLabel;
 @property (nonatomic, strong) NSTimer                  *movieTimer;
 @property (nonatomic, strong) NSTimer                  *movieDownloadedTimer;
-@property (nonatomic,strong ) UIPanGestureRecognizer   *pan;
-@property (nonatomic,strong ) MHPinchGestureRecognizer *pinch;
+@property (nonatomic, strong) UIPanGestureRecognizer   *pan;
+@property (nonatomic, strong) MHPinchGestureRecognizer *pinch;
 
 @property (nonatomic)         NSInteger                wholeTimeMovie;
 @property (nonatomic)         CGPoint                  pointToCenterAfterResize;

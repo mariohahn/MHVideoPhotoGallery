@@ -66,6 +66,19 @@
 @property (nonatomic,assign) MHGalleryViewMode                  presentationStyle;
 @property (nonatomic,assign) UIStatusBarStyle                   preferredStatusBarStyleMH;
 
+/**
+ *  There are 3 types to present MHGallery. 
+ *
+ *  @param presentationStyle description of all 3 Types:  
+ *
+ *       MHGalleryViewModeImageViewerNavigationBarHidden: the NaviagtionBar and the Toolbar ist hidden you can also set the Background color for this state in the UICustomization
+ *
+ *       MHGalleryViewModeImageViewerNavigationBarShown: the NaviagtionBar and the Toolbar ist shown you can also set the Background color for this state in the UICustomization
+ *
+ *       MHGalleryViewModeOverView: Presents the GalleryOverView.
+ *
+ *  @return MHGalleryController
+ */
 - (id)initWithPresentationStyle:(MHGalleryViewMode)presentationStyle;
 +(instancetype)galleryWithPresentationStyle:(MHGalleryViewMode)presentationStyle;
 

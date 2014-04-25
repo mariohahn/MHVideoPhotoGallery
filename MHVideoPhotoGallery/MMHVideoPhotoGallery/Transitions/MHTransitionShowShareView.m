@@ -31,7 +31,7 @@
         if (!cellImageSnapshot.imageMH) {
             UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
             view.backgroundColor = [UIColor whiteColor];
-            cellImageSnapshot.image = [MHGallerySharedManager imageByRenderingView:view];
+            cellImageSnapshot.image =  MHImageFromView(view);
         }
         [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size, cellImageSnapshot.frame)];
         

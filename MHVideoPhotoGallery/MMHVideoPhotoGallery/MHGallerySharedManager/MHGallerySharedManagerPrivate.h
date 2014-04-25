@@ -10,8 +10,6 @@
 
 @interface MHGallerySharedManager ()
 
-+ (UIImage *)imageByRenderingView:(id)view;
-
 + (NSString*)stringForMinutesAndSeconds:(NSInteger)seconds
                                addMinus:(BOOL)addMinus;
 

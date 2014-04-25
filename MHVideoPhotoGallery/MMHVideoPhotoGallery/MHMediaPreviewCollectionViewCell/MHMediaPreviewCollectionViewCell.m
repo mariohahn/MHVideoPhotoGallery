@@ -44,9 +44,9 @@
        
         CAGradientLayer *gradient = CAGradientLayer.layer;
         gradient.frame = self.videoGradient.bounds;
-        gradient.colors = @[(id)[[UIColor clearColor] CGColor],
-                            (id)[[UIColor colorWithWhite:0 alpha:0.5] CGColor],
-                            (id)[[UIColor colorWithWhite:0 alpha:1.0] CGColor]];
+        gradient.colors = @[(id)[UIColor clearColor].CGColor,
+                            (id)[UIColor colorWithWhite:0 alpha:0.5].CGColor,
+                            (id)[UIColor colorWithWhite:0 alpha:1.0].CGColor];
         
         [self.videoGradient.layer insertSublayer:gradient atIndex:0];
         [self.contentView addSubview:self.videoGradient];

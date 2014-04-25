@@ -344,10 +344,10 @@
     self.toolbar = [UIToolbar.alloc initWithFrame:self.gradientView.frame];
     [self.view addSubview:self.toolbar];
     
-    CAGradientLayer *gradient = [CAGradientLayer layer];
+    CAGradientLayer *gradient = CAGradientLayer.layer;
     gradient.frame = self.gradientView.bounds;
-    gradient.colors = @[(id)[[UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1] CGColor],
-                        (id)[[UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1] CGColor]];
+    gradient.colors = @[(id)[UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1].CGColor,
+                        (id)[UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1].CGColor];
     
     [self.gradientView.layer insertSublayer:gradient atIndex:0];
     [self.view addSubview:self.gradientView];
