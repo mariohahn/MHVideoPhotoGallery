@@ -12,6 +12,12 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
     MHGalleryViewModeOverView =2
 };
 
+
+typedef NS_ENUM(NSUInteger, MHBackButtonState) {
+    MHBackButtonStateWithBackArrow,
+    MHBackButtonStateWithOutBackArrow
+};
+
 @interface MHTransitionCustomization : NSObject
 @property (nonatomic)       BOOL interactiveDismiss;
 @property (nonatomic)       BOOL dismissWithScrollGestureOnFirstAndLastImage;
@@ -24,10 +30,13 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
 @property (nonatomic)        UIBarStyle barStyle;
 @property (nonatomic,strong) UIColor *barTintColor;
 @property (nonatomic,strong) UIColor *barButtonsTintColor;
+
 @property (nonatomic)        BOOL showMHShareViewInsteadOfActivityViewController;
 @property (nonatomic)        BOOL hideShare;
 @property (nonatomic)        BOOL useCustomBackButtonImageOnImageViewer;
 @property (nonatomic)        BOOL showOverView;
+@property (nonatomic)        MHBackButtonState backButtonState;
+
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutLandscape;
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutPortrait;
 

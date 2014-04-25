@@ -91,6 +91,15 @@
     
     if (!self.UICustomization.showOverView) {
         self.navigationItem.hidesBackButton = YES;
+    }else{
+        if (self.galleryViewController.UICustomization.backButtonState == MHBackButtonStateWithOutBackArrow) {
+            UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+                                                                            style:UIBarButtonItemStyleBordered
+                                                                           target:self
+                                                                           action:@selector(backButtonAction)];
+            self.navigationItem.hidesBackButton = YES;
+            self.navigationItem.leftBarButtonItem = backBarButton;
+        }
     }
     
     UIBarButtonItem *doneBarButton =  [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -197,6 +206,11 @@
     
     [self updateTitleForIndex:self.pageIndex];
 }
+-(void)backButtonAction{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    
+}
+
 
 -(UIInterfaceOrientation)currentOrientation{
     return UIApplication.sharedApplication.statusBarOrientation;

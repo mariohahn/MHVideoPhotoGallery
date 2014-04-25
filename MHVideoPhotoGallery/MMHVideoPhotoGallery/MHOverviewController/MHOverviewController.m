@@ -43,7 +43,7 @@
     self.collectionView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
     [self.collectionView registerClass:MHMediaPreviewCollectionViewCell.class
-            forCellWithReuseIdentifier:@"MHMediaPreviewCollectionViewCell"];
+            forCellWithReuseIdentifier:NSStringFromClass(MHMediaPreviewCollectionViewCell.class)];
     
     self.collectionView.dataSource =self;
     self.collectionView.alwaysBounceVertical = YES;
@@ -109,7 +109,7 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell =nil;
     NSString *cellIdentifier = nil;
-    cellIdentifier = @"MHMediaPreviewCollectionViewCell";
+    cellIdentifier = NSStringFromClass(MHMediaPreviewCollectionViewCell.class);
     cell = (MHMediaPreviewCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     [self makeMHGalleryOverViewCell:(MHMediaPreviewCollectionViewCell*)cell
                         atIndexPath:indexPath];
