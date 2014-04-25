@@ -342,7 +342,7 @@
                                                                         target:self
                                                                         action:nil];
     
-    NSMutableArray *items = [[NSMutableArray alloc] initWithObjects:flex, nil];
+    NSMutableArray *items = [NSMutableArray new];
     if (item.galleryType == MHGalleryTypeVideo)
     {
         [self changeToPlayButton];
