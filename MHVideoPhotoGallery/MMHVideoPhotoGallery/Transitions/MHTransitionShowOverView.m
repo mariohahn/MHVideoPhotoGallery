@@ -106,6 +106,8 @@
                 cellNew.videoDurationLength.hidden =NO;
                 cellNew.videoIcon.hidden = NO;
             }
+            [toViewController.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]]];
+
             [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
         }];
     });

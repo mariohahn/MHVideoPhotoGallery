@@ -92,7 +92,7 @@
     if (!self.UICustomization.showOverView) {
         self.navigationItem.hidesBackButton = YES;
     }else{
-        if (self.galleryViewController.UICustomization.backButtonState == MHBackButtonStateWithOutBackArrow) {
+        if (self.galleryViewController.UICustomization.backButtonState == MHBackButtonStateWithoutBackArrow) {
             UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
                                                                             style:UIBarButtonItemStyleBordered
                                                                            target:self
@@ -819,6 +819,7 @@
         
         
         if (self.item.galleryType == MHGalleryTypeImage) {
+
             
             [self.imageView setImageForMHGalleryItem:self.item imageType:MHImageTypeFull successBlock:^(UIImage *image, NSError *error) {
                 if (!image) {
@@ -829,18 +830,17 @@
             }];
             
         }else{
-            
-            [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:self.item.URLString
-                                                                  successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
-                                                                      if (!error) {
-                                                                          [weakSelf handleGeneratedThumb:image
-                                                                                           videoDuration:videoDuration
-                                                                                               urlString:self.item.URLString];
-                                                                      }else{
-                                                                          [weakSelf changeToErrorImage];
-                                                                      }
-                                                                      [weakSelf.act stopAnimating];
-                                                                  }];
+            [MHGallerySharedManager.sharedManager startDownloadingThumbImage:self.item.URLString
+                                                                successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
+                                                                    if (!error) {
+                                                                        [weakSelf handleGeneratedThumb:image
+                                                                                         videoDuration:videoDuration
+                                                                                             urlString:self.item.URLString];
+                                                                    }else{
+                                                                        [weakSelf changeToErrorImage];
+                                                                    }
+                                                                    [weakSelf.act stopAnimating];
+                                                                }];
         }
     }
     

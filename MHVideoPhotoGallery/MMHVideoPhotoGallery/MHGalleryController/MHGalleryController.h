@@ -71,11 +71,11 @@
  *
  *  @param presentationStyle description of all 3 Types:  
  *
- *       MHGalleryViewModeImageViewerNavigationBarHidden: the NaviagtionBar and the Toolbar ist hidden you can also set the Background color for this state in the UICustomization
+ *       MHGalleryViewModeImageViewerNavigationBarHidden: the NaviagtionBar and the Toolbar is hidden you can also set the backgroundcolor for this state in the UICustomization
  *
- *       MHGalleryViewModeImageViewerNavigationBarShown: the NaviagtionBar and the Toolbar ist shown you can also set the Background color for this state in the UICustomization
+ *       MHGalleryViewModeImageViewerNavigationBarShown: the NavigationBar and the Toolbar is shown you can also set the backgroundcolor for this state in the UICustomization
  *
- *       MHGalleryViewModeOverView: Presents the GalleryOverView.
+ *       MHGalleryViewModeOverView: presents the GalleryOverView.
  *
  *  @return MHGalleryController
  */

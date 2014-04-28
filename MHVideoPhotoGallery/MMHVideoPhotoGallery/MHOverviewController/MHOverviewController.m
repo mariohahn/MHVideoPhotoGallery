@@ -19,7 +19,6 @@
 @property (nonatomic, strong) MHTransitionShowDetail *interactivePushTransition;
 @property (nonatomic        ) CGPoint                lastPoint;
 @property (nonatomic        ) CGFloat                startScale;
-
 @end
 
 
@@ -45,10 +44,10 @@
     [self.collectionView registerClass:MHMediaPreviewCollectionViewCell.class
             forCellWithReuseIdentifier:NSStringFromClass(MHMediaPreviewCollectionViewCell.class)];
     
-    self.collectionView.dataSource =self;
+    self.collectionView.dataSource = self;
     self.collectionView.alwaysBounceVertical = YES;
-    self.collectionView.delegate =self;
-    self.collectionView.autoresizingMask =UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin;
+    self.collectionView.delegate = self;
+    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:self.collectionView];
     [self.collectionView reloadData];
     
@@ -90,7 +89,6 @@
     }
     return nil;
 }
-
 
 -(MHGalleryItem*)itemForIndex:(NSInteger)index{
     return [self.galleryViewController.dataSource itemForIndex:index];
@@ -257,6 +255,10 @@
     MHMediaPreviewCollectionViewCell *cell = (MHMediaPreviewCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     MHGalleryItem *item =  [self itemForIndex:indexPath.row];
     
+    UIImage *thumbImage = [SDImageCache.sharedImageCache imageFromDiskCacheForKey:item.URLString];
+    if (thumbImage) {
+        cell.thumbnail.image = thumbImage;
+    }
     if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
         
         [MHGallerySharedManager.sharedManager getImageFromAssetLibrary:item.URLString
@@ -310,7 +312,7 @@
                 NSData *data = NSData.new;
                 
                 if (image.images) {
-                    data = [NSData dataWithContentsOfFile:[[SDImageCache sharedImageCache] defaultCachePathForKey:item.URLString]];
+                    data = [NSData dataWithContentsOfFile:[SDImageCache.sharedImageCache defaultCachePathForKey:item.URLString]];
                     [pasteboard setData:data forPasteboardType:(__bridge NSString *)kUTTypeGIF];
                 }else{
                     data = UIImagePNGRepresentation(image);

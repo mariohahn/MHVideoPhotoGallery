@@ -162,7 +162,7 @@
     }
     
     self.cellImageSnapshot.image = image;
-    [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.imageMH.size,fromViewController.view.bounds)];
+    [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(image.size,fromViewController.view.bounds)];
     self.startFrame = self.cellImageSnapshot.frame;
     
     [imageViewer.pageViewController.view setHidden:YES];
@@ -210,7 +210,7 @@
             self.startFrame = self.moviePlayer.view.bounds;
             
         }else{
-            [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(self.cellImageSnapshot.imageMH.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
+            [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(image.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
             self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
             self.cellImageSnapshot.center = [UIApplication sharedApplication].keyWindow.center;
             self.startFrame = self.cellImageSnapshot.bounds;
@@ -358,8 +358,8 @@
             [self doOrientationwithFromViewController:fromViewController];
         }
     }];
-    
 }
+
 
 -(void)doOrientationwithFromViewController:(UINavigationController*)fromViewController{
     fromViewController.view.transform = CGAffineTransformMakeRotation(self.startTransform);

@@ -503,9 +503,9 @@
     cell.videoGradient.hidden = YES;
     cell.thumbnail.image = nil;
     cell.galleryItem = item;
-    
+    cell.thumbnail.backgroundColor = [UIColor colorWithWhite:0 alpha:0.1];
     cell.thumbnail.contentMode = UIViewContentModeScaleAspectFill;
-    cell.selectionImageView.hidden =NO;
+    cell.selectionImageView.hidden = NO;
     
     cell.selectionImageView.layer.borderWidth =1;
     cell.selectionImageView.layer.cornerRadius =11;

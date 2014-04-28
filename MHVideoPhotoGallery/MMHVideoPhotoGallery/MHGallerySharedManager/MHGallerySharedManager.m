@@ -309,7 +309,7 @@
                                                }else if (self.youtubeThumbQuality == MHYoutubeThumbQualitySQ){
                                                    thumbURL = jsonData[@"data"][@"thumbnail"][@"sqDefault"];
                                                }
-                                               [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:thumbURL]
+                                               [SDWebImageManager.sharedManager downloadWithURL:[NSURL URLWithString:thumbURL]
                                                                                           options:SDWebImageContinueInBackground
                                                                                          progress:nil
                                                                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
@@ -371,7 +371,7 @@
                                                    dictToSave[vimdeoURLString] = @([jsonData[0][@"duration"] integerValue]);
                                                    [self setObjectToUserDefaults:dictToSave];
                                                    
-                                                   [[SDWebImageManager sharedManager] downloadWithURL:[NSURL URLWithString:jsonData[0][quality]]
+                                                   [SDWebImageManager.sharedManager downloadWithURL:[NSURL URLWithString:jsonData[0][quality]]
                                                                                               options:SDWebImageContinueInBackground
                                                                                              progress:nil
                                                                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {

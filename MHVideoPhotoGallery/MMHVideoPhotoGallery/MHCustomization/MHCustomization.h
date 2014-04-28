@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
 
 typedef NS_ENUM(NSUInteger, MHBackButtonState) {
     MHBackButtonStateWithBackArrow,
-    MHBackButtonStateWithOutBackArrow
+    MHBackButtonStateWithoutBackArrow
 };
 
 @interface MHTransitionCustomization : NSObject

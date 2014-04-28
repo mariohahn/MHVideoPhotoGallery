@@ -42,11 +42,33 @@
     if (!self)
         return nil;
     self.URLString = URLString;
+    self.thumbnailURL = URLString;
     self.description = nil;
     self.galleryType = galleryType;
     self.attributedString = nil;
     return self;
 }
++(instancetype)itemWithURL:(NSString *)URLString
+              thumbnailURL:(NSString*)thumbnailURL{
+    
+    return [self.class.alloc initWithURL:URLString
+                            thumbnailURL:thumbnailURL];
+}
+
+
+- (instancetype)initWithURL:(NSString*)URLString
+               thumbnailURL:(NSString*)thumbnailURL{
+    self = [super init];
+    if (!self)
+        return nil;
+    self.URLString = URLString;
+    self.thumbnailURL = thumbnailURL;
+    self.description = nil;
+    self.galleryType = MHGalleryTypeImage;
+    self.attributedString = nil;
+    return self;
+}
+
 
 +(instancetype)itemWithImage:(UIImage *)image{
     return [self.class.alloc initWithImage:image];
