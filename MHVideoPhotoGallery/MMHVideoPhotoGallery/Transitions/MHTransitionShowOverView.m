@@ -36,8 +36,7 @@
     cellImageSnapshot.image = imageView.image;
     imageView.hidden = YES;
     
-    
-    if (!cellImageSnapshot.imageMH) {
+    if (!imageView.image) {
         UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
         view.backgroundColor = [UIColor whiteColor];
         cellImageSnapshot.image = MHImageFromView(view);
@@ -98,16 +97,16 @@
             cellImageSnapshot.frame =[containerView convertRect:cellNew.thumbnail.frame fromView:cellNew.thumbnail.superview];
             cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
         } completion:^(BOOL finished) {
+            [toViewController.collectionView reloadData];
             [cellImageSnapshot removeFromSuperview];
             imageView.hidden = NO;
             cellNew.thumbnail.hidden =NO;
+            
             if (!videoIconsHidden) {
                 cellNew.videoGradient.hidden = NO;
                 cellNew.videoDurationLength.hidden =NO;
                 cellNew.videoIcon.hidden = NO;
             }
-            [toViewController.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]]];
-
             [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
         }];
     });

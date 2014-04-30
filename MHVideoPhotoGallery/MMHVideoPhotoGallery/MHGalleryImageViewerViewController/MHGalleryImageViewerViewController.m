@@ -297,6 +297,7 @@
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     self.userScrolls = NO;
+    [self updateTitleAndDescriptionForScrollView:scrollView];
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -304,8 +305,11 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
-    NSInteger pageIndex =self.pageIndex;
+    [self updateTitleAndDescriptionForScrollView:scrollView];
+}
+
+-(void)updateTitleAndDescriptionForScrollView:(UIScrollView*)scrollView{
+    NSInteger pageIndex = self.pageIndex;
     if (scrollView.contentOffset.x > (self.view.frame.size.width+self.view.frame.size.width/2)) {
         pageIndex++;
     }
@@ -315,7 +319,6 @@
     [self updateDescriptionLabelForIndex:pageIndex];
     [self updateTitleForIndex:pageIndex];
 }
-
 
 -(void)updateTitleForIndex:(NSInteger)pageIndex{
     NSString *localizedString  = MHGalleryLocalizedString(@"imagedetail.title.current");
@@ -361,11 +364,17 @@
     UIBarButtonItem *flex = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                         target:self
                                                                         action:nil];
+    
+    UIBarButtonItem *fixed = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                        target:self
+                                                                        action:nil];
+    fixed.width = 30;
+    
     if (item.galleryType == MHGalleryTypeVideo) {
         [self changeToPlayButton];
-        self.toolbar.items = @[self.shareBarButton,flex,self.leftBarButton,flex,self.playStopBarButton,flex,self.rightBarButton,flex];
+        self.toolbar.items = @[self.shareBarButton,flex,self.leftBarButton,flex,self.playStopBarButton,flex,self.rightBarButton,flex,fixed];
     }else{
-        self.toolbar.items =@[self.shareBarButton,flex,self.leftBarButton,flex,self.rightBarButton,flex];
+        self.toolbar.items =@[self.shareBarButton,flex,self.leftBarButton,flex,self.rightBarButton,flex,fixed];
     }
 }
 
