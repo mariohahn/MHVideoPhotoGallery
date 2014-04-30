@@ -7,7 +7,7 @@
 
 ```ruby
 platform :ios, '7.0'
-pod 'MHVideoPhotoGallery', '~> 1.5‘
+pod 'MHVideoPhotoGallery', '~> 1.6'
 ```
 ####Supported Videos
 ```ruby
@@ -55,12 +55,12 @@ MHGalleryItem *image2 = [[MHGalleryItem alloc]initWithURL:@"http://4.bp.blogspot
 
 NSArray *galleryData = @[image1,image2];
     
-MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryPresentionStyleImageViewer];
+    MHGalleryController *gallery = [MHGalleryController galleryWithPresentationStyle:MHGalleryViewModeImageViewerNavigationBarShown];
 gallery.galleryItems = galleryData;
 gallery.presentingFromImageView = imageView;    
 gallery.presentationIndex = indexPath.row;
         
-__block MHGalleryController *blockGallery = gallery;
+__weak MHGalleryController *blockGallery = gallery;
        
 gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition){
         
