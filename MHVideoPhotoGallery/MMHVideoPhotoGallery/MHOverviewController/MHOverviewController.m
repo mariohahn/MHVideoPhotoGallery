@@ -210,7 +210,7 @@
 
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
                          interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
-    if ([animationController isKindOfClass:[MHTransitionShowDetail class]]) {
+    if ([animationController isKindOfClass:MHTransitionShowDetail.class]) {
         return self.interactivePushTransition;
     }else {
         return nil;
@@ -259,7 +259,7 @@
     if (thumbImage) {
         cell.thumbnail.image = thumbImage;
     }
-    if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
+    if ([item.URLString rangeOfString:MHAssetLibrary].location != NSNotFound && item.URLString) {
         
         [MHGallerySharedManager.sharedManager getImageFromAssetLibrary:item.URLString
                                                              assetType:MHAssetImageTypeFull

@@ -24,7 +24,7 @@
         
         _activityIndicator = [UIActivityIndicatorView.alloc initWithFrame:self.bounds];
         self.activityIndicator.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-        self.activityIndicator.color = [UIColor whiteColor];
+        self.activityIndicator.color = UIColor.whiteColor;
         self.activityIndicator.hidesWhenStopped = YES;
         self.activityIndicator.tag = 405;
         [self.contentView addSubview:self.activityIndicator];
@@ -44,7 +44,7 @@
        
         CAGradientLayer *gradient = CAGradientLayer.layer;
         gradient.frame = self.videoGradient.bounds;
-        gradient.colors = @[(id)[UIColor clearColor].CGColor,
+        gradient.colors = @[(id) UIColor.clearColor.CGColor,
                             (id)[UIColor colorWithWhite:0 alpha:0.5].CGColor,
                             (id)[UIColor colorWithWhite:0 alpha:1.0].CGColor];
         
@@ -54,8 +54,8 @@
         _videoDurationLength = [UILabel.alloc initWithFrame:CGRectMake(0, self.bounds.size.height-25, self.bounds.size.width-5, 30)];
         self.videoDurationLength.textAlignment = NSTextAlignmentRight;
         self.videoDurationLength.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth;
-        self.videoDurationLength.backgroundColor = [UIColor clearColor];
-        self.videoDurationLength.textColor = [UIColor whiteColor];
+        self.videoDurationLength.backgroundColor = UIColor.clearColor;
+        self.videoDurationLength.textColor = UIColor.whiteColor;
         self.videoDurationLength.font = [UIFont systemFontOfSize:14];
         [self.contentView addSubview:self.videoDurationLength];
         
@@ -68,8 +68,8 @@
         
         _selectionImageView = [UIImageView.alloc initWithFrame:CGRectMake(self.bounds.size.width-30,  self.bounds.size.height-30, 22, 22)];
         self.selectionImageView.image = MHGalleryImage(@"videoIcon");
-        self.selectionImageView.contentMode =UIViewContentModeScaleAspectFit;
-        self.selectionImageView.hidden =YES;
+        self.selectionImageView.contentMode = UIViewContentModeScaleAspectFit;
+        self.selectionImageView.hidden = YES;
         [self.contentView addSubview:self.selectionImageView];
         
     }
@@ -98,7 +98,7 @@
     }else{
         [self.thumbnail setImageForMHGalleryItem:galleryItem imageType:MHImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
             if (!image) {
-                weakSelf.thumbnail.backgroundColor = [UIColor whiteColor];
+                weakSelf.thumbnail.backgroundColor = UIColor.whiteColor;
                 weakSelf.thumbnail.image = MHGalleryImage(@"error");
             }
         }];

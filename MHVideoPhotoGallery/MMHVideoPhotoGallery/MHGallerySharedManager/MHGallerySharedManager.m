@@ -67,7 +67,7 @@
          successBlock:(void (^)(UIImage *image,NSUInteger videoDuration,NSError *error))succeedBlock{
     
     UIImage *image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:urlString];
-    NSMutableDictionary *dict = [NSMutableDictionary.alloc initWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"MHGalleryData"]];
+    NSMutableDictionary *dict = [NSMutableDictionary.alloc initWithDictionary:[NSUserDefaults.standardUserDefaults objectForKey:MHGalleryDurationData]];
     if (!dict) {
         dict = NSMutableDictionary.new;
     }
@@ -270,11 +270,11 @@
 }
 
 -(void)setObjectToUserDefaults:(NSMutableDictionary*)dict{
-    [[NSUserDefaults standardUserDefaults]setObject:dict forKey:@"MHGalleryData"];
-    [[NSUserDefaults standardUserDefaults]synchronize];
+    [NSUserDefaults.standardUserDefaults setObject:dict forKey:MHGalleryDurationData];
+    [NSUserDefaults.standardUserDefaults synchronize];
 }
 -(NSMutableDictionary*)durationDict{
-    return [NSMutableDictionary.alloc initWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"MHGalleryData"]];
+    return [NSMutableDictionary.alloc initWithDictionary:[NSUserDefaults.standardUserDefaults objectForKey:MHGalleryDurationData]];
 }
 
 
@@ -375,8 +375,8 @@
                                                                                               options:SDWebImageContinueInBackground
                                                                                              progress:nil
                                                                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                                                                [[SDImageCache sharedImageCache] removeImageForKey:jsonData[0][quality]];
-                                                                                                [[SDImageCache sharedImageCache] storeImage:image
+                                                                                                [SDImageCache.sharedImageCache removeImageForKey:jsonData[0][quality]];
+                                                                                                [SDImageCache.sharedImageCache storeImage:image
                                                                                                                                      forKey:vimdeoURLString];
                                                                                                 
                                                                                                 succeedBlock(image,[jsonData[0][@"duration"] integerValue],nil);
@@ -439,7 +439,7 @@
                         NSString *string = [dictionary[@"link"] firstObject][@"href"];
                         
                         string = [string stringByReplacingOccurrencesOfString:@"&feature=youtube_gdata" withString:@""];
-                        MHGalleryItem *item = [[MHGalleryItem alloc]initWithURL:string galleryType:MHGalleryTypeVideo];
+                        MHGalleryItem *item = [MHGalleryItem itemWithURL:string galleryType:MHGalleryTypeVideo];
                         if (withTitle) {
                             item.description = dictionary[@"title"][@"$t"];
                         }

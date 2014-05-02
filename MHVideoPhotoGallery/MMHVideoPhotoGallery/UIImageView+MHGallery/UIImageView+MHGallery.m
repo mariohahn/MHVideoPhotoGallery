@@ -39,7 +39,7 @@
     
     __weak typeof(self) weakSelf = self;
     
-    if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
+    if ([item.URLString rangeOfString:MHAssetLibrary].location != NSNotFound && item.URLString) {
         
         MHAssetImageType assetType = MHAssetImageTypeThumb;
         if (imageType == MHImageTypeFull) {
@@ -63,7 +63,9 @@
             placeholderURL = item.URLString;
         }
         
-        [self setImageWithURL:[NSURL URLWithString:toLoadURL] placeholderImage:[SDImageCache.sharedImageCache imageFromDiskCacheForKey:placeholderURL] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+        [self setImageWithURL:[NSURL URLWithString:toLoadURL]
+             placeholderImage:[SDImageCache.sharedImageCache imageFromDiskCacheForKey:placeholderURL]
+                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
             if (succeedBlock) {
                 succeedBlock (image,error);
             }

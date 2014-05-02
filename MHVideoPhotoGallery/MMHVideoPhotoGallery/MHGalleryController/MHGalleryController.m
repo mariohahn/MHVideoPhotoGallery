@@ -72,7 +72,7 @@
                        completion:(void (^)(void))completion{
 
     if(galleryController.UICustomization.useCustomBackButtonImageOnImageViewer){
-        UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+        UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"ic_square")
                                                                         style:UIBarButtonItemStyleBordered
                                                                        target:self
                                                                        action:nil];

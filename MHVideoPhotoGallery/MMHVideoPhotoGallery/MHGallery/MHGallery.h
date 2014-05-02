@@ -29,11 +29,19 @@ extern void MHGalleryCustomLocalizationBlock(NSString *(^customLocalizationBlock
 extern void MHGalleryCustomImageBlock(UIImage *(^customImageBlock)(NSString *imageToChangeName));
 
 extern NSNumberFormatter *MHNumberFormatterVideo(void);
+
 extern NSBundle *MHGalleryBundle(void);
+
 extern NSString *MHGalleryLocalizedString(NSString *localizeString);
-extern UIImage  *MHGalleryImage(NSString *imageName);
+
 extern NSDictionary *MHDictionaryForQueryString(NSString *string);
+
 extern UIImage *MHImageFromView(UIView *view);
+extern UIImage *MHTemplateImage(NSString *imageName);
+extern UIImage *MHDefaultImageForFrame(CGRect frame);
+extern UIImage  *MHGalleryImage(NSString *imageName);
+
+extern UIView  *MHStatusBar(void);
 
 extern NSString *const MHYoutubeChannel;
 extern NSString *const MHGalleryViewModeShare;
@@ -43,6 +51,8 @@ extern NSString *const MHYoutubeInfoBaseURL;
 extern NSString *const MHYoutubePlayBaseURL;
 extern NSString *const MHYoutubeBaseURL;
 extern NSString *const MHVimeoBaseURL;
+extern NSString *const MHAssetLibrary;
+extern NSString *const MHGalleryDurationData;
 
 @interface SDImageCache (MHPrivateMethods)
 - (NSString *)defaultCachePathForKey:(NSString *)key;

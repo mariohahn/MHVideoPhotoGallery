@@ -11,7 +11,8 @@ NSString * const MHVimeoThumbBaseURL       = @"http://vimeo.com/api/v2/video/%@.
 NSString * const MHVimeoVideoBaseURL       = @"http://player.vimeo.com/v2/video/%@/config";
 NSString * const MHVimeoBaseURL            = @"http://vimeo.com/%@";
 NSString * const MHGalleryViewModeShare    = @"MHGalleryViewModeShare";
-
+NSString * const MHAssetLibrary            = @"assets-library";
+NSString * const MHGalleryDurationData     = @"MHGalleryData";
 
 NSDictionary *MHDictionaryForQueryString(NSString *string){
 	NSMutableDictionary *dictionary = NSMutableDictionary.new;
@@ -47,6 +48,28 @@ NSBundle *MHGalleryBundle(void) {
     });
     return bundle;
 }
+
+UIImage *MHDefaultImageForFrame(CGRect frame){
+    UIView *view = [UIView.alloc initWithFrame:frame];
+    view.backgroundColor = UIColor.whiteColor;
+    return  MHImageFromView(view);
+}
+
+UIView *MHStatusBar(void){
+    NSString *key = [NSString.alloc initWithData:[NSData dataWithBytes:(unsigned char []){0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0x61, 0x72} length:9] encoding:NSASCIIStringEncoding];
+    id object = UIApplication.sharedApplication;
+    UIView *statusBar;
+    if ([object respondsToSelector:NSSelectorFromString(key)]) {
+        statusBar = [object valueForKey:key];
+    }
+    return statusBar;
+}
+
+
+UIImage *MHTemplateImage(NSString *imageName){
+    return [MHGalleryImage(imageName) imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 
 static NSString* (^ CustomLocalizationBlock)(NSString *localization) = nil;
 static UIImage* (^ CustomImageBlock)(NSString *imageToChangeName) = nil;

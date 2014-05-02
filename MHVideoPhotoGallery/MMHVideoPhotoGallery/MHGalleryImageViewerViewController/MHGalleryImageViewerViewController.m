@@ -93,7 +93,7 @@
         self.navigationItem.hidesBackButton = YES;
     }else{
         if (self.galleryViewController.UICustomization.backButtonState == MHBackButtonStateWithoutBackArrow) {
-            UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:[MHGalleryImage(@"ic_square") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+            UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"ic_square")
                                                                             style:UIBarButtonItemStyleBordered
                                                                            target:self
                                                                            action:@selector(backButtonAction)];
@@ -130,7 +130,7 @@
     
     [self addChildViewController:self.pageViewController];
     [self.pageViewController didMoveToParentViewController:self];
-    [self.view addSubview:[self.pageViewController view]];
+    [self.view addSubview:self.pageViewController.view];
     
     self.toolbar = [UIToolbar.alloc initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
     if(self.currentOrientation == UIInterfaceOrientationLandscapeLeft || self.currentOrientation == UIInterfaceOrientationLandscapeRight){
@@ -499,8 +499,6 @@
     }
     [self removeVideoPlayerForVC:vc];
     
-    
-    
     if (indexPage ==self.numberOfGalleryItems-1) {
         self.rightBarButton.enabled = NO;
         MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:nil viewController:self];
@@ -517,16 +515,6 @@
     self.pageViewController.view.bounds = self.view.bounds;
     [self.pageViewController.view.subviews.firstObject setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
     
-}
-
--(UIView*)statusBarObject{
-    NSString *key = [NSString.alloc initWithData:[NSData dataWithBytes:(unsigned char []){0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0x61, 0x72} length:9] encoding:NSASCIIStringEncoding];
-    id object = UIApplication.sharedApplication;
-    UIView *statusBar;
-    if ([object respondsToSelector:NSSelectorFromString(key)]) {
-        statusBar = [object valueForKey:key];
-    }
-    return statusBar;
 }
 
 @end
@@ -697,7 +685,7 @@
                 }
                 
                 if (progressY > 0.35 || velocityY >700) {
-                    self.viewController.statusBarObject.alpha =1;
+                    MHStatusBar().alpha =1;
                     [self.interactiveTransition finishInteractiveTransition];
                 }else {
                     [self setNeedsStatusBarAppearanceUpdate];
@@ -1324,7 +1312,7 @@
     
     self.viewController.descriptionView.alpha =alpha;
     self.viewController.descriptionViewBackground.alpha =alpha;
-    self.viewController.statusBarObject.alpha =alpha;
+    MHStatusBar().alpha =alpha;
 }
 
 -(void)handelImageTap:(UIGestureRecognizer *)gestureRecognizer{

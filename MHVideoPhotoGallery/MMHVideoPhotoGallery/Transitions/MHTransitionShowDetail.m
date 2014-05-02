@@ -154,8 +154,8 @@
     self.descriptionViewBackgroundToolbar.alpha =0;
     self.descriptionViewBackgroundToolbar.frame = CGRectMake(0, toViewController.view.frame.size.height-110, toViewController.view.frame.size.width, 110);
     
-    self.backView = [[UIView alloc]initWithFrame:toViewController.view.bounds];
-    self.backView.backgroundColor = [UIColor whiteColor];
+    self.backView = [UIView.alloc initWithFrame:toViewController.view.bounds];
+    self.backView.backgroundColor = UIColor.whiteColor;
     self.backView.alpha =0;
     
     [containerView addSubview:toViewController.view];
@@ -166,7 +166,6 @@
     [containerView addSubview:self.descriptionLabel];
     
     BOOL imageIsLand = self.cellImageSnapshot.imageMH.size.width > self.cellImageSnapshot.imageMH.size.height;
-    
     
     CGRect changedFrame;
     if (!imageIsLand) {

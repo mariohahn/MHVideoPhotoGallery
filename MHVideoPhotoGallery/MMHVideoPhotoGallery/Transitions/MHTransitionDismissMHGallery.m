@@ -49,7 +49,7 @@
         }
     }
     if(!image){
-        image = [self setDefaultImageForFrame:fromViewController.view.frame];
+        image = MHDefaultImageForFrame(fromViewController.view.frame);
     }
     
     MHUIImageViewContentViewAnimation *cellImageSnapshot = [MHUIImageViewContentViewAnimation.alloc initWithFrame:fromViewController.view.bounds];
@@ -62,7 +62,7 @@
     [toViewControllerNC view].frame = [transitionContext finalFrameForViewController:toViewControllerNC];
     [toViewControllerNC view].alpha = 0;
     
-    UIView *whiteView = [[UIView alloc]initWithFrame:fromViewController.view.frame];
+    UIView *whiteView = [UIView.alloc initWithFrame:fromViewController.view.frame];
     whiteView.backgroundColor = [fromViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
     
     if (imageViewer.isHiddingToolBarAndNavigationBar) {
@@ -75,7 +75,7 @@
     [containerView addSubview:[toViewControllerNC view]];
     [containerView addSubview:cellImageSnapshot];
     
-    self.toTransform= [(NSNumber *)[[toViewControllerNC view] valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    self.toTransform = [(NSNumber *)[[toViewControllerNC view] valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     self.startTransform = [(NSNumber *)[containerView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     
     if ([toViewControllerNC view].frame.size.width >[toViewControllerNC view].frame.size.height && self.toTransform ==0) {
@@ -124,12 +124,6 @@
     
 }
 
--(UIImage*)setDefaultImageForFrame:(CGRect)frame{
-    UIView *view = [UIView.alloc initWithFrame:frame];
-    view.backgroundColor = [UIColor whiteColor];
-    return  MHImageFromView(view);
-}
-
 -(void)startInteractiveTransition:(id<UIViewControllerContextTransitioning>)transitionContext{
     self.context = transitionContext;
     
@@ -158,7 +152,7 @@
     self.cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
     
     if(!image){
-        image = [self setDefaultImageForFrame:fromViewController.view.frame];
+        image = MHDefaultImageForFrame(fromViewController.view.frame);
     }
     
     self.cellImageSnapshot.image = image;
@@ -170,7 +164,7 @@
     [toViewControllerNC view].frame = [transitionContext finalFrameForViewController:toViewControllerNC];
     [fromViewController view].alpha =0;
     
-    self.backView = [[UIView alloc]initWithFrame:[toViewControllerNC view].frame];
+    self.backView = [UIView.alloc initWithFrame:[toViewControllerNC view].frame];
     self.backView.backgroundColor = [fromViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
     
     if (imageViewer.isHiddingToolBarAndNavigationBar) {
@@ -206,13 +200,13 @@
         if (self.moviePlayer) {
             [self.moviePlayer.view setFrame:AVMakeRectWithAspectRatioInsideRect(imageViewerCurrent.moviePlayer.naturalSize,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
             self.moviePlayer.view.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
-            self.moviePlayer.view.center = [UIApplication sharedApplication].keyWindow.center;
+            self.moviePlayer.view.center = UIApplication.sharedApplication.keyWindow.center;
             self.startFrame = self.moviePlayer.view.bounds;
             
         }else{
             [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(image.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
             self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
-            self.cellImageSnapshot.center = [UIApplication sharedApplication].keyWindow.center;
+            self.cellImageSnapshot.center = UIApplication.sharedApplication.keyWindow.center;
             self.startFrame = self.cellImageSnapshot.bounds;
             
         }
@@ -251,10 +245,6 @@
 -(void)finishInteractiveTransition{
     [super finishInteractiveTransition];
     
-    MHGalleryController *fromViewController = (MHGalleryController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
-    
-    MHGalleryImageViewerViewController *imageViewer  = (MHGalleryImageViewerViewController*)fromViewController.visibleViewController;
-    
     CGFloat delayTime  = 0.0;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
         [UIView animateWithDuration:0.2 animations:^{
@@ -272,7 +262,8 @@
         
         if (self.transitionImageView.contentMode == UIViewContentModeScaleAspectFill) {
             [self.cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFill
-                                             forFrame:[self.containerView convertRect:self.transitionImageView.frame fromView:self.transitionImageView.superview]
+                                             forFrame:[self.containerView convertRect:self.transitionImageView.frame
+                                                                             fromView:self.transitionImageView.superview]
                                          withDuration:0.3
                                            afterDelay:0
                                              finished:^(BOOL finished) {
@@ -281,7 +272,7 @@
         }
         
         [UIView animateWithDuration:0.3 animations:^{
-            imageViewer.statusBarObject.alpha =1;
+            MHStatusBar().alpha =1;
 
             if (self.moviePlayer) {
                 self.moviePlayer.view.frame = [self.containerView convertRect:self.transitionImageView.frame fromView:self.transitionImageView.superview];
@@ -316,7 +307,7 @@
             }
         }else{
             if (self.toTransform != self.orientationTransformBeforeDismiss) {
-                self.cellImageSnapshot.center = [UIApplication sharedApplication].keyWindow.center;
+                self.cellImageSnapshot.center = UIApplication.sharedApplication.keyWindow.center;
             }else{
                 self.cellImageSnapshot.frame = self.startFrame;
             }
@@ -366,8 +357,8 @@
     fromViewController.view.center = UIApplication.sharedApplication.keyWindow.center;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
        
-        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
-        NSString *status = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+        NSData *decodedData = [NSData.alloc initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
+        NSString *status = [NSString.alloc initWithData:decodedData encoding:NSUTF8StringEncoding];
         
         [UIDevice.currentDevice setValue:@(UIInterfaceOrientationPortrait) forKey:status];
         if (self.orientationTransformBeforeDismiss >0) {

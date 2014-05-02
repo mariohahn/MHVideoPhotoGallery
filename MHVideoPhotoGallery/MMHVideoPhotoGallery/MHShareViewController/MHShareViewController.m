@@ -39,13 +39,13 @@
     if (!self)
         return nil;
     
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = UIColor.clearColor;
     self.blurBackgroundToolbar = [UIToolbar.alloc initWithFrame:self.bounds];
     self.blurBackgroundToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [self addSubview:self.blurBackgroundToolbar];
     
     self.activityIndicatorView = [UIActivityIndicatorView.alloc initWithFrame:CGRectMake(0, -35, self.blurBackgroundToolbar.frame.size.width, self.blurBackgroundToolbar.frame.size.height-35)];
-    self.activityIndicatorView.color = [UIColor blackColor];
+    self.activityIndicatorView.color = UIColor.blackColor;
     self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [self.activityIndicatorView startAnimating];
     [self.blurBackgroundToolbar addSubview:self.activityIndicatorView];
@@ -100,9 +100,11 @@
     NSString *numberTitle = [NSString stringWithFormat:MHGalleryLocalizedString(@"imagedetail.title.current"),downloaded,maxNumber];
     
     NSMutableAttributedString *attributedString = [NSMutableAttributedString.alloc initWithString:[NSString stringWithFormat:@"%@%@",downloadDataString,numberTitle]];
-    [attributedString setAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30]} range:NSMakeRange(0, downloadDataString.length)];
+    [attributedString setAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30]}
+                              range:NSMakeRange(0, downloadDataString.length)];
     
-    [attributedString setAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:20]} range:NSMakeRange(downloadDataString.length, numberTitle.length)];
+    [attributedString setAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:20]}
+                              range:NSMakeRange(downloadDataString.length, numberTitle.length)];
     
     self.downloadDataLabel.attributedText = attributedString;
 }
@@ -148,10 +150,11 @@
     
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
-    [self.collectionView registerClass:MHMediaPreviewCollectionViewCell.class forCellWithReuseIdentifier:@"MHMediaPreviewCollectionViewCell"];
+    [self.collectionView registerClass:MHMediaPreviewCollectionViewCell.class
+            forCellWithReuseIdentifier:NSStringFromClass(MHMediaPreviewCollectionViewCell.class)];
     
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    [[self contentView] addSubview:self.collectionView];
+    [self.contentView addSubview:self.collectionView];
     return self;
 }
 
@@ -160,7 +163,7 @@
     if (self) {
         _collectionView = [UICollectionView.alloc initWithFrame:self.bounds];
         self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-        [[self contentView] addSubview:self.collectionView];
+        [self.contentView addSubview:self.collectionView];
     }
     return self;
 }
@@ -179,11 +182,11 @@
         _thumbnailImageView = [UIImageView.alloc initWithFrame:CGRectMake(self.bounds.size.width/2-30, 1, 60, 60)];
         self.thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
         self.thumbnailImageView.clipsToBounds = YES;
-        [[self contentView] addSubview:self.thumbnailImageView];
+        [self.contentView addSubview:self.thumbnailImageView];
         
         _descriptionLabel = [UILabel.alloc initWithFrame:CGRectMake(0, self.bounds.size.height-40, self.bounds.size.width, 40)];
-        self.descriptionLabel.backgroundColor = [UIColor clearColor];
-        self.descriptionLabel.textColor = [UIColor blackColor];
+        self.descriptionLabel.backgroundColor = UIColor.clearColor;
+        self.descriptionLabel.textColor = UIColor.blackColor;
         self.descriptionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         self.descriptionLabel.numberOfLines = 2;
         [self.contentView addSubview:self.descriptionLabel];
@@ -300,7 +303,7 @@
     [super viewDidLoad];
     
     self.selectedRows = NSMutableArray.new;
-    self.view.backgroundColor =[UIColor whiteColor];
+    self.view.backgroundColor = UIColor.whiteColor;
     self.navigationItem.hidesBackButton =YES;
     
     UIBarButtonItem *cancelBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -325,9 +328,9 @@
     self.collectionView.allowsMultipleSelection=YES;
     self.collectionView.contentInset = UIEdgeInsetsZero;
     self.collectionView.showsHorizontalScrollIndicator = NO;
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = UIColor.whiteColor;
     [self.collectionView registerClass:MHMediaPreviewCollectionViewCell.class
-            forCellWithReuseIdentifier:@"MHMediaPreviewCollectionViewCell"];
+            forCellWithReuseIdentifier:NSStringFromClass(MHMediaPreviewCollectionViewCell.class)];
     
     self.collectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
     [self.view addSubview:self.collectionView];
@@ -356,10 +359,10 @@
     self.tableViewShare.delegate = self;
     self.tableViewShare.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableViewShare.dataSource = self;
-    self.tableViewShare.backgroundColor = [UIColor clearColor];
+    self.tableViewShare.backgroundColor = UIColor.clearColor;
     self.tableViewShare.scrollEnabled = NO;
     [self.tableViewShare registerClass:MHCollectionViewTableViewCell.class
-                forCellReuseIdentifier:@"MHCollectionViewTableViewCell"];
+                forCellReuseIdentifier:NSStringFromClass(MHCollectionViewTableViewCell.class)];
     [self.view addSubview:self.tableViewShare];
     
     UIView *sep = [UIView.alloc initWithFrame:CGRectMake(0,115, self.view.frame.size.width, 1)];
@@ -413,9 +416,7 @@
     cellIdentifier = @"MHCollectionViewTableViewCell";
     
     MHCollectionViewTableViewCell *cell = (MHCollectionViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell){
-        cell = [MHCollectionViewTableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
+
     cell.backgroundColor = [UIColor clearColor];
     UICollectionViewFlowLayout *layout = UICollectionViewFlowLayout.new;
     layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
@@ -425,12 +426,13 @@
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     cell.collectionView.collectionViewLayout = layout;
     
-    [cell.collectionView registerClass:[MHShareCell class]
-            forCellWithReuseIdentifier:@"MHShareCell"];
-    [cell.collectionView setShowsHorizontalScrollIndicator:NO];
-    cell.collectionView.delegate =self;
-    cell.collectionView.dataSource=self;
-    cell.collectionView.backgroundColor = [UIColor clearColor];
+    [cell.collectionView registerClass:MHShareCell.class
+            forCellWithReuseIdentifier:NSStringFromClass(MHShareCell.class)];
+    
+    cell.collectionView.showsHorizontalScrollIndicator = NO;
+    cell.collectionView.delegate = self;
+    cell.collectionView.dataSource = self;
+    cell.collectionView.backgroundColor = UIColor.clearColor;
     cell.collectionView.tag = indexPath.section;
     [cell.collectionView reloadData];
     
@@ -466,11 +468,11 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell =nil;
     if ([collectionView isEqual:self.collectionView]) {
-        NSString *cellIdentifier = @"MHMediaPreviewCollectionViewCell";
+        NSString *cellIdentifier = NSStringFromClass(MHMediaPreviewCollectionViewCell.class);
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         [self makeOverViewDetailCell:(MHMediaPreviewCollectionViewCell*)cell atIndexPath:indexPath];
     }else{
-        NSString *cellIdentifier = @"MHShareCell";
+        NSString *cellIdentifier = NSStringFromClass(MHShareCell.class);
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         NSIndexPath *indexPathNew = [NSIndexPath indexPathForRow:indexPath.row inSection:collectionView.tag];
         [self makeMHShareCell:(MHShareCell*)cell atIndexPath:indexPathNew];
@@ -491,7 +493,7 @@
     
     cell.descriptionLabel.textAlignment = NSTextAlignmentCenter;
     cell.descriptionLabel.text = shareItem.title;
-    cell.backgroundColor = [UIColor clearColor];
+    cell.backgroundColor = UIColor.clearColor;
 }
 
 -(void)makeOverViewDetailCell:(MHMediaPreviewCollectionViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
@@ -507,18 +509,17 @@
     cell.thumbnail.contentMode = UIViewContentModeScaleAspectFill;
     cell.selectionImageView.hidden = NO;
     
-    cell.selectionImageView.layer.borderWidth =1;
-    cell.selectionImageView.layer.cornerRadius =11;
-    cell.selectionImageView.layer.borderColor =[UIColor whiteColor].CGColor;
+    cell.selectionImageView.layer.borderWidth = 1;
+    cell.selectionImageView.layer.cornerRadius = 11;
+    cell.selectionImageView.layer.borderColor = UIColor.whiteColor.CGColor;
     cell.selectionImageView.image =  nil;
     cell.selectionImageView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.45];
     
     if ([self.selectedRows containsObject:indexPath]) {
-        cell.selectionImageView.backgroundColor = [UIColor whiteColor];
+        cell.selectionImageView.backgroundColor = UIColor.whiteColor;
         cell.selectionImageView.tintColor = [UIColor colorWithRed:0 green:0.46 blue:1 alpha:1];
-        cell.selectionImageView.image =  [MHGalleryImage(@"EditControlSelected") imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        cell.selectionImageView.image =  MHTemplateImage(@"EditControlSelected");
     }
-    
     cell.tag = indexPath.row;
     
 }
@@ -532,7 +533,7 @@
         }
         return (NSComparisonResult)NSOrderedSame;
     };
-    NSMutableArray *fieldsSort = [[NSMutableArray alloc]initWithArray:objects];
+    NSMutableArray *fieldsSort = [NSMutableArray.alloc initWithArray:objects];
     [fieldsSort sortUsingComparator:comparatorBlock];
     return [NSArray arrayWithArray:fieldsSort];
 }
@@ -598,7 +599,7 @@
     __weak typeof(self) weakSelf = self;
     
     [self getAllImagesForSelectedRows:^(NSArray *images){
-        SLComposeViewController *shareconntroller=[SLComposeViewController composeViewControllerForServiceType:serviceType];
+        SLComposeViewController *shareconntroller = [SLComposeViewController composeViewControllerForServiceType:serviceType];
         SLComposeViewControllerCompletionHandler completionHandler=^(SLComposeViewControllerResult result){
             
             [shareconntroller dismissViewControllerAnimated:YES
@@ -608,7 +609,7 @@
         };
         NSString *videoURLS = NSString.new;
         for (MHImageURL *dataURL in images) {
-            if ([dataURL.image isKindOfClass:[UIImage class]] && !dataURL.image.images) {
+            if ([dataURL.image isKindOfClass:UIImage.class] && !dataURL.image.images) {
                 [shareconntroller addImage:dataURL.image];
             }else{
                 videoURLS = [videoURLS stringByAppendingString:[NSString stringWithFormat: @"%@ \n",dataURL.URL]];
@@ -636,7 +637,7 @@
         NSString *videoURLS = NSString.new;
         
         for (MHImageURL *dataURL in images) {
-            if ([dataURL.image isKindOfClass:[UIImage class]]) {
+            if ([dataURL.image isKindOfClass:UIImage.class]) {
                 UIImage *image = dataURL.image;
                 if (image.images) {
                     [picker addAttachmentData:[NSData dataWithContentsOfFile:[SDImageCache.sharedImageCache defaultCachePathForKey:dataURL.URL]]
@@ -667,7 +668,7 @@
         NSString *videoURLS = [NSString new];
         
         for (MHImageURL *dataURL in images) {
-            if ([dataURL.image isKindOfClass:[UIImage class]]) {
+            if ([dataURL.image isKindOfClass:UIImage.class]) {
                 UIImage *image = dataURL.image;
                 if (image.images) {
                     [picker addAttachmentData:[NSData dataWithContentsOfFile:[[SDImageCache sharedImageCache] defaultCachePathForKey:dataURL.URL]]
@@ -758,7 +759,7 @@
             containsVideo = YES;
         }
     }
-    self.sessions =NSMutableArray.new;
+    self.sessions = NSMutableArray.new;
     
     if (saveToCameraRoll && containsVideo) {
         
@@ -782,7 +783,7 @@
     }
     UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
     
-    self.dataDownload = [NSMutableArray new];
+    self.dataDownload = NSMutableArray.new;
     
     self.finishedCallbackDownloadData = SuccessBlock;
     
@@ -834,11 +835,12 @@
         
         if (item.galleryType == MHGalleryTypeImage) {
             
-            if ([item.URLString rangeOfString:@"assets-library"].location != NSNotFound && item.URLString) {
+            if ([item.URLString rangeOfString:MHAssetLibrary].location != NSNotFound && item.URLString) {
                 [MHGallerySharedManager.sharedManager getImageFromAssetLibrary:item.URLString
                                                                      assetType:MHAssetImageTypeFull
                                                                   successBlock:^(UIImage *image, NSError *error) {
-                                                                      MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString image:image];
+                                                                      MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString
+                                                                                                                     image:image];
                                                                       [weakSelf addDataToDownloadArray:imageURL];
                                                                   }];
             }else if (item.image) {
@@ -849,7 +851,8 @@
                                                         progress:nil
                                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
                                                            
-                                                           MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString image:image];
+                                                           MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString
+                                                                                                          image:image];
                                                            
                                                            [weakSelf addDataToDownloadArray:imageURL];
                                                        }];
@@ -887,7 +890,7 @@
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     
     NSArray *visibleCells = [self sortObjectsWithFrame:self.collectionView.visibleCells];
-    NSInteger numberToScrollTo =  visibleCells.count/2;
+    NSInteger numberToScrollTo = visibleCells.count/2;
     MHMediaPreviewCollectionViewCell *cell =  (MHMediaPreviewCollectionViewCell*)visibleCells[numberToScrollTo];
     
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:cell.tag inSection:0]

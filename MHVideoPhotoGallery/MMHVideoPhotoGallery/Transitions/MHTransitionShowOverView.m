@@ -36,12 +36,13 @@
     cellImageSnapshot.image = imageView.image;
     imageView.hidden = YES;
     
-    if (!imageView.image) {
-        UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
-        view.backgroundColor = [UIColor whiteColor];
-        cellImageSnapshot.image = MHImageFromView(view);
+    UIImage *image = imageView.image;
+    
+    if (!image) {
+        image = MHDefaultImageForFrame(fromViewController.view.frame);
+        cellImageSnapshot.image = image;
     }
-    [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size, cellImageSnapshot.frame)];
+    [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(image.size, cellImageSnapshot.frame)];
     
     toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
     [containerView insertSubview:toViewController.view belowSubview:fromViewController.view];
@@ -134,12 +135,13 @@
     iv.hidden = YES;
     
     
-    if (!self.transitionImageView.imageMH) {
-        UIView *view = [[UIView alloc]initWithFrame:fromViewController.view.frame];
-        view.backgroundColor = [UIColor whiteColor];
-        self.transitionImageView.image =  MHImageFromView(view);
+    UIImage *image = self.transitionImageView.image;
+    
+    if (!image) {
+        image = MHDefaultImageForFrame(fromViewController.view.frame);
+        self.transitionImageView.image = image;
     }
-    [self.transitionImageView setFrame:AVMakeRectWithAspectRatioInsideRect(self.transitionImageView.imageMH.size, self.transitionImageView.frame)];
+    [self.transitionImageView setFrame:AVMakeRectWithAspectRatioInsideRect(image.size, self.transitionImageView.frame)];
     
     self.startFrame = self.transitionImageView.frame;
     
@@ -205,12 +207,11 @@
     CGRect frame = self.transitionImageView.frame;
     self.transitionImageView.transform = CGAffineTransformIdentity;
     self.transitionImageView.frame = frame;
-    MHGalleryImageViewerViewController *fromViewController = (MHGalleryImageViewerViewController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
 
     [UIView animateWithDuration:0.3 animations:^{
         if (self.isHiddingToolBarAndNavigationBar) {
             self.toViewController.navigationController.navigationBar.alpha = 1;
-            fromViewController.statusBarObject.alpha =1;
+            MHStatusBar().alpha =1;
         }
         self.toolbar.alpha = 0;
         self.descriptionLabel.alpha =0;

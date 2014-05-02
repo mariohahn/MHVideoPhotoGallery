@@ -30,7 +30,7 @@
         imageViewer.descriptionView.alpha = 0;
         imageViewer.descriptionViewBackground.alpha = 0;
         imageViewer.toolbar.alpha = 0;
-        imageViewer.statusBarObject.alpha =0;
+        MHStatusBar().alpha =0;
         imageViewer.view.backgroundColor = [toViewController.UICustomization MHGalleryBackgroundColorForViewMode:toViewController.presentationStyle];
     }
 

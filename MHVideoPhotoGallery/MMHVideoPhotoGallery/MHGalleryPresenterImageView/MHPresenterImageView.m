@@ -104,7 +104,7 @@
     self.presenter.interactive = YES;
     
     
-    MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryViewModeImageViewerNavigationBarShown];
+    MHGalleryController *gallery = [MHGalleryController galleryWithPresentationStyle:MHGalleryViewModeImageViewerNavigationBarShown];
     gallery.galleryItems = self.galleryItems;
     gallery.presentingFromImageView = self;
     gallery.presentationIndex =  self.currentImageIndex;
@@ -144,7 +144,7 @@
         }
     }else if (recognizer.state == UIGestureRecognizerStateChanged) {
         if (recognizer.numberOfTouches <2) {
-            recognizer.enabled =NO;
+            recognizer.enabled = NO;
             recognizer.enabled = YES;
         }
         CGPoint point = [recognizer locationInView:self.viewController.view];
