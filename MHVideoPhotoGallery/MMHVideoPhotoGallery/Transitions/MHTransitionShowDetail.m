@@ -130,14 +130,11 @@
     self.startFrame = self.cellImageSnapshot.frame;
     self.cell.thumbnail.hidden = YES;
     
-    BOOL videoIconsHidden = YES;
     if (!self.cell.videoGradient.isHidden) {
         self.cell.videoGradient.hidden = YES;
         self.cell.videoDurationLength.hidden =YES;
         self.cell.videoIcon.hidden = YES;
-        videoIconsHidden = NO;
     }
-    
     
     toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
     toViewController.view.alpha = 0;

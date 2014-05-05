@@ -941,8 +941,7 @@
                 UIImage *imageToStore = dataURL.image;
                 
                 ALAssetsLibrary* library = ALAssetsLibrary.new;
-                
-                NSData *data = NSData.new;
+                NSData *data;
                 
                 if (imageToStore.images) {
                     data = [NSData dataWithContentsOfFile:[[SDImageCache sharedImageCache] defaultCachePathForKey:dataURL.URL]];

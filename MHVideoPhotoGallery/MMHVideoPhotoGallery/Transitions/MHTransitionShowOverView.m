@@ -191,12 +191,10 @@
         self.cellInteractive = (MHMediaPreviewCollectionViewCell*)[self.toViewController.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.toViewController.currentPage inSection:0]];
         self.cellInteractive.thumbnail.hidden = YES;
         
-        BOOL videoIconsHidden = YES;
         if (!self.cellInteractive.videoGradient.isHidden) {
             self.cellInteractive.videoGradient.hidden = YES;
             self.cellInteractive.videoDurationLength.hidden =YES;
             self.cellInteractive.videoIcon.hidden = YES;
-            videoIconsHidden = NO;
         }
     });
 }

@@ -309,13 +309,11 @@
         [self getImageForItem:item finishCallback:^(UIImage *image) {
             if (image) {
                 UIPasteboard *pasteboard = UIPasteboard.generalPasteboard;
-                NSData *data = NSData.new;
-                
                 if (image.images) {
-                    data = [NSData dataWithContentsOfFile:[SDImageCache.sharedImageCache defaultCachePathForKey:item.URLString]];
+                    NSData *data = [NSData dataWithContentsOfFile:[SDImageCache.sharedImageCache defaultCachePathForKey:item.URLString]];
                     [pasteboard setData:data forPasteboardType:(__bridge NSString *)kUTTypeGIF];
                 }else{
-                    data = UIImagePNGRepresentation(image);
+                    NSData *data = UIImagePNGRepresentation(image);
                     [pasteboard setData:data forPasteboardType:(__bridge NSString *)kUTTypeImage];
                     
                 }
