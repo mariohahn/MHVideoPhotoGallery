@@ -32,7 +32,8 @@
     
     UIImageView *imageView =  (UIImageView*)[[[fromViewController.pageViewController.viewControllers firstObject] view]viewWithTag:506];
     toViewController.currentPage =  [[fromViewController.pageViewController.viewControllers firstObject] pageIndex];
-    MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height)];
+   
+    MHUIImageViewContentViewAnimation *cellImageSnapshot = [MHUIImageViewContentViewAnimation.alloc initWithFrame:CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height)];
     cellImageSnapshot.image = imageView.image;
     imageView.hidden = YES;
     
@@ -62,7 +63,6 @@
     
     UIToolbar *descriptionViewBackground = fromViewController.descriptionViewBackground;
     descriptionViewBackground.alpha =1;
-    
     
     [containerView addSubview:descriptionViewBackground];
     [containerView addSubview:tb];
@@ -129,13 +129,14 @@
     
     UIImageView *iv =  (UIImageView*)[[[fromViewController.pageViewController.viewControllers firstObject] view]viewWithTag:506];
     self.toViewController.currentPage =  [[fromViewController.pageViewController.viewControllers firstObject] pageIndex];
-    self.transitionImageView = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height)];
+    
+    self.transitionImageView = [MHUIImageViewContentViewAnimation.alloc initWithFrame:CGRectMake(0, 0, fromViewController.view.frame.size.width, fromViewController.view.frame.size.height)];
     self.transitionImageView.image = iv.image;
     self.transitionImageView.contentMode = UIViewContentModeScaleAspectFit;
     iv.hidden = YES;
     
     
-    UIImage *image = self.transitionImageView.image;
+    UIImage *image =  iv.image;
     
     if (!image) {
         image = MHDefaultImageForFrame(fromViewController.view.frame);
@@ -152,7 +153,7 @@
     
 
     
-    self.backView = [[UIView alloc]initWithFrame:self.toViewController.view.frame];
+    self.backView = [UIView.alloc initWithFrame:self.toViewController.view.frame];
     self.backView.backgroundColor = [galleryViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
     
     [containerView addSubview:self.backView];

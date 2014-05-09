@@ -97,7 +97,9 @@
 -(void)donePressed{
     self.navigationController.transitioningDelegate = nil;
     
-    self.galleryViewController.finishedCallback(0,nil,nil,MHGalleryViewModeOverView);
+    if (self.galleryViewController && self.galleryViewController.finishedCallback) {
+        self.galleryViewController.finishedCallback(0,nil,nil,MHGalleryViewModeOverView);
+    }
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -105,10 +107,7 @@
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    UICollectionViewCell *cell =nil;
-    NSString *cellIdentifier = nil;
-    cellIdentifier = NSStringFromClass(MHMediaPreviewCollectionViewCell.class);
-    cell = (MHMediaPreviewCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    UICollectionViewCell *cell = (MHMediaPreviewCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(MHMediaPreviewCollectionViewCell.class) forIndexPath:indexPath];
     [self makeMHGalleryOverViewCell:(MHMediaPreviewCollectionViewCell*)cell
                         atIndexPath:indexPath];
     
