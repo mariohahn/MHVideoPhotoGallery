@@ -135,9 +135,7 @@
     self.transitionImageView.contentMode = UIViewContentModeScaleAspectFit;
     iv.hidden = YES;
     
-    
     UIImage *image =  iv.image;
-    
     if (!image) {
         image = MHDefaultImageForFrame(fromViewController.view.frame);
         self.transitionImageView.image = image;

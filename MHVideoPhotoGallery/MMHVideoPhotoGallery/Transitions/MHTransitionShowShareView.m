@@ -141,9 +141,8 @@
         [toViewController.pageViewController setViewControllers:@[ivC]
                            direction:UIPageViewControllerNavigationDirectionForward
                             animated:NO
-                          completion:nil];
-        
-        [cell.thumbnail setHidden:YES];
+                          completion:nil];        
+        cell.thumbnail.hidden = YES;
         
         MHUIImageViewContentViewAnimation *cellImageSnapshot = [[MHUIImageViewContentViewAnimation alloc] initWithFrame:[containerView convertRect:cell.thumbnail.frame fromView:cell.thumbnail.superview]];
         cellImageSnapshot.image = cell.thumbnail.image;

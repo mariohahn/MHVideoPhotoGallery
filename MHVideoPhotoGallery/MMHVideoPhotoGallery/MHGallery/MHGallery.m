@@ -33,6 +33,7 @@ NSNumberFormatter *MHNumberFormatterVideo(void){
     static NSNumberFormatter *numberFormatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        
         numberFormatter = NSNumberFormatter.new;
         numberFormatter.minimumIntegerDigits =2;
     });

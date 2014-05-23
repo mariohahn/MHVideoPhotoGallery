@@ -172,13 +172,6 @@
     
     [self updateToolBarForItem:item];
     
-    if (self.pageIndex == 0) {
-        self.leftBarButton.enabled =NO;
-    }
-    if(self.pageIndex == self.numberOfGalleryItems-1){
-        self.rightBarButton.enabled =NO;
-    }
-    
     self.descriptionViewBackground = [UIToolbar.alloc initWithFrame:CGRectZero];
     self.descriptionView = [UITextView.alloc initWithFrame:CGRectZero];
     self.descriptionView.backgroundColor = [UIColor clearColor];
@@ -208,6 +201,21 @@
     
     [self updateTitleForIndex:self.pageIndex];
 }
+
+
+-(void)enableOrDisbaleBarbButtons{
+    
+    self.leftBarButton.enabled  = YES;
+    self.rightBarButton.enabled  = YES;
+    
+    if (self.pageIndex == 0) {
+        self.leftBarButton.enabled =NO;
+    }
+    if(self.pageIndex == self.numberOfGalleryItems-1){
+        self.rightBarButton.enabled =NO;
+    }
+}
+
 -(void)backButtonAction{
     [self.navigationController popToRootViewControllerAnimated:YES];
     
@@ -371,6 +379,8 @@
                                                                         target:self
                                                                         action:nil];
     fixed.width = 30;
+    
+    [self enableOrDisbaleBarbButtons];
     
     if (item.galleryType == MHGalleryTypeVideo) {
         [self changeToPlayButton];
