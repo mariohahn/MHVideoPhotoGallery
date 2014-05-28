@@ -435,6 +435,10 @@
         self.leftBarButton.enabled = NO;
     }
     
+    if (!imageViewController) {
+        return;
+    }
+
     __weak typeof(self) weakSelf = self;
 
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
@@ -455,6 +459,11 @@
     if (indexPage+1 == self.numberOfGalleryItems-1) {
         self.rightBarButton.enabled = NO;
     }
+    
+    if (!imageViewController) {
+        return;
+    }
+
     __weak typeof(self) weakSelf = self;
     
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
