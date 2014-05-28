@@ -127,10 +127,8 @@
 
         [containerView addSubview:toViewController.view];
         
-        
-        
-        
-        toViewController.toolbar.frame = CGRectMake(0, fromViewController.view.frame.size.height-44, fromViewController.view.frame.size.width, 44);
+        CGFloat toolbarHeight = MHToolbarHeightForOrientation([UIApplication sharedApplication].statusBarOrientation);
+        toViewController.toolbar.frame = CGRectMake(0, fromViewController.view.frame.size.height-toolbarHeight, fromViewController.view.frame.size.width, toolbarHeight);
         MHGalleryController *galleryController = (MHGalleryController*)fromViewController.navigationController;
         MHGalleryItem *item = [galleryController.dataSource itemForIndex:toViewController.pageIndex];
         [toViewController updateToolBarForItem:item];

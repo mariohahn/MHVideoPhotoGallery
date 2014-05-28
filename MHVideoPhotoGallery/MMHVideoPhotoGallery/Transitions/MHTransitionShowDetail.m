@@ -54,9 +54,10 @@
     UITextView *descriptionLabel = toViewController.descriptionView;
     descriptionLabel.alpha =0;
     
+    CGFloat toolbarHeight = MHToolbarHeightForOrientation([UIApplication sharedApplication].statusBarOrientation);
     UIToolbar *tb = toViewController.toolbar;
     tb.alpha =0;
-    tb.frame = CGRectMake(0, toViewController.view.frame.size.height-44, toViewController.view.frame.size.width , 44);
+    tb.frame = CGRectMake(0, toViewController.view.frame.size.height-toolbarHeight, toViewController.view.frame.size.width, toolbarHeight);
     
     UIToolbar *descriptionViewBackground = toViewController.descriptionViewBackground;
     descriptionViewBackground.alpha =0;
