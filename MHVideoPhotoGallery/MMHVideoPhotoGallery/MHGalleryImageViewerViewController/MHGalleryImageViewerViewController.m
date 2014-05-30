@@ -134,10 +134,10 @@
     [self.pageViewController didMoveToParentViewController:self];
     [self.view addSubview:self.pageViewController.view];
     
-    self.toolbar = [UIToolbar.alloc initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
+    self.toolbar = [UIToolbar.alloc initWithFrame:CGRectMake(0, self.view.frame.size.height-MHToolbarHeightForOrientation(self.currentOrientation), self.view.frame.size.width, MHToolbarHeightForOrientation(self.currentOrientation))];
     if(self.currentOrientation == UIInterfaceOrientationLandscapeLeft || self.currentOrientation == UIInterfaceOrientationLandscapeRight){
         if (self.view.bounds.size.height > self.view.bounds.size.width) {
-            self.toolbar.frame = CGRectMake(0, self.view.frame.size.width-44, self.view.frame.size.height, 44);
+            self.toolbar.frame = CGRectMake(0, self.view.frame.size.width-MHToolbarHeightForOrientation(self.currentOrientation), self.view.frame.size.height, MHToolbarHeightForOrientation(self.currentOrientation));
         }
     }
     
@@ -435,6 +435,10 @@
         self.leftBarButton.enabled = NO;
     }
     
+    if (!imageViewController) {
+        return;
+    }
+
     __weak typeof(self) weakSelf = self;
 
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
@@ -455,6 +459,11 @@
     if (indexPage+1 == self.numberOfGalleryItems-1) {
         self.rightBarButton.enabled = NO;
     }
+    
+    if (!imageViewController) {
+        return;
+    }
+
     __weak typeof(self) weakSelf = self;
     
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
@@ -523,7 +532,7 @@
 }
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    self.toolbar.frame = CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44);
+    self.toolbar.frame = CGRectMake(0, self.view.frame.size.height-MHToolbarHeightForOrientation(self.currentOrientation), self.view.frame.size.width, MHToolbarHeightForOrientation(self.currentOrientation));
     self.pageViewController.view.bounds = self.view.bounds;
     [self.pageViewController.view.subviews.firstObject setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
     

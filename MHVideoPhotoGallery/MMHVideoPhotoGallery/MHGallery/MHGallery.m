@@ -66,6 +66,17 @@ UIView *MHStatusBar(void){
     return statusBar;
 }
 
+CGFloat MHToolbarHeightForOrientation(UIInterfaceOrientation orientation) {
+    CGFloat toolbarHeight = 44.0f;
+    
+    if (!MHISIPAD) {
+        if (UIInterfaceOrientationIsLandscape(orientation)) {
+            toolbarHeight = 32.0f;
+        }
+    }
+    
+    return toolbarHeight;
+}
 
 UIImage *MHTemplateImage(NSString *imageName){
     return [MHGalleryImage(imageName) imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];

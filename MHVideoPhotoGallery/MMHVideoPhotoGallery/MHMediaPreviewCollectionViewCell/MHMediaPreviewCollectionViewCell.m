@@ -79,6 +79,8 @@
     
     __weak typeof(self) weakSelf = self;
 
+    [self.activityIndicator startAnimating];
+    
     if (galleryItem.galleryType == MHGalleryTypeVideo) {
         [MHGallerySharedManager.sharedManager startDownloadingThumbImage:galleryItem.URLString
                                                             successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
@@ -97,6 +99,8 @@
                                                             }];
     }else{
         [self.thumbnail setImageForMHGalleryItem:galleryItem imageType:MHImageTypeThumb successBlock:^(UIImage *image, NSError *error) {
+            [weakSelf.activityIndicator stopAnimating];
+
             if (!image) {
                 weakSelf.thumbnail.backgroundColor = UIColor.whiteColor;
                 weakSelf.thumbnail.image = MHGalleryImage(@"error");
