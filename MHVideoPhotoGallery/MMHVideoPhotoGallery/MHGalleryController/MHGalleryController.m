@@ -56,6 +56,9 @@
 }
 
 -(MHGalleryItem *)itemForIndex:(NSInteger)index{
+    if (index < 0 || index >= [self numberOfItemsInGallery:self]) {
+        return nil;
+    }
     return self.galleryItems[index];
 }
 -(NSInteger)numberOfItemsInGallery:(MHGalleryController *)galleryController{
