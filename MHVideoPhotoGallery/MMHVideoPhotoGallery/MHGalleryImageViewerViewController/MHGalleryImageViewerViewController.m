@@ -437,11 +437,13 @@
     
     __weak typeof(self) weakSelf = self;
 
-    [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
-        weakSelf.pageIndex = imageViewController.pageIndex;
-        [weakSelf updateToolBarForItem:[weakSelf itemForIndex:weakSelf.pageIndex]];
-        [weakSelf showCurrentIndex:weakSelf.pageIndex];
-    }];
+    if (imageViewController) {
+        [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
+            weakSelf.pageIndex = imageViewController.pageIndex;
+            [weakSelf updateToolBarForItem:[weakSelf itemForIndex:weakSelf.pageIndex]];
+            [weakSelf showCurrentIndex:weakSelf.pageIndex];
+        }];
+    }
 }
 
 -(void)rightPressed:(id)sender{
@@ -457,11 +459,13 @@
     }
     __weak typeof(self) weakSelf = self;
     
-    [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-        weakSelf.pageIndex = imageViewController.pageIndex;
-        [weakSelf updateToolBarForItem:[weakSelf itemForIndex:weakSelf.pageIndex]];
-        [weakSelf showCurrentIndex:weakSelf.pageIndex];
-    }];
+    if (imageViewController) {
+        [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
+            weakSelf.pageIndex = imageViewController.pageIndex;
+            [weakSelf updateToolBarForItem:[weakSelf itemForIndex:weakSelf.pageIndex]];
+            [weakSelf showCurrentIndex:weakSelf.pageIndex];
+        }];
+    }
 }
 
 -(void)showCurrentIndex:(NSInteger)currentIndex{
