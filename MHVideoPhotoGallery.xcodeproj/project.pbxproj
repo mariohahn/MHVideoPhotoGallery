@@ -81,6 +81,11 @@
 		F553D32818967E5300BA4283 /* ic_square.png in Resources */ = {isa = PBXBuildFile; fileRef = F553D32618967E5300BA4283 /* ic_square.png */; };
 		F553D32918967E5300BA4283 /* ic_square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F553D32718967E5300BA4283 /* ic_square@2x.png */; };
 		F55CB5BC18C5FE2E0039941E /* MHCustomization.m in Sources */ = {isa = PBXBuildFile; fileRef = F55CB5BB18C5FE2E0039941E /* MHCustomization.m */; };
+		F560B3861973D43C00C5DC2C /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F560B37D1973D43C00C5DC2C /* MKAnnotationView+WebCache.m */; };
+		F560B3871973D43C00C5DC2C /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = F560B37F1973D43C00C5DC2C /* NSData+ImageContentType.m */; };
+		F560B3881973D43C00C5DC2C /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = F560B3811973D43C00C5DC2C /* UIImage+WebP.m */; };
+		F560B3891973D43C00C5DC2C /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F560B3831973D43C00C5DC2C /* UIImageView+HighlightedWebCache.m */; };
+		F560B38A1973D43C00C5DC2C /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F560B3851973D43C00C5DC2C /* UIView+WebCacheOperation.m */; };
 		F577F33D18D73D3100880B72 /* Sydney-iPhone.m4v in Resources */ = {isa = PBXBuildFile; fileRef = F577F33B18D73C1100880B72 /* Sydney-iPhone.m4v */; };
 		F58F65051880899200D3A8F9 /* MHShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F58F65041880899200D3A8F9 /* MHShareViewController.m */; };
 		F58F65281882F97600D3A8F9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65271882F97600D3A8F9 /* Social.framework */; };
@@ -215,6 +220,16 @@
 		F553D32718967E5300BA4283 /* ic_square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_square@2x.png"; path = "MMHVideoPhotoGallery/Images/ic_square@2x.png"; sourceTree = "<group>"; };
 		F55CB5BA18C5FE2E0039941E /* MHCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHCustomization.h; path = MMHVideoPhotoGallery/MHCustomization/MHCustomization.h; sourceTree = "<group>"; };
 		F55CB5BB18C5FE2E0039941E /* MHCustomization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHCustomization.m; path = MMHVideoPhotoGallery/MHCustomization/MHCustomization.m; sourceTree = "<group>"; };
+		F560B37C1973D43C00C5DC2C /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MKAnnotationView+WebCache.h"; path = "External/SDWEBImage/MKAnnotationView+WebCache.h"; sourceTree = SOURCE_ROOT; };
+		F560B37D1973D43C00C5DC2C /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MKAnnotationView+WebCache.m"; path = "External/SDWEBImage/MKAnnotationView+WebCache.m"; sourceTree = SOURCE_ROOT; };
+		F560B37E1973D43C00C5DC2C /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+ImageContentType.h"; path = "External/SDWEBImage/NSData+ImageContentType.h"; sourceTree = SOURCE_ROOT; };
+		F560B37F1973D43C00C5DC2C /* NSData+ImageContentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+ImageContentType.m"; path = "External/SDWEBImage/NSData+ImageContentType.m"; sourceTree = SOURCE_ROOT; };
+		F560B3801973D43C00C5DC2C /* UIImage+WebP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+WebP.h"; path = "External/SDWEBImage/UIImage+WebP.h"; sourceTree = SOURCE_ROOT; };
+		F560B3811973D43C00C5DC2C /* UIImage+WebP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+WebP.m"; path = "External/SDWEBImage/UIImage+WebP.m"; sourceTree = SOURCE_ROOT; };
+		F560B3821973D43C00C5DC2C /* UIImageView+HighlightedWebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+HighlightedWebCache.h"; path = "External/SDWEBImage/UIImageView+HighlightedWebCache.h"; sourceTree = SOURCE_ROOT; };
+		F560B3831973D43C00C5DC2C /* UIImageView+HighlightedWebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+HighlightedWebCache.m"; path = "External/SDWEBImage/UIImageView+HighlightedWebCache.m"; sourceTree = SOURCE_ROOT; };
+		F560B3841973D43C00C5DC2C /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+WebCacheOperation.h"; path = "External/SDWEBImage/UIView+WebCacheOperation.h"; sourceTree = SOURCE_ROOT; };
+		F560B3851973D43C00C5DC2C /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+WebCacheOperation.m"; path = "External/SDWEBImage/UIView+WebCacheOperation.m"; sourceTree = SOURCE_ROOT; };
 		F577F33B18D73C1100880B72 /* Sydney-iPhone.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sydney-iPhone.m4v"; sourceTree = "<group>"; };
 		F58F65031880899200D3A8F9 /* MHShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHShareViewController.h; path = MMHVideoPhotoGallery/MHShareViewController/MHShareViewController.h; sourceTree = "<group>"; };
 		F58F65041880899200D3A8F9 /* MHShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHShareViewController.m; path = MMHVideoPhotoGallery/MHShareViewController/MHShareViewController.m; sourceTree = "<group>"; };
@@ -296,8 +311,12 @@
 		F5245D9118AA16C5004C6FFA /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
+				F560B37C1973D43C00C5DC2C /* MKAnnotationView+WebCache.h */,
+				F560B37D1973D43C00C5DC2C /* MKAnnotationView+WebCache.m */,
 				F5245D9218AA16D3004C6FFA /* NSData+GIF.h */,
 				F5245D9318AA16D3004C6FFA /* NSData+GIF.m */,
+				F560B37E1973D43C00C5DC2C /* NSData+ImageContentType.h */,
+				F560B37F1973D43C00C5DC2C /* NSData+ImageContentType.m */,
 				F5245D9418AA16D3004C6FFA /* SDImageCache.h */,
 				F5245D9518AA16D3004C6FFA /* SDImageCache.m */,
 				F5245D9618AA16D3004C6FFA /* SDWebImageCompat.h */,
@@ -319,8 +338,14 @@
 				F5245DA618AA16D3004C6FFA /* UIImage+GIF.m */,
 				F5245DA718AA16D3004C6FFA /* UIImage+MultiFormat.h */,
 				F5245DA818AA16D3004C6FFA /* UIImage+MultiFormat.m */,
+				F560B3801973D43C00C5DC2C /* UIImage+WebP.h */,
+				F560B3811973D43C00C5DC2C /* UIImage+WebP.m */,
+				F560B3821973D43C00C5DC2C /* UIImageView+HighlightedWebCache.h */,
+				F560B3831973D43C00C5DC2C /* UIImageView+HighlightedWebCache.m */,
 				F5245DA918AA16D3004C6FFA /* UIImageView+WebCache.h */,
 				F5245DAA18AA16D3004C6FFA /* UIImageView+WebCache.m */,
+				F560B3841973D43C00C5DC2C /* UIView+WebCacheOperation.h */,
+				F560B3851973D43C00C5DC2C /* UIView+WebCacheOperation.m */,
 			);
 			name = SDWebImage;
 			sourceTree = "<group>";
@@ -769,11 +794,14 @@
 				F5C52E9018C0828E001E431E /* MHTransitionShowShareView.m in Sources */,
 				F543E50318EAAF3C008D7590 /* MHGalleryItem.m in Sources */,
 				F543E50E18EACB23008D7590 /* MHOverviewController.m in Sources */,
+				F560B38A1973D43C00C5DC2C /* UIView+WebCacheOperation.m in Sources */,
 				F5245DB218AA16D3004C6FFA /* SDWebImagePrefetcher.m in Sources */,
 				F53F925417EB008100A9FE6A /* AppDelegate.m in Sources */,
 				F5C52E9318C086E4001E431E /* MHGallery.m in Sources */,
 				F5245DB418AA16D3004C6FFA /* UIImage+GIF.m in Sources */,
 				F5B1AA8A18ED82CE00FE4682 /* SubclassMHImageviewerViewController.m in Sources */,
+				F560B3861973D43C00C5DC2C /* MKAnnotationView+WebCache.m in Sources */,
+				F560B3871973D43C00C5DC2C /* NSData+ImageContentType.m in Sources */,
 				F5245DB618AA16D3004C6FFA /* UIImageView+WebCache.m in Sources */,
 				F543E51118EB0D25008D7590 /* MHMediaPreviewCollectionViewCell.m in Sources */,
 				F5DBBF31187D584C00BEFE29 /* MHGalleryImageViewerViewController.m in Sources */,
@@ -784,6 +812,7 @@
 				F5F8DA2D18B6A6A100EB25F2 /* MHPresenterImageView.m in Sources */,
 				F5245DAC18AA16D3004C6FFA /* SDImageCache.m in Sources */,
 				F5C52E8D18C0828E001E431E /* MHTransitionPresentMHGallery.m in Sources */,
+				F560B3881973D43C00C5DC2C /* UIImage+WebP.m in Sources */,
 				F5245DAF18AA16D3004C6FFA /* SDWebImageDownloader.m in Sources */,
 				F536534A1897D11100748466 /* ExampleViewControllerLocal.m in Sources */,
 				F5245DB518AA16D3004C6FFA /* UIImage+MultiFormat.m in Sources */,
@@ -794,6 +823,7 @@
 				F5C52E8C18C0828E001E431E /* MHTransitionDismissMHGallery.m in Sources */,
 				F5B2EC8017F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m in Sources */,
 				F543E50B18EAB396008D7590 /* MHGalleryController.m in Sources */,
+				F560B3891973D43C00C5DC2C /* UIImageView+HighlightedWebCache.m in Sources */,
 				F5245DB018AA16D3004C6FFA /* SDWebImageDownloaderOperation.m in Sources */,
 				F58F65051880899200D3A8F9 /* MHShareViewController.m in Sources */,
 			);
@@ -922,8 +952,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mario Hahn (7P37QQ7XXD)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/mario_hahn/Documents/Development/MHGallery,
-					/Users/mario_hahn/Documents/Development/MHGallery/MHVideoPhotoGallery,
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -947,8 +975,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mario Hahn (7P37QQ7XXD)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/mario_hahn/Documents/Development/MHGallery,
-					/Users/mario_hahn/Documents/Development/MHGallery/MHVideoPhotoGallery,
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
