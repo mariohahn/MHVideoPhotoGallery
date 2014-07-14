@@ -77,7 +77,7 @@
     }];
     
     
-    [self.iv setImageWithURL:[NSURL URLWithString:landschaft.URLString]];
+    [self.iv sd_setImageWithURL:[NSURL URLWithString:landschaft.URLString]];
     [self.iv setUserInteractionEnabled:YES];
     
     self.iv.shoudlUsePanGestureReconizer = YES;
