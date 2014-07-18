@@ -416,7 +416,7 @@
     cellIdentifier = @"MHCollectionViewTableViewCell";
     
     MHCollectionViewTableViewCell *cell = (MHCollectionViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-
+    
     cell.backgroundColor = [UIColor clearColor];
     UICollectionViewFlowLayout *layout = UICollectionViewFlowLayout.new;
     layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
@@ -846,16 +846,13 @@
             }else if (item.image) {
                 [self addDataToDownloadArray:item.image];
             }else{
-                [SDWebImageManager.sharedManager downloadWithURL:[NSURL URLWithString:item.URLString]
-                                                         options:SDWebImageContinueInBackground
-                                                        progress:nil
-                                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                           
-                                                           MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString
-                                                                                                          image:image];
-                                                           
-                                                           [weakSelf addDataToDownloadArray:imageURL];
-                                                       }];
+                
+                [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:item.URLString] options:SDWebImageContinueInBackground progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                    
+                    MHImageURL *imageURLMH = [MHImageURL.alloc initWithURL:item.URLString
+                                                                     image:image];
+                    [weakSelf addDataToDownloadArray:imageURLMH];
+                }];
             }
         }
     }
@@ -936,6 +933,7 @@
 -(void)saveImages:(NSArray*)object{
     [self getAllImagesForSelectedRows:^(NSArray *images) {
         for (MHImageURL *dataURL in images) {
+            
             if ([dataURL.image isKindOfClass:[UIImage class]]) {
                 
                 UIImage *imageToStore = dataURL.image;

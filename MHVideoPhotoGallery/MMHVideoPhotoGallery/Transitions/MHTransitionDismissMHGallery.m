@@ -33,7 +33,7 @@
     
     MHGalleryController *fromViewController = (MHGalleryController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     [fromViewController view].alpha =0;
-
+    
     
     MHGalleryImageViewerViewController *imageViewer  = (MHGalleryImageViewerViewController*)fromViewController.visibleViewController;
     
@@ -54,7 +54,7 @@
     cellImageSnapshot.image = image;
     [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size,fromViewController.view.bounds)];
     cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
-
+    
     [imageViewer.pageViewController.view setHidden:YES];
     
     [toViewControllerNC view].frame = [transitionContext finalFrameForViewController:toViewControllerNC];
@@ -96,28 +96,28 @@
     double delayInSeconds = delayTime;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.transitionImageView.hidden = YES;
         
-        [UIView animateWithDuration:duration animations:^{
-            whiteView.alpha =0;
-            [toViewControllerNC view].alpha = 1;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.transitionImageView.hidden = YES;
             
-            cellImageSnapshot.frame =[containerView convertRect:self.transitionImageView.frame fromView:self.transitionImageView.superview];
+            [UIView animateWithDuration:duration animations:^{
+                whiteView.alpha =0;
+                [toViewControllerNC view].alpha = 1;
+                
+                cellImageSnapshot.frame =[containerView convertRect:self.transitionImageView.frame fromView:self.transitionImageView.superview];
+                
+                if (self.transitionImageView.contentMode == UIViewContentModeScaleAspectFit) {
+                    cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
+                }
+                if (self.transitionImageView.contentMode == UIViewContentModeScaleAspectFill) {
+                    cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
+                }
+            } completion:^(BOOL finished) {
+                self.transitionImageView.hidden = NO;
+                [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
+            }];
             
-            if (self.transitionImageView.contentMode == UIViewContentModeScaleAspectFit) {
-                cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
-            }
-            if (self.transitionImageView.contentMode == UIViewContentModeScaleAspectFill) {
-                cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
-            }
-        } completion:^(BOOL finished) {
-            self.transitionImageView.hidden = NO;
-            [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
-        }];
-        
-    });
+        });
     });
     
 }
@@ -268,7 +268,10 @@
         
         [UIView animateWithDuration:0.3 animations:^{
             MHStatusBar().alpha =1;
-
+            
+            self.cellImageSnapshot.clipsToBounds = self.transitionImageView.clipsToBounds;
+            self.cellImageSnapshot.layer.cornerRadius = self.transitionImageView.layer.cornerRadius;
+            
             if (self.moviePlayer) {
                 self.moviePlayer.view.frame = [self.containerView convertRect:self.transitionImageView.frame fromView:self.transitionImageView.superview];
             }else{
@@ -351,7 +354,7 @@
     fromViewController.view.transform = CGAffineTransformMakeRotation(self.startTransform);
     fromViewController.view.center = UIApplication.sharedApplication.keyWindow.center;
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
-       
+        
         NSData *decodedData = [NSData.alloc initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
         NSString *status = [NSString.alloc initWithData:decodedData encoding:NSUTF8StringEncoding];
         

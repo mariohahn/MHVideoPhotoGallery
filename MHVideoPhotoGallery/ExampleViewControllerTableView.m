@@ -85,7 +85,7 @@
     }
     MHGalleryItem *item = self.galleryDataSource[indexPath.row];
     if(item.galleryType == MHGalleryTypeImage){
-        [cell.iv setImageWithURL:[NSURL URLWithString:item.URLString]];
+        [cell.iv sd_setImageWithURL:[NSURL URLWithString:item.URLString]];
     }else{
         [[MHGallerySharedManager sharedManager] startDownloadingThumbImage:item.URLString
                                                               successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {

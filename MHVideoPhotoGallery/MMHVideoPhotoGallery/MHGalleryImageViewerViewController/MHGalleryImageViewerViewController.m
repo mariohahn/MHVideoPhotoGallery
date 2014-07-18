@@ -165,9 +165,11 @@
                                                                       action:@selector(sharePressed)];
     
     if (self.UICustomization.hideShare) {
+        
         self.shareBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                                                          target:self
-                                                                          action:nil];
+                                                                             target:self
+                                                                             action:nil];
+        self.shareBarButton.width = 30;
     }
     
     [self updateToolBarForItem:item];
@@ -376,8 +378,8 @@
                                                                         action:nil];
     
     UIBarButtonItem *fixed = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                                                        target:self
-                                                                        action:nil];
+                                                                         target:self
+                                                                         action:nil];
     fixed.width = 30;
     
     [self enableOrDisbaleBarbButtons];
@@ -434,9 +436,12 @@
     if (indexPage-1 == 0) {
         self.leftBarButton.enabled = NO;
     }
+    if (!imageViewController) {
+        return;
+    }
     
     __weak typeof(self) weakSelf = self;
-
+    
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
         weakSelf.pageIndex = imageViewController.pageIndex;
         [weakSelf updateToolBarForItem:[weakSelf itemForIndex:weakSelf.pageIndex]];
@@ -455,6 +460,10 @@
     if (indexPage+1 == self.numberOfGalleryItems-1) {
         self.rightBarButton.enabled = NO;
     }
+    if (!imageViewController) {
+        return;
+    }
+    
     __weak typeof(self) weakSelf = self;
     
     [self.pageViewController setViewControllers:@[imageViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
@@ -660,7 +669,7 @@
                 self.interactiveTransition = [MHTransitionDismissMHGallery new];
                 self.interactiveTransition.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
                 self.interactiveTransition.interactive = YES;
-               
+                
                 if (self.viewController.galleryViewController && self.viewController.galleryViewController.finishedCallback) {
                     self.viewController.galleryViewController.finishedCallback(self.pageIndex,self.imageView.image,self.interactiveTransition,self.viewController.viewModeForBarStyle);
                 }
@@ -830,7 +839,7 @@
         
         
         if (self.item.galleryType == MHGalleryTypeImage) {
-
+            
             
             [self.imageView setImageForMHGalleryItem:self.item imageType:MHImageTypeFull successBlock:^(UIImage *image, NSError *error) {
                 if (!image) {
@@ -1134,15 +1143,15 @@
     self.playingVideo =NO;
     
     [NSNotificationCenter.defaultCenter removeObserver:self
-                                                    name:MPMoviePlayerLoadStateDidChangeNotification
-                                                  object:self.moviePlayer];
+                                                  name:MPMoviePlayerLoadStateDidChangeNotification
+                                                object:self.moviePlayer];
     
     [NSNotificationCenter.defaultCenter removeObserver:self
-                                                    name:MPMoviePlayerPlaybackDidFinishNotification
-                                                  object:self.moviePlayer];
+                                                  name:MPMoviePlayerPlaybackDidFinishNotification
+                                                object:self.moviePlayer];
     [NSNotificationCenter.defaultCenter removeObserver:self
-                                                    name:MPMoviePlayerPlaybackStateDidChangeNotification
-                                                  object:self.moviePlayer];
+                                                  name:MPMoviePlayerPlaybackStateDidChangeNotification
+                                                object:self.moviePlayer];
     
     
     [self.moviePlayer stop];
@@ -1188,14 +1197,14 @@
     self.moviePlayer.contentURL = URL;
     
     [NSNotificationCenter.defaultCenter addObserver:self
-                                             selector:@selector(loadStateDidChange:)
-                                                 name:MPMoviePlayerLoadStateDidChangeNotification
-                                               object:self.moviePlayer];
+                                           selector:@selector(loadStateDidChange:)
+                                               name:MPMoviePlayerLoadStateDidChangeNotification
+                                             object:self.moviePlayer];
     
     [NSNotificationCenter.defaultCenter addObserver:self
-                                             selector:@selector(moviePlayBackDidFinish:)
-                                                 name:MPMoviePlayerPlaybackDidFinishNotification
-                                               object:self.moviePlayer];
+                                           selector:@selector(moviePlayBackDidFinish:)
+                                               name:MPMoviePlayerPlaybackDidFinishNotification
+                                             object:self.moviePlayer];
     
     self.moviePlayer.shouldAutoplay =NO;
     self.moviePlayer.view.frame = self.view.bounds;

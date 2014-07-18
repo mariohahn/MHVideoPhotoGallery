@@ -234,7 +234,7 @@
     gallery.galleryItems = galleryData;
     gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
-    
+    gallery.UICustomization.hideShare = YES;
     //  gallery.galleryDelegate = self;
     //  gallery.dataSource = self;
     __weak MHGalleryController *blockGallery = gallery;
