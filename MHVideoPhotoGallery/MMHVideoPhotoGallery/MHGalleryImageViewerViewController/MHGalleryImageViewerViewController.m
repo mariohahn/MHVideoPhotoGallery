@@ -385,7 +385,12 @@
     [self enableOrDisbaleBarbButtons];
     
     if (item.galleryType == MHGalleryTypeVideo) {
-        [self changeToPlayButton];
+        MHImageViewController *imageViewController = self.pageViewController.viewControllers.firstObject;
+        if (imageViewController.isPlayingVideo) {
+            [self changeToPauseButton];
+        }else{
+            [self changeToPlayButton];
+        }
         self.toolbar.items = @[self.shareBarButton,flex,self.leftBarButton,flex,self.playStopBarButton,flex,self.rightBarButton,flex,fixed];
     }else{
         self.toolbar.items =@[self.shareBarButton,flex,self.leftBarButton,flex,self.rightBarButton,flex,fixed];
@@ -669,6 +674,7 @@
                 self.interactiveTransition = [MHTransitionDismissMHGallery new];
                 self.interactiveTransition.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
                 self.interactiveTransition.interactive = YES;
+                self.interactiveTransition.moviePlayer = self.moviePlayer;
                 
                 if (self.viewController.galleryViewController && self.viewController.galleryViewController.finishedCallback) {
                     self.viewController.galleryViewController.finishedCallback(self.pageIndex,self.imageView.image,self.interactiveTransition,self.viewController.viewModeForBarStyle);
@@ -801,15 +807,15 @@
             self.videoProgressView.layer.borderWidth =0.5;
             self.videoProgressView.layer.borderColor =[UIColor colorWithWhite:0 alpha:0.3].CGColor;
             self.videoProgressView.trackTintColor =[UIColor clearColor];
-            self.videoProgressView.progressTintColor =[UIColor colorWithWhite:0 alpha:0.3];
+            self.videoProgressView.progressTintColor = [self.viewController.UICustomization.videoProgressTintColor colorWithAlphaComponent:0.3f];
             self.videoProgressView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
             [self.moviePlayerToolBarTop addSubview:self.videoProgressView];
             
             self.slider = [UISlider.alloc initWithFrame:CGRectMake(55, 0, self.view.frame.size.width-110, 44)];
             self.slider.maximumValue =10;
             self.slider.minimumValue =0;
-            self.slider.minimumTrackTintColor=[UIColor blackColor];
-            self.slider.maximumTrackTintColor =[UIColor clearColor];
+            self.slider.minimumTrackTintColor = self.viewController.UICustomization.videoProgressTintColor;
+            self.slider.maximumTrackTintColor = [self.viewController.UICustomization.videoProgressTintColor colorWithAlphaComponent:0.2f];
             [self.slider setThumbImage:MHGalleryImage(@"sliderPoint") forState:UIControlStateNormal];
             [self.slider addTarget:self action:@selector(sliderDidChange:) forControlEvents:UIControlEventValueChanged];
             [self.slider addTarget:self action:@selector(sliderDidDragExit:) forControlEvents:UIControlEventTouchUpInside];
@@ -818,13 +824,15 @@
             
             self.leftSliderLabel = [UILabel.alloc initWithFrame:CGRectMake(8, 0, 40, 43)];
             self.leftSliderLabel.font =[UIFont systemFontOfSize:14];
-            self.leftSliderLabel.text =@"00:00";
+            self.leftSliderLabel.text = @"00:00";
+            self.leftSliderLabel.textColor = self.viewController.UICustomization.videoProgressTintColor;
             [self.moviePlayerToolBarTop addSubview:self.leftSliderLabel];
             
             self.rightSliderLabel = [UILabel.alloc initWithFrame:CGRectZero];
             self.rightSliderLabel.frame = CGRectMake(self.viewController.view.frame.size.width-50, 0, 50, 43);
             self.rightSliderLabel.font = [UIFont systemFontOfSize:14];
             self.rightSliderLabel.text = @"-00:00";
+            self.rightSliderLabel.textColor = self.viewController.UICustomization.videoProgressTintColor;
             self.rightSliderLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
             [self.moviePlayerToolBarTop addSubview:self.rightSliderLabel];
             
@@ -891,16 +899,28 @@
     
     __weak typeof(self) weakSelf = self;
     
-    if (!self.moviePlayer && self.item.galleryType == MHGalleryTypeVideo) {
+    if (self.item.galleryType == MHGalleryTypeVideo) {
+        if (self.moviePlayer) {
+            [weakSelf autoPlayVideo];
+            return;
+        }
         [[MHGallerySharedManager sharedManager] getURLForMediaPlayer:self.item.URLString successBlock:^(NSURL *URL, NSError *error) {
-            if (error) {
+            if (error || URL == nil) {
                 [weakSelf changePlayButtonToUnPlay];
             }else{
                 [weakSelf addMoviePlayerToViewWithURL:URL];
+                [weakSelf autoPlayVideo];
             }
         }];
     }
 }
+
+-(void)autoPlayVideo{
+    if (self.viewController.galleryViewController.autoplayVideos){
+        [self playButtonPressed];
+    }
+}
+
 
 -(void)handleGeneratedThumb:(UIImage*)image
               videoDuration:(NSInteger)videoDuration
@@ -1340,6 +1360,11 @@
 
 -(void)handelImageTap:(UIGestureRecognizer *)gestureRecognizer{
     if (!self.viewController.isHiddingToolBarAndNavigationBar) {
+        CGPoint tappedLocation = [gestureRecognizer locationInView:self.view];
+        if (CGRectContainsPoint(self.moviePlayerToolBarTop.frame, tappedLocation)) {
+             return;
+        }
+        
         [UIView animateWithDuration:0.3 animations:^{
             
             if (self.moviePlayerToolBarTop) {

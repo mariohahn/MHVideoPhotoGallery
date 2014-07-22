@@ -15,6 +15,8 @@
     if (!self)
         return nil;
     
+    self.autoplayVideos = NO;
+
     self.preferredStatusBarStyleMH = UIStatusBarStyleDefault;
     self.presentationStyle = presentationStyle;
     self.transitionCustomization = MHTransitionCustomization.new;

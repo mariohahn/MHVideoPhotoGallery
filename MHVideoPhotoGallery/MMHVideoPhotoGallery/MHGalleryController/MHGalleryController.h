@@ -46,6 +46,7 @@
 /**
  *  From which index you want to present the Gallery.
  */
+@property (nonatomic,assign) BOOL                               autoplayVideos;
 @property (nonatomic,assign) NSInteger                          presentationIndex;
 @property (nonatomic,strong) UIImageView                        *presentingFromImageView;
 @property (nonatomic,strong) MHGalleryImageViewerViewController *imageViewerViewController;

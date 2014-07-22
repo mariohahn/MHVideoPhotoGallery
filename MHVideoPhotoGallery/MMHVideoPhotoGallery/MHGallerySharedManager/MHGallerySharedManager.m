@@ -98,16 +98,19 @@
             
             AVAssetImageGeneratorCompletionHandler handler = ^(CMTime requestedTime, CGImageRef im, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error){
                 
-                if (result != AVAssetImageGeneratorSucceeded) {
+                if (result != AVAssetImageGeneratorSucceeded || im == nil) {
                     dispatch_async(dispatch_get_main_queue(), ^(void){
                         succeedBlock(nil,0,error);
                     });
                 }else{
-                    [[SDImageCache sharedImageCache] storeImage:[UIImage imageWithCGImage:im]
-                                                         forKey:urlString];
-                    dispatch_async(dispatch_get_main_queue(), ^(void){
-                        succeedBlock([UIImage imageWithCGImage:im],videoDurationTimeInSeconds,nil);
-                    });
+                    UIImage *image = [UIImage imageWithCGImage:im];
+                    if (image != nil) {
+                        [SDImageCache.sharedImageCache storeImage:image
+                                                             forKey:urlString];
+                        dispatch_async(dispatch_get_main_queue(), ^(void){
+                            succeedBlock(image,videoDurationTimeInSeconds,nil);
+                        });
+                    }
                 }
             };
             if (self.webThumbQuality == MHWebThumbQualityHD720) {
@@ -124,15 +127,15 @@
 }
 
 -(NSString*)languageIdentifier{
-	static NSString *applicationLanguageIdentifier;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		applicationLanguageIdentifier = @"en";
-		NSArray *preferredLocalizations = NSBundle.mainBundle.preferredLocalizations;
-		if (preferredLocalizations.count > 0)
-			applicationLanguageIdentifier = [NSLocale canonicalLanguageIdentifierFromString:preferredLocalizations[0]] ?: applicationLanguageIdentifier;
-	});
-	return applicationLanguageIdentifier;
+    static NSString *applicationLanguageIdentifier;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        applicationLanguageIdentifier = @"en";
+        NSArray *preferredLocalizations = NSBundle.mainBundle.preferredLocalizations;
+        if (preferredLocalizations.count > 0)
+            applicationLanguageIdentifier = [NSLocale canonicalLanguageIdentifierFromString:preferredLocalizations[0]] ?: applicationLanguageIdentifier;
+    });
+    return applicationLanguageIdentifier;
 }
 
 -(void)getYoutubeURLforMediaPlayer:(NSString*)URL
@@ -159,26 +162,26 @@
 }
 
 - (NSURL *)getYoutubeURLWithData:(NSData *)data{
-	NSString *videoData = [NSString.alloc initWithData:data encoding:NSASCIIStringEncoding];
+    NSString *videoData = [NSString.alloc initWithData:data encoding:NSASCIIStringEncoding];
     
-	NSDictionary *video = MHDictionaryForQueryString(videoData);
-	NSArray *videoURLS = [video[@"url_encoded_fmt_stream_map"] componentsSeparatedByString:@","];
-	NSMutableDictionary *streamURLs = NSMutableDictionary.new;
-	for (NSString *videoURL in videoURLS){
-		NSDictionary *stream = MHDictionaryForQueryString(videoURL);
-		NSString *typeString = stream[@"type"];
-		NSString *urlString = stream[@"url"];
+    NSDictionary *video = MHDictionaryForQueryString(videoData);
+    NSArray *videoURLS = [video[@"url_encoded_fmt_stream_map"] componentsSeparatedByString:@","];
+    NSMutableDictionary *streamURLs = NSMutableDictionary.new;
+    for (NSString *videoURL in videoURLS){
+        NSDictionary *stream = MHDictionaryForQueryString(videoURL);
+        NSString *typeString = stream[@"type"];
+        NSString *urlString = stream[@"url"];
         if (urlString && [AVURLAsset isPlayableExtendedMIMEType:typeString]) {
             NSURL *streamURL = [NSURL URLWithString:urlString];
-			NSString *sig = stream[@"sig"];
-			if (sig){
-				streamURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@&signature=%@", urlString, sig]];
+            NSString *sig = stream[@"sig"];
+            if (sig){
+                streamURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@&signature=%@", urlString, sig]];
             }
             if ([[MHDictionaryForQueryString(streamURL.query) allKeys] containsObject:@"signature"]){
-				streamURLs[@([stream[@"itag"] integerValue])] = streamURL;
+                streamURLs[@([stream[@"itag"] integerValue])] = streamURL;
             }
         }
-	}
+    }
     if (self.youtubeVideoQuality == MHYoutubeVideoQualityHD720) {
         if (streamURLs[@(22)]) {
             return streamURLs[@(22)];
@@ -196,7 +199,7 @@
         }
     }
     
-	return nil;
+    return nil;
 }
 
 -(void)getURLForMediaPlayer:(NSString*)URLString

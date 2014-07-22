@@ -30,6 +30,7 @@ typedef NS_ENUM(NSUInteger, MHBackButtonState) {
 @property (nonatomic)        UIBarStyle barStyle;
 @property (nonatomic,strong) UIColor *barTintColor;
 @property (nonatomic,strong) UIColor *barButtonsTintColor;
+@property (nonatomic,strong) UIColor *videoProgressTintColor;
 
 @property (nonatomic)        BOOL showMHShareViewInsteadOfActivityViewController;
 @property (nonatomic)        BOOL hideShare;

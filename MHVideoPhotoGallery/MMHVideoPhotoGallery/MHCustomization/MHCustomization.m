@@ -37,6 +37,8 @@
         self.showOverView = YES;
         self.hideShare = NO;
         self.backButtonState = MHBackButtonStateWithBackArrow;
+        self.videoProgressTintColor = UIColor.blackColor;
+        
         self.backgroundColorsForViewModes = [NSMutableDictionary  dictionaryWithDictionary:@{@"0":UIColor.blackColor,
                                                                                              @"1":UIColor.whiteColor,
                                                                                              @"2":UIColor.whiteColor}];
