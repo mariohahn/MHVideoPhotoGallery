@@ -441,7 +441,7 @@
                         string = [string stringByReplacingOccurrencesOfString:@"&feature=youtube_gdata" withString:@""];
                         MHGalleryItem *item = [MHGalleryItem itemWithURL:string galleryType:MHGalleryTypeVideo];
                         if (withTitle) {
-                            item.description = dictionary[@"title"][@"$t"];
+                            item.descriptionString = dictionary[@"title"][@"$t"];
                         }
                         [galleryData addObject:item];
                     }

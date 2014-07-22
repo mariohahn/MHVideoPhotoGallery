@@ -57,7 +57,7 @@
                                    }
                                    
                                    if(![dictionary[@"caption"] isKindOfClass:NSNull.class]){
-                                       item.description = dictionary[@"caption"][@"text"];
+                                       item.descriptionString = dictionary[@"caption"][@"text"];
                                        
                                    }
                                    

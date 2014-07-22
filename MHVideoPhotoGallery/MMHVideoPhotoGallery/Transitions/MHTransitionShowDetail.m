@@ -23,7 +23,7 @@
 @implementation MHTransitionShowDetail
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
-
+    
     MHOverviewController *fromViewController = (MHOverviewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     MHGalleryImageViewerViewController *toViewController = (MHGalleryImageViewerViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *containerView = [transitionContext containerView];
@@ -69,14 +69,13 @@
     [containerView addSubview:tb];
     [containerView addSubview:descriptionLabel];
     
+    [cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFit
+                                forFrame:CGRectMake(0, 0, toViewController.view.frame.size.width, toViewController.view.frame.size.height)
+                            withDuration:duration
+                              afterDelay:0
+                                finished:nil];
     
     [UIView animateWithDuration:duration animations:^{
-        
-        [cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFit
-                                    forFrame:CGRectMake(0, 0, toViewController.view.frame.size.width, toViewController.view.frame.size.height)
-                                withDuration:0 afterDelay:0 finished:^(BOOL finished) {
-                                    
-                                }];
         
         toViewController.view.alpha = 1.0;
         tb.alpha = 1.0;
@@ -266,7 +265,6 @@
             }];
         }];
     }];
-    
 }
 
 -(void)updateInteractiveTransition:(CGFloat)percentComplete{

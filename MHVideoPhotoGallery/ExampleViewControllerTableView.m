@@ -93,7 +93,7 @@
                                                               }];
     }
         
-    cell.labelText.text = item.description;
+    cell.labelText.text = item.descriptionString;
 
     return cell;
 }

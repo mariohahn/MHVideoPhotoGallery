@@ -56,7 +56,9 @@
                 [self animateToScaleAspectFill];
             } completion:^(BOOL finished) {
                 [self animateFinishToScaleAspectFill];
-                finishedBlock(YES);
+                if(finishedBlock){
+                    finishedBlock(YES);
+                }
             }];
         }
             break;
@@ -65,7 +67,10 @@
             [UIView animateWithDuration:duration animations:^{
                 [self animateToScaleAspectFit];
             } completion:^(BOOL finished) {
-                finishedBlock(YES);
+                if(finishedBlock){
+                    finishedBlock(YES);
+                }
+                    
                 
             }];
         }

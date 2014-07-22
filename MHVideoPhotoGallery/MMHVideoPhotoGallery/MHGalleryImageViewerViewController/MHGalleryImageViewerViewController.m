@@ -178,7 +178,7 @@
     self.descriptionView = [UITextView.alloc initWithFrame:CGRectZero];
     self.descriptionView.backgroundColor = [UIColor clearColor];
     self.descriptionView.font = [UIFont systemFontOfSize:15];
-    self.descriptionView.text = item.description;
+    self.descriptionView.text = item.descriptionString;
     self.descriptionView.textColor = [UIColor blackColor];
     self.descriptionView.scrollEnabled = NO;
     self.descriptionView.userInteractionEnabled = NO;
@@ -290,7 +290,7 @@
 -(void)updateDescriptionLabelForIndex:(NSInteger)index{
     if (index < self.numberOfGalleryItems) {
         MHGalleryItem *item = [self itemForIndex:index];
-        self.descriptionView.text = item.description;
+        self.descriptionView.text = item.descriptionString;
         
         if (item.attributedString) {
             self.descriptionView.attributedText = item.attributedString;
