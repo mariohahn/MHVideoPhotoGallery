@@ -88,7 +88,6 @@
                                                                     weakSelf.thumbnail.backgroundColor = UIColor.whiteColor;
                                                                     weakSelf.thumbnail.image = MHGalleryImage(@"error");
                                                                 }else{
-                                                                    
                                                                     weakSelf.videoDurationLength.text  = [MHGallerySharedManager stringForMinutesAndSeconds:videoDuration addMinus:NO];
                                                                     
                                                                     weakSelf.thumbnail.image = image;
