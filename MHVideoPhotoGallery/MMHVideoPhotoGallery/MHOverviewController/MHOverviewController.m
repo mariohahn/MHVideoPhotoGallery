@@ -96,9 +96,10 @@
 
 -(void)donePressed{
     self.navigationController.transitioningDelegate = nil;
-    
-    if (self.galleryViewController && self.galleryViewController.finishedCallback) {
-        self.galleryViewController.finishedCallback(0,nil,nil,MHGalleryViewModeOverView);
+
+    MHGalleryController *galleryViewController = [self galleryViewController];
+    if (galleryViewController.finishedCallback) {
+        galleryViewController.finishedCallback(0,nil,nil,MHGalleryViewModeOverView);
     }
 }
 
