@@ -19,31 +19,6 @@ Weblinks (.mov, .mp4, .mpv)
 ```ruby
 DE,EN,ES,FR,HR
 ```
-##UI Customization
-```objective-c
-@property (nonatomic)        UIBarStyle barStyle; //Default UIBarStyleDefault
-@property (nonatomic,strong) UIColor *barTintColor; //Default nil
-@property (nonatomic,strong) UIColor *barButtonsTintColor; //Default nil
-@property (nonatomic,strong) UIColor *videoProgressTintColor; //Default Black
-@property (nonatomic)        BOOL showMHShareViewInsteadOfActivityViewController; //Default YES
-@property (nonatomic)        BOOL hideShare; //Default NO
-@property (nonatomic)        BOOL useCustomBackButtonImageOnImageViewer; //Default YES
-@property (nonatomic)        BOOL showOverView; //Default YES
-@property (nonatomic)        MHBackButtonState backButtonState; //Default MHBackButtonStateWithBackArrow
-
-@property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutLandscape;
-@property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutPortrait;
-
--(void)setMHGalleryBackgroundColor:(UIColor*)color forViewMode:(MHGalleryViewMode)viewMode;
--(UIColor*)MHGalleryBackgroundColorForViewMode:(MHGalleryViewMode)viewMode;
-```
-
-##Transition Customization
-```objective-c
-@property (nonatomic)       BOOL interactiveDismiss; //Default YES
-@property (nonatomic)       BOOL dismissWithScrollGestureOnFirstAndLastImage;//Default YES
-@property (nonatomic)       BOOL fixXValueForDismiss; //Default NO
-```
 ##MHGalleryItem 
 ```objective-c
 + (instancetype)itemWithURL:(NSString *)URLString thumbnailURL:(NSString*)thumbnailURL; //Thumbs are automatically generated for Videos. But you can set Thumb Images for GalleryTypeImage.
@@ -74,6 +49,33 @@ DE,EN,ES,FR,HR
 
 @property (nonatomic, copy) void (^finishedCallback)(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode);
 
+```
+
+
+##UI Customization
+```objective-c
+@property (nonatomic)        UIBarStyle barStyle; //Default UIBarStyleDefault
+@property (nonatomic,strong) UIColor *barTintColor; //Default nil
+@property (nonatomic,strong) UIColor *barButtonsTintColor; //Default nil
+@property (nonatomic,strong) UIColor *videoProgressTintColor; //Default Black
+@property (nonatomic)        BOOL showMHShareViewInsteadOfActivityViewController; //Default YES
+@property (nonatomic)        BOOL hideShare; //Default NO
+@property (nonatomic)        BOOL useCustomBackButtonImageOnImageViewer; //Default YES
+@property (nonatomic)        BOOL showOverView; //Default YES
+@property (nonatomic)        MHBackButtonState backButtonState; //Default MHBackButtonStateWithBackArrow
+
+@property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutLandscape;
+@property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutPortrait;
+
+-(void)setMHGalleryBackgroundColor:(UIColor*)color forViewMode:(MHGalleryViewMode)viewMode;
+-(UIColor*)MHGalleryBackgroundColorForViewMode:(MHGalleryViewMode)viewMode;
+```
+
+##Transition Customization
+```objective-c
+@property (nonatomic)       BOOL interactiveDismiss; //Default YES
+@property (nonatomic)       BOOL dismissWithScrollGestureOnFirstAndLastImage;//Default YES
+@property (nonatomic)       BOOL fixXValueForDismiss; //Default NO
 ```
 
 ##Usage
