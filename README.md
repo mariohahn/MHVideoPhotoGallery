@@ -137,6 +137,12 @@ gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransition
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/OverView.gif)
 
+## Donating
+
+Support this project via gittip.
+<a href="https://www.gittip.com/mariohahn/">
+  <img alt="Support via Gittip" src="https://rawgithub.com/twolfson/gittip-badge/0.2.0/dist/gittip.png"/>
+</a>
 
 	
 
