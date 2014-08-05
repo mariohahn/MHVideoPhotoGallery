@@ -15,6 +15,36 @@ Youtube
 Vimeo
 Weblinks (.mov, .mp4, .mpv)
 ```
+####Supported Languages
+```ruby
+DE,EN,ES,FR,HR
+```
+####UI Customization
+```objective-c
+@property (nonatomic)        UIBarStyle barStyle; //Default UIBarStyleDefault
+@property (nonatomic,strong) UIColor *barTintColor; //Default nil
+@property (nonatomic,strong) UIColor *barButtonsTintColor; //Default nil
+@property (nonatomic,strong) UIColor *videoProgressTintColor; //Default Black
+@property (nonatomic)        BOOL showMHShareViewInsteadOfActivityViewController; //Default YES
+@property (nonatomic)        BOOL hideShare; //Default NO
+@property (nonatomic)        BOOL useCustomBackButtonImageOnImageViewer; //Default YES
+@property (nonatomic)        BOOL showOverView; //Default YES
+@property (nonatomic)        MHBackButtonState backButtonState; //Default MHBackButtonStateWithBackArrow
+
+@property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutLandscape;
+@property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutPortrait;
+
+-(void)setMHGalleryBackgroundColor:(UIColor*)color forViewMode:(MHGalleryViewMode)viewMode;
+-(UIColor*)MHGalleryBackgroundColorForViewMode:(MHGalleryViewMode)viewMode;
+```
+
+####Transition Customization
+```objective-c
+@property (nonatomic)       BOOL interactiveDismiss;
+@property (nonatomic)       BOOL dismissWithScrollGestureOnFirstAndLastImage;
+@property (nonatomic)       BOOL fixXValueForDismiss;
+```
+
 ####Dismiss Video (Like Paper App)
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissInteractiveVideo.gif)
