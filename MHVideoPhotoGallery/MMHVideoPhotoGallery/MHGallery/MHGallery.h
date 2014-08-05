@@ -20,7 +20,6 @@
 
 #import "SDWebImageDecoder.h"
 #import "SDImageCache.h"
-#import "UIImageView+WebCache.h"
 
 #define MHISIPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 #define kMHGalleryBundleName @"MHGallery.bundle"
