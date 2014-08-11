@@ -1059,7 +1059,9 @@
     [self.view bringSubviewToFront:self.moviePlayer.view];
     
     self.moviewPlayerButtonBehinde = [UIButton.alloc initWithFrame:self.view.bounds];
-    [self.moviewPlayerButtonBehinde addTarget:self action:@selector(handelImageTap:) forControlEvents:UIControlEventTouchUpInside];
+    UITapGestureRecognizer *imageTap =[UITapGestureRecognizer.alloc initWithTarget:self action:@selector(handelImageTap:)];
+    imageTap.numberOfTapsRequired =1;
+    [self.moviewPlayerButtonBehinde addGestureRecognizer:imageTap];
     self.moviewPlayerButtonBehinde.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     
     [self.view bringSubviewToFront:self.scrollView];
@@ -1362,9 +1364,11 @@
 
 -(void)handelImageTap:(UIGestureRecognizer *)gestureRecognizer{
     if (!self.viewController.isHiddingToolBarAndNavigationBar) {
-        CGPoint tappedLocation = [gestureRecognizer locationInView:self.view];
-        if (CGRectContainsPoint(self.moviePlayerToolBarTop.frame, tappedLocation)) {
-             return;
+        if ([gestureRecognizer isKindOfClass:[UIGestureRecognizer class]]) {
+            CGPoint tappedLocation = [gestureRecognizer locationInView:self.view];
+            if (CGRectContainsPoint(self.moviePlayerToolBarTop.frame, tappedLocation)) {
+                return;
+            }
         }
         
         [UIView animateWithDuration:0.3 animations:^{
