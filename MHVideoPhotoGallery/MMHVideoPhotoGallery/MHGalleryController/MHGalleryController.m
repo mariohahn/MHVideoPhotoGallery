@@ -8,6 +8,7 @@
 
 #import "MHGalleryController.h"
 
+
 @implementation MHGalleryController
 
 - (id)initWithPresentationStyle:(MHGalleryViewMode)presentationStyle{

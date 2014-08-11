@@ -43,26 +43,14 @@
 
 @property (nonatomic,assign) id<MHGalleryDelegate>              galleryDelegate;
 @property (nonatomic,assign) id<MHGalleryDataSource>            dataSource;
-/**
- *  From which index you want to present the Gallery.
- */
-@property (nonatomic,assign) BOOL                               autoplayVideos;
-@property (nonatomic,assign) NSInteger                          presentationIndex;
+@property (nonatomic,assign) BOOL                               autoplayVideos; //Default NO
+@property (nonatomic,assign) NSInteger                          presentationIndex; //From which index you want to present the Gallery.
 @property (nonatomic,strong) UIImageView                        *presentingFromImageView;
 @property (nonatomic,strong) MHGalleryImageViewerViewController *imageViewerViewController;
 @property (nonatomic,strong) MHOverviewController               *overViewViewController;
-/**
- *  You can set an Array of GalleryItems or you can use the dataSource.
- */
-@property (nonatomic,strong) NSArray                            *galleryItems;
-/**
- *  Use transitionCustomization to Customize the GalleryControllers transitions
- */
-@property (nonatomic,strong) MHTransitionCustomization          *transitionCustomization;
-/**
- *  Use UICustomization to Customize the GalleryControllers UI
- */
-@property (nonatomic,strong) MHUICustomization                  *UICustomization;
+@property (nonatomic,strong) NSArray                            *galleryItems; //You can set an Array of GalleryItems or you can use the dataSource.
+@property (nonatomic,strong) MHTransitionCustomization          *transitionCustomization; //Use transitionCustomization to Customize the GalleryControllers transitions
+@property (nonatomic,strong) MHUICustomization                  *UICustomization; //Use UICustomization to Customize the GalleryControllers UI
 @property (nonatomic,strong) MHTransitionPresentMHGallery       *interactivePresentationTransition;
 @property (nonatomic,assign) MHGalleryViewMode                  presentationStyle;
 @property (nonatomic,assign) UIStatusBarStyle                   preferredStatusBarStyleMH;

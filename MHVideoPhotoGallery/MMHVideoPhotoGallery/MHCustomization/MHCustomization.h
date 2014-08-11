@@ -19,24 +19,23 @@ typedef NS_ENUM(NSUInteger, MHBackButtonState) {
 };
 
 @interface MHTransitionCustomization : NSObject
-@property (nonatomic)       BOOL interactiveDismiss;
-@property (nonatomic)       BOOL dismissWithScrollGestureOnFirstAndLastImage;
-@property (nonatomic)       BOOL fixXValueForDismiss;
+@property (nonatomic)       BOOL interactiveDismiss; //Default YES
+@property (nonatomic)       BOOL dismissWithScrollGestureOnFirstAndLastImage;//Default YES
+@property (nonatomic)       BOOL fixXValueForDismiss; //Default NO
 @end
 
 
 @interface MHUICustomization : NSObject
 
-@property (nonatomic)        UIBarStyle barStyle;
-@property (nonatomic,strong) UIColor *barTintColor;
-@property (nonatomic,strong) UIColor *barButtonsTintColor;
-@property (nonatomic,strong) UIColor *videoProgressTintColor;
-
-@property (nonatomic)        BOOL showMHShareViewInsteadOfActivityViewController;
-@property (nonatomic)        BOOL hideShare;
-@property (nonatomic)        BOOL useCustomBackButtonImageOnImageViewer;
-@property (nonatomic)        BOOL showOverView;
-@property (nonatomic)        MHBackButtonState backButtonState;
+@property (nonatomic)        UIBarStyle barStyle; //Default UIBarStyleDefault
+@property (nonatomic,strong) UIColor *barTintColor; //Default nil
+@property (nonatomic,strong) UIColor *barButtonsTintColor; //Default nil
+@property (nonatomic,strong) UIColor *videoProgressTintColor; //Default Black
+@property (nonatomic)        BOOL showMHShareViewInsteadOfActivityViewController; //Default YES
+@property (nonatomic)        BOOL hideShare; //Default NO
+@property (nonatomic)        BOOL useCustomBackButtonImageOnImageViewer; //Default YES
+@property (nonatomic)        BOOL showOverView; //Default YES
+@property (nonatomic)        MHBackButtonState backButtonState; //Default MHBackButtonStateWithBackArrow
 
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutLandscape;
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutPortrait;
