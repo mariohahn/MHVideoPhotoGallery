@@ -8,6 +8,7 @@
 
 #import "ExampleViewControllerTableView.h"
 #import "MHOverviewController.h"
+#import "UIImageView+WebCache.h"
 
 @implementation ImageTableViewCell
 
@@ -24,7 +25,7 @@
     [super viewDidLoad];
     
     self.title = @"TableView";
-
+    
     
     MHGalleryItem *youtube = [[MHGalleryItem alloc]initWithURL:@"http://www.youtube.com/watch?v=YSdJtNen-EA"
                                                    galleryType:MHGalleryTypeVideo];
@@ -68,11 +69,11 @@
     
     MHGalleryItem *landschaft10 = [[MHGalleryItem alloc]initWithURL:@"http://4.bp.blogspot.com/-8O0ZkAgb6Bo/Ulf_80tUN6I/AAAAAAAAH34/I1L2lKjzE9M/s1600/Beautiful-Scenery-Wallpapers.jpg"
                                                         galleryType:MHGalleryTypeImage];
-
+    
     
     
     self.galleryDataSource = @[landschaft,landschaft1,landschaft2,landschaft3,landschaft4,landschaft5,vimeo0,vimeo1,vimeo3,landschaft6,landschaft7,youtube,landschaft8,landschaft9,landschaft10];
-
+    
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cellIdentifier = nil;
@@ -92,15 +93,15 @@
                                                                   cell.iv.image = image;
                                                               }];
     }
-        
+    
     cell.labelText.text = item.descriptionString;
-
+    
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     UIImageView *imageView = [(ImageTableViewCell*)[tableView cellForRowAtIndexPath:indexPath] iv];
-        
+    
     NSArray *galleryData = self.galleryDataSource;
     
     
@@ -121,13 +122,13 @@
             UIImageView *imageView = [(ImageTableViewCell*)[self.tableView cellForRowAtIndexPath:newIndex] iv];
             [blockGallery dismissViewControllerAnimated:YES dismissImageView:imageView completion:nil];
         });
-
+        
     };
     
     [self presentMHGalleryController:gallery animated:YES completion:nil];
     
     
-
+    
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

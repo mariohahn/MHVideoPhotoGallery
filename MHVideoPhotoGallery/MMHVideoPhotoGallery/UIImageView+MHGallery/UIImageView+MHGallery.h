@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @class MHGalleryItem;
 
 typedef NS_ENUM(NSUInteger, MHImageType) {
