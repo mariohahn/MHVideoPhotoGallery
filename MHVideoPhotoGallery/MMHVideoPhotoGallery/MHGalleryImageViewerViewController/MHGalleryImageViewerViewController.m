@@ -1362,9 +1362,11 @@
 
 -(void)handelImageTap:(UIGestureRecognizer *)gestureRecognizer{
     if (!self.viewController.isHiddingToolBarAndNavigationBar) {
-        CGPoint tappedLocation = [gestureRecognizer locationInView:self.view];
-        if (CGRectContainsPoint(self.moviePlayerToolBarTop.frame, tappedLocation)) {
-             return;
+        if ([gestureRecognizer respondsToSelector:@selector(locationInView:)]) {
+            CGPoint tappedLocation = [gestureRecognizer locationInView:self.view];
+            if (CGRectContainsPoint(self.moviePlayerToolBarTop.frame, tappedLocation)) {
+                return;
+            }
         }
         
         [UIView animateWithDuration:0.3 animations:^{
