@@ -214,7 +214,7 @@
 -(void)updateInteractiveTransition:(CGFloat)percentComplete{
     [super updateInteractiveTransition:percentComplete];
     self.backView.alpha = 1.1-percentComplete;
-    if (self.moviePlayer) {
+    if (self.moviePlayer.playbackState != MPMoviePlaybackStateStopped && self.moviePlayer.playbackState != MPMoviePlaybackStatePaused) {
         if (self.toTransform != self.orientationTransformBeforeDismiss) {
             if (self.orientationTransformBeforeDismiss <0) {
                 self.moviePlayer.view.center = CGPointMake(self.moviePlayer.view.center.x-self.changedPoint.y, self.moviePlayer.view.center.y+self.changedPoint.x);
