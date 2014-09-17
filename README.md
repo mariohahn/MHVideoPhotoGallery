@@ -17,7 +17,7 @@ Weblinks (.mov, .mp4, .mpv)
 ```
 ##Supported Languages
 ```ruby
-DE,EN,ES,FR,HR
+DE,EN,ES,FR,HR,IT
 ```
 ##MHGalleryItem 
 ```objective-c
