@@ -32,6 +32,7 @@
         self.barButtonsTintColor = nil;
         self.barStyle = UIBarStyleDefault;
         self.barTintColor = nil;
+		self.descriptionLabelTextColor = nil;
 		self.showMHShareViewInsteadOfActivityViewController = YES;
         self.useCustomBackButtonImageOnImageViewer = YES;
         self.showOverView = YES;
