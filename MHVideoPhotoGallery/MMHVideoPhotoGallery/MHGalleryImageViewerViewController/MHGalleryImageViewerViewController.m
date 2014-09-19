@@ -16,7 +16,6 @@
 @end
 
 @interface MHGalleryImageViewerViewController()
-@property (nonatomic, strong) UIActivityViewController *activityViewController;
 @property (nonatomic, strong) UIBarButtonItem          *shareBarButton;
 @property (nonatomic, strong) UIBarButtonItem          *leftBarButton;
 @property (nonatomic, strong) UIBarButtonItem          *rightBarButton;
@@ -284,6 +283,10 @@
     }else{
         UIActivityViewController *act = [UIActivityViewController.alloc initWithActivityItems:@[[(MHImageViewController*)self.pageViewController.viewControllers.firstObject imageView].image] applicationActivities:nil];
         [self presentViewController:act animated:YES completion:nil];
+        
+        if ([act respondsToSelector:@selector(popoverPresentationController)]) {
+            act.popoverPresentationController.barButtonItem = self.shareBarButton;
+        }
         
     }
 }
