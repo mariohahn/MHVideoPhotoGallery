@@ -796,7 +796,7 @@
         if (self.item.galleryType != MHGalleryTypeImage) {
             [self addPlayButtonToView];
             
-            self.moviePlayerToolBarTop = [UIToolbar.alloc initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 44)];
+            self.moviePlayerToolBarTop = [UIToolbar.alloc initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44)];
             self.moviePlayerToolBarTop.autoresizingMask =UIViewAutoresizingFlexibleWidth;
             self.moviePlayerToolBarTop.alpha =0;
             self.moviePlayerToolBarTop.barTintColor = self.viewController.UICustomization.barTintColor;
@@ -1334,10 +1334,10 @@
             }
         }
         
-        self.moviePlayerToolBarTop.frame =CGRectMake(0,64, self.view.frame.size.width, 44);
+        self.moviePlayerToolBarTop.frame =CGRectMake(0,44+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44);
         if (!MHISIPAD) {
             if (UIApplication.sharedApplication.statusBarOrientation != UIInterfaceOrientationPortrait) {
-                self.moviePlayerToolBarTop.frame =CGRectMake(0,52, self.view.frame.size.width, 44);
+                self.moviePlayerToolBarTop.frame =CGRectMake(0,32+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44);
             }
         }
     }
@@ -1462,7 +1462,7 @@
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                         duration:(NSTimeInterval)duration{
     if (self.moviePlayerToolBarTop) {
-        self.moviePlayerToolBarTop.frame = CGRectMake(0, self.navigationController.navigationBar.bounds.size.height+20, self.view.frame.size.width,44);
+        self.moviePlayerToolBarTop.frame = CGRectMake(0, self.navigationController.navigationBar.bounds.size.height+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width,44);
         self.leftSliderLabel.frame = CGRectMake(8, 0, 40, 43);
         self.rightSliderLabel.frame = CGRectMake(self.view.frame.size.width-20, 0, 50, 43);
     }
