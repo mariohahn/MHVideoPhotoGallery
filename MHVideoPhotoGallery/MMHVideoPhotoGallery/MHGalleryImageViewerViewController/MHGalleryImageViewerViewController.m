@@ -438,6 +438,10 @@
     self.rightBarButton.enabled = YES;
     
     MHImageViewController *theCurrentViewController = self.pageViewController.viewControllers.firstObject;
+    if (theCurrentViewController.moviePlayer) {
+        [theCurrentViewController removeAllMoviePlayerViewsAndNotifications];
+    }
+
     NSUInteger indexPage = theCurrentViewController.pageIndex;
     MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
     imageViewController.pageIndex = indexPage-1;
@@ -462,6 +466,10 @@
     self.leftBarButton.enabled =YES;
     
     MHImageViewController *theCurrentViewController = self.pageViewController.viewControllers.firstObject;
+    if (theCurrentViewController.moviePlayer) {
+        [theCurrentViewController removeAllMoviePlayerViewsAndNotifications];
+    }
+
     NSUInteger indexPage = theCurrentViewController.pageIndex;
     MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
     imageViewController.pageIndex = indexPage+1;
