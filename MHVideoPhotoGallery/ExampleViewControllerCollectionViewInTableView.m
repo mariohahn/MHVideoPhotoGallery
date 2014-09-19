@@ -122,10 +122,10 @@
     MHGalleryItem *landschaft20 = [MHGalleryItem.alloc initWithURL:@"http://www.stadt-bad-reichenhall.de/medien/landschaft-1.jpg"
                                                        galleryType:MHGalleryTypeImage];
     
-    MHGalleryItem *landschaft21 = [MHGalleryItem.alloc initWithURL:@"http://i.imgur.com/qe8wIgn.gif"
+    MHGalleryItem *gif1 = [MHGalleryItem.alloc initWithURL:@"http://i.imgur.com/qe8wIgn.gif"
                                                        galleryType:MHGalleryTypeImage];
     
-    MHGalleryItem *landschaft22 = [MHGalleryItem.alloc initWithURL:@"http://i.imgur.com/d86g7Ps.gif"
+    MHGalleryItem *gif2 = [MHGalleryItem.alloc initWithURL:@"http://i.imgur.com/d86g7Ps.gif"
                                                        galleryType:MHGalleryTypeImage];
     
     
@@ -137,7 +137,7 @@
     
     landschaft10.attributedString = string;
     
-    self.galleryDataSource = @[@[landschaft,landschaft1,landschaft2,landschaft3,landschaft4,landschaft5,landschaft22,landschaft21,landschaft6,landschaft7,landschaft8,landschaft9,landschaft10,landschaft11,landschaft12,landschaft13,landschaft14,landschaft15,landschaft16,landschaft17,landschaft18,landschaft19,landschaft20],
+    self.galleryDataSource = @[@[landschaft,landschaft1,landschaft2,landschaft3,landschaft4,landschaft5,landschaft6,landschaft7,landschaft8,landschaft9,landschaft10,landschaft11,landschaft12,landschaft13,landschaft14,landschaft15,landschaft16,landschaft17,landschaft18,landschaft19,landschaft20],
                                @[vimeo3,youtube,vimeo0,vimeo1,landschaft9,landschaft6,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1],
                                @[landschaft9,landschaft6,localVideo,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1]
                                ];
@@ -234,7 +234,7 @@
     gallery.galleryItems = galleryData;
     gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
-    gallery.UICustomization.hideShare = YES;
+   // gallery.UICustomization.hideShare = YES;
     //  gallery.galleryDelegate = self;
     //  gallery.dataSource = self;
     __weak MHGalleryController *blockGallery = gallery;

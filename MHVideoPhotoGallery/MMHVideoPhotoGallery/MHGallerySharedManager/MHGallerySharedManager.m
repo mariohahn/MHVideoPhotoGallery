@@ -53,8 +53,6 @@
     });
 }
 
-
-
 -(BOOL)isUIViewControllerBasedStatusBarAppearance{
     NSNumber *isUIVCBasedStatusBarAppearance = [NSBundle.mainBundle objectForInfoDictionaryKey:@"UIViewControllerBasedStatusBarAppearance"];
     if (isUIVCBasedStatusBarAppearance) {

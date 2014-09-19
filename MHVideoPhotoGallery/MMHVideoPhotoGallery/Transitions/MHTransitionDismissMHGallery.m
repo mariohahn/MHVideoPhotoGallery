@@ -337,6 +337,10 @@
             [imageViewController.view insertSubview:self.moviePlayer.view atIndex:2];
         }
         
+        if ([self.context respondsToSelector:@selector(viewForKey:)]) { // is on iOS 8?
+            [UIApplication.sharedApplication.keyWindow addSubview:fromViewController.view];
+        }
+        
         [self.context completeTransition:NO];
         
         if (self.moviePlayer) {
