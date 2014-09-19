@@ -684,7 +684,14 @@
                 self.startPoint = [recognizer translationInView:self.view];
                 self.lastPoint = [recognizer translationInView:self.view];
                 self.interactiveTransition = [MHTransitionDismissMHGallery new];
-                self.interactiveTransition.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+                
+                if(UIApplication.sharedApplication.statusBarOrientation == UIInterfaceOrientationLandscapeLeft){
+                    self.interactiveTransition.orientationTransformBeforeDismiss = -M_PI/2;
+                }else if(UIApplication.sharedApplication.statusBarOrientation == UIInterfaceOrientationLandscapeRight){
+                    self.interactiveTransition.orientationTransformBeforeDismiss = M_PI/2;
+                }else{
+                    self.interactiveTransition.orientationTransformBeforeDismiss = 0;
+                }
                 self.interactiveTransition.interactive = YES;
                 self.interactiveTransition.moviePlayer = self.moviePlayer;
                 
@@ -692,7 +699,6 @@
                 if (galleryViewController.finishedCallback) {
                     galleryViewController.finishedCallback(self.pageIndex,self.imageView.image,self.interactiveTransition,self.viewController.viewModeForBarStyle);
                 }
-                
             }else{
                 CGPoint currentPoint = [recognizer translationInView:self.view];
                 

@@ -67,8 +67,6 @@
         whiteView.backgroundColor = [fromViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
     }
     
-    
-    
     [containerView addSubview:whiteView];
     [containerView addSubview:[toViewControllerNC view]];
     [containerView addSubview:cellImageSnapshot];
@@ -123,6 +121,7 @@
 }
 
 -(void)startInteractiveTransition:(id<UIViewControllerContextTransitioning>)transitionContext{
+    
     self.context = transitionContext;
     
     id toViewControllerNC = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
@@ -171,7 +170,7 @@
     [self.containerView addSubview:self.backView];
     
     
-    self.toTransform= [(NSNumber *)[[toViewControllerNC view] valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    self.toTransform = [(NSNumber *)[[toViewControllerNC view] valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     self.startTransform = [(NSNumber *)[self.containerView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     
     if ([toViewControllerNC view].frame.size.width >[toViewControllerNC view].frame.size.height && self.toTransform ==0) {
@@ -203,11 +202,9 @@
             self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
             self.cellImageSnapshot.center = UIApplication.sharedApplication.keyWindow.center;
             self.startFrame = self.cellImageSnapshot.bounds;
-            
         }
         self.startTransform = self.orientationTransformBeforeDismiss;
     }
-    
 }
 
 
@@ -342,21 +339,29 @@
         }
         
         [self.context completeTransition:NO];
-        
         if (self.moviePlayer) {
             [UIView performWithoutAnimation:^{
                 [self doOrientationwithFromViewController:fromViewController];
             }];
         }else{
-            [self doOrientationwithFromViewController:fromViewController];
+            if (MHGalleryOSVersion < 8.0) {
+                [self doOrientationwithFromViewController:fromViewController];
+            }else{
+                [UIView performWithoutAnimation:^{
+                    [self doOrientationwithFromViewController:fromViewController];
+                }];
+            }
         }
     }];
 }
 
 
 -(void)doOrientationwithFromViewController:(UINavigationController*)fromViewController{
-    fromViewController.view.transform = CGAffineTransformMakeRotation(self.startTransform);
-    fromViewController.view.center = UIApplication.sharedApplication.keyWindow.center;
+    
+    if (MHGalleryOSVersion < 8.0) {
+        fromViewController.view.transform = CGAffineTransformMakeRotation(self.startTransform);
+        fromViewController.view.center = UIApplication.sharedApplication.keyWindow.center;
+    }
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
         
         NSData *decodedData = [NSData.alloc initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
