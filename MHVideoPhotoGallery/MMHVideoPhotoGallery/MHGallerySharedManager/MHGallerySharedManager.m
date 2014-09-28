@@ -77,6 +77,7 @@
             AVURLAsset *asset=[AVURLAsset.alloc  initWithURL:url options:nil];
             
             AVAssetImageGenerator *generator = [AVAssetImageGenerator.alloc initWithAsset:asset];
+            generator.appliesPreferredTrackTransform = YES;
             CMTime thumbTime = CMTimeMakeWithSeconds(0,40);
             CMTime videoDurationTime = asset.duration;
             NSUInteger videoDurationTimeInSeconds = CMTimeGetSeconds(videoDurationTime);
