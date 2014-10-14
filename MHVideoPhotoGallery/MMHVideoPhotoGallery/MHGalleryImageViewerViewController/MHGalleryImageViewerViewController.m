@@ -1101,6 +1101,10 @@
 
 - (void)loadStateDidChange:(NSNotification *)notification{
 	MPMoviePlayerController *player = notification.object;
+    if (self.wholeTimeMovie == 0 && player.playableDuration != 0) {
+        self.wholeTimeMovie = player.playableDuration;
+        self.slider.maximumValue = player.playableDuration;
+    }
 	MPMovieLoadState loadState = player.loadState;
 	if (loadState & MPMovieLoadStatePlayable){
         if (!self.videoWasPlayable) {
