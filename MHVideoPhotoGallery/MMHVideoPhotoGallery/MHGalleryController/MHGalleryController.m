@@ -86,7 +86,7 @@
         galleryController.navigationBar.tintColor = galleryController.UICustomization.barButtonsTintColor;
     }
     
-    if (galleryController.presentingFromImageView) {
+    if (galleryController.transitionCustomization.interactiveDismiss) {
         galleryController.transitioningDelegate = self;
         galleryController.modalPresentationStyle = UIModalPresentationFullScreen;
     }else{
@@ -145,11 +145,16 @@
         MHGalleryImageViewerViewController *imageViewer = [(UINavigationController*)dismissed  viewControllers].lastObject;
         MHImageViewController *viewer = imageViewer.pageViewController.viewControllers.firstObject;
         
+        if (!imageViewer.dismissFromImageView && viewer.interactiveTransition.finishButtonAction) {
+            return nil;
+        }
+        
         if (viewer.interactiveTransition) {
             MHTransitionDismissMHGallery *detail = viewer.interactiveTransition;
             detail.transitionImageView = imageViewer.dismissFromImageView;
             return detail;
         }
+        
         MHTransitionDismissMHGallery *detail = MHTransitionDismissMHGallery.new;
         detail.transitionImageView = imageViewer.dismissFromImageView;
         return detail;

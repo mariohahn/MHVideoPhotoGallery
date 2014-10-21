@@ -70,6 +70,7 @@
     }
     MHTransitionDismissMHGallery *dismissTransiton = [MHTransitionDismissMHGallery new];
     dismissTransiton.orientationTransformBeforeDismiss = [(NSNumber *)[self.navigationController.view valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+    dismissTransiton.finishButtonAction = YES;
     imageViewer.interactiveTransition = dismissTransiton;
     
     MHGalleryController *galleryViewController = [self galleryViewController];
@@ -1374,7 +1375,14 @@
     
     self.viewController.descriptionView.alpha =alpha;
     self.viewController.descriptionViewBackground.alpha =alpha;
-    MHStatusBar().alpha =alpha;
+    
+    if (MHGalleryOSVersion < 8.0) {
+        MHStatusBar().alpha = alpha;
+    }else{
+        if (UIApplication.sharedApplication.statusBarOrientation == UIDeviceOrientationPortrait || UIApplication.sharedApplication.statusBarOrientation == UIDeviceOrientationPortraitUpsideDown) {
+            MHStatusBar().alpha = alpha;
+        }
+    }
 }
 
 -(void)handelImageTap:(UIGestureRecognizer *)gestureRecognizer{
@@ -1486,6 +1494,8 @@
     self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
     self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width*self.scrollView.zoomScale, self.view.bounds.size.height*self.scrollView.zoomScale);
     self.imageView.frame =CGRectMake(0,0 , self.scrollView.contentSize.width,self.scrollView.contentSize.height);
+    
+
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{

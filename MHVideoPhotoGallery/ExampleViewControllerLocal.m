@@ -98,32 +98,32 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    MHGallerySectionItem *section = self.allData[indexPath.row];
-    NSArray *galleryData = section.galleryItems;
-    if (galleryData.count >0) {
-        
-        MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryViewModeOverView];
-        gallery.galleryItems = galleryData;
-        gallery.presentationIndex = indexPath.row;
-        gallery.transitionCustomization.interactiveDismiss = NO;
-        
-        __weak MHGalleryController *blockGallery = gallery;
-        
-        gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode){
-            [blockGallery dismissViewControllerAnimated:YES dismissImageView:nil completion:nil];
-        };
-        
-        [self presentMHGalleryController:gallery animated:YES completion:nil];
-        
-        
-    }else{
-        UIAlertView *alterView = [[UIAlertView alloc]initWithTitle:@"Hint"
-                                                           message:@"You don't have images on your Simulator"
-                                                          delegate:nil
-                                                 cancelButtonTitle:@"OK"
-                                                 otherButtonTitles:nil, nil];
-        [alterView show];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        MHGallerySectionItem *section = self.allData[indexPath.row];
+        NSArray *galleryData = section.galleryItems;
+        if (galleryData.count >0) {
+            
+            MHGalleryController *gallery = [[MHGalleryController alloc]initWithPresentationStyle:MHGalleryViewModeOverView];
+            gallery.galleryItems = galleryData;
+            gallery.presentationIndex = indexPath.row;
+            
+            __weak MHGalleryController *blockGallery = gallery;
+            
+            gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode){
+                [blockGallery dismissViewControllerAnimated:YES dismissImageView:nil completion:nil];
+            };
+            
+            [self presentMHGalleryController:gallery animated:YES completion:nil];
+
+        }else{
+            UIAlertView *alterView = [[UIAlertView alloc]initWithTitle:@"Hint"
+                                                               message:@"You don't have images on your Simulator"
+                                                              delegate:nil
+                                                     cancelButtonTitle:@"OK"
+                                                     otherButtonTitles:nil, nil];
+            [alterView show];
+        }
+    });
 }
 
 

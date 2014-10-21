@@ -17,5 +17,7 @@
 @property (nonatomic,assign)    CGPoint changedPoint;
 @property (nonatomic,assign)    CGFloat orientationTransformBeforeDismiss;
 @property (nonatomic,assign)    BOOL interactive;
+@property (nonatomic,assign)    BOOL finishButtonAction;
+
 @property (nonatomic,assign)    id <UIViewControllerContextTransitioning> context;
 @end
