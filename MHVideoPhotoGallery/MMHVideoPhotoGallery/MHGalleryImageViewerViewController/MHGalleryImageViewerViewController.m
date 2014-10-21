@@ -1363,9 +1363,11 @@
 
 -(void)changeUIForViewMode:(MHGalleryViewMode)viewMode{
     float alpha =0;
+    
     if (viewMode == MHGalleryViewModeImageViewerNavigationBarShown) {
-        alpha =1;
+        alpha= 1;
     }
+
     self.moviePlayer.backgroundView.backgroundColor = [self.viewController.UICustomization MHGalleryBackgroundColorForViewMode:viewMode];
     self.scrollView.backgroundColor = [self.viewController.UICustomization MHGalleryBackgroundColorForViewMode:viewMode];
     self.viewController.pageViewController.view.backgroundColor = [self.viewController.UICustomization MHGalleryBackgroundColorForViewMode:viewMode];
@@ -1383,6 +1385,15 @@
             MHStatusBar().alpha = alpha;
         }
     }
+
+    UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
+    BOOL isLandscape = UIInterfaceOrientationIsLandscape(currentOrientation);
+    BOOL isPhone = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone;
+
+    if (MHGalleryOSVersion >= 8.0 && isLandscape && isPhone) {
+        alpha = 0;
+    }
+    MHStatusBar().alpha =alpha;
 }
 
 -(void)handelImageTap:(UIGestureRecognizer *)gestureRecognizer{
