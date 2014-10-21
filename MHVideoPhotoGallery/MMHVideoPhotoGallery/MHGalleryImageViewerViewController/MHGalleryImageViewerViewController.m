@@ -933,6 +933,7 @@
             }
         }];
     }
+    
 }
 
 -(void)autoPlayVideo{
@@ -1246,7 +1247,7 @@
                                                name:MPMoviePlayerPlaybackDidFinishNotification
                                              object:self.moviePlayer];
     
-    self.moviePlayer.shouldAutoplay =NO;
+    self.moviePlayer.shouldAutoplay = NO;
     self.moviePlayer.view.frame = self.view.bounds;
     self.moviePlayer.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.moviePlayer.view.hidden = YES;
@@ -1351,13 +1352,13 @@
                 }
             }
         }
-        
         self.moviePlayerToolBarTop.frame =CGRectMake(0,44+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44);
         if (!MHISIPAD) {
             if (UIApplication.sharedApplication.statusBarOrientation != UIInterfaceOrientationPortrait) {
                 self.moviePlayerToolBarTop.frame =CGRectMake(0,32+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44);
             }
         }
+        
     }
 }
 
@@ -1496,8 +1497,7 @@
     }
     self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
     self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width*self.scrollView.zoomScale, self.view.bounds.size.height*self.scrollView.zoomScale);
-    self.imageView.frame =CGRectMake(0,0 , self.scrollView.contentSize.width,self.scrollView.contentSize.height);
-    
+    self.imageView.frame = CGRectMake(0,0 , self.scrollView.contentSize.width,self.scrollView.contentSize.height);
 
 }
 

@@ -181,9 +181,7 @@
         self.toTransform = self.startTransform;
         self.wrongTransform = YES;
     }
-//    if ([self.context respondsToSelector:@selector(targetTransform)]) {
-//        self.toTransform = [self.context targetTransform].;
-//    }
+
     
     
     if (imageViewerCurrent.isPlayingVideo && imageViewerCurrent.moviePlayer) {
@@ -362,6 +360,7 @@
         
         if ([self.context respondsToSelector:@selector(viewForKey:)]) { // is on iOS 8?
             [UIApplication.sharedApplication.keyWindow addSubview:fromViewController.view];
+            self.moviePlayer = nil;
         }
         
         [self.context completeTransition:NO];
