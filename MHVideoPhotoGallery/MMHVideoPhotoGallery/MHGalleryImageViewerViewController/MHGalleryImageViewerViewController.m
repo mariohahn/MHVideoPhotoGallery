@@ -1377,14 +1377,6 @@
     
     self.viewController.descriptionView.alpha =alpha;
     self.viewController.descriptionViewBackground.alpha =alpha;
-    
-    if (MHGalleryOSVersion < 8.0) {
-        MHStatusBar().alpha = alpha;
-    }else{
-        if (UIApplication.sharedApplication.statusBarOrientation == UIDeviceOrientationPortrait || UIApplication.sharedApplication.statusBarOrientation == UIDeviceOrientationPortraitUpsideDown) {
-            MHStatusBar().alpha = alpha;
-        }
-    }
 
     UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
     BOOL isLandscape = UIInterfaceOrientationIsLandscape(currentOrientation);
