@@ -109,7 +109,7 @@
             
             __weak MHGalleryController *blockGallery = gallery;
             
-            gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode){
+            gallery.finishedCallback = ^(NSInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode){
                 [blockGallery dismissViewControllerAnimated:YES dismissImageView:nil completion:nil];
             };
             

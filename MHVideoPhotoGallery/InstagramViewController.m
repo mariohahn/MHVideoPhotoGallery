@@ -92,7 +92,7 @@
     
     __weak MHGalleryController *blockGallery = gallery;
     
-    gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode){
+    gallery.finishedCallback = ^(NSInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode){
         NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:currentIndex inSection:0];
         CGRect cellFrame  = [[weakSelf.collectionView collectionViewLayout] layoutAttributesForItemAtIndexPath:newIndexPath].frame;
         
