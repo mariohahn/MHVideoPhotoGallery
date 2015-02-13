@@ -932,12 +932,6 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/mario_hahn/Documents/Development/MHGallery,
-					/Users/mario_hahn/Documents/Development/MHGallery/MHVideoPhotoGallery,
-					"$(PROJECT_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MHVideoPhotoGallery/MHVideoPhotoGallery-Prefix.pch";
 				INFOPLIST_FILE = "MHVideoPhotoGallery/MHVideoPhotoGallery-Info.plist";
@@ -957,12 +951,6 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/mario_hahn/Documents/Development/MHGallery,
-					/Users/mario_hahn/Documents/Development/MHGallery/MHVideoPhotoGallery,
-					"$(PROJECT_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MHVideoPhotoGallery/MHVideoPhotoGallery-Prefix.pch";
 				INFOPLIST_FILE = "MHVideoPhotoGallery/MHVideoPhotoGallery-Info.plist";

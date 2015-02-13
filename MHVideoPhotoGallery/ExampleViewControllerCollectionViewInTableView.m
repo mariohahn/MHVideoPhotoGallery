@@ -123,15 +123,7 @@
     
     MHGalleryItem *landschaft20 = [MHGalleryItem.alloc initWithURL:@"http://www.stadt-bad-reichenhall.de/medien/landschaft-1.jpg"
                                                        galleryType:MHGalleryTypeImage];
-    
-    MHGalleryItem *gif1 = [MHGalleryItem.alloc initWithURL:@"http://i.imgur.com/qe8wIgn.gif"
-                                                       galleryType:MHGalleryTypeImage];
-    
-    MHGalleryItem *gif2 = [MHGalleryItem.alloc initWithURL:@"http://i.imgur.com/d86g7Ps.gif"
-                                                       galleryType:MHGalleryTypeImage];
-    
-    
-    
+
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc]initWithString:@"Awesome!!\nOr isn't it?"];
     
     [string setAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:15]} range:NSMakeRange(0, string.length)];

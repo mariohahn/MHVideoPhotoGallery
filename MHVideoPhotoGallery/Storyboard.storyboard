@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C81f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="mXS-gW-vdx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7515.2" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="mXS-gW-vdx">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7512"/>
     </dependencies>
     <scenes>
         <!--Tab Bar Controller-->
@@ -45,7 +45,7 @@
         <!--Navigation Controller-->
         <scene sceneID="fW5-aL-gPS">
             <objects>
-                <navigationController definesPresentationContext="YES" id="04z-gI-uag" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="UINavigationControllerWith SubclassMHImageviewerViewController" definesPresentationContext="YES" id="04z-gI-uag" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8Cc-6V-y4W">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -234,97 +234,6 @@
             </objects>
             <point key="canvasLocation" x="852" y="-550"/>
         </scene>
-        <!--Example View Controller Collection View In Table View-->
-        <scene sceneID="FO6-1C-Fal">
-            <objects>
-                <viewController id="eMq-jH-vnJ" customClass="ExampleViewControllerCollectionViewInTableView" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="MeA-8L-RCF"/>
-                        <viewControllerLayoutGuide type="bottom" id="eHc-Vx-UAe"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="VUi-kN-J9J">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="315" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Rlw-TH-d8U">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
-                                <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TestCell" rowHeight="330" id="0g9-dK-y0E" customClass="TestCell">
-                                        <rect key="frame" x="0.0" y="55" width="320" height="330"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0g9-dK-y0E" id="fcu-pb-fGD">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="330"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZvK-qE-0ak">
-                                                    <rect key="frame" x="10" y="4" width="300" height="318"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </view>
-                                                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vaE-8Q-g8Z">
-                                                    <rect key="frame" x="-5" y="80" width="325" height="230"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2dc-98-4GL">
-                                                        <size key="itemSize" width="50" height="50"/>
-                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                    </collectionViewFlowLayout>
-                                                    <cells/>
-                                                </collectionView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="testIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="xuf-OC-m3Y">
-                                                    <rect key="frame" x="20" y="12" width="40" height="40"/>
-                                                </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mario Hahn" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2pd-TB-ajX">
-                                                    <rect key="frame" x="70" y="12" width="157" height="21"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mario Hahn added new photos to his album" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="7ns-yZ-d5X">
-                                                    <rect key="frame" x="20" y="46" width="290" height="42"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="20 min ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tn7-sE-H0c">
-                                                    <rect key="frame" x="70" y="34" width="139" height="21"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="backView" destination="ZvK-qE-0ak" id="lsE-dF-B4B"/>
-                                            <outlet property="collectionView" destination="vaE-8Q-g8Z" id="q14-Bf-C4K"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="eMq-jH-vnJ" id="sDg-bq-O5f"/>
-                                    <outlet property="delegate" destination="eMq-jH-vnJ" id="vA6-Zw-peF"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="eHc-Vx-UAe" firstAttribute="top" secondItem="Rlw-TH-d8U" secondAttribute="bottom" id="AiF-yF-AMH"/>
-                            <constraint firstAttribute="trailing" secondItem="Rlw-TH-d8U" secondAttribute="trailing" id="VXK-71-R8z"/>
-                            <constraint firstItem="Rlw-TH-d8U" firstAttribute="top" secondItem="VUi-kN-J9J" secondAttribute="top" id="d65-Or-Xgt"/>
-                            <constraint firstItem="Rlw-TH-d8U" firstAttribute="leading" secondItem="VUi-kN-J9J" secondAttribute="leading" id="s80-IF-JoB"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="P33-T8-jMm"/>
-                    <connections>
-                        <outlet property="tableView" destination="Rlw-TH-d8U" id="4sx-bE-yeq"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cPZ-pU-VkJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-388" y="450"/>
-        </scene>
         <!--TableView-->
         <scene sceneID="hoo-t6-jeb">
             <objects>
@@ -401,7 +310,7 @@
         <!--Instagram-->
         <scene sceneID="Err-6R-RgN">
             <objects>
-                <navigationController definesPresentationContext="YES" id="jKW-PO-ujo" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="UINavigationControllerWith InstagramViewController" definesPresentationContext="YES" id="jKW-PO-ujo" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Instagram" image="707-albums-selected" id="x8X-r6-UzZ"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Klw-Z1-hnG">
                         <autoresizingMask key="autoresizingMask"/>
