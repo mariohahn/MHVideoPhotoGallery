@@ -261,7 +261,7 @@
     }
     if ([item.URLString rangeOfString:MHAssetLibrary].location != NSNotFound && item.URLString) {
         
-        [MHGallerySharedManager.sharedManager getImageFromAssetLibrary:item.URLString
+        [MHGallerySharedManager.sharedInstance getImageFromAssetLibrary:item.URLString
                                                              assetType:MHAssetImageTypeFull
                                                           successBlock:^(UIImage *image, NSError *error) {
                                                               cell.thumbnail.image = image;

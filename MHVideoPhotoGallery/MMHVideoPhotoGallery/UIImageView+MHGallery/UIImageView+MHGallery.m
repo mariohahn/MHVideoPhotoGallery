@@ -18,7 +18,7 @@
     
     __weak typeof(self) weakSelf = self;
     
-    [MHGallerySharedManager.sharedManager startDownloadingThumbImage:URL
+    [MHGallerySharedManager.sharedInstance startDownloadingThumbImage:URL
                                                         successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
                                                             
                                                             if (!weakSelf) return;
@@ -47,7 +47,7 @@
             assetType = MHAssetImageTypeFull;
         }
         
-        [MHGallerySharedManager.sharedManager getImageFromAssetLibrary:item.URLString
+        [MHGallerySharedManager.sharedInstance getImageFromAssetLibrary:item.URLString
                                                              assetType:assetType
                                                           successBlock:^(UIImage *image, NSError *error) {
                                                               [weakSelf setImageForImageView:image successBlock:succeedBlock];

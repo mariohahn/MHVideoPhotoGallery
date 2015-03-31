@@ -878,7 +878,7 @@
             }];
             
         }else{
-            [MHGallerySharedManager.sharedManager startDownloadingThumbImage:self.item.URLString
+            [MHGallerySharedManager.sharedInstance startDownloadingThumbImage:self.item.URLString
                                                                 successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
                                                                     if (!error) {
                                                                         [weakSelf handleGeneratedThumb:image
@@ -924,7 +924,7 @@
             [weakSelf autoPlayVideo];
             return;
         }
-        [[MHGallerySharedManager sharedManager] getURLForMediaPlayer:self.item.URLString successBlock:^(NSURL *URL, NSError *error) {
+        [[MHGallerySharedManager sharedInstance] getURLForMediaPlayer:self.item.URLString successBlock:^(NSURL *URL, NSError *error) {
             if (error || URL == nil) {
                 [weakSelf changePlayButtonToUnPlay];
             }else{

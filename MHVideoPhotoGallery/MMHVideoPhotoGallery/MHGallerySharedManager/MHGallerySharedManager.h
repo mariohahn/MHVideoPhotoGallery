@@ -78,7 +78,7 @@ typedef NS_ENUM(NSUInteger, MHYoutubeThumbQuality) {
  */
 @property (nonatomic,assign) MHYoutubeVideoQuality youtubeVideoQuality;
 
-+ (MHGallerySharedManager *)sharedManager;
++ (MHGallerySharedManager *)sharedInstance;
 /**
  *  You can create a Thumbnail from a Video, you can create it from Videos from a Webserver, Youtube and Vimeo
  *
