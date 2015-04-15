@@ -147,3 +147,7 @@ Support this project via gittip.
 
 	
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mariohahn/mhvideophotogallery/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
