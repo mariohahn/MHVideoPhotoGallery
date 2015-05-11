@@ -66,6 +66,15 @@ UIView *MHStatusBar(void){
     return statusBar;
 }
 
+BOOL MHShouldShowStatusBar(void){
+    UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
+    BOOL isLandscape = UIInterfaceOrientationIsLandscape(currentOrientation);
+    BOOL isPhone = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone;
+    if (MHGalleryOSVersion >= 8.0 && isLandscape && isPhone) {
+        return NO;
+    }
+    return YES;
+}
 
 UIImage *MHTemplateImage(NSString *imageName){
     return [MHGalleryImage(imageName) imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];

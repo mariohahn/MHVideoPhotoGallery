@@ -273,7 +273,7 @@
         }
         
         [UIView animateWithDuration:0.3 animations:^{
-            MHStatusBar().alpha =1;
+            MHStatusBar().alpha = MHShouldShowStatusBar() ? 1 : 0;
             
             self.cellImageSnapshot.clipsToBounds = self.transitionImageView.clipsToBounds;
             self.cellImageSnapshot.layer.cornerRadius = self.transitionImageView.layer.cornerRadius;

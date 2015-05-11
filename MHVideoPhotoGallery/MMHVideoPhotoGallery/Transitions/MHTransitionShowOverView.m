@@ -212,7 +212,7 @@
     [UIView animateWithDuration:0.3 animations:^{
         if (self.isHiddingToolBarAndNavigationBar) {
             self.toViewController.navigationController.navigationBar.alpha = 1;
-            MHStatusBar().alpha =1;
+            MHStatusBar().alpha = MHShouldShowStatusBar() ? 1 : 0;
         }
         self.toolbar.alpha = 0;
         self.descriptionLabel.alpha =0;
