@@ -284,14 +284,14 @@
                 if (!self.transitionImageView) {
                     CGPoint newPoint = self.startCenter;
                     if (self.cellImageSnapshot.center.x > self.startCenter.x) {
-                        newPoint.x = self.cellImageSnapshot.center.x + abs(self.cellImageSnapshot.center.x -self.startCenter.x)*4;
+                        newPoint.x = self.cellImageSnapshot.center.x + fabs(self.cellImageSnapshot.center.x -self.startCenter.x)*4;
                     }else{
-                        newPoint.x = self.cellImageSnapshot.center.x - abs(self.cellImageSnapshot.center.x -self.startCenter.x)*4;
+                        newPoint.x = self.cellImageSnapshot.center.x - fabs(self.cellImageSnapshot.center.x -self.startCenter.x)*4;
                     }
                     if (self.cellImageSnapshot.center.y > self.startCenter.y) {
-                        newPoint.y = self.cellImageSnapshot.center.y + abs(self.cellImageSnapshot.center.y -self.startCenter.y)*4;
+                        newPoint.y = self.cellImageSnapshot.center.y + fabs(self.cellImageSnapshot.center.y -self.startCenter.y)*4;
                     }else{
-                        newPoint.y = self.cellImageSnapshot.center.y - abs(self.cellImageSnapshot.center.y -self.startCenter.y)*4;
+                        newPoint.y = self.cellImageSnapshot.center.y - fabs(self.cellImageSnapshot.center.y -self.startCenter.y)*4;
                     }
                     self.cellImageSnapshot.center = newPoint;
                 }else{
