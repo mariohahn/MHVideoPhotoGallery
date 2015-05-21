@@ -734,7 +734,7 @@
                 }
                 
                 if (progressY > 0.35 || velocityY >700) {
-                    MHStatusBar().alpha =1;
+                    MHStatusBar().alpha = MHShouldShowStatusBar() ? 1 : 0;
                     [self.interactiveTransition finishInteractiveTransition];
                 }else {
                     [self setNeedsStatusBarAppearanceUpdate];
@@ -1379,11 +1379,7 @@
     self.viewController.descriptionView.alpha =alpha;
     self.viewController.descriptionViewBackground.alpha =alpha;
 
-    UIInterfaceOrientation currentOrientation = UIApplication.sharedApplication.statusBarOrientation;
-    BOOL isLandscape = UIInterfaceOrientationIsLandscape(currentOrientation);
-    BOOL isPhone = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone;
-
-    if (MHGalleryOSVersion >= 8.0 && isLandscape && isPhone) {
+    if (!MHShouldShowStatusBar()) {
         alpha = 0;
     }
     MHStatusBar().alpha =alpha;
