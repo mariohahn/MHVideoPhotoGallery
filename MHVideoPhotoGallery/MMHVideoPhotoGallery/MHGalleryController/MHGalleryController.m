@@ -8,6 +8,7 @@
 
 #import "MHGalleryController.h"
 
+#define MH_TEMPLATE_BACK_IMAGE @"ic_square"
 
 @implementation MHGalleryController
 
@@ -75,10 +76,10 @@
 
 -(void)presentMHGalleryController:(MHGalleryController *)galleryController
                          animated:(BOOL)animated
-                       completion:(void (^)(void))completion{
+                       completion:(void (^)(void))completion {
 
-    if(galleryController.UICustomization.useCustomBackButtonImageOnImageViewer){
-        UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"ic_square")
+    if(galleryController.UICustomization.useCustomBackButtonImageOnImageViewer) {
+        UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(MH_TEMPLATE_BACK_IMAGE)
                                                                         style:UIBarButtonItemStyleBordered
                                                                        target:self
                                                                        action:nil];
@@ -89,7 +90,7 @@
     if (galleryController.transitionCustomization.interactiveDismiss) {
         galleryController.transitioningDelegate = self;
         galleryController.modalPresentationStyle = UIModalPresentationFullScreen;
-    }else{
+    } else {
         galleryController.transitionCustomization.interactiveDismiss = NO;
         galleryController.transitionCustomization.dismissWithScrollGestureOnFirstAndLastImage = NO;
     }
@@ -102,7 +103,8 @@
     if (galleryController.presentationStyle == MHGalleryViewModeImageViewerNavigationBarHidden) {
         galleryController.imageViewerViewController.hiddingToolBarAndNavigationBar = YES;
     }
-    [self presentViewController:galleryController animated:YES completion:completion];
+    
+    [self presentViewController:galleryController animated:animated completion:completion];
 }
 
 
