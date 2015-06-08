@@ -1379,7 +1379,7 @@
     self.viewController.descriptionView.alpha =alpha;
     self.viewController.descriptionViewBackground.alpha =alpha;
 
-    if (!MHShouldShowStatusBar()) {
+    if (!MHShouldShowStatusBar() || [self prefersStatusBarHidden]) {
         alpha = 0;
     }
     MHStatusBar().alpha =alpha;
