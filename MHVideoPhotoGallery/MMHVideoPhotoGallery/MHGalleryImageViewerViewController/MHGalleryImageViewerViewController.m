@@ -752,9 +752,6 @@
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         
-        __weak typeof(self) weakSelf = self;
-        
-        
         self.viewController = viewController;
         
         self.view.backgroundColor = [UIColor blackColor];
@@ -864,35 +861,37 @@
         
         [imageTap requireGestureRecognizerToFail: doubleTap];
         
-        
-        
-        if (self.item.galleryType == MHGalleryTypeImage) {
-            
-            
-            [self.imageView setImageForMHGalleryItem:self.item imageType:MHImageTypeFull successBlock:^(UIImage *image, NSError *error) {
-                if (!image) {
-                    weakSelf.scrollView.maximumZoomScale  =1;
-                    [weakSelf changeToErrorImage];
-                }
-                [weakSelf.act stopAnimating];
-            }];
-            
-        }else{
-            [MHGallerySharedManager.sharedManager startDownloadingThumbImage:self.item.URLString
-                                                                successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
-                                                                    if (!error) {
-                                                                        [weakSelf handleGeneratedThumb:image
-                                                                                         videoDuration:videoDuration
-                                                                                             urlString:self.item.URLString];
-                                                                    }else{
-                                                                        [weakSelf changeToErrorImage];
-                                                                    }
-                                                                    [weakSelf.act stopAnimating];
-                                                                }];
-        }
+        [self displayFileContents];
     }
     
     return self;
+}
+
+-(void)displayFileContents
+{
+    __weak typeof(self) weakSelf = self;
+
+    if (self.item.galleryType == MHGalleryTypeImage) {
+        [self.imageView setImageForMHGalleryItem:self.item imageType:MHImageTypeFull successBlock:^(UIImage *image, NSError *error) {
+            if (!image) {
+                weakSelf.scrollView.maximumZoomScale  =1;
+                [weakSelf changeToErrorImage];
+            }
+            [weakSelf.act stopAnimating];
+        }];
+    }else{
+        [MHGallerySharedManager.sharedManager startDownloadingThumbImage:self.item.URLString
+                                                            successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
+                                                                if (!error) {
+                                                                    [weakSelf handleGeneratedThumb:image
+                                                                                     videoDuration:videoDuration
+                                                                                         urlString:self.item.URLString];
+                                                                }else{
+                                                                    [weakSelf changeToErrorImage];
+                                                                }
+                                                                [weakSelf.act stopAnimating];
+                                                            }];
+    }
 }
 
 -(void)setImageForImageViewWithImage:(UIImage*)image error:(NSError*)error{
