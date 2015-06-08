@@ -65,6 +65,7 @@
 @property (nonatomic)                                BOOL videoWasPlayable;
 @property (nonatomic)                                BOOL videoDownloaded;
 
+-(void)changeUIForViewMode:(MHGalleryViewMode)viewMode;
 -(void)updateUIForVideoFile;
 -(void)stopMovie;
 -(void)removeAllMoviePlayerViewsAndNotifications;
