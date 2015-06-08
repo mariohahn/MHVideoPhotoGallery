@@ -29,5 +29,6 @@
 -(UICollectionViewFlowLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation;
 -(MHGalleryItem*)itemForIndex:(NSInteger)index;
 -(void)pushToImageViewerForIndexPath:(NSIndexPath*)indexPath;
+-(void)makeMHGalleryOverViewCell:(MHMediaPreviewCollectionViewCell*)cell atIndexPath:(NSIndexPath*)indexPath;
 
 @end
