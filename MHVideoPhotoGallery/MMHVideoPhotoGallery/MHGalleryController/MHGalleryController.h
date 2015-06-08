@@ -18,6 +18,7 @@
 @protocol MHGalleryDelegate<NSObject>
 @optional
 -(void)galleryController:(MHGalleryController*)galleryController didShowIndex:(NSInteger)index;
+-(void)galleryController:(MHGalleryController *)galleryController didDeleteItemAtIndex:(NSInteger)index;
 @end
 
 @protocol MHGalleryDataSource<NSObject>
@@ -37,6 +38,12 @@
  *  @return the number of Items you want to Display
  */
 - (NSInteger)numberOfItemsInGallery:(MHGalleryController*)galleryController;
+/**
+ *  Removes the item at the provided index from the data source.
+ *
+ *  @param index  NSInteger representing the index of the deleted file.
+ */
+- (void)removeItemAtIndex:(NSInteger)index;
 @end
 
 @interface MHGalleryController : UINavigationController <MHGalleryDataSource>
