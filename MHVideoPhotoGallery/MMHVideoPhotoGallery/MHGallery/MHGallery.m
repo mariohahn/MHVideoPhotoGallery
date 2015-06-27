@@ -3,10 +3,12 @@
 #import "MHOverviewController.h"
 #import <objc/runtime.h>
 
-NSString * const MHYoutubeBaseURL          = @"http://www.youtube.com/watch?v=%@";
+NSString * const MHYoutubeApiKey           = @"<YOUR-API-KEY>";
+NSString * const MHYoutubeBaseURL          = @"https://www.youtube.com/watch?v=%@";
 NSString * const MHYoutubeChannel          = @"https://gdata.youtube.com/feeds/api/users/%@/uploads?&max-results=50&alt=json";
 NSString * const MHYoutubePlayBaseURL      = @"https://www.youtube.com/get_video_info?video_id=%@&el=embedded&ps=default&eurl=&gl=US&hl=%@";
-NSString * const MHYoutubeInfoBaseURL      = @"http://gdata.youtube.com/feeds/api/videos/%@?v=2&alt=jsonc";
+NSString * const MHYoutubeInfoBaseURL      = @"https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=%@&key=%@";
+NSString * const MHYoutubeThumbBaseURL     = @"https://i.ytimg.com/vi/";
 NSString * const MHVimeoThumbBaseURL       = @"http://vimeo.com/api/v2/video/%@.json";
 NSString * const MHVimeoVideoBaseURL       = @"http://player.vimeo.com/video/%@/config";
 NSString * const MHVimeoBaseURL            = @"http://vimeo.com/%@";
