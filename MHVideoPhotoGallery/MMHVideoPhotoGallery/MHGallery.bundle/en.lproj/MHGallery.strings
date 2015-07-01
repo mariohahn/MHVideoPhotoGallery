@@ -8,7 +8,7 @@
 
 
 "imagedetail.title.current"       = "%@ of %@";
-"overview.title.current"          = "GALLERY";
+"overview.title.current"          = "Overview";
 "overview.menue.item.save"        = "Save";
 "shareview.message"               = "Message";
 "shareview.mail"                  = "Mail";
