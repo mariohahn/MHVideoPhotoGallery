@@ -117,6 +117,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EED924201B43F85B00CF1E56 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EED924211B43F85B00CF1E56 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F514263318911D8E0091E3DF /* 707-albums-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "707-albums-selected.png"; sourceTree = "<group>"; };
 		F514263418911D8E0091E3DF /* 707-albums-selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "707-albums-selected@2x.png"; sourceTree = "<group>"; };
 		F514263718911D920091E3DF /* 705-photos-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "705-photos-selected.png"; sourceTree = "<group>"; };
@@ -686,6 +688,7 @@
 				de,
 				fr,
 				es,
+				ru,
 			);
 			mainGroup = F53F923717EB008100A9FE6A;
 			productRefGroup = F53F924117EB008100A9FE6A /* Products */;
@@ -837,6 +840,7 @@
 				F5D9AB4918B61E390014AAC6 /* de */,
 				F5D9AB4B18B6220C0014AAC6 /* fr */,
 				F5D9AB4E18B6658A0014AAC6 /* es */,
+				EED924201B43F85B00CF1E56 /* ru */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -848,6 +852,7 @@
 				F5D9AB4A18B61E390014AAC6 /* de */,
 				F5D9AB4C18B6220C0014AAC6 /* fr */,
 				F5D9AB4F18B6658A0014AAC6 /* es */,
+				EED924211B43F85B00CF1E56 /* ru */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
