@@ -64,6 +64,8 @@
             placeholderURL = item.URLString;
         }
         
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            
         [self sd_setImageWithURL:[NSURL URLWithString:toLoadURL]
                 placeholderImage:[SDImageCache.sharedImageCache imageFromDiskCacheForKey:placeholderURL]
                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
@@ -71,6 +73,8 @@
                                succeedBlock (image,error);
                            }
                        }];
+            
+        });
     }
 }
 
