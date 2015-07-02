@@ -45,7 +45,7 @@
     if (![self.descriptionView isDescendantOfView:self.view]) {
         [self.view addSubview:self.descriptionView];
     }
-    if (![self.toolbar isDescendantOfView:self.view]) {
+    if (![self.toolbar isDescendantOfView:self.view] && self.UICustomization.hideToolbar == NO) {
         [self.view addSubview:self.toolbar];
     }
     [self.pageViewController.view.subviews.firstObject setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -123,8 +123,7 @@
     
     MHGalleryItem *item = [self itemForIndex:self.pageIndex];
     
-    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:item viewController:self];
-    imageViewController.pageIndex = self.pageIndex;
+    MHImageViewController *imageViewController =[self imageViewControllerForIndex:self.pageIndex];
     [self.pageViewController setViewControllers:@[imageViewController]
                                       direction:UIPageViewControllerNavigationDirectionForward
                                        animated:NO
@@ -135,45 +134,49 @@
     [self.pageViewController didMoveToParentViewController:self];
     [self.view addSubview:self.pageViewController.view];
     
-    self.toolbar = [UIToolbar.alloc initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
-    if(self.currentOrientation == UIInterfaceOrientationLandscapeLeft || self.currentOrientation == UIInterfaceOrientationLandscapeRight){
-        if (self.view.bounds.size.height > self.view.bounds.size.width) {
-            self.toolbar.frame = CGRectMake(0, self.view.frame.size.width-44, self.view.frame.size.height, 44);
+    if (self.UICustomization.hideToolbar == NO) {
+        self.toolbar = [UIToolbar.alloc initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
+        if(self.currentOrientation == UIInterfaceOrientationLandscapeLeft || self.currentOrientation == UIInterfaceOrientationLandscapeRight){
+            if (self.view.bounds.size.height > self.view.bounds.size.width) {
+                self.toolbar.frame = CGRectMake(0, self.view.frame.size.width-44, self.view.frame.size.height, 44);
+            }
         }
-    }
-    
-    self.toolbar.tintColor = self.UICustomization.barButtonsTintColor;
-    self.toolbar.tag = 307;
-    self.toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-    
-    self.playStopBarButton = [UIBarButtonItem.alloc initWithImage:MHGalleryImage(@"play")
+        
+        self.toolbar.tintColor = self.UICustomization.barButtonsTintColor;
+        self.toolbar.tag = 307;
+        self.toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+        
+        self.playStopBarButton = [UIBarButtonItem.alloc initWithImage:MHGalleryImage(@"play")
+                                                                style:UIBarButtonItemStyleBordered
+                                                               target:self
+                                                               action:@selector(playStopButtonPressed)];
+        
+        self.leftBarButton = [UIBarButtonItem.alloc initWithImage:MHGalleryImage(@"left_arrow")
                                                             style:UIBarButtonItemStyleBordered
                                                            target:self
-                                                           action:@selector(playStopButtonPressed)];
-    
-    self.leftBarButton = [UIBarButtonItem.alloc initWithImage:MHGalleryImage(@"left_arrow")
-                                                        style:UIBarButtonItemStyleBordered
-                                                       target:self
-                                                       action:@selector(leftPressed:)];
-    
-    self.rightBarButton = [UIBarButtonItem.alloc initWithImage:MHGalleryImage(@"right_arrow")
-                                                         style:UIBarButtonItemStyleBordered
-                                                        target:self
-                                                        action:@selector(rightPressed:)];
-    
-    self.shareBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-                                                                      target:self
-                                                                      action:@selector(sharePressed)];
-    
-    if (self.UICustomization.hideShare) {
+                                                           action:@selector(leftPressed:)];
         
-        self.shareBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                                                             target:self
-                                                                             action:nil];
-        self.shareBarButton.width = 30;
+        self.rightBarButton = [UIBarButtonItem.alloc initWithImage:MHGalleryImage(@"right_arrow")
+                                                             style:UIBarButtonItemStyleBordered
+                                                            target:self
+                                                            action:@selector(rightPressed:)];
+        
+        self.shareBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                          target:self
+                                                                          action:@selector(sharePressed)];
+        
+        if (self.UICustomization.hideShare) {
+            
+            self.shareBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                              target:self
+                                                                              action:nil];
+            self.shareBarButton.width = 30;
+        }
+        
+        [self updateToolBarForItem:item];
+        self.toolbar.barTintColor = self.UICustomization.barTintColor;
+        self.toolbar.barStyle = self.UICustomization.barStyle;
     }
-    
-    [self updateToolBarForItem:item];
     
     self.descriptionViewBackground = [UIToolbar.alloc initWithFrame:CGRectZero];
     self.descriptionView = [UITextView.alloc initWithFrame:CGRectZero];
@@ -184,9 +187,6 @@
     self.descriptionView.scrollEnabled = NO;
     self.descriptionView.userInteractionEnabled = NO;
     
-    
-    self.toolbar.barTintColor = self.UICustomization.barTintColor;
-    self.toolbar.barStyle = self.UICustomization.barStyle;
     self.descriptionViewBackground.barTintColor = self.UICustomization.barTintColor;
     self.descriptionViewBackground.barStyle = self.UICustomization.barStyle;
     
@@ -444,8 +444,7 @@
     }
 
     NSUInteger indexPage = theCurrentViewController.pageIndex;
-    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
-    imageViewController.pageIndex = indexPage-1;
+    MHImageViewController *imageViewController = [self imageViewControllerForIndex:indexPage - 1];
     
     if (indexPage-1 == 0) {
         self.leftBarButton.enabled = NO;
@@ -472,8 +471,7 @@
     }
 
     NSUInteger indexPage = theCurrentViewController.pageIndex;
-    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
-    imageViewController.pageIndex = indexPage+1;
+    MHImageViewController *imageViewController =[self imageViewControllerForIndex:indexPage + 1];
     
     if (indexPage+1 == self.numberOfGalleryItems-1) {
         self.rightBarButton.enabled = NO;
@@ -512,21 +510,13 @@
     
     if (indexPage ==0) {
         self.leftBarButton.enabled = NO;
-        MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:nil viewController:self];
-        imageViewController.pageIndex = 0;
-        return imageViewController;
+        return nil;
     }
-    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
-    imageViewController.pageIndex = indexPage-1;
+    MHImageViewController *imageViewController =[self imageViewControllerForIndex:indexPage - 1];
     
     return imageViewController;
 }
 
--(MHImageViewController*)imageViewControllerWithItem:(MHGalleryItem*)item pageIndex:(NSInteger)pageIndex{
-    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:pageIndex] viewController:self];
-    imageViewController.pageIndex  = pageIndex;
-    return imageViewController;
-}
 - (UIViewController *)pageViewController:(UIPageViewController *)pvc viewControllerAfterViewController:(MHImageViewController *)vc{
     
     
@@ -540,12 +530,16 @@
     
     if (indexPage ==self.numberOfGalleryItems-1) {
         self.rightBarButton.enabled = NO;
-        MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:nil viewController:self];
-        imageViewController.pageIndex = self.numberOfGalleryItems-1;
-        return imageViewController;
+        return nil;
     }
-    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
-    imageViewController.pageIndex  = indexPage+1;
+    MHImageViewController *imageViewController = [self imageViewControllerForIndex:indexPage + 1];
+    return imageViewController;
+}
+
+- (MHImageViewController *)imageViewControllerForIndex:(NSUInteger)index
+{
+    MHImageViewController *imageViewController = [MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:index] viewController:self];
+    imageViewController.pageIndex = index;
     return imageViewController;
 }
 
@@ -752,9 +746,6 @@
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         
-        __weak typeof(self) weakSelf = self;
-        
-        
         self.viewController = viewController;
         
         self.view.backgroundColor = [UIColor blackColor];
@@ -813,86 +804,92 @@
         [self.scrollView addSubview:self.act];
         if (self.item.galleryType != MHGalleryTypeImage) {
             [self addPlayButtonToView];
-            
-            self.moviePlayerToolBarTop = [UIToolbar.alloc initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44)];
-            self.moviePlayerToolBarTop.autoresizingMask =UIViewAutoresizingFlexibleWidth;
-            self.moviePlayerToolBarTop.alpha =0;
-            self.moviePlayerToolBarTop.barTintColor = self.viewController.UICustomization.barTintColor;
-            [self.view addSubview:self.moviePlayerToolBarTop];
-            
-            self.currentTimeMovie =0;
-            self.wholeTimeMovie =0;
-            
-            self.videoProgressView = [UIProgressView.alloc initWithFrame:CGRectMake(57, 21, self.view.frame.size.width-114, 3)];
-            self.videoProgressView.layer.borderWidth =0.5;
-            self.videoProgressView.layer.borderColor =[UIColor colorWithWhite:0 alpha:0.3].CGColor;
-            self.videoProgressView.trackTintColor =[UIColor clearColor];
-            self.videoProgressView.progressTintColor = [self.viewController.UICustomization.videoProgressTintColor colorWithAlphaComponent:0.3f];
-            self.videoProgressView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-            [self.moviePlayerToolBarTop addSubview:self.videoProgressView];
-            
-            self.slider = [UISlider.alloc initWithFrame:CGRectMake(55, 0, self.view.frame.size.width-110, 44)];
-            self.slider.maximumValue =10;
-            self.slider.minimumValue =0;
-            self.slider.minimumTrackTintColor = self.viewController.UICustomization.videoProgressTintColor;
-            self.slider.maximumTrackTintColor = [self.viewController.UICustomization.videoProgressTintColor colorWithAlphaComponent:0.2f];
-            [self.slider setThumbImage:MHGalleryImage(@"sliderPoint") forState:UIControlStateNormal];
-            [self.slider addTarget:self action:@selector(sliderDidChange:) forControlEvents:UIControlEventValueChanged];
-            [self.slider addTarget:self action:@selector(sliderDidDragExit:) forControlEvents:UIControlEventTouchUpInside];
-            self.slider.autoresizingMask =UIViewAutoresizingFlexibleWidth;
-            [self.moviePlayerToolBarTop addSubview:self.slider];
-            
-            self.leftSliderLabel = [UILabel.alloc initWithFrame:CGRectMake(8, 0, 40, 43)];
-            self.leftSliderLabel.font =[UIFont systemFontOfSize:14];
-            self.leftSliderLabel.text = @"00:00";
-            self.leftSliderLabel.textColor = self.viewController.UICustomization.videoProgressTintColor;
-            [self.moviePlayerToolBarTop addSubview:self.leftSliderLabel];
-            
-            self.rightSliderLabel = [UILabel.alloc initWithFrame:CGRectZero];
-            self.rightSliderLabel.frame = CGRectMake(self.viewController.view.frame.size.width-50, 0, 50, 43);
-            self.rightSliderLabel.font = [UIFont systemFontOfSize:14];
-            self.rightSliderLabel.text = @"-00:00";
-            self.rightSliderLabel.textColor = self.viewController.UICustomization.videoProgressTintColor;
-            self.rightSliderLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
-            [self.moviePlayerToolBarTop addSubview:self.rightSliderLabel];
-            
-            self.scrollView.maximumZoomScale = 1;
-            self.scrollView.minimumZoomScale =1;
+            [self updateUIForVideoFile];
         }
         
         self.imageView.userInteractionEnabled = YES;
         
         [imageTap requireGestureRecognizerToFail: doubleTap];
         
-        
-        
-        if (self.item.galleryType == MHGalleryTypeImage) {
-            
-            
-            [self.imageView setImageForMHGalleryItem:self.item imageType:MHImageTypeFull successBlock:^(UIImage *image, NSError *error) {
-                if (!image) {
-                    weakSelf.scrollView.maximumZoomScale  =1;
-                    [weakSelf changeToErrorImage];
-                }
-                [weakSelf.act stopAnimating];
-            }];
-            
-        }else{
-            [MHGallerySharedManager.sharedManager startDownloadingThumbImage:self.item.URLString
-                                                                successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
-                                                                    if (!error) {
-                                                                        [weakSelf handleGeneratedThumb:image
-                                                                                         videoDuration:videoDuration
-                                                                                             urlString:self.item.URLString];
-                                                                    }else{
-                                                                        [weakSelf changeToErrorImage];
-                                                                    }
-                                                                    [weakSelf.act stopAnimating];
-                                                                }];
-        }
+        [self displayFileContents];
     }
     
     return self;
+}
+
+- (void)updateUIForVideoFile
+{
+    self.moviePlayerToolBarTop = [UIToolbar.alloc initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44)];
+    self.moviePlayerToolBarTop.autoresizingMask =UIViewAutoresizingFlexibleWidth;
+    self.moviePlayerToolBarTop.alpha =0;
+    self.moviePlayerToolBarTop.barTintColor = self.viewController.UICustomization.barTintColor;
+    [self.view addSubview:self.moviePlayerToolBarTop];
+    
+    self.currentTimeMovie =0;
+    self.wholeTimeMovie =0;
+    
+    self.videoProgressView = [UIProgressView.alloc initWithFrame:CGRectMake(57, 21, self.view.frame.size.width-114, 3)];
+    self.videoProgressView.layer.borderWidth =0.5;
+    self.videoProgressView.layer.borderColor =[UIColor colorWithWhite:0 alpha:0.3].CGColor;
+    self.videoProgressView.trackTintColor =[UIColor clearColor];
+    self.videoProgressView.progressTintColor = [self.viewController.UICustomization.videoProgressTintColor colorWithAlphaComponent:0.3f];
+    self.videoProgressView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self.moviePlayerToolBarTop addSubview:self.videoProgressView];
+    
+    self.slider = [UISlider.alloc initWithFrame:CGRectMake(55, 0, self.view.frame.size.width-110, 44)];
+    self.slider.maximumValue =10;
+    self.slider.minimumValue =0;
+    self.slider.minimumTrackTintColor = self.viewController.UICustomization.videoProgressTintColor;
+    self.slider.maximumTrackTintColor = [self.viewController.UICustomization.videoProgressTintColor colorWithAlphaComponent:0.2f];
+    [self.slider setThumbImage:MHGalleryImage(@"sliderPoint") forState:UIControlStateNormal];
+    [self.slider addTarget:self action:@selector(sliderDidChange:) forControlEvents:UIControlEventValueChanged];
+    [self.slider addTarget:self action:@selector(sliderDidDragExit:) forControlEvents:UIControlEventTouchUpInside];
+    self.slider.autoresizingMask =UIViewAutoresizingFlexibleWidth;
+    [self.moviePlayerToolBarTop addSubview:self.slider];
+    
+    self.leftSliderLabel = [UILabel.alloc initWithFrame:CGRectMake(8, 0, 40, 43)];
+    self.leftSliderLabel.font =[UIFont systemFontOfSize:14];
+    self.leftSliderLabel.text = @"00:00";
+    self.leftSliderLabel.textColor = self.viewController.UICustomization.videoProgressTintColor;
+    [self.moviePlayerToolBarTop addSubview:self.leftSliderLabel];
+    
+    self.rightSliderLabel = [UILabel.alloc initWithFrame:CGRectZero];
+    self.rightSliderLabel.frame = CGRectMake(self.viewController.view.frame.size.width-50, 0, 50, 43);
+    self.rightSliderLabel.font = [UIFont systemFontOfSize:14];
+    self.rightSliderLabel.text = @"-00:00";
+    self.rightSliderLabel.textColor = self.viewController.UICustomization.videoProgressTintColor;
+    self.rightSliderLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
+    [self.moviePlayerToolBarTop addSubview:self.rightSliderLabel];
+    
+    self.scrollView.maximumZoomScale = 1;
+    self.scrollView.minimumZoomScale =1;
+}
+
+-(void)displayFileContents
+{
+    __weak typeof(self) weakSelf = self;
+
+    if (self.item.galleryType == MHGalleryTypeImage) {
+        [self.imageView setImageForMHGalleryItem:self.item imageType:MHImageTypeFull successBlock:^(UIImage *image, NSError *error) {
+            if (!image) {
+                weakSelf.scrollView.maximumZoomScale  =1;
+                [weakSelf changeToErrorImage];
+            }
+            [weakSelf.act stopAnimating];
+        }];
+    }else{
+        [MHGallerySharedManager.sharedManager startDownloadingThumbImage:self.item.URLString
+                                                            successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
+                                                                if (!error) {
+                                                                    [weakSelf handleGeneratedThumb:image
+                                                                                     videoDuration:videoDuration
+                                                                                         urlString:self.item.URLString];
+                                                                }else{
+                                                                    [weakSelf changeToErrorImage];
+                                                                }
+                                                                [weakSelf.act stopAnimating];
+                                                            }];
+    }
 }
 
 -(void)setImageForImageViewWithImage:(UIImage*)image error:(NSError*)error{
@@ -1374,7 +1371,9 @@
     self.viewController.pageViewController.view.backgroundColor = [self.viewController.UICustomization MHGalleryBackgroundColorForViewMode:viewMode];
     
     self.navigationController.navigationBar.alpha =alpha;
-    self.viewController.toolbar.alpha =alpha;
+    if (self.viewController.UICustomization.hideToolbar == NO) {
+        self.viewController.toolbar.alpha =alpha;
+    }
     
     self.viewController.descriptionView.alpha =alpha;
     self.viewController.descriptionViewBackground.alpha =alpha;

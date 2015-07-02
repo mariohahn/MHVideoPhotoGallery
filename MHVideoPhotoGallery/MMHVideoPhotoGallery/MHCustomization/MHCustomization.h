@@ -35,6 +35,7 @@ typedef NS_ENUM(NSUInteger, MHBackButtonState) {
 @property (nonatomic)        BOOL hideShare; //Default NO
 @property (nonatomic)        BOOL useCustomBackButtonImageOnImageViewer; //Default YES
 @property (nonatomic)        BOOL showOverView; //Default YES
+@property (nonatomic)        BOOL hideToolbar; //Default NO
 @property (nonatomic)        MHBackButtonState backButtonState; //Default MHBackButtonStateWithBackArrow
 
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutLandscape;

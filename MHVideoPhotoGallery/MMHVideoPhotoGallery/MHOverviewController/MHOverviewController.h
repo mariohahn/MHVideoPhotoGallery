@@ -25,7 +25,10 @@
 @property (nonatomic)         NSInteger             currentPage;
 @property (nonatomic, strong) NSArray               *galleryItems;
 
+-(MHGalleryController*)galleryViewController;
 -(UICollectionViewFlowLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation;
 -(MHGalleryItem*)itemForIndex:(NSInteger)index;
 -(void)pushToImageViewerForIndexPath:(NSIndexPath*)indexPath;
+-(void)makeMHGalleryOverViewCell:(MHMediaPreviewCollectionViewCell*)cell atIndexPath:(NSIndexPath*)indexPath;
+
 @end
