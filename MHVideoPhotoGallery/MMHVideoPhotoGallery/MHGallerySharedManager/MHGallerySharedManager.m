@@ -290,8 +290,7 @@
         NSString *videoID = [[URL componentsSeparatedByString:@"?v="] lastObject];
         NSString *localizedYouTubeApiString = MHGalleryLocalizedString(@"youtubeApiKey");
         NSString *infoURL = [self stringWithString:MHYoutubeInfoBaseURL andArgumentsArray:@[videoID,localizedYouTubeApiString]];
-        NSLog(@"INFO URL %@",infoURL);
-        
+
         NSMutableURLRequest *httpRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:infoURL]
                                                                    cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                                timeoutInterval:10];
@@ -305,9 +304,7 @@
                                                                                                   error:&error];
                                        dispatch_async(dispatch_get_main_queue(), ^(void){
                                            if (jsonData.count) {
-                                               NSLog(@"JSON \n%@",jsonData);
                                                NSMutableDictionary *dictToSave = [self durationDict];
-                                               NSLog(@"Duration %@",jsonData[@"items"][0][@"contentDetails"][@"duration"]);
                                                NSString *duration = jsonData[@"items"][0][@"contentDetails"][@"duration"];
                                                NSInteger intDuration = [self integerFromYoutubeDurationString:duration];
                                                dictToSave[URL] = @(intDuration);
