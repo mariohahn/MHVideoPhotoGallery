@@ -288,7 +288,8 @@
         succeedBlock(image,[dict[URL] integerValue],nil);
     }else{
         NSString *videoID = [[URL componentsSeparatedByString:@"?v="] lastObject];
-        NSString *infoURL = [self stringWithString:MHYoutubeInfoBaseURL andArgumentsArray:@[videoID,MHYoutubeApiKey]];
+        NSString *localizedYouTubeApiString = MHGalleryLocalizedString(@"youtubeApiKey");
+        NSString *infoURL = [self stringWithString:MHYoutubeInfoBaseURL andArgumentsArray:@[videoID,localizedYouTubeApiString]];
         NSLog(@"INFO URL %@",infoURL);
         
         NSMutableURLRequest *httpRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:infoURL]

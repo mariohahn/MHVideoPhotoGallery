@@ -3,7 +3,6 @@
 #import "MHOverviewController.h"
 #import <objc/runtime.h>
 
-NSString * const MHYoutubeApiKey           = @"<YOUR-API-KEY>";
 NSString * const MHYoutubeBaseURL          = @"https://www.youtube.com/watch?v=%@";
 NSString * const MHYoutubeChannel          = @"https://gdata.youtube.com/feeds/api/users/%@/uploads?&max-results=50&alt=json";
 NSString * const MHYoutubePlayBaseURL      = @"https://www.youtube.com/get_video_info?video_id=%@&el=embedded&ps=default&eurl=&gl=US&hl=%@";
