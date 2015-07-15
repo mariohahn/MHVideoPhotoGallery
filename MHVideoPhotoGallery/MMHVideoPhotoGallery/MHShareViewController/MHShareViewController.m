@@ -14,7 +14,7 @@
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
 #import "MHGallerySharedManagerPrivate.h"
-#import "SDImageCache.h"
+#import <SDWebImage/SDImageCache.h>
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "MHGallery.h"
 
