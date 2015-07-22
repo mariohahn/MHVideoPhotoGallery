@@ -41,6 +41,8 @@
 -(void)playStopButtonPressed;
 -(void)changeToPauseButton;
 -(void)changeToPlayButton;
+-(MHImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item
+											 viewController:(MHGalleryImageViewerViewController*)viewController;
 @end
 
 @interface MHImageViewController : UIViewController<UIScrollViewDelegate,UIGestureRecognizerDelegate>
