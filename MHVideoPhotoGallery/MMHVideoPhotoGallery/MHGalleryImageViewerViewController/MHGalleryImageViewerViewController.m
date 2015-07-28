@@ -123,7 +123,7 @@
     
     MHGalleryItem *item = [self itemForIndex:self.pageIndex];
     
-    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:item viewController:self];
+    MHImageViewController *imageViewController =[self imageViewControllerForMHMediaItem:item viewController:self];
     imageViewController.pageIndex = self.pageIndex;
     [self.pageViewController setViewControllers:@[imageViewController]
                                       direction:UIPageViewControllerNavigationDirectionForward
@@ -444,7 +444,7 @@
     }
 
     NSUInteger indexPage = theCurrentViewController.pageIndex;
-    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
+    MHImageViewController *imageViewController =[self imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
     imageViewController.pageIndex = indexPage-1;
     
     if (indexPage-1 == 0) {
@@ -472,7 +472,7 @@
     }
 
     NSUInteger indexPage = theCurrentViewController.pageIndex;
-    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
+    MHImageViewController *imageViewController =[self imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
     imageViewController.pageIndex = indexPage+1;
     
     if (indexPage+1 == self.numberOfGalleryItems-1) {
@@ -512,18 +512,18 @@
     
     if (indexPage ==0) {
         self.leftBarButton.enabled = NO;
-        MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:nil viewController:self];
+        MHImageViewController *imageViewController =[self imageViewControllerForMHMediaItem:nil viewController:self];
         imageViewController.pageIndex = 0;
         return imageViewController;
     }
-    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
+    MHImageViewController *imageViewController =[self imageViewControllerForMHMediaItem:[self itemForIndex:indexPage-1] viewController:self];
     imageViewController.pageIndex = indexPage-1;
     
     return imageViewController;
 }
 
 -(MHImageViewController*)imageViewControllerWithItem:(MHGalleryItem*)item pageIndex:(NSInteger)pageIndex{
-    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:pageIndex] viewController:self];
+    MHImageViewController *imageViewController =[self imageViewControllerForMHMediaItem:[self itemForIndex:pageIndex] viewController:self];
     imageViewController.pageIndex  = pageIndex;
     return imageViewController;
 }
@@ -540,11 +540,11 @@
     
     if (indexPage ==self.numberOfGalleryItems-1) {
         self.rightBarButton.enabled = NO;
-        MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:nil viewController:self];
+        MHImageViewController *imageViewController =[self imageViewControllerForMHMediaItem:nil viewController:self];
         imageViewController.pageIndex = self.numberOfGalleryItems-1;
         return imageViewController;
     }
-    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
+    MHImageViewController *imageViewController =[self imageViewControllerForMHMediaItem:[self itemForIndex:indexPage+1] viewController:self];
     imageViewController.pageIndex  = indexPage+1;
     return imageViewController;
 }
@@ -555,6 +555,12 @@
     [self.pageViewController.view.subviews.firstObject setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
     
 }
+
+-(MHImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item
+											 viewController:(MHGalleryImageViewerViewController*)viewController {
+	return [MHImageViewController imageViewControllerForMHMediaItem:item viewController:viewController];
+}
+
 
 @end
 

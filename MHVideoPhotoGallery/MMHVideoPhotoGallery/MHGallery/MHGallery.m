@@ -44,7 +44,8 @@ NSBundle *MHGalleryBundle(void) {
     static NSBundle *bundle = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSString* path = [NSBundle.mainBundle.resourcePath stringByAppendingPathComponent:kMHGalleryBundleName];
+        NSString *path = [NSBundle bundleForClass:MHGalleryController.class].resourcePath;
+        path = [path stringByAppendingPathComponent:kMHGalleryBundleName];
         bundle = [NSBundle bundleWithPath:path];
     });
     return bundle;

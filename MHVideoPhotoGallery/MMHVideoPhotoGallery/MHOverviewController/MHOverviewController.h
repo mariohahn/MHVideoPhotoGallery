@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MHGallery.h"
 #import "MHGalleryImageViewerViewController.h"
-#import "SDWebImageManager.h"
+#import <SDWebImage/SDWebImageManager.h>
 #import "MHTransitionShowDetail.h"
 #import "MHMediaPreviewCollectionViewCell.h"
 
@@ -25,7 +25,7 @@
 @property (nonatomic)         NSInteger             currentPage;
 @property (nonatomic, strong) NSArray               *galleryItems;
 
--(UICollectionViewFlowLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation;
+-(UICollectionViewLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation;
 -(MHGalleryItem*)itemForIndex:(NSInteger)index;
 -(void)pushToImageViewerForIndexPath:(NSIndexPath*)indexPath;
 @end

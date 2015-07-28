@@ -175,12 +175,8 @@
             self.interactivePushTransition.indexPath = recognizer.indexPath;
             self.lastPoint = [recognizer locationInView:self.view];
             
-            MHGalleryImageViewerViewController *detail = MHGalleryImageViewerViewController.new;
-            detail.galleryItems = self.galleryItems;
-            detail.pageIndex = recognizer.indexPath.row;
             self.startScale = recognizer.scale/8;
-            [self.navigationController pushViewController:detail
-                                                 animated:YES];
+			[self pushToImageViewerForIndexPath:recognizer.indexPath];
         }else{
             recognizer.cancelsTouchesInView = YES;
         }
