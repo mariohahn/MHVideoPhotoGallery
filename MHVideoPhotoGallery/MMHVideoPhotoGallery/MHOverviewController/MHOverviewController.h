@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "MHGallery.h"
 #import "MHGalleryImageViewerViewController.h"
+#ifdef COCOAPODS
+#import <SDWebImage/SDWebImageManager.h>
+#else
 #import "SDWebImageManager.h"
+#endif
 #import "MHTransitionShowDetail.h"
 #import "MHMediaPreviewCollectionViewCell.h"
 

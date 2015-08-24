@@ -275,7 +275,7 @@
 -(MHGalleryItem *)itemForIndex:(NSInteger)index{
     // You also have to set the image in the Testcell to get the correct Animation
     //    return [MHGalleryItem.alloc initWithImage:nil];
-    return [MHGalleryItem itemWithImage:[UIImage imageNamed:@"twitterMH"]];
+    return [MHGalleryItem itemWithImage:MHGalleryImage(@"twitterMH")];
 }
 
 -(NSUInteger)supportedInterfaceOrientations{

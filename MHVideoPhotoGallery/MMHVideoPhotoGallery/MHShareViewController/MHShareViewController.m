@@ -14,7 +14,11 @@
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
 #import "MHGallerySharedManagerPrivate.h"
+#ifdef COCOAPODS
+#import <SDWebImage/SDImageCache.h>
+#else
 #import "SDImageCache.h"
+#endif
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "MHGallery.h"
 
@@ -483,7 +487,7 @@
     
     MHShareItem *shareItem = self.shareDataSource[indexPath.section][indexPath.row];
     
-    cell.thumbnailImageView.image = [UIImage imageNamed:shareItem.imageName];
+    cell.thumbnailImageView.image = MHGalleryImage(shareItem.imageName);
     cell.thumbnailImageView.contentMode =UIViewContentModeCenter;
     if (indexPath.section ==0) {
         cell.thumbnailImageView.layer.cornerRadius =15;

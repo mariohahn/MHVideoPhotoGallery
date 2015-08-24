@@ -44,7 +44,12 @@ NSBundle *MHGalleryBundle(void) {
     static NSBundle *bundle = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSString* path = [NSBundle.mainBundle.resourcePath stringByAppendingPathComponent:kMHGalleryBundleName];
+        NSString* path = [NSBundle.mainBundle pathForResource:kMHGalleryBundleName ofType:kMHGalleryBundleExtension];
+        if (!path) {
+            // in case of using Swift and embedded frameworks, resources included not in main bundle,
+            // but in framework bundle
+            path = [[NSBundle bundleForClass:[MHGalleryController class]] pathForResource:kMHGalleryBundleName ofType:kMHGalleryBundleExtension];
+        }
         bundle = [NSBundle bundleWithPath:path];
     });
     return bundle;
@@ -127,6 +132,9 @@ UIImage *MHGalleryImage(NSString *imageName){
         if (changedImage) {
             return changedImage;
         }
+    }
+    if (MHGalleryOSVersion >= 8.0) {
+        return [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[MHGalleryController class]] compatibleWithTraitCollection:nil];
     }
     return [UIImage imageNamed:imageName];
 }
