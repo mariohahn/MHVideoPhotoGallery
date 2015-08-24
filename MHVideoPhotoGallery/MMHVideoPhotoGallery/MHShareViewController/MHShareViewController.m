@@ -14,7 +14,11 @@
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
 #import "MHGallerySharedManagerPrivate.h"
+#ifdef COCOAPODS
+#import <SDWebImage/SDImageCache.h>
+#else
 #import "SDImageCache.h"
+#endif
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "MHGallery.h"
 
