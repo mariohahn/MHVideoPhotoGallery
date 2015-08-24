@@ -23,6 +23,8 @@
 
 @property (nonatomic, strong)          NSArray *galleryItems;
 @property (nonatomic, strong)          UIToolbar *toolbar;
+@property (nonatomic, strong)          UITextView *titleView;
+@property (nonatomic, strong)          UIToolbar *titleViewBackground;
 @property (nonatomic, strong)          UITextView *descriptionView;
 @property (nonatomic, strong)          UIToolbar *descriptionViewBackground;
 @property (nonatomic)                  NSInteger pageIndex;
