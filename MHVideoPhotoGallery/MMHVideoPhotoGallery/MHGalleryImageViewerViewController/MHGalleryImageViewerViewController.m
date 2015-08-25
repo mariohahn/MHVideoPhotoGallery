@@ -15,6 +15,28 @@
 @implementation MHPinchGestureRecognizer
 @end
 
+@interface MHImageViewController ()
+@property (nonatomic, strong) UIButton                 *moviewPlayerButtonBehinde;
+@property (nonatomic, strong) UIToolbar                *moviePlayerToolBarTop;
+@property (nonatomic, strong) UISlider                 *slider;
+@property (nonatomic, strong) UIProgressView           *videoProgressView;
+@property (nonatomic, strong) UILabel                  *leftSliderLabel;
+@property (nonatomic, strong) UILabel                  *rightSliderLabel;
+@property (nonatomic, strong) NSTimer                  *movieTimer;
+@property (nonatomic, strong) NSTimer                  *movieDownloadedTimer;
+@property (nonatomic, strong) UIPanGestureRecognizer   *pan;
+@property (nonatomic, strong) MHPinchGestureRecognizer *pinch;
+
+@property (nonatomic)         NSInteger                wholeTimeMovie;
+@property (nonatomic)         CGPoint                  pointToCenterAfterResize;
+@property (nonatomic)         CGFloat                  scaleToRestoreAfterResize;
+@property (nonatomic)         CGPoint                  startPoint;
+@property (nonatomic)         CGPoint                  lastPoint;
+@property (nonatomic)         CGPoint                  lastPointPop;
+@property (nonatomic)         BOOL                     shouldPlayVideo;
+
+@end
+
 @interface MHGalleryImageViewerViewController()
 @property (nonatomic, strong) UIBarButtonItem          *shareBarButton;
 @property (nonatomic, strong) UIBarButtonItem          *leftBarButton;
@@ -329,7 +351,14 @@
 -(void)updateTitleViewSizeAndPosition {
     CGSize size = [self.titleView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
     
+    MHGalleryItem *item = [self itemForIndex:self.pageIndex];
+    MHImageViewController *controller = [MHImageViewController imageViewControllerForMHMediaItem:item viewController:self];
+    
     CGFloat y = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+    
+    if (controller.moviePlayerToolBarTop) {
+        y += CGRectGetHeight(controller.moviePlayerToolBarTop.frame);
+    }
     
     self.titleView.frame = CGRectMake(10, y, self.view.frame.size.width-20, size.height);
     if (self.titleView.text.length >0) {
@@ -606,27 +635,7 @@
 
 @end
 
-@interface MHImageViewController ()
-@property (nonatomic, strong) UIButton                 *moviewPlayerButtonBehinde;
-@property (nonatomic, strong) UIToolbar                *moviePlayerToolBarTop;
-@property (nonatomic, strong) UISlider                 *slider;
-@property (nonatomic, strong) UIProgressView           *videoProgressView;
-@property (nonatomic, strong) UILabel                  *leftSliderLabel;
-@property (nonatomic, strong) UILabel                  *rightSliderLabel;
-@property (nonatomic, strong) NSTimer                  *movieTimer;
-@property (nonatomic, strong) NSTimer                  *movieDownloadedTimer;
-@property (nonatomic, strong) UIPanGestureRecognizer   *pan;
-@property (nonatomic, strong) MHPinchGestureRecognizer *pinch;
 
-@property (nonatomic)         NSInteger                wholeTimeMovie;
-@property (nonatomic)         CGPoint                  pointToCenterAfterResize;
-@property (nonatomic)         CGFloat                  scaleToRestoreAfterResize;
-@property (nonatomic)         CGPoint                  startPoint;
-@property (nonatomic)         CGPoint                  lastPoint;
-@property (nonatomic)         CGPoint                  lastPointPop;
-@property (nonatomic)         BOOL                     shouldPlayVideo;
-
-@end
 
 @implementation MHImageViewController
 
