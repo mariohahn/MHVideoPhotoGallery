@@ -392,7 +392,9 @@
         NSData *decodedData = [NSData.alloc initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
         NSString *status = [NSString.alloc initWithData:decodedData encoding:NSUTF8StringEncoding];
         
-        [UIDevice.currentDevice setValue:@(UIInterfaceOrientationPortrait) forKey:status];
+        if (MHGalleryOSVersion < 8.0) {
+            [UIDevice.currentDevice setValue:@(UIInterfaceOrientationPortrait) forKey:status];
+        }
         if (self.orientationTransformBeforeDismiss >0) {
             [UIDevice.currentDevice setValue:@(UIInterfaceOrientationLandscapeRight) forKey:status];
         }else{
