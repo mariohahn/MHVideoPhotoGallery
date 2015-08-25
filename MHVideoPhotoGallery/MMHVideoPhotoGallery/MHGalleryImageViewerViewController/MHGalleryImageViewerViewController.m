@@ -329,7 +329,7 @@
 -(void)updateTitleViewSizeAndPosition {
     CGSize size = [self.titleView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
     
-    CGFloat y = [self.topLayoutGuide length];
+    CGFloat y = CGRectGetMaxY(self.navigationController.navigationBar.frame);
     
     self.titleView.frame = CGRectMake(10, y, self.view.frame.size.width-20, size.height);
     if (self.titleView.text.length >0) {
