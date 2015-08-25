@@ -432,6 +432,11 @@
     
     [self enableOrDisbaleBarbButtons];
     
+    UIBarButtonItem *customItem = self.UICustomization.customBarButtonItem;
+    if (!customItem) {
+        customItem = fixed;
+    }
+    
     if (item.galleryType == MHGalleryTypeVideo) {
         MHImageViewController *imageViewController = self.pageViewController.viewControllers.firstObject;
         if (imageViewController.isPlayingVideo) {
@@ -439,9 +444,9 @@
         }else{
             [self changeToPlayButton];
         }
-        self.toolbar.items = @[self.shareBarButton,flex,self.leftBarButton,flex,self.playStopBarButton,flex,self.rightBarButton,flex,fixed];
+        self.toolbar.items = @[self.shareBarButton,flex,self.leftBarButton,flex,self.playStopBarButton,flex,self.rightBarButton,flex,customItem];
     }else{
-        self.toolbar.items =@[self.shareBarButton,flex,self.leftBarButton,flex,self.rightBarButton,flex,fixed];
+        self.toolbar.items =@[self.shareBarButton,flex,self.leftBarButton,flex,self.rightBarButton,flex,customItem];
     }
 }
 
