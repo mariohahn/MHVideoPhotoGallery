@@ -64,6 +64,8 @@ DE,EN,ES,FR,HR,IT,PT,RU
 @property (nonatomic)        BOOL showOverView; //Default YES
 @property (nonatomic)        MHBackButtonState backButtonState; //Default MHBackButtonStateWithBackArrow
 
+@property (nonatomic,strong) UIBarButtonItem *customBarButtonItem; //A optional UIBarButtonItem displayed in the lower right corner. Default nil
+
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutLandscape;
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutPortrait;
 

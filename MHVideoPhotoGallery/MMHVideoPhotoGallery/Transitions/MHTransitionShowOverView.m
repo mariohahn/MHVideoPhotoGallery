@@ -11,6 +11,8 @@
 
 @interface MHTransitionShowOverView()
 @property (nonatomic,strong) UIToolbar *toolbar;
+@property (nonatomic,strong) UITextView *titleLabel;
+@property (nonatomic,strong) UIToolbar *titleViewBackgroundToolbar;
 @property (nonatomic,strong) UITextView *descriptionLabel;
 @property (nonatomic,strong) UIToolbar *descriptionViewBackgroundToolbar;
 @property (nonatomic,strong) MHOverviewController *toViewController;
@@ -54,16 +56,23 @@
     
     [containerView addSubview:snapShot];
     
+    UITextView *titleLabel = fromViewController.titleView;
+    titleLabel.alpha = 1;
+    
     UITextView *descriptionLabel = fromViewController.descriptionView;
     descriptionLabel.alpha =1;
     
     UIToolbar *tb = fromViewController.toolbar;
     tb.alpha =1;
     
+    UIToolbar *titleViewBackground = fromViewController.titleViewBackground;
+    titleViewBackground.alpha = 1;
     
     UIToolbar *descriptionViewBackground = fromViewController.descriptionViewBackground;
     descriptionViewBackground.alpha =1;
     
+    [containerView addSubview:titleViewBackground];
+    [containerView addSubview:titleLabel];
     [containerView addSubview:descriptionViewBackground];
     [containerView addSubview:tb];
     [containerView addSubview:descriptionLabel];
@@ -92,8 +101,10 @@
         
         [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             fromViewController.view.alpha = 0.0;
+            titleLabel.alpha = 0;
             descriptionLabel.alpha =0;
             tb.alpha =0;
+            titleViewBackground.alpha = 0;
             descriptionViewBackground.alpha =0;
             cellImageSnapshot.frame =[containerView convertRect:cellNew.thumbnail.frame fromView:cellNew.thumbnail.superview];
             cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
@@ -163,17 +174,25 @@
     
     self.isHiddingToolBarAndNavigationBar = fromViewController.isHiddingToolBarAndNavigationBar;
     if (!fromViewController.isHiddingToolBarAndNavigationBar) {
+        self.titleLabel = fromViewController.titleView;
+        self.titleLabel.alpha = 1;
+        
         self.descriptionLabel = fromViewController.descriptionView;
         self.descriptionLabel.alpha =1;
         
         self.toolbar = fromViewController.toolbar;
         self.toolbar.alpha =1;
         
+        self.titleViewBackgroundToolbar = fromViewController.titleViewBackground;
+        self.titleViewBackgroundToolbar.alpha = 1;
+        
         self.descriptionViewBackgroundToolbar = fromViewController.descriptionViewBackground;
         self.descriptionViewBackgroundToolbar.alpha =1;
         
+        [containerView addSubview:self.titleViewBackgroundToolbar];
         [containerView addSubview:self.descriptionViewBackgroundToolbar];
         [containerView addSubview:self.toolbar];
+        [containerView addSubview:self.titleLabel];
         [containerView addSubview:self.descriptionLabel];
     }else{
         self.backView.backgroundColor = [galleryViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarHidden];
@@ -215,17 +234,21 @@
             MHStatusBar().alpha = MHShouldShowStatusBar() ? 1 : 0;
         }
         self.toolbar.alpha = 0;
+        self.titleLabel.alpha = 0;
         self.descriptionLabel.alpha =0;
         self.backView.alpha =0;
+        self.titleViewBackgroundToolbar.alpha = 0;
         self.descriptionViewBackgroundToolbar.alpha = 0;
         self.transitionImageView.frame = [containerView convertRect:self.cellInteractive.thumbnail.frame fromView:self.cellInteractive.thumbnail.superview];
         self.transitionImageView.contentMode = UIViewContentModeScaleAspectFill;
     } completion:^(BOOL finished) {
         self.cellInteractive.thumbnail.hidden =NO;
+        [self.titleLabel removeFromSuperview];
         [self.descriptionLabel removeFromSuperview];
         [self.toolbar removeFromSuperview];
         [self.transitionImageView removeFromSuperview];
         [self.backView removeFromSuperview];
+        [self.titleViewBackgroundToolbar removeFromSuperview];
         [self.descriptionViewBackgroundToolbar removeFromSuperview];
         [self.context completeTransition:YES];
     }];
@@ -246,8 +269,10 @@
         }
         self.backView.alpha =1;
         self.toolbar.alpha = 1;
+        self.titleLabel.alpha = 1;
         self.descriptionLabel.alpha =1;
         self.backView.alpha =1;
+        self.titleViewBackgroundToolbar.alpha = 1;
         self.descriptionViewBackgroundToolbar.alpha = 1;
         self.transitionImageView.frame = self.startFrame;
     } completion:^(BOOL finished) {
@@ -270,6 +295,8 @@
 
     if (!self.isHiddingToolBarAndNavigationBar) {
         self.toolbar.alpha = 1-percentComplete;
+        self.titleLabel.alpha = 1-percentComplete;
+        self.titleViewBackgroundToolbar.alpha = 1-percentComplete;
         self.descriptionLabel.alpha = 1-percentComplete;
         self.descriptionViewBackgroundToolbar.alpha = 1-percentComplete;
     }else{

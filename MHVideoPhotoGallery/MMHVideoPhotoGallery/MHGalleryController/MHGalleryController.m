@@ -12,7 +12,7 @@
 @implementation MHGalleryController
 
 - (id)initWithPresentationStyle:(MHGalleryViewMode)presentationStyle{
-    self = [super init];
+    self = [super initWithNibName:nil bundle:nil];
     if (!self)
         return nil;
     

@@ -10,6 +10,8 @@
 #import "MHTransitionShowDetail.h"
 @interface MHTransitionShowDetail()
 @property (nonatomic, strong) MHUIImageViewContentViewAnimation *cellImageSnapshot;
+@property (nonatomic, strong) UITextView *titleLabel;
+@property (nonatomic, strong) UIToolbar *titleViewBackgroundToolbar;
 @property (nonatomic, strong) UITextView *descriptionLabel;
 @property (nonatomic, strong) UIToolbar *descriptionViewBackgroundToolbar;
 @property (nonatomic, strong) UIToolbar *toolbar;
@@ -51,12 +53,19 @@
     toViewController.view.alpha = 0;
     toViewController.pageViewController.view.hidden = YES;
     
+    UITextView *titleLabel = toViewController.titleView;
+    titleLabel.alpha = 0;
+    
     UITextView *descriptionLabel = toViewController.descriptionView;
     descriptionLabel.alpha =0;
     
     UIToolbar *tb = toViewController.toolbar;
     tb.alpha =0;
     tb.frame = CGRectMake(0, toViewController.view.frame.size.height-44, toViewController.view.frame.size.width , 44);
+    
+    UIToolbar *titleViewBackground = toViewController.titleViewBackground;
+    titleViewBackground.alpha = 0;
+    titleViewBackground.frame = CGRectMake(0, toViewController.view.frame.size.height-210, toViewController.view.frame.size.width, 110);
     
     UIToolbar *descriptionViewBackground = toViewController.descriptionViewBackground;
     descriptionViewBackground.alpha =0;
@@ -65,6 +74,8 @@
     
     [containerView addSubview:toViewController.view];
     [containerView addSubview:cellImageSnapshot];
+    [containerView addSubview:titleViewBackground];
+    [containerView addSubview:titleLabel];
     [containerView addSubview:descriptionViewBackground];
     [containerView addSubview:tb];
     [containerView addSubview:descriptionLabel];
@@ -79,6 +90,8 @@
         
         toViewController.view.alpha = 1.0;
         tb.alpha = 1.0;
+        titleLabel.alpha = 1.0;
+        titleViewBackground.alpha = 1.0;
         descriptionLabel.alpha = 1.0;
         descriptionViewBackground.alpha =1.0;
         
@@ -99,6 +112,8 @@
                 }
                 if ([transitionContext transitionWasCancelled]) {
                     tb.alpha = 0;
+                    titleLabel.alpha = 0;
+                    titleViewBackground.alpha = 0;
                     descriptionLabel.alpha = 0;
                     descriptionViewBackground.alpha =0;
                     [transitionContext completeTransition:NO];
@@ -139,12 +154,18 @@
     toViewController.view.alpha = 0;
     toViewController.pageViewController.view.hidden = YES;
     
+    self.titleLabel = toViewController.titleView;
+    self.titleLabel.alpha = 0;
+    
     self.descriptionLabel = toViewController.descriptionView;
     self.descriptionLabel.alpha =0;
     
     self.toolbar = toViewController.toolbar;
     self.toolbar.alpha =0;
     self.toolbar.frame = CGRectMake(0, toViewController.view.frame.size.height-44, toViewController.view.frame.size.width , 44);
+    
+    self.titleViewBackgroundToolbar = toViewController.titleViewBackground;
+    self.titleViewBackgroundToolbar.alpha = 0;
     
     self.descriptionViewBackgroundToolbar = toViewController.descriptionViewBackground;
     self.descriptionViewBackgroundToolbar.alpha =0;
@@ -157,8 +178,10 @@
     [containerView addSubview:toViewController.view];
     [containerView addSubview:self.backView];
     [containerView addSubview:self.cellImageSnapshot];
+    [containerView addSubview:self.titleViewBackgroundToolbar];
     [containerView addSubview:self.descriptionViewBackgroundToolbar];
     [containerView addSubview:self.toolbar];
+    [containerView addSubview:self.titleLabel];
     [containerView addSubview:self.descriptionLabel];
     
     BOOL imageIsLand = self.cellImageSnapshot.imageMH.size.width > self.cellImageSnapshot.imageMH.size.height;
@@ -211,14 +234,18 @@
         [UIView animateWithDuration:0.2 animations:^{
             toViewController.view.alpha = 1;
             self.cellImageSnapshot.frame = toViewController.view.bounds;
+            self.titleViewBackgroundToolbar.alpha = 1;
             self.descriptionViewBackgroundToolbar.alpha = 1;
             self.toolbar.alpha = 1;
+            self.titleLabel.alpha = 1;
             self.descriptionLabel.alpha = 1;
             
         } completion:^(BOOL finished) {
             self.cell.thumbnail.hidden = NO;
             toViewController.pageViewController.view.hidden = NO;
             toViewController.toolbar = self.toolbar;
+            toViewController.titleViewBackground = self.titleViewBackgroundToolbar;
+            toViewController.titleView = self.titleLabel;
             toViewController.descriptionViewBackground = self.descriptionViewBackgroundToolbar;
             toViewController.descriptionView = self.descriptionLabel;
             [self.cellImageSnapshot removeFromSuperview];
@@ -244,8 +271,10 @@
         self.cellImageSnapshot.frame =rect;
         
         [UIView animateWithDuration:0.25 animations:^{
+            self.titleViewBackgroundToolbar.alpha = 0;
             self.descriptionViewBackgroundToolbar.alpha = 0;
             self.toolbar.alpha = 0;
+            self.titleLabel.alpha = 0;
             self.descriptionLabel.alpha = 0;
             self.backView.alpha =0;
             self.cellImageSnapshot.frame =self.changedFrame;
@@ -255,8 +284,10 @@
                 self.cellImageSnapshot.frame =self.startFrame;
                 self.cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
             }completion:^(BOOL finished) {
+                [self.titleViewBackgroundToolbar removeFromSuperview];
                 [self.descriptionViewBackgroundToolbar removeFromSuperview];
                 [self.toolbar removeFromSuperview];
+                [self.titleLabel removeFromSuperview];
                 [self.descriptionLabel removeFromSuperview];
                 [self.backView removeFromSuperview];
                 [self.cellImageSnapshot removeFromSuperview];
@@ -271,8 +302,10 @@
     [super updateInteractiveTransition:percentComplete];
    
     self.backView.alpha = percentComplete;
+    self.titleViewBackgroundToolbar.alpha = percentComplete;
     self.descriptionViewBackgroundToolbar.alpha = percentComplete;
     self.toolbar.alpha = percentComplete;
+    self.titleLabel.alpha = percentComplete;
     self.descriptionLabel.alpha = percentComplete;
     self.cellImageSnapshot.center = CGPointMake(self.cellImageSnapshot.center.x-self.changedPoint.x, self.cellImageSnapshot.center.y-self.changedPoint.y);
     

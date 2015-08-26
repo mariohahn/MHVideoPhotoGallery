@@ -27,6 +27,8 @@
     if (toViewController.presentationStyle == MHGalleryViewModeImageViewerNavigationBarHidden) {
         imageViewer = toViewController.viewControllers.lastObject;
         toViewController.navigationBar.hidden = YES;
+        imageViewer.titleView.alpha = 0;
+        imageViewer.titleViewBackground.alpha = 0;
         imageViewer.descriptionView.alpha = 0;
         imageViewer.descriptionViewBackground.alpha = 0;
         imageViewer.toolbar.alpha = 0;
@@ -80,6 +82,7 @@
         backView.alpha =1;
     } completion:^(BOOL finished) {
         if (toViewController.presentationStyle == MHGalleryViewModeImageViewerNavigationBarHidden) {
+            imageViewer.titleViewBackground.alpha = 0;
             imageViewer.descriptionViewBackground.alpha = 0;
         }
         
