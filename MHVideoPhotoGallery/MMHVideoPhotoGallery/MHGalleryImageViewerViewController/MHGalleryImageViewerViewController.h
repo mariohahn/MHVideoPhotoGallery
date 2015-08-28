@@ -21,7 +21,7 @@
 
 @interface MHGalleryImageViewerViewController : UIViewController<UIPageViewControllerDelegate,UIPageViewControllerDataSource,UINavigationControllerDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate,UINavigationBarDelegate>
 
-@property (nonatomic, strong)          NSArray *galleryItems;
+@property (nonatomic, copy)          NSArray *galleryItems;
 @property (nonatomic, strong)          UIToolbar *toolbar;
 @property (nonatomic, strong)          UITextView *titleView;
 @property (nonatomic, strong)          UIToolbar *titleViewBackground;
@@ -40,6 +40,7 @@
 
 -(MHGalleryController*)galleryViewController;
 -(void)updateToolBarForItem:(MHGalleryItem*)item;
+-(void)deleteItemAtIndex:(NSInteger)index;
 -(void)playStopButtonPressed;
 -(void)changeToPauseButton;
 -(void)changeToPlayButton;

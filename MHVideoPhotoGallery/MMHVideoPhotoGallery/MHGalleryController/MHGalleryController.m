@@ -68,6 +68,23 @@
     return self.galleryItems.count;
 }
 
+- (void)removeItemAtIndex:(NSInteger)index
+{
+    MHGalleryItem *item = [self itemForIndex:index];
+    
+    if (item) {
+        NSMutableArray *tmp = [NSMutableArray arrayWithArray:self.galleryItems];
+        [tmp removeObject:item];
+        self.galleryItems = [NSArray arrayWithArray:tmp];
+        [self.overViewViewController.collectionView reloadData];
+        
+        if ([self.galleryDelegate respondsToSelector:@selector(galleryController:didDeleteItemAtIndex:)]) {
+            [((id)self.galleryDelegate) galleryController:self didDeleteItemAtIndex:index];
+        }
+    }
+}
+
+
 @end
 
 
