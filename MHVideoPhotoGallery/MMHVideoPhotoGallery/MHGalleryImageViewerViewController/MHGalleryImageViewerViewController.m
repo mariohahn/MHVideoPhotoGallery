@@ -314,7 +314,7 @@
     }else{
         MHImageViewController *imageViewController = (MHImageViewController*)self.pageViewController.viewControllers.firstObject;
         if (imageViewController.imageView.image != nil) {
-            UIActivityViewController *act = [UIActivityViewController.alloc initWithActivityItems:@[[(MHImageViewController*)self.pageViewController.viewControllers.firstObject imageView].image] applicationActivities:nil];
+            UIActivityViewController *act = [UIActivityViewController.alloc initWithActivityItems:@[imageViewController.imageView.image] applicationActivities:nil];
             [self presentViewController:act animated:YES completion:nil];
             
             if ([act respondsToSelector:@selector(popoverPresentationController)]) {
