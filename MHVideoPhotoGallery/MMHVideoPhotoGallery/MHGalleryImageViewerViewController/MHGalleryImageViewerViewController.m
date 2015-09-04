@@ -125,7 +125,7 @@
     }else{
         if (self.galleryViewController.UICustomization.backButtonState == MHBackButtonStateWithoutBackArrow) {
             UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"ic_square")
-                                                                            style:UIBarButtonItemStyleBordered
+                                                                            style:UIBarButtonItemStylePlain
                                                                            target:self
                                                                            action:@selector(backButtonAction)];
             self.navigationItem.hidesBackButton = YES;
@@ -138,6 +138,8 @@
                                                                                   action:@selector(donePressed)];
     
     self.navigationItem.rightBarButtonItem = doneBarButton;
+    
+    self.navigationController.navigationBar.translucent = YES;
     
     self.view.backgroundColor = [self.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeImageViewerNavigationBarShown];
     
