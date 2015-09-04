@@ -233,7 +233,15 @@
     textView.font = [UIFont systemFontOfSize:15];
     textView.textColor = [UIColor blackColor];
     textView.scrollEnabled = NO;
-    textView.userInteractionEnabled = NO;
+    textView.editable = NO;
+    textView.delegate = self;
+}
+
+-(BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    if ([self.galleryViewController.galleryDelegate respondsToSelector:@selector(galleryController:shouldHandleURL:)]) {
+        return [self.galleryViewController.galleryDelegate galleryController:self.galleryViewController shouldHandleURL:URL];
+    }
+    return YES;
 }
 
 -(void)enableOrDisbaleBarbButtons{
