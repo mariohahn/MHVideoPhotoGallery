@@ -18,6 +18,7 @@
 @protocol MHGalleryDelegate<NSObject>
 @optional
 -(void)galleryController:(MHGalleryController*)galleryController didShowIndex:(NSInteger)index;
+-(BOOL)galleryController:(MHGalleryController*)galleryController shouldHandleURL:(NSURL *)URL;
 @end
 
 @protocol MHGalleryDataSource<NSObject>
