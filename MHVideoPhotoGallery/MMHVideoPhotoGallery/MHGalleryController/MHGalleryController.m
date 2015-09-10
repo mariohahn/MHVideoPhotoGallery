@@ -84,6 +84,7 @@
                                                                        action:nil];
         galleryController.overViewViewController.navigationItem.backBarButtonItem = backBarButton;
         galleryController.navigationBar.tintColor = galleryController.UICustomization.barButtonsTintColor;
+        galleryController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : galleryController.UICustomization.barButtonsTintColor};
     }
     
     if (galleryController.transitionCustomization.interactiveDismiss) {
