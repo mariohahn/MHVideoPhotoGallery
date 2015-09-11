@@ -106,6 +106,19 @@
     [self presentViewController:galleryController animated:YES completion:completion];
 }
 
+-(void)pushMHGalleryController:(MHGalleryController *)galleryController
+                         animated:(BOOL)animated{
+    
+    
+    
+    galleryController.navigationBar.barStyle = galleryController.UICustomization.barStyle;
+    galleryController.navigationBar.barTintColor = galleryController.UICustomization.barTintColor;
+    
+    if (!galleryController.dataSource) {
+        galleryController.dataSource = galleryController;
+    }
+    [[self navigationController]pushViewController:galleryController animated:true];
+}
 
 - (void)dismissViewControllerAnimated:(BOOL)flag dismissImageView:(UIImageView*)dismissImageView completion:(void (^)(void))completion{
     if ([[(UINavigationController*)self viewControllers].lastObject isKindOfClass:MHGalleryImageViewerViewController.class]) {

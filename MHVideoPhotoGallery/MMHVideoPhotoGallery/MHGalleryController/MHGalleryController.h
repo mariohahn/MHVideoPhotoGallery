@@ -87,6 +87,16 @@
 -(void)presentMHGalleryController:(MHGalleryController*)galleryController
                          animated:(BOOL)animated
                        completion:(void (^)(void))completion;
+
+/**
+ *  For pushing MHGalleryController.
+ *
+ *  @param galleryController your created GalleryController
+ *  @param animated          animated or nonanimated
+ */
+-(void)pushMHGalleryController:(MHGalleryController*)galleryController
+                         animated:(BOOL)animated;
+
 /**
  *  For dismissing MHGalleryController
  *
