@@ -235,7 +235,15 @@
     textView.font = [UIFont systemFontOfSize:15];
     textView.textColor = [UIColor blackColor];
     textView.scrollEnabled = NO;
-    textView.userInteractionEnabled = NO;
+    textView.editable = NO;
+    textView.delegate = self;
+}
+
+-(BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    if ([self.galleryViewController.galleryDelegate respondsToSelector:@selector(galleryController:shouldHandleURL:)]) {
+        return [self.galleryViewController.galleryDelegate galleryController:self.galleryViewController shouldHandleURL:URL];
+    }
+    return YES;
 }
 
 -(void)enableOrDisbaleBarbButtons{
@@ -314,13 +322,15 @@
         [self.navigationController pushViewController:share
                                              animated:YES];
     }else{
-        UIActivityViewController *act = [UIActivityViewController.alloc initWithActivityItems:@[[(MHImageViewController*)self.pageViewController.viewControllers.firstObject imageView].image] applicationActivities:nil];
-        [self presentViewController:act animated:YES completion:nil];
-        
-        if ([act respondsToSelector:@selector(popoverPresentationController)]) {
-            act.popoverPresentationController.barButtonItem = self.shareBarButton;
-        }
-        
+        MHImageViewController *imageViewController = (MHImageViewController*)self.pageViewController.viewControllers.firstObject;
+        if (imageViewController.imageView.image != nil) {
+            UIActivityViewController *act = [UIActivityViewController.alloc initWithActivityItems:@[imageViewController.imageView.image] applicationActivities:nil];
+            [self presentViewController:act animated:YES completion:nil];
+            
+            if ([act respondsToSelector:@selector(popoverPresentationController)]) {
+                act.popoverPresentationController.barButtonItem = self.shareBarButton;
+            }
+        }        
     }
 }
 
