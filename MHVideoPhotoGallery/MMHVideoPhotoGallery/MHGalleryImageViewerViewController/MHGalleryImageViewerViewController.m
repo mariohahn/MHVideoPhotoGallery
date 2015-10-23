@@ -14,6 +14,7 @@
 #import "Masonry.h"
 #import "MHGradientView.h"
 #import "MHBarButtonItem.h"
+#import "MHGalleryLabel.h"
 
 @implementation MHPinchGestureRecognizer
 @end
