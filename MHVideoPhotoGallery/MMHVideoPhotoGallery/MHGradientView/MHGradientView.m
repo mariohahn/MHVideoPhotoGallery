@@ -25,7 +25,7 @@
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
     NSArray* gradientBlackClearColors = @[(id)[[UIColor blackColor] colorWithAlphaComponent:0.85].CGColor,
-                                          (id)[[UIColor blackColor] colorWithAlphaComponent:0.65].CGColor,
+                                          (id)[[UIColor blackColor] colorWithAlphaComponent:0.70].CGColor,
                                           (id)[[UIColor blackColor] colorWithAlphaComponent:0.0].CGColor
                                           ];
     

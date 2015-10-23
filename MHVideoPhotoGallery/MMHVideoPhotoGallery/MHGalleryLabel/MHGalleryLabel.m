@@ -28,12 +28,15 @@
     return self;
 }
 
--(void)configureLabel{
-    
+-(void)configureLabel{    
     self.wholeText = NO;
-    self.attributedTruncationToken = [self truncationString];
     [self addGestureRecognizer:[UITapGestureRecognizer.alloc initWithTarget:self action:@selector(tappedLabel)]];
     self.userInteractionEnabled = YES;
+}
+-(void)setUICustomization:(MHUICustomization *)UICustomization{
+    _UICustomization = UICustomization;
+    
+    self.attributedTruncationToken = [UICustomization descriptionTruncationString];
 }
 
 -(void)tappedLabel{
@@ -42,21 +45,10 @@
     if ([self.labelDelegate respondsToSelector:@selector(galleryLabel:wholeTextDidChange:)]) {
         [self.labelDelegate galleryLabel:self wholeTextDidChange:self.wholeText];
     }
-}
-
--(NSAttributedString*)truncationString{
-    NSString *points = @"...";
-    NSString *more = MHGalleryLocalizedString(@"truncate.more");
-    NSString *wholeString = [points stringByAppendingString:more];
-    
-    NSMutableAttributedString *truncation = [NSMutableAttributedString.alloc initWithString:wholeString attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14],NSForegroundColorAttributeName : UIColor.whiteColor}];
-    
-    NSDictionary *attributes = @{NSFontAttributeName : [UIFont systemFontOfSize:14],
-                                 NSForegroundColorAttributeName : UIApplication.sharedApplication.keyWindow.tintColor};
-    
-    [truncation setAttributes:attributes range:NSMakeRange(points.length, more.length)];
-    return truncation;
-    
+    if ([self.superview isKindOfClass:MHScrollViewLabel.class] && self.wholeText) {
+        MHScrollViewLabel *scrollView = (MHScrollViewLabel*)self.superview;
+        [scrollView  flashScrollIndicators];
+    }
 }
 
 -(void)setWholeText:(BOOL)wholeText{

@@ -7,6 +7,7 @@
 //
 
 #import <TTTAttributedLabel/TTTAttributedLabel.h>
+#import "MHCustomization.h"
 
 @class MHGalleryLabel;
 
@@ -16,6 +17,8 @@
 @end
 
 @interface MHGalleryLabel : TTTAttributedLabel
+
+@property (nonatomic,strong) MHUICustomization *UICustomization;
 @property (nonatomic) BOOL wholeText;
 @property (nonatomic,assign) id<MHGalleryLabelDelegate>  labelDelegate;
 @end

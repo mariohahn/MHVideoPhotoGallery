@@ -184,6 +184,7 @@
     self.descriptionLabel = MHScrollViewLabel.new;
     self.descriptionLabel.textLabel.text = item.descriptionString;
     self.descriptionLabel.textLabel.labelDelegate = self;
+    self.descriptionLabel.textLabel.UICustomization = self.UICustomization;
     [self.bottomSuperView addSubview:self.descriptionLabel];
     
     [self.descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
