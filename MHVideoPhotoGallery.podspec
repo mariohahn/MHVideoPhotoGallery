@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'MHVideoPhotoGallery'
-  s.version      = '2.0'
+  s.version      = '2.1'
   s.license      = 'MIT'
   s.homepage     = 'https://github.com/mariohahn/MHVideoPhotoGallery'
   s.author = {
@@ -10,10 +10,12 @@ Pod::Spec.new do |s|
   s.platform     =  :ios
   s.source = {
     :git => 'https://github.com/mariohahn/MHVideoPhotoGallery.git',
-    :tag => 'v2.0'
+    :tag => 'v2.1'
   }
 
   s.dependency "SDWebImage"
+  s.dependency "TTTAttributedLabel" , '1.13.3'
+  s.dependency "Masonry"
 
   s.frameworks = 'MessageUI','Social', 'ImageIO', 'QuartzCore', 'Accelerate','CoreMedia', 'AVFoundation','MediaPlayer'
 
