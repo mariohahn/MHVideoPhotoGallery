@@ -69,16 +69,16 @@
 		F553D31C1892B58800BA4283 /* videoIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F553D2FB1892B58800BA4283 /* videoIcon@2x.png */; };
 		F553D32818967E5300BA4283 /* ic_square.png in Resources */ = {isa = PBXBuildFile; fileRef = F553D32618967E5300BA4283 /* ic_square.png */; };
 		F553D32918967E5300BA4283 /* ic_square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F553D32718967E5300BA4283 /* ic_square@2x.png */; };
-		F554003E1BBE90F300146923 /* MHGalleryLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F554003D1BBE90F300146923 /* MHGalleryLabel.m */; settings = {ASSET_TAGS = (); }; };
-		F55400421BBEC51100146923 /* MHGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = F55400411BBEC51100146923 /* MHGradientView.m */; settings = {ASSET_TAGS = (); }; };
 		F55CB5BC18C5FE2E0039941E /* MHCustomization.m in Sources */ = {isa = PBXBuildFile; fileRef = F55CB5BB18C5FE2E0039941E /* MHCustomization.m */; };
-		F5779F711BBE812100FDB268 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5779F701BBE812100FDB268 /* Launch Screen.storyboard */; settings = {ASSET_TAGS = (); }; };
+		F5779F711BBE812100FDB268 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5779F701BBE812100FDB268 /* Launch Screen.storyboard */; };
 		F577F33D18D73D3100880B72 /* Sydney-iPhone.m4v in Resources */ = {isa = PBXBuildFile; fileRef = F577F33B18D73C1100880B72 /* Sydney-iPhone.m4v */; };
-		F58C761C1BC7CA04006F8DEE /* MHScrollViewLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F58C761B1BC7CA04006F8DEE /* MHScrollViewLabel.m */; settings = {ASSET_TAGS = (); }; };
-		F58C76201BC7EDCB006F8DEE /* MHBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F58C761F1BC7EDCB006F8DEE /* MHBarButtonItem.m */; settings = {ASSET_TAGS = (); }; };
 		F58F65051880899200D3A8F9 /* MHShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F58F65041880899200D3A8F9 /* MHShareViewController.m */; };
 		F58F65281882F97600D3A8F9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65271882F97600D3A8F9 /* Social.framework */; };
 		F58F652A1882F97B00D3A8F9 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F58F65291882F97B00D3A8F9 /* MessageUI.framework */; };
+		F59A9C7D1BDA3EB500433A30 /* MHScrollViewLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F59A9C7C1BDA3EB500433A30 /* MHScrollViewLabel.m */; };
+		F59A9C801BDA3EBF00433A30 /* MHBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F59A9C7F1BDA3EBF00433A30 /* MHBarButtonItem.m */; };
+		F59A9C831BDA3ECB00433A30 /* MHGalleryLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F59A9C821BDA3ECB00433A30 /* MHGalleryLabel.m */; };
+		F59A9C861BDA3ED700433A30 /* MHGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = F59A9C851BDA3ED700433A30 /* MHGradientView.m */; };
 		F5B1AA8A18ED82CE00FE4682 /* SubclassMHImageviewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5B1AA8918ED82CE00FE4682 /* SubclassMHImageviewerViewController.m */; };
 		F5B2EC8017F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5B2EC7F17F9D68C000ADC51 /* ExampleViewControllerCollectionViewInTableView.m */; };
 		F5B2EC8217F9D70C000ADC51 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5B2EC8117F9D70C000ADC51 /* Storyboard.storyboard */; };
@@ -184,22 +184,22 @@
 		F553D2FB1892B58800BA4283 /* videoIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "videoIcon@2x.png"; path = "MMHVideoPhotoGallery/Images/videoIcon@2x.png"; sourceTree = "<group>"; };
 		F553D32618967E5300BA4283 /* ic_square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_square.png; path = MMHVideoPhotoGallery/Images/ic_square.png; sourceTree = "<group>"; };
 		F553D32718967E5300BA4283 /* ic_square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_square@2x.png"; path = "MMHVideoPhotoGallery/Images/ic_square@2x.png"; sourceTree = "<group>"; };
-		F554003C1BBE90F300146923 /* MHGalleryLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHGalleryLabel.h; sourceTree = "<group>"; };
-		F554003D1BBE90F300146923 /* MHGalleryLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHGalleryLabel.m; sourceTree = "<group>"; };
-		F55400401BBEC51100146923 /* MHGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHGradientView.h; sourceTree = "<group>"; };
-		F55400411BBEC51100146923 /* MHGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHGradientView.m; sourceTree = "<group>"; };
 		F55CB5BA18C5FE2E0039941E /* MHCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHCustomization.h; path = MMHVideoPhotoGallery/MHCustomization/MHCustomization.h; sourceTree = "<group>"; };
 		F55CB5BB18C5FE2E0039941E /* MHCustomization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHCustomization.m; path = MMHVideoPhotoGallery/MHCustomization/MHCustomization.m; sourceTree = "<group>"; };
 		F5779F701BBE812100FDB268 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		F577F33B18D73C1100880B72 /* Sydney-iPhone.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sydney-iPhone.m4v"; sourceTree = "<group>"; };
-		F58C761A1BC7CA04006F8DEE /* MHScrollViewLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHScrollViewLabel.h; sourceTree = "<group>"; };
-		F58C761B1BC7CA04006F8DEE /* MHScrollViewLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHScrollViewLabel.m; sourceTree = "<group>"; };
-		F58C761E1BC7EDCB006F8DEE /* MHBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHBarButtonItem.h; sourceTree = "<group>"; };
-		F58C761F1BC7EDCB006F8DEE /* MHBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHBarButtonItem.m; sourceTree = "<group>"; };
 		F58F65031880899200D3A8F9 /* MHShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHShareViewController.h; path = MMHVideoPhotoGallery/MHShareViewController/MHShareViewController.h; sourceTree = "<group>"; };
 		F58F65041880899200D3A8F9 /* MHShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHShareViewController.m; path = MMHVideoPhotoGallery/MHShareViewController/MHShareViewController.m; sourceTree = "<group>"; };
 		F58F65271882F97600D3A8F9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		F58F65291882F97B00D3A8F9 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		F59A9C7B1BDA3EB500433A30 /* MHScrollViewLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHScrollViewLabel.h; path = MMHVideoPhotoGallery/MHScrollViewLabel/MHScrollViewLabel.h; sourceTree = "<group>"; };
+		F59A9C7C1BDA3EB500433A30 /* MHScrollViewLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHScrollViewLabel.m; path = MMHVideoPhotoGallery/MHScrollViewLabel/MHScrollViewLabel.m; sourceTree = "<group>"; };
+		F59A9C7E1BDA3EBF00433A30 /* MHBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHBarButtonItem.h; path = MMHVideoPhotoGallery/MHBarButtonItem/MHBarButtonItem.h; sourceTree = "<group>"; };
+		F59A9C7F1BDA3EBF00433A30 /* MHBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHBarButtonItem.m; path = MMHVideoPhotoGallery/MHBarButtonItem/MHBarButtonItem.m; sourceTree = "<group>"; };
+		F59A9C811BDA3ECB00433A30 /* MHGalleryLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGalleryLabel.h; path = MMHVideoPhotoGallery/MHGalleryLabel/MHGalleryLabel.h; sourceTree = "<group>"; };
+		F59A9C821BDA3ECB00433A30 /* MHGalleryLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHGalleryLabel.m; path = MMHVideoPhotoGallery/MHGalleryLabel/MHGalleryLabel.m; sourceTree = "<group>"; };
+		F59A9C841BDA3ED700433A30 /* MHGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGradientView.h; path = MMHVideoPhotoGallery/MHGradientView/MHGradientView.h; sourceTree = "<group>"; };
+		F59A9C851BDA3ED700433A30 /* MHGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHGradientView.m; path = MMHVideoPhotoGallery/MHGradientView/MHGradientView.m; sourceTree = "<group>"; };
 		F5B1AA8818ED82CE00FE4682 /* SubclassMHImageviewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubclassMHImageviewerViewController.h; sourceTree = "<group>"; };
 		F5B1AA8918ED82CE00FE4682 /* SubclassMHImageviewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubclassMHImageviewerViewController.m; sourceTree = "<group>"; };
 		F5B1AA9618F4A62800FE4682 /* MHGallerySharedManagerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHGallerySharedManagerPrivate.h; path = MMHVideoPhotoGallery/MHGallerySharedManager/MHGallerySharedManagerPrivate.h; sourceTree = "<group>"; };
@@ -470,8 +470,8 @@
 		F554003B1BBE90D700146923 /* MHGalleryLabel */ = {
 			isa = PBXGroup;
 			children = (
-				F554003C1BBE90F300146923 /* MHGalleryLabel.h */,
-				F554003D1BBE90F300146923 /* MHGalleryLabel.m */,
+				F59A9C811BDA3ECB00433A30 /* MHGalleryLabel.h */,
+				F59A9C821BDA3ECB00433A30 /* MHGalleryLabel.m */,
 			);
 			name = MHGalleryLabel;
 			sourceTree = "<group>";
@@ -479,8 +479,8 @@
 		F554003F1BBEC4F600146923 /* MHGradientView */ = {
 			isa = PBXGroup;
 			children = (
-				F55400401BBEC51100146923 /* MHGradientView.h */,
-				F55400411BBEC51100146923 /* MHGradientView.m */,
+				F59A9C841BDA3ED700433A30 /* MHGradientView.h */,
+				F59A9C851BDA3ED700433A30 /* MHGradientView.m */,
 			);
 			name = MHGradientView;
 			sourceTree = "<group>";
@@ -497,8 +497,8 @@
 		F58C76191BC7C9EA006F8DEE /* MHScrollViewLabel */ = {
 			isa = PBXGroup;
 			children = (
-				F58C761A1BC7CA04006F8DEE /* MHScrollViewLabel.h */,
-				F58C761B1BC7CA04006F8DEE /* MHScrollViewLabel.m */,
+				F59A9C7B1BDA3EB500433A30 /* MHScrollViewLabel.h */,
+				F59A9C7C1BDA3EB500433A30 /* MHScrollViewLabel.m */,
 			);
 			name = MHScrollViewLabel;
 			sourceTree = "<group>";
@@ -506,8 +506,8 @@
 		F58C761D1BC7EDAE006F8DEE /* MHBarButtonItem */ = {
 			isa = PBXGroup;
 			children = (
-				F58C761E1BC7EDCB006F8DEE /* MHBarButtonItem.h */,
-				F58C761F1BC7EDCB006F8DEE /* MHBarButtonItem.m */,
+				F59A9C7E1BDA3EBF00433A30 /* MHBarButtonItem.h */,
+				F59A9C7F1BDA3EBF00433A30 /* MHBarButtonItem.m */,
 			);
 			name = MHBarButtonItem;
 			sourceTree = "<group>";
@@ -810,19 +810,19 @@
 				F543E50E18EACB23008D7590 /* MHOverviewController.m in Sources */,
 				F53F925417EB008100A9FE6A /* AppDelegate.m in Sources */,
 				F5C52E9318C086E4001E431E /* MHGallery.m in Sources */,
-				F554003E1BBE90F300146923 /* MHGalleryLabel.m in Sources */,
+				F59A9C7D1BDA3EB500433A30 /* MHScrollViewLabel.m in Sources */,
+				F59A9C861BDA3ED700433A30 /* MHGradientView.m in Sources */,
 				F5B1AA8A18ED82CE00FE4682 /* SubclassMHImageviewerViewController.m in Sources */,
+				F59A9C831BDA3ECB00433A30 /* MHGalleryLabel.m in Sources */,
 				F543E51118EB0D25008D7590 /* MHMediaPreviewCollectionViewCell.m in Sources */,
 				F5DBBF31187D584C00BEFE29 /* MHGalleryImageViewerViewController.m in Sources */,
 				F543E50718EAB1D9008D7590 /* MHGallerySharedManager.m in Sources */,
 				F53F925017EB008100A9FE6A /* main.m in Sources */,
 				F5DBBF2E187D582000BEFE29 /* MHUIImageViewContentViewAnimation.m in Sources */,
-				F58C761C1BC7CA04006F8DEE /* MHScrollViewLabel.m in Sources */,
 				F5F8DA2D18B6A6A100EB25F2 /* MHPresenterImageView.m in Sources */,
 				F5C52E8D18C0828E001E431E /* MHTransitionPresentMHGallery.m in Sources */,
 				F536534A1897D11100748466 /* ExampleViewControllerLocal.m in Sources */,
-				F58C76201BC7EDCB006F8DEE /* MHBarButtonItem.m in Sources */,
-				F55400421BBEC51100146923 /* MHGradientView.m in Sources */,
+				F59A9C801BDA3EBF00433A30 /* MHBarButtonItem.m in Sources */,
 				F5C52E8E18C0828E001E431E /* MHTransitionShowDetail.m in Sources */,
 				F55CB5BC18C5FE2E0039941E /* MHCustomization.m in Sources */,
 				F5C52E8C18C0828E001E431E /* MHTransitionDismissMHGallery.m in Sources */,
