@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "MHGallery.h"
-#import "TTTAttributedLabel.h"
 #import "MHGalleryLabel.h"
 #import "MHScrollViewLabel.h"
 
