@@ -80,7 +80,6 @@
     
     [truncation setAttributes:attributes range:NSMakeRange(points.length, more.length)];
     return truncation;
-    
 }
 
 -(void)setMHGalleryBackgroundColor:(UIColor *)color forViewMode:(MHGalleryViewMode)viewMode{
