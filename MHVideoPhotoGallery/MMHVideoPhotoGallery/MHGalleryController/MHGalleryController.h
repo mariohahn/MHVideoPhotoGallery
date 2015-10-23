@@ -14,11 +14,13 @@
 @class MHGalleryImageViewerViewController;
 @class MHGalleryItem;
 @class MHTransitionDismissMHGallery;
+@class MHBarButtonItem;
 
 @protocol MHGalleryDelegate<NSObject>
 @optional
 -(void)galleryController:(MHGalleryController*)galleryController didShowIndex:(NSInteger)index;
 -(BOOL)galleryController:(MHGalleryController*)galleryController shouldHandleURL:(NSURL *)URL;
+-(NSArray<MHBarButtonItem *>*)customizeableToolBarItems:(NSArray<MHBarButtonItem *>*)toolBarItems forGalleryItem:(MHGalleryItem*)galleryItem;
 @end
 
 @protocol MHGalleryDataSource<NSObject>
@@ -49,7 +51,7 @@
 @property (nonatomic,strong) UIImageView                        *presentingFromImageView;
 @property (nonatomic,strong) MHGalleryImageViewerViewController *imageViewerViewController;
 @property (nonatomic,strong) MHOverviewController               *overViewViewController;
-@property (nonatomic,strong) NSArray                            *galleryItems; //You can set an Array of GalleryItems or you can use the dataSource.
+@property (nonatomic,strong) NSArray<MHGalleryItem *>           *galleryItems; //You can set an Array of GalleryItems or you can use the dataSource.
 @property (nonatomic,strong) MHTransitionCustomization          *transitionCustomization; //Use transitionCustomization to Customize the GalleryControllers transitions
 @property (nonatomic,strong) MHUICustomization                  *UICustomization; //Use UICustomization to Customize the GalleryControllers UI
 @property (nonatomic,strong) MHTransitionPresentMHGallery       *interactivePresentationTransition;

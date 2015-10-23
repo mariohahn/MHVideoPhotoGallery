@@ -7,6 +7,7 @@
 //
 
 #import "MHCustomization.h"
+#import "MHGallery.h"
 
 @implementation MHTransitionCustomization
 
@@ -29,6 +30,7 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        
         self.barButtonsTintColor = nil;
         self.barStyle = UIBarStyleDefault;
         self.barTintColor = nil;

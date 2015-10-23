@@ -8,6 +8,7 @@
 
 #import "MHGallerySharedManager.h"
 #import "MHGallerySharedManagerPrivate.h"
+#import "SDWebImageManager.h"
 
 @implementation MHGallerySharedManager
 
