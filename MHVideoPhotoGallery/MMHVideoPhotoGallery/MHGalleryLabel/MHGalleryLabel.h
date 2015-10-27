@@ -6,7 +6,7 @@
 //  Copyright © 2015 Mario Hahn. All rights reserved.
 //
 
-#import <TTTAttributedLabel/TTTAttributedLabel.h>
+@import TTTAttributedLabel;
 #import "MHCustomization.h"
 
 @class MHGalleryLabel;

@@ -19,8 +19,7 @@
 #import "MHGalleryImageViewerViewController.h"
 
 #ifdef COCOAPODS
-#import <SDWebImage/SDWebImageDecoder.h>
-#import <SDWebImage/SDImageCache.h>
+@import SDWebImage;
 #else
 #import "SDWebImageDecoder.h"
 #import "SDImageCache.h"
