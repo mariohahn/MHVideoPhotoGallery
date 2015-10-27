@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Mario Hahn. All rights reserved.
 //
 
+#import "MHGradientView.h"
+
 typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
     MHGalleryViewModeImageViewerNavigationBarHidden =0,
     MHGalleryViewModeImageViewerNavigationBarShown =1,
@@ -24,6 +26,8 @@ typedef NS_ENUM(NSUInteger, MHBackButtonState) {
 @end
 
 @interface MHUICustomization : NSObject
+@property (nonatomic)        NSDictionary *descriptionLinkAttributes;
+@property (nonatomic)        NSDictionary *descriptionActiveLinkAttributes;
 @property (nonatomic)        NSAttributedString *descriptionTruncationString;
 @property (nonatomic)        UIBarStyle barStyle; //Default UIBarStyleDefault
 @property (nonatomic,strong) UIColor *barTintColor; //Default nil
@@ -39,6 +43,9 @@ typedef NS_ENUM(NSUInteger, MHBackButtonState) {
 
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutLandscape;
 @property (nonatomic,strong) UICollectionViewFlowLayout *overViewCollectionViewLayoutPortrait;
+
+-(void)setMHGradients:(NSArray<UIColor*>*)colors forDirection:(MHGradientDirection)direction;
+-(NSArray<UIColor*>*)MHGradientColorsForDirection:(MHGradientDirection)direction;
 
 -(void)setMHGalleryBackgroundColor:(UIColor*)color forViewMode:(MHGalleryViewMode)viewMode;
 -(UIColor*)MHGalleryBackgroundColorForViewMode:(MHGalleryViewMode)viewMode;

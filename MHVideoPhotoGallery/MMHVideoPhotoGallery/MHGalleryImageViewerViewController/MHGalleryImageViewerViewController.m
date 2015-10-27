@@ -40,8 +40,10 @@
 
 @end
 
-@interface MHGalleryImageViewerViewController()<MHGalleryLabelDelegate>
+@interface MHGalleryImageViewerViewController()<MHGalleryLabelDelegate,TTTAttributedLabelDelegate>
 @property (nonatomic, strong) MHGradientView           *bottomSuperView;
+@property (nonatomic, strong) MHGradientView           *topSuperView;
+
 @property (nonatomic, strong) MHBarButtonItem          *shareBarButton;
 @property (nonatomic, strong) MHBarButtonItem          *leftBarButton;
 @property (nonatomic, strong) MHBarButtonItem          *rightBarButton;
@@ -65,10 +67,6 @@
     [UIApplication.sharedApplication setStatusBarStyle:self.galleryViewController.preferredStatusBarStyleMH
                                               animated:YES];
     
-    if (![self.titleView isDescendantOfView:self.view]) {
-        [self.view addSubview:self.titleView];
-    }
-
     [self.pageViewController.view.subviews.firstObject setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 }
 
@@ -161,13 +159,42 @@
         make.edges.mas_equalTo(self.view);
     }];
     
-    self.bottomSuperView = MHGradientView.new;
-    [self.view addSubview:self.bottomSuperView];
-    
     self.toolbar = UIToolbar.new;
     self.toolbar.tintColor = self.UICustomization.barButtonsTintColor;
     self.toolbar.tag = 307;
     [self.view addSubview:self.toolbar];
+    
+    [self.toolbar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.right.mas_equalTo(self.view.mas_right);
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+    }];
+    
+    self.topSuperView = [MHGradientView.alloc initWithDirection:MHGradientDirectionBottomToTop andCustomization:self.UICustomization];
+    [self.view addSubview:self.topSuperView];
+    
+    [self.topSuperView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.right.mas_equalTo(self.view.mas_right);
+    }];
+    
+    self.titleLabel = MHScrollViewLabel.new;
+    self.titleLabel.textLabel.text = item.titleString;
+    self.titleLabel.textLabel.labelDelegate = self;
+    self.titleLabel.textLabel.delegate = self;
+    self.titleLabel.textLabel.UICustomization = self.UICustomization;
+    [self.topSuperView addSubview:self.titleLabel];
+    
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.topSuperView.mas_left).with.offset(10);
+        make.right.mas_equalTo(self.topSuperView.mas_right).with.offset(-10);
+        make.bottom.mas_equalTo(self.topSuperView.mas_bottom).with.offset(-20);
+        make.top.mas_equalTo(self.topSuperView.mas_top).with.offset(5);
+    }];
+    
+    
+    self.bottomSuperView = [MHGradientView.alloc initWithDirection:MHGradientDirectionTopToBottom andCustomization:self.UICustomization];
+    [self.view addSubview:self.bottomSuperView];
     
     [self.bottomSuperView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
@@ -175,15 +202,10 @@
         make.bottom.mas_equalTo(self.toolbar.mas_top);
     }];
     
-    [self.toolbar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left);
-        make.right.mas_equalTo(self.view.mas_right);
-        make.bottom.mas_equalTo(self.view.mas_bottom);
-    }];
-
     self.descriptionLabel = MHScrollViewLabel.new;
     self.descriptionLabel.textLabel.text = item.descriptionString;
     self.descriptionLabel.textLabel.labelDelegate = self;
+    self.descriptionLabel.textLabel.delegate = self;
     self.descriptionLabel.textLabel.UICustomization = self.UICustomization;
     [self.bottomSuperView addSubview:self.descriptionLabel];
     
@@ -233,15 +255,8 @@
     [self updateToolBarForItem:item];
     
     
-    self.titleView = [UITextView.alloc initWithFrame:CGRectZero];
-    [self configureTextView:self.titleView];
-    self.titleView.text = item.titleString;
-    
-    
-    
     self.toolbar.barTintColor = self.UICustomization.barTintColor;
     self.toolbar.barStyle = self.UICustomization.barStyle;
-
     
     [(UIScrollView*)self.pageViewController.view.subviews[0] setDelegate:self];
     [(UIGestureRecognizer*)[[self.pageViewController.view.subviews[0] gestureRecognizers] firstObject] setDelegate:self];
@@ -252,6 +267,25 @@
 -(void)setBarButtonItems{
     
     
+}
+
+-(void)viewWillLayoutSubviews{
+    [super viewWillLayoutSubviews];
+    
+    [self.topSuperView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.view.mas_top).with.offset(self.topLayoutGuide.length);
+    }];
+}
+
+- (void)attributedLabel:(TTTAttributedLabel *)label
+   didSelectLinkWithURL:(NSURL *)url{
+    if ([self.galleryViewController.galleryDelegate respondsToSelector:@selector(galleryController:shouldHandleURL:)]) {
+        if ([self.galleryViewController.galleryDelegate galleryController:self.galleryViewController shouldHandleURL:url]) {
+            [UIApplication.sharedApplication openURL:url];
+        }
+        return;
+    }
+    [UIApplication.sharedApplication openURL:url];
 }
 
 -(void)configureDescriptionLabel:(MHGalleryLabel*)label{
@@ -368,13 +402,24 @@
 -(void)updateTitleLabelForIndex:(NSInteger)index{
     if (index < self.numberOfGalleryItems) {
         MHGalleryItem *item = [self itemForIndex:index];
-        self.titleView.text = item.titleString;
-        
-        if (item.attributedString) {
-            self.titleView.attributedText = item.attributedTitle;
+        if (item.titleString) {
+            if (item.titleString && ![self.titleLabel.textLabel.text isEqualToString:item.titleString]) {
+                self.titleLabel.textLabel.wholeText = NO;
+            }
+            if (![self.titleLabel.textLabel.text isEqual:item.titleString]) {
+                self.titleLabel.textLabel.text = item.titleString;
+            }
         }
         
-        [self updateTitleViewSizeAndPosition];
+        if (item.attributedTitle) {
+            if (![self.titleLabel.textLabel.attributedText isEqualToAttributedString:item.attributedTitle]) {
+                self.titleLabel.textLabel.wholeText = NO;
+            }
+            if (![self.titleLabel.textLabel.text isEqualToString:item.attributedTitle.string]) {
+                self.titleLabel.textLabel.text = item.attributedTitle;
+            }
+        }
+        self.topSuperView.hidden = item.titleString || item.attributedTitle ? NO : YES;
     }
 }
 
@@ -386,33 +431,21 @@
             if (item.descriptionString && ![self.descriptionLabel.textLabel.text isEqualToString:item.descriptionString]) {
                 self.descriptionLabel.textLabel.wholeText = NO;
             }
-            self.descriptionLabel.textLabel.text = item.descriptionString;
+            if (![self.descriptionLabel.textLabel.text isEqual:item.descriptionString]) {
+                self.descriptionLabel.textLabel.text = item.descriptionString;
+            }
         }
         
         if (item.attributedString) {
             if (![self.descriptionLabel.textLabel.attributedText isEqualToAttributedString:item.attributedString]) {
                 self.descriptionLabel.textLabel.wholeText = NO;
             }
-            self.descriptionLabel.textLabel.attributedText = item.attributedString;
+            if (![self.descriptionLabel.textLabel.text isEqualToString:item.attributedString.string]) {
+                self.descriptionLabel.textLabel.text = item.attributedString;
+            }
         }
-        
         self.bottomSuperView.hidden = item.descriptionString || item.attributedString ? NO : YES;
     }
-}
-
--(void)updateTitleViewSizeAndPosition {
-    CGSize size = [self.titleView sizeThatFits:CGSizeMake(self.view.frame.size.width-20, MAXFLOAT)];
-    
-    MHGalleryItem *item = [self itemForIndex:self.pageIndex];
-    MHImageViewController *controller = [MHImageViewController imageViewControllerForMHMediaItem:item viewController:self];
-    
-    CGFloat y = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-    
-    if (controller.moviePlayerToolBarTop) {
-        y += CGRectGetHeight(controller.moviePlayerToolBarTop.frame);
-    }
-    
-    self.titleView.frame = CGRectMake(10, y, self.view.frame.size.width-20, size.height);
 }
 
 
@@ -1471,7 +1504,7 @@
     self.navigationController.navigationBar.alpha = alpha;
     self.viewController.toolbar.alpha = alpha;
     
-    self.viewController.titleView.alpha = alpha;
+    self.viewController.topSuperView.alpha = alpha;
     self.viewController.descriptionLabel.alpha = alpha;
     self.viewController.bottomSuperView.alpha = alpha;
 

@@ -119,7 +119,6 @@
     toViewController.view.alpha = 0;
     toViewController.pageViewController.view.hidden = YES;
     
-    self.titleLabel = toViewController.titleView;
     self.titleLabel.alpha = 0;
     
  //   self.descriptionLabel = toViewController.descriptionView;
@@ -207,8 +206,6 @@
             self.cell.thumbnail.hidden = NO;
             toViewController.pageViewController.view.hidden = NO;
             toViewController.toolbar = self.toolbar;
-            toViewController.titleView = self.titleLabel;
-         //   toViewController.descriptionView = self.descriptionLabel;
             [self.cellImageSnapshot removeFromSuperview];
             [self.backView removeFromSuperview];
             [self.context completeTransition:YES];
