@@ -8,11 +8,13 @@
 
 
 #import "MHTransitionShowDetail.h"
+#import "MHGalleryLabel.h"
+
 @interface MHTransitionShowDetail()
 @property (nonatomic, strong) MHUIImageViewContentViewAnimation *cellImageSnapshot;
 @property (nonatomic, strong) UITextView *titleLabel;
 @property (nonatomic, strong) UIToolbar *titleViewBackgroundToolbar;
-@property (nonatomic, strong) UITextView *descriptionLabel;
+@property (nonatomic, strong) MHGalleryLabel *descriptionLabel;
 @property (nonatomic, strong) UIToolbar *descriptionViewBackgroundToolbar;
 @property (nonatomic, strong) UIToolbar *toolbar;
 @property (nonatomic, strong) UIView *backView;
@@ -47,38 +49,14 @@
         videoIconsHidden = NO;
     }
     
-    
-    
     toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
     toViewController.view.alpha = 0;
     toViewController.pageViewController.view.hidden = YES;
     
-    UITextView *titleLabel = toViewController.titleView;
-    titleLabel.alpha = 0;
-    
-    UITextView *descriptionLabel = toViewController.descriptionView;
-    descriptionLabel.alpha =0;
-    
-    UIToolbar *tb = toViewController.toolbar;
-    tb.alpha =0;
-    tb.frame = CGRectMake(0, toViewController.view.frame.size.height-44, toViewController.view.frame.size.width , 44);
-    
-    UIToolbar *titleViewBackground = toViewController.titleViewBackground;
-    titleViewBackground.alpha = 0;
-    titleViewBackground.frame = CGRectMake(0, toViewController.view.frame.size.height-210, toViewController.view.frame.size.width, 110);
-    
-    UIToolbar *descriptionViewBackground = toViewController.descriptionViewBackground;
-    descriptionViewBackground.alpha =0;
-    descriptionViewBackground.frame = CGRectMake(0, toViewController.view.frame.size.height-110, toViewController.view.frame.size.width, 110);
     
     
     [containerView addSubview:toViewController.view];
     [containerView addSubview:cellImageSnapshot];
-    [containerView addSubview:titleViewBackground];
-    [containerView addSubview:titleLabel];
-    [containerView addSubview:descriptionViewBackground];
-    [containerView addSubview:tb];
-    [containerView addSubview:descriptionLabel];
     
     [cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFit
                                 forFrame:CGRectMake(0, 0, toViewController.view.frame.size.width, toViewController.view.frame.size.height)
@@ -87,14 +65,7 @@
                                 finished:nil];
     
     [UIView animateWithDuration:duration animations:^{
-        
         toViewController.view.alpha = 1.0;
-        tb.alpha = 1.0;
-        titleLabel.alpha = 1.0;
-        titleViewBackground.alpha = 1.0;
-        descriptionLabel.alpha = 1.0;
-        descriptionViewBackground.alpha =1.0;
-        
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.1 animations:^{
             cellImageSnapshot.transform = CGAffineTransformScale(CGAffineTransformIdentity,1.02,1.02);
@@ -102,7 +73,6 @@
             [UIView animateWithDuration:0.1 animations:^{
                 cellImageSnapshot.transform = CGAffineTransformScale(CGAffineTransformIdentity,1.00,1.00);
             } completion:^(BOOL finished) {
-                toViewController.toolbar = tb;
                 toViewController.pageViewController.view.hidden = NO;
                 cell.thumbnail.hidden = NO;
                 if (!videoIconsHidden) {
@@ -111,11 +81,6 @@
                     cell.videoDurationLength.hidden =NO;
                 }
                 if ([transitionContext transitionWasCancelled]) {
-                    tb.alpha = 0;
-                    titleLabel.alpha = 0;
-                    titleViewBackground.alpha = 0;
-                    descriptionLabel.alpha = 0;
-                    descriptionViewBackground.alpha =0;
                     [transitionContext completeTransition:NO];
                 }else{
                     [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
@@ -157,17 +122,15 @@
     self.titleLabel = toViewController.titleView;
     self.titleLabel.alpha = 0;
     
-    self.descriptionLabel = toViewController.descriptionView;
+ //   self.descriptionLabel = toViewController.descriptionView;
     self.descriptionLabel.alpha =0;
     
     self.toolbar = toViewController.toolbar;
     self.toolbar.alpha =0;
     self.toolbar.frame = CGRectMake(0, toViewController.view.frame.size.height-44, toViewController.view.frame.size.width , 44);
     
-    self.titleViewBackgroundToolbar = toViewController.titleViewBackground;
     self.titleViewBackgroundToolbar.alpha = 0;
     
-    self.descriptionViewBackgroundToolbar = toViewController.descriptionViewBackground;
     self.descriptionViewBackgroundToolbar.alpha =0;
     self.descriptionViewBackgroundToolbar.frame = CGRectMake(0, toViewController.view.frame.size.height-110, toViewController.view.frame.size.width, 110);
     
@@ -244,10 +207,8 @@
             self.cell.thumbnail.hidden = NO;
             toViewController.pageViewController.view.hidden = NO;
             toViewController.toolbar = self.toolbar;
-            toViewController.titleViewBackground = self.titleViewBackgroundToolbar;
             toViewController.titleView = self.titleLabel;
-            toViewController.descriptionViewBackground = self.descriptionViewBackgroundToolbar;
-            toViewController.descriptionView = self.descriptionLabel;
+         //   toViewController.descriptionView = self.descriptionLabel;
             [self.cellImageSnapshot removeFromSuperview];
             [self.backView removeFromSuperview];
             [self.context completeTransition:YES];

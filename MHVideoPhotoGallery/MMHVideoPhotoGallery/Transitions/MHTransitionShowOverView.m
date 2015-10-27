@@ -8,12 +8,13 @@
 
 #import "MHTransitionShowOverView.h"
 #import "MHGallerySharedManagerPrivate.h"
+#import "TTTAttributedLabel.h"
 
 @interface MHTransitionShowOverView()
 @property (nonatomic,strong) UIToolbar *toolbar;
 @property (nonatomic,strong) UITextView *titleLabel;
 @property (nonatomic,strong) UIToolbar *titleViewBackgroundToolbar;
-@property (nonatomic,strong) UITextView *descriptionLabel;
+@property (nonatomic,strong) TTTAttributedLabel *descriptionLabel;
 @property (nonatomic,strong) UIToolbar *descriptionViewBackgroundToolbar;
 @property (nonatomic,strong) MHOverviewController *toViewController;
 @property (nonatomic,strong) MHMediaPreviewCollectionViewCell *cellInteractive;
@@ -56,26 +57,6 @@
     
     [containerView addSubview:snapShot];
     
-    UITextView *titleLabel = fromViewController.titleView;
-    titleLabel.alpha = 1;
-    
-    UITextView *descriptionLabel = fromViewController.descriptionView;
-    descriptionLabel.alpha =1;
-    
-    UIToolbar *tb = fromViewController.toolbar;
-    tb.alpha =1;
-    
-    UIToolbar *titleViewBackground = fromViewController.titleViewBackground;
-    titleViewBackground.alpha = 1;
-    
-    UIToolbar *descriptionViewBackground = fromViewController.descriptionViewBackground;
-    descriptionViewBackground.alpha =1;
-    
-    [containerView addSubview:titleViewBackground];
-    [containerView addSubview:titleLabel];
-    [containerView addSubview:descriptionViewBackground];
-    [containerView addSubview:tb];
-    [containerView addSubview:descriptionLabel];
     
     CGRect cellFrame  = [toViewController.collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:toViewController.currentPage inSection:0]].frame;
 
@@ -101,11 +82,6 @@
         
         [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             fromViewController.view.alpha = 0.0;
-            titleLabel.alpha = 0;
-            descriptionLabel.alpha =0;
-            tb.alpha =0;
-            titleViewBackground.alpha = 0;
-            descriptionViewBackground.alpha =0;
             cellImageSnapshot.frame =[containerView convertRect:cellNew.thumbnail.frame fromView:cellNew.thumbnail.superview];
             cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFill;
         } completion:^(BOOL finished) {
@@ -177,16 +153,14 @@
         self.titleLabel = fromViewController.titleView;
         self.titleLabel.alpha = 1;
         
-        self.descriptionLabel = fromViewController.descriptionView;
+       // self.descriptionLabel = fromViewController.descriptionView;
         self.descriptionLabel.alpha =1;
         
         self.toolbar = fromViewController.toolbar;
         self.toolbar.alpha =1;
         
-        self.titleViewBackgroundToolbar = fromViewController.titleViewBackground;
         self.titleViewBackgroundToolbar.alpha = 1;
         
-        self.descriptionViewBackgroundToolbar = fromViewController.descriptionViewBackground;
         self.descriptionViewBackgroundToolbar.alpha =1;
         
         [containerView addSubview:self.titleViewBackgroundToolbar];

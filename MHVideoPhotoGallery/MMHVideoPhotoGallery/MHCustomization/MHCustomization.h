@@ -12,7 +12,6 @@ typedef NS_ENUM(NSUInteger, MHGalleryViewMode) {
     MHGalleryViewModeOverView =2
 };
 
-
 typedef NS_ENUM(NSUInteger, MHBackButtonState) {
     MHBackButtonStateWithBackArrow,
     MHBackButtonStateWithoutBackArrow
@@ -24,9 +23,8 @@ typedef NS_ENUM(NSUInteger, MHBackButtonState) {
 @property (nonatomic)       BOOL fixXValueForDismiss; //Default NO
 @end
 
-
 @interface MHUICustomization : NSObject
-
+@property (nonatomic)        NSAttributedString *descriptionTruncationString;
 @property (nonatomic)        UIBarStyle barStyle; //Default UIBarStyleDefault
 @property (nonatomic,strong) UIColor *barTintColor; //Default nil
 @property (nonatomic,strong) UIColor *barButtonsTintColor; //Default nil

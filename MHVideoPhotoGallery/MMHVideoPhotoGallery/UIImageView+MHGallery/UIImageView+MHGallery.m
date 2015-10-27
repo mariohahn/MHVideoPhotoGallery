@@ -8,11 +8,6 @@
 
 #import "UIImageView+MHGallery.h"
 #import "MHGallery.h"
-#ifdef COCOAPODS
-#import <SDWebImage/SDImageCache.h>
-#else
-#import "SDImageCache.h"
-#endif
 #import "UIImageView+WebCache.h"
 
 @implementation UIImageView (MHGallery)

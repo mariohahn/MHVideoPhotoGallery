@@ -14,13 +14,9 @@
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
 #import "MHGallerySharedManagerPrivate.h"
-#ifdef COCOAPODS
-#import <SDWebImage/SDImageCache.h>
-#else
-#import "SDImageCache.h"
-#endif
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "MHGallery.h"
+#import "Masonry.h"
 
 @implementation MHImageURL
 
@@ -318,14 +314,10 @@
     
     UICollectionViewFlowLayout *flowLayout = UICollectionViewFlowLayout.new;
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    if (MHISIPAD) {
-        flowLayout.itemSize = CGSizeMake(320, self.view.frame.size.height-330);
-    }else{
-        flowLayout.itemSize = CGSizeMake(240, self.view.frame.size.height-330);
-    }
+
     flowLayout.minimumInteritemSpacing =20;
     flowLayout.sectionInset = UIEdgeInsetsMake(0, 60, 0, 0);
-    self.collectionView = [UICollectionView.alloc initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-240)
+    self.collectionView = [UICollectionView.alloc initWithFrame:CGRectZero
                                            collectionViewLayout:flowLayout];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
@@ -339,6 +331,12 @@
     self.collectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
     [self.view addSubview:self.collectionView];
     
+    
+    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.top.mas_equalTo(self.view.mas_top);
+        make.right.mas_equalTo(self.view.mas_right);
+    }];
     
     [self.selectedRows addObject:[NSIndexPath indexPathForRow:self.pageIndex inSection:0]];
     
@@ -359,7 +357,7 @@
     [self.gradientView.layer insertSublayer:gradient atIndex:0];
     [self.view addSubview:self.gradientView];
     
-    self.tableViewShare = [UITableView.alloc initWithFrame:CGRectMake(0, self.view.frame.size.height-230, self.view.frame.size.width, 240)];
+    self.tableViewShare = [UITableView.alloc initWithFrame:CGRectZero];
     self.tableViewShare.delegate = self;
     self.tableViewShare.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableViewShare.dataSource = self;
@@ -373,6 +371,15 @@
     sep.backgroundColor = [UIColor colorWithRed:0.63 green:0.63 blue:0.63 alpha:1];
     sep.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.tableViewShare addSubview:sep];
+    
+    [self.tableViewShare mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.collectionView.mas_bottom);
+        make.left.mas_equalTo(self.view.mas_left);
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+        make.right.mas_equalTo(self.view.mas_right);
+        make.height.mas_equalTo(240);
+    }];
+    
     
     [self initShareObjects];
     [self updateTitle];
@@ -399,6 +406,25 @@
         self.navigationItem.rightBarButtonItem = [self nextBarButtonItem];
     }
     self.startPointScroll = self.collectionView.contentOffset.x;
+}
+
+-(void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    
+    [self.tableViewShare mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.view.mas_bottom).with.offset(UIApplication.sharedApplication.statusBarOrientation == UIInterfaceOrientationPortrait ? 0 : 240);
+    }];
+    
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout*)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([collectionView isEqual:self.collectionView]) {
+        return CGSizeMake(MHISIPAD ? 320 :240, collectionView.bounds.size.height-collectionView.contentInset.top);
+    }
+    return CGSizeMake(70, 100);
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -863,19 +889,19 @@
 }
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                         duration:(NSTimeInterval)duration{
+    
+    [self.tableViewShare mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.view.mas_bottom).with.offset(toInterfaceOrientation == UIInterfaceOrientationPortrait ? 0 : 240);
+    }];
+    
+    [self.tableViewShare layoutIfNeeded];
+    
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait) {
         self.navigationItem.leftBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                             target:self
                                                                                             action:@selector(cancelPressed)];
         self.navigationItem.rightBarButtonItem = nil;
-        self.collectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-240);
-        self.toolbar.frame = CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240);
-        self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height-230, self.view.frame.size.width, 240);
-        self.gradientView.frame = CGRectMake(0, self.view.frame.size.height-240, self.view.frame.size.width,240);
     }else{
-        self.tableViewShare.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 240);
-        self.toolbar.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,240);
-        self.collectionView.frame = self.view.bounds;
         self.navigationItem.rightBarButtonItem = [self nextBarButtonItem];
     }
     [self.collectionView.collectionViewLayout invalidateLayout];

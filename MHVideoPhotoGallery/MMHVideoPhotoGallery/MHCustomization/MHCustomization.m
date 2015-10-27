@@ -7,6 +7,7 @@
 //
 
 #import "MHCustomization.h"
+#import "MHGallery.h"
 
 @implementation MHTransitionCustomization
 
@@ -29,6 +30,8 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        
+        self.descriptionTruncationString = [self truncationString];
         self.barButtonsTintColor = nil;
         self.barStyle = UIBarStyleDefault;
         self.barTintColor = nil;
@@ -63,6 +66,20 @@
         
     }
     return self;
+}
+
+-(NSAttributedString*)truncationString{
+    NSString *points = @"...";
+    NSString *more = MHGalleryLocalizedString(@"truncate.more");
+    NSString *wholeString = [points stringByAppendingString:more];
+    
+    NSMutableAttributedString *truncation = [NSMutableAttributedString.alloc initWithString:wholeString attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14],NSForegroundColorAttributeName : UIColor.whiteColor}];
+    
+    NSDictionary *attributes = @{NSFontAttributeName : [UIFont systemFontOfSize:14],
+                                 NSForegroundColorAttributeName : UIApplication.sharedApplication.keyWindow.tintColor ? : UIColor.whiteColor};
+    
+    [truncation setAttributes:attributes range:NSMakeRange(points.length, more.length)];
+    return truncation;
 }
 
 -(void)setMHGalleryBackgroundColor:(UIColor *)color forViewMode:(MHGalleryViewMode)viewMode{

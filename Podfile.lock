@@ -1,0 +1,18 @@
+PODS:
+  - Masonry (0.6.3)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
+  - TTTAttributedLabel (1.13.3)
+
+DEPENDENCIES:
+  - Masonry
+  - SDWebImage
+  - TTTAttributedLabel (= 1.13.3)
+
+SPEC CHECKSUMS:
+  Masonry: ff105a956abcd19a618b2028b121cb638d7a8e2f
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
+  TTTAttributedLabel: 6f3174aef8e738f44dff97c2eb7d8184f6ab6277
+
+COCOAPODS: 0.39.0

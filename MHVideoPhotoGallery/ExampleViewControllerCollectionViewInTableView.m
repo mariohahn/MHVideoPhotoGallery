@@ -53,88 +53,40 @@
     
     self.title = @"CollectionView";
     
-    MHGalleryItem *localVideo = [MHGalleryItem.alloc initWithURL:[[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Sydney-iPhone" ofType:@"m4v"]] absoluteString]
-                                                     galleryType:MHGalleryTypeVideo];
     
-    MHGalleryItem *youtube = [MHGalleryItem.alloc initWithURL:@"http://www.youtube.com/watch?v=YSdJtNen-EA"
-                                                  galleryType:MHGalleryTypeVideo];
-    
-    MHGalleryItem *vimeo0 = [MHGalleryItem.alloc initWithURL:@"http://vimeo.com/35515926"
-                                                 galleryType:MHGalleryTypeVideo];
-    MHGalleryItem *vimeo1 = [MHGalleryItem.alloc initWithURL:@"http://vimeo.com/50006726"
-                                                 galleryType:MHGalleryTypeVideo];
-    MHGalleryItem *vimeo3 = [MHGalleryItem.alloc initWithURL:@"http://vimeo.com/66841007"
-                                                 galleryType:MHGalleryTypeVideo];
-    
-    MHGalleryItem *landschaft = [MHGalleryItem.alloc initWithURL:@"http://alles-bilder.de/landschaften/HD%20Landschaftsbilder%20(47).jpg"
-                                                     galleryType:MHGalleryTypeImage];
-    
-    MHGalleryItem *landschaft1 = [MHGalleryItem.alloc initWithURL:@"http://de.flash-screen.com/free-wallpaper/bezaubernde-landschaftsabbildung-hd/hd-bezaubernde-landschaftsder-tapete,1920x1200,56420.jpg"
-                                                      galleryType:MHGalleryTypeImage];
-    
-    MHGalleryItem *landschaft2 = [MHGalleryItem.alloc initWithURL:@"http://alles-bilder.de/landschaften/HD%20Landschaftsbilder%20(64).jpg"
-                                                      galleryType:MHGalleryTypeImage];
-    
-    MHGalleryItem *landschaft3 = [MHGalleryItem.alloc initWithURL:@"http://www.dirks-computerseite.de/wp-content/uploads/2013/06/purpleworld1.jpg"
-                                                      galleryType:MHGalleryTypeImage];
-    
-    MHGalleryItem *landschaft4 = [MHGalleryItem.alloc initWithURL:@"http://alles-bilder.de/landschaften/HD%20Landschaftsbilder%20(42).jpg"
-                                                      galleryType:MHGalleryTypeImage];
-    
-    MHGalleryItem *landschaft5 = [MHGalleryItem.alloc initWithURL:@"http://woxx.de/wp-content/uploads/sites/3/2013/02/8X2cWV3.jpg"
-                                                      galleryType:MHGalleryTypeImage];
-    
-    MHGalleryItem *landschaft6 = [MHGalleryItem.alloc initWithURL:@"http://kwerfeldein.de/wp-content/uploads/2012/05/Sharpened-version.jpg"
-                                                      galleryType:MHGalleryTypeImage];
-    
-    MHGalleryItem *landschaft7 = [MHGalleryItem.alloc initWithURL:@"http://eswalls.com/wp-content/uploads/2014/01/sunset-glow-trees-beautiful-scenery.jpg"
-                                                      galleryType:MHGalleryTypeImage];
-    
-    MHGalleryItem *landschaft8 = [MHGalleryItem.alloc initWithURL:@"http://eswalls.com/wp-content/uploads/2014/01/beautiful_scenery_wallpaper_The_Eiffel_Tower_at_night_.jpg"
-                                                      galleryType:MHGalleryTypeImage];
-    
-    MHGalleryItem *landschaft9 = [MHGalleryItem.alloc initWithURL:@"http://p1.pichost.me/i/40/1638707.jpg"
-                                                      galleryType:MHGalleryTypeImage];
-    
-    MHGalleryItem *landschaft10 = [MHGalleryItem.alloc initWithURL:@"http://4.bp.blogspot.com/-8O0ZkAgb6Bo/Ulf_80tUN6I/AAAAAAAAH34/I1L2lKjzE9M/s1600/Beautiful-Scenery-Wallpapers.jpg"
+    MHGalleryItem *tailored = [MHGalleryItem.alloc initWithURL:@"http://www.tailored-apps.com/wp-content/uploads/2014/01/wien_cropped-350x300.jpg"
                                                        galleryType:MHGalleryTypeImage];
     
-    MHGalleryItem *landschaft11 = [MHGalleryItem.alloc initWithURL:@"http://www.bestfon.info/images/joomgallery/originals/paisajes_18/paisaje_325_20120501_1124813185.jpg"
-                                                       galleryType:MHGalleryTypeImage];
-    MHGalleryItem *landschaft12 = [MHGalleryItem.alloc initWithURL:@"http://www.stadt-bad-reichenhall.de/medien/landschaft-winter-1.jpg"
-                                                       galleryType:MHGalleryTypeImage];
-    MHGalleryItem *landschaft13 = [MHGalleryItem.alloc initWithURL:@"http://www.foto-zumstein.ch/fotogalerie/1195564506_Kopie_vonLandschaft_33.jpg"
-                                                       galleryType:MHGalleryTypeImage];
-    MHGalleryItem *landschaft14 = [MHGalleryItem.alloc initWithURL:@"http://img.galerie.chip.de/imgserver/communityimages/233900/233952/1280x.jpg"
-                                                       galleryType:MHGalleryTypeImage];
-    MHGalleryItem *landschaft15 = [MHGalleryItem.alloc initWithURL:@"http://www.spreephoto.de/wp-content/uploads/2011/03/toskana-strohballen-landschaft.jpg"
-                                                       galleryType:MHGalleryTypeImage];
-    MHGalleryItem *landschaft16 = [MHGalleryItem.alloc initWithURL:@"http://kwerfeldein.de/wp-content/uploads/2012/07/landschaft.jpg"
-                                                       galleryType:MHGalleryTypeImage];
+    MHGalleryItem *tailored2 = [MHGalleryItem.alloc initWithURL:@"http://www.tailored-apps.com/wp-content/uploads/2014/01/hannes.jpg"
+                                                   galleryType:MHGalleryTypeImage];
     
-    MHGalleryItem *landschaft17 = [MHGalleryItem.alloc initWithURL:@"http://www.picspack.de/blog/wp-content/uploads/2011/11/Liu2.jpg"
-                                                       galleryType:MHGalleryTypeImage];
+    MHGalleryItem *tailored3 = [MHGalleryItem.alloc initWithURL:@"https://dl.dropboxusercontent.com/u/17911939/momu%26meParty.mp4"
+                                                    galleryType:MHGalleryTypeVideo];
     
-    MHGalleryItem *landschaft18 = [MHGalleryItem.alloc initWithURL:@"http://images.fotocommunity.de/bilder/bach-fluss-see/see-teich-tuempel/symmetrische-landschaft-645f1ee5-f53b-4ae9-ad76-7bf5bde3935d.jpg"
-                                                       galleryType:MHGalleryTypeImage];
+    NSShadow *shadow = [[NSShadow alloc] init];
+    shadow.shadowColor = [UIColor blackColor];
+    shadow.shadowBlurRadius = 0.0;
+    shadow.shadowOffset = CGSizeMake(0.0, 2.0);
     
-    MHGalleryItem *landschaft19 = [MHGalleryItem.alloc initWithURL:@"http://www.hd-gbpics.de/gbbilder/landschaften/landschaft10.jpg"
-                                                       galleryType:MHGalleryTypeImage];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc]initWithString:@"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."];
     
-    MHGalleryItem *landschaft20 = [MHGalleryItem.alloc initWithURL:@"http://www.stadt-bad-reichenhall.de/medien/landschaft-1.jpg"
-                                                       galleryType:MHGalleryTypeImage];
+    [string setAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:15],
+                            NSForegroundColorAttributeName : UIColor.whiteColor,
+                            NSShadowAttributeName : shadow}
+                    range:NSMakeRange(0, string.length)];
+    
+    
+    NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc]initWithString:@"elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."];
+    
+    [string2 setAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:15],
+                             NSForegroundColorAttributeName : UIColor.whiteColor,
+                             NSShadowAttributeName : shadow}
+                     range:NSMakeRange(0, string2.length)];
+    
+    tailored.attributedString = string;
+    tailored2.attributedString = string2;
 
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc]initWithString:@"Awesome!!\nOr isn't it?"];
-    
-    [string setAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:15]} range:NSMakeRange(0, string.length)];
-    [string setAttributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:17]} range:NSMakeRange(0, 9)];
-    
-    landschaft10.attributedString = string;
-    
-    self.galleryDataSource = @[@[landschaft,landschaft1,landschaft2,landschaft3,landschaft4,landschaft5,landschaft6,landschaft7,landschaft8,landschaft9,landschaft10,landschaft11,landschaft12,landschaft13,landschaft14,landschaft15,landschaft16,landschaft17,landschaft18,landschaft19,landschaft20],
-                               @[vimeo3,youtube,vimeo0,vimeo1,landschaft9,landschaft6,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1],
-                               @[landschaft9,landschaft6,localVideo,landschaft5,landschaft4,landschaft3,landschaft2,landschaft,landschaft1]
-                               ];
+    self.galleryDataSource = @[@[tailored,tailored2]];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.83 green:0.84 blue:0.86 alpha:1];
     [self.tableView reloadData];
     
@@ -178,13 +130,6 @@
     if (!cell){
         cell = [[TestCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    cell.backView.layer.masksToBounds = NO;
-    cell.backView.layer.shadowOffset = CGSizeMake(0, 0);
-    cell.backView.layer.shadowRadius = 1.0;
-    cell.backView.layer.shadowColor = [UIColor blackColor].CGColor;
-    cell.backView.layer.shadowOpacity = 0.5;
-    cell.backView.layer.shadowPath = [UIBezierPath bezierPathWithRect:cell.backView.bounds].CGPath;
-    cell.backView.layer.cornerRadius = 2.0;
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.sectionInset = UIEdgeInsetsMake(0, 25, 0, 25);
@@ -229,7 +174,7 @@
     gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
    // gallery.UICustomization.hideShare = YES;
-    //  gallery.galleryDelegate = self;
+    gallery.galleryDelegate = self;
     //  gallery.dataSource = self;
     __weak MHGalleryController *blockGallery = gallery;
     
@@ -278,7 +223,7 @@
     return [MHGalleryItem itemWithImage:MHGalleryImage(@"twitterMH")];
 }
 
--(NSUInteger)supportedInterfaceOrientations{
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations{
     return UIInterfaceOrientationMaskPortrait;
 }
 
@@ -290,16 +235,10 @@
     MHGalleryItem *item = self.galleryDataSource[indexPath.section][indexPath.row];
     cell.thumbnail.contentMode = UIViewContentModeScaleAspectFill;
     
-    cell.thumbnail.layer.shadowOffset = CGSizeMake(0, 0);
-    cell.thumbnail.layer.shadowRadius = 1.0;
-    cell.thumbnail.layer.shadowColor = [UIColor blackColor].CGColor;
-    cell.thumbnail.layer.shadowOpacity = 0.5;
-    cell.thumbnail.layer.shadowPath = [UIBezierPath bezierPathWithRect:cell.thumbnail.bounds].CGPath;
-    cell.thumbnail.layer.cornerRadius = 2.0;
-    
     cell.thumbnail.image = nil;
     cell.galleryItem = item;
 }
 
 
 @end
+
