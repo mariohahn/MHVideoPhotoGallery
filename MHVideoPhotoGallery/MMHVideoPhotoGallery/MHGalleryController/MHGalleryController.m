@@ -68,6 +68,10 @@
     return self.galleryItems.count;
 }
 
+-(void)reloadData {
+    [self.imageViewerViewController reloadData];
+}
+
 @end
 
 
