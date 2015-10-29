@@ -17,4 +17,4 @@
 "shareview.title.select.singular" = "%@ Фотография выделена";
 "shareview.download"              = "Загрузка\n";
 "shareview.download.cancel"       = "Отмена";
-"truncate.more"                   = "more";
+"truncate.more"                   = "...";
