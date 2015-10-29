@@ -112,8 +112,6 @@
         imageViewer.dismissFromImageView = dismissImageView;
     }
     [self dismissViewControllerAnimated:flag completion:completion];
-    
-    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
 }
 
 
