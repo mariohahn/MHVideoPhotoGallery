@@ -16,6 +16,8 @@
     if (!self)
         return nil;
     
+    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
+    
     self.autoplayVideos = NO;
 
     self.preferredStatusBarStyleMH = UIStatusBarStyleDefault;
