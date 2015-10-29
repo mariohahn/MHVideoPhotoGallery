@@ -444,6 +444,12 @@
 }
 
 -(void)updateTitleForIndex:(NSInteger)pageIndex{
+    
+    if (self.navigationBarTitle.length) {
+        self.navigationItem.title = self.navigationBarTitle;
+        return;
+    }
+    
     NSString *localizedString  = MHGalleryLocalizedString(@"imagedetail.title.current");
     self.navigationItem.title = [NSString stringWithFormat:localizedString,@(pageIndex+1),@(self.numberOfGalleryItems)];
 }
