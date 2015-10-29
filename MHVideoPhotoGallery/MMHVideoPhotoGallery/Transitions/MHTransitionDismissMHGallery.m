@@ -319,6 +319,8 @@
             
             self.backView.alpha = 0;
         } completion:^(BOOL finished) {
+            [self doOrientationwithFromViewController];
+            
             self.transitionImageView.hidden = NO;
             [self.cellImageSnapshot removeFromSuperview];
             [self.backView removeFromSuperview];
@@ -390,14 +392,14 @@
         [self.context completeTransition:NO];
         if (self.moviePlayer) {
             [UIView performWithoutAnimation:^{
-                [self doOrientationwithFromViewController:fromViewController];
+                [self doOrientationwithFromViewController];
             }];
         }else{
             if (MHGalleryOSVersion < 8.0) {
-                [self doOrientationwithFromViewController:fromViewController];
+                [self doOrientationwithFromViewController];
             }else{
                 [UIView performWithoutAnimation:^{
-                    [self doOrientationwithFromViewController:fromViewController];
+                    [self doOrientationwithFromViewController];
                 }];
             }
         }
@@ -405,7 +407,7 @@
 }
 
 
--(void)doOrientationwithFromViewController:(UINavigationController*)fromViewController{
+-(void)doOrientationwithFromViewController {
     [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
 }
 
