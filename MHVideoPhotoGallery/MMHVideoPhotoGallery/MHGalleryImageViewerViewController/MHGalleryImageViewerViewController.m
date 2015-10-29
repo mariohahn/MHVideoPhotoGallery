@@ -446,7 +446,20 @@
 -(void)updateTitleForIndex:(NSInteger)pageIndex{
     
     if (self.navigationBarTitle.length) {
-        self.navigationItem.title = self.navigationBarTitle;
+        UILabel *label =[[UILabel alloc] initWithFrame:CGRectZero];
+        
+        [label setAdjustsFontSizeToFitWidth:YES];
+        [label setMinimumScaleFactor:0.80];
+        [label setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:17]];
+        [label setTextColor:[UIColor whiteColor]];
+        [label setBackgroundColor:[UIColor clearColor]];
+        [label setTextAlignment:NSTextAlignmentCenter];
+        [label setText:self.navigationBarTitle];
+        [label sizeToFit];
+        
+        self.navigationItem.titleView = label;
+        [self.navigationItem.titleView sizeToFit];
+        
         return;
     }
     
