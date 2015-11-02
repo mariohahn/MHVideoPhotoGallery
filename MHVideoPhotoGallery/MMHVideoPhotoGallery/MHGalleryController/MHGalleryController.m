@@ -16,8 +16,6 @@
     if (!self)
         return nil;
     
-    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
-    
     self.autoplayVideos = NO;
 
     self.preferredStatusBarStyleMH = UIStatusBarStyleDefault;
@@ -104,7 +102,7 @@
     if (galleryController.presentationStyle == MHGalleryViewModeImageViewerNavigationBarHidden) {
         galleryController.imageViewerViewController.hiddingToolBarAndNavigationBar = YES;
     }
-    [self presentViewController:galleryController animated:animated completion:completion];
+    [self presentViewController:galleryController animated:YES completion:completion];
 }
 
 
