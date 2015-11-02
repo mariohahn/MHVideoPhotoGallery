@@ -319,8 +319,6 @@
             
             self.backView.alpha = 0;
         } completion:^(BOOL finished) {
-            [self doOrientationwithFromViewController];
-            
             self.transitionImageView.hidden = NO;
             [self.cellImageSnapshot removeFromSuperview];
             [self.backView removeFromSuperview];
@@ -392,14 +390,14 @@
         [self.context completeTransition:NO];
         if (self.moviePlayer) {
             [UIView performWithoutAnimation:^{
-                [self doOrientationwithFromViewController];
+                [self doOrientationwithFromViewController:fromViewController];
             }];
         }else{
             if (MHGalleryOSVersion < 8.0) {
-                [self doOrientationwithFromViewController];
+                [self doOrientationwithFromViewController:fromViewController];
             }else{
                 [UIView performWithoutAnimation:^{
-                    [self doOrientationwithFromViewController];
+                    [self doOrientationwithFromViewController:fromViewController];
                 }];
             }
         }
@@ -407,8 +405,33 @@
 }
 
 
--(void)doOrientationwithFromViewController {
-    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
+-(void)doOrientationwithFromViewController:(UINavigationController*)fromViewController{
+    
+    if (MHGalleryOSVersion < 8.0) {
+        fromViewController.view.transform = CGAffineTransformMakeRotation(self.startTransform);
+        fromViewController.view.center = UIApplication.sharedApplication.keyWindow.center;
+    }
+    if (self.toTransform != self.orientationTransformBeforeDismiss) {
+        
+        NSData *decodedData = [NSData.alloc initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
+        NSString *status = [NSString.alloc initWithData:decodedData encoding:NSUTF8StringEncoding];
+        
+        if (MHGalleryOSVersion < 8.0) {
+            [UIDevice.currentDevice setValue:@(UIInterfaceOrientationPortrait) forKey:status];
+        }
+        if (self.orientationTransformBeforeDismiss >0) {
+            [UIDevice.currentDevice setValue:@(UIInterfaceOrientationLandscapeRight) forKey:status];
+        }else{
+            [UIDevice.currentDevice setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:status];
+        }
+    }else{
+        fromViewController.navigationBar.frame = CGRectMake(0, 0, fromViewController.navigationBar.frame.size.width, 64);
+        if (!MHISIPAD) {
+            if (self.orientationTransformBeforeDismiss!=0) {
+                fromViewController.navigationBar.frame = CGRectMake(0, 0, fromViewController.navigationBar.frame.size.width, 52);
+            }
+        }
+    }
 }
 
 
