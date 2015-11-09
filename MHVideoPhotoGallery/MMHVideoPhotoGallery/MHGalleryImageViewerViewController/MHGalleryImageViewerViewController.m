@@ -157,6 +157,7 @@
     self.pageViewController.delegate = self;
     self.pageViewController.dataSource = self;
     self.pageViewController.automaticallyAdjustsScrollViewInsets =NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self addChildViewController:self.pageViewController];
     [self.pageViewController didMoveToParentViewController:self];
@@ -273,11 +274,18 @@
     
 }
 
--(void)viewWillLayoutSubviews{
-    [super viewWillLayoutSubviews];
-    
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
     [self.topSuperView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view.mas_top).with.offset(self.topLayoutGuide.length);
+        make.top.mas_equalTo(self.mas_topLayoutGuideBottom);
+    }];
+    [self.toolbar mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.right.mas_equalTo(self.view.mas_right);
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+    }];
+    [self.bottomSuperView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.toolbar.mas_top);
     }];
 }
 
