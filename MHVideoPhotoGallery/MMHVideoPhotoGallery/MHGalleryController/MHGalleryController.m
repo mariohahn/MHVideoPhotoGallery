@@ -70,6 +70,7 @@
 
 -(void)reloadData {
     [self.imageViewerViewController reloadData];
+    [self.overViewViewController.collectionView reloadData];
 }
 
 @end
