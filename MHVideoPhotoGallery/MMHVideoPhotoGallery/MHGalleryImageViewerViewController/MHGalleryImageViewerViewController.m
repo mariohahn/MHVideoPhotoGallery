@@ -104,6 +104,24 @@
     return MHGalleryViewModeImageViewerNavigationBarShown;
 }
 
+-(void)reloadData {
+    if ([self numberOfGalleryItems] > self.pageIndex) {
+        MHGalleryItem *item = [self itemForIndex:self.pageIndex];
+        
+        MHImageViewController *imageViewController = [MHImageViewController imageViewControllerForMHMediaItem:item viewController:self];
+        imageViewController.pageIndex = self.pageIndex;
+        [self.pageViewController setViewControllers:@[imageViewController]
+                                          direction:UIPageViewControllerNavigationDirectionForward
+                                           animated:NO
+                                         completion:nil];
+        
+        [self updateTitleLabelForIndex:self.pageIndex];
+        [self updateDescriptionLabelForIndex:self.pageIndex];
+        [self updateToolBarForItem:item];
+        [self updateTitleForIndex:self.pageIndex];
+    }
+}
+
 -(void)viewDidLoad{
     [super viewDidLoad];
     
@@ -139,16 +157,7 @@
     self.pageViewController.delegate = self;
     self.pageViewController.dataSource = self;
     self.pageViewController.automaticallyAdjustsScrollViewInsets =NO;
-    
-    MHGalleryItem *item = [self itemForIndex:self.pageIndex];
-    
-    MHImageViewController *imageViewController = [MHImageViewController imageViewControllerForMHMediaItem:item viewController:self];
-    imageViewController.pageIndex = self.pageIndex;
-    [self.pageViewController setViewControllers:@[imageViewController]
-                                      direction:UIPageViewControllerNavigationDirectionForward
-                                       animated:NO
-                                     completion:nil];
-    
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self addChildViewController:self.pageViewController];
     [self.pageViewController didMoveToParentViewController:self];
@@ -179,7 +188,6 @@
     }];
     
     self.titleLabel = MHScrollViewLabel.new;
-    self.titleLabel.textLabel.text = item.titleString;
     self.titleLabel.textLabel.labelDelegate = self;
     self.titleLabel.textLabel.delegate = self;
     self.titleLabel.textLabel.UICustomization = self.UICustomization;
@@ -203,7 +211,6 @@
     }];
     
     self.descriptionLabel = MHScrollViewLabel.new;
-    self.descriptionLabel.textLabel.text = item.descriptionString;
     self.descriptionLabel.textLabel.labelDelegate = self;
     self.descriptionLabel.textLabel.delegate = self;
     self.descriptionLabel.textLabel.UICustomization = self.UICustomization;
@@ -252,8 +259,6 @@
         self.shareBarButton.width = 30;
     }
     
-    [self updateToolBarForItem:item];
-    
     
     self.toolbar.barTintColor = self.UICustomization.barTintColor;
     self.toolbar.barStyle = self.UICustomization.barStyle;
@@ -261,7 +266,7 @@
     [(UIScrollView*)self.pageViewController.view.subviews[0] setDelegate:self];
     [(UIGestureRecognizer*)[[self.pageViewController.view.subviews[0] gestureRecognizers] firstObject] setDelegate:self];
     
-    [self updateTitleForIndex:self.pageIndex];
+    [self reloadData];
 }
 
 -(void)setBarButtonItems{
@@ -269,11 +274,18 @@
     
 }
 
--(void)viewWillLayoutSubviews{
-    [super viewWillLayoutSubviews];
-    
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
     [self.topSuperView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view.mas_top).with.offset(self.topLayoutGuide.length);
+        make.top.mas_equalTo(self.mas_topLayoutGuideBottom);
+    }];
+    [self.toolbar mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.right.mas_equalTo(self.view.mas_right);
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+    }];
+    [self.bottomSuperView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.toolbar.mas_top);
     }];
 }
 
