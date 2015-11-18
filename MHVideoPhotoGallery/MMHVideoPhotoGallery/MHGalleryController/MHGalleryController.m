@@ -68,11 +68,6 @@
     return self.galleryItems.count;
 }
 
--(void)reloadData {
-    [self.imageViewerViewController reloadData];
-    [self.overViewViewController.collectionView reloadData];
-}
-
 @end
 
 
