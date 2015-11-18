@@ -150,7 +150,6 @@
     
     self.isHiddingToolBarAndNavigationBar = fromViewController.isHiddingToolBarAndNavigationBar;
     if (!fromViewController.isHiddingToolBarAndNavigationBar) {
-        self.titleLabel = fromViewController.titleView;
         self.titleLabel.alpha = 1;
         
        // self.descriptionLabel = fromViewController.descriptionView;

@@ -76,6 +76,11 @@
 
 @property (nonatomic, copy) void (^finishedCallback)(NSInteger currentIndex,UIImage *image,MHTransitionDismissMHGallery *interactiveTransition,MHGalleryViewMode viewMode);
 
+/**
+ *  Reloads the View from the Datasource.
+ */
+-(void)reloadData;
+
 @end
 
 @interface UIViewController(MHGalleryViewController)<UIViewControllerTransitioningDelegate>

@@ -7,13 +7,16 @@
 //
 
 #import "MHGradientView.h"
+#import "MHCustomization.h"
 
 @implementation MHGradientView
 
--(instancetype)init{
+-(instancetype)initWithDirection:(MHGradientDirection)direction andCustomization:(MHUICustomization*)customization{
     self =  [super init];
     if (self) {
         self.backgroundColor = UIColor.clearColor;
+        self.direction = direction;
+        self.customization = customization;
     }
     return self;
 }
@@ -23,14 +26,18 @@
     
     CGContextRef currentContext = UIGraphicsGetCurrentContext();
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
-    NSArray* gradientBlackClearColors = @[(id)[[UIColor blackColor] colorWithAlphaComponent:0.85].CGColor,
-                                          (id)[[UIColor blackColor] colorWithAlphaComponent:0.70].CGColor,
-                                          (id)[[UIColor blackColor] colorWithAlphaComponent:0.0].CGColor
-                                          ];
+    
+    
+    
+    NSMutableArray *gradients = NSMutableArray.new;
+    
+    for (UIColor *color in [self.customization MHGradientColorsForDirection:self.direction]) {
+        [gradients addObject:(id)color.CGColor];
+    }
+    
     
     CGFloat gradientBlackClearLocations[] = {0, 0.5, 1};
-    CGGradientRef glossGradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientBlackClearColors, gradientBlackClearLocations);
+    CGGradientRef glossGradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradients, gradientBlackClearLocations);
     
     CGRect currentBounds = self.bounds;
     

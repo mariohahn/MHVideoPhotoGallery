@@ -24,6 +24,8 @@
 
 @interface MHUICustomization()
 @property(nonatomic,strong)NSMutableDictionary *backgroundColorsForViewModes;
+@property(nonatomic,strong)NSMutableDictionary *gradientColorsForDirection;
+
 @end
 @implementation MHUICustomization
 
@@ -31,6 +33,8 @@
     self = [super init];
     if (self) {
         
+        self.descriptionLinkAttributes = @{NSForegroundColorAttributeName : UIApplication.sharedApplication.keyWindow.tintColor ? : UIColor.redColor};
+        self.descriptionActiveLinkAttributes = @{NSForegroundColorAttributeName : UIColor.whiteColor};
         self.descriptionTruncationString = [self truncationString];
         self.barButtonsTintColor = nil;
         self.barStyle = UIBarStyleDefault;
@@ -45,6 +49,17 @@
         self.backgroundColorsForViewModes = [NSMutableDictionary  dictionaryWithDictionary:@{@"0":UIColor.blackColor,
                                                                                              @"1":UIColor.whiteColor,
                                                                                              @"2":UIColor.whiteColor}];
+        
+        
+        
+        
+        self.gradientColorsForDirection = [NSMutableDictionary dictionaryWithDictionary:@{@"0":@[[[UIColor blackColor] colorWithAlphaComponent:0.85],
+                                                                                                [[UIColor blackColor] colorWithAlphaComponent:0.70],
+                                                                                                [[UIColor blackColor] colorWithAlphaComponent:0.0]],
+                                                                                         @"1":@[[[UIColor blackColor] colorWithAlphaComponent:0.0],
+                                                                                                [[UIColor blackColor] colorWithAlphaComponent:0.70],
+                                                                                                [[UIColor blackColor] colorWithAlphaComponent:0.85]]}];
+        
         self.customBarButtonItem = nil;
         
         CGSize screenSize = UIScreen.mainScreen.bounds.size;
@@ -80,6 +95,14 @@
     
     [truncation setAttributes:attributes range:NSMakeRange(points.length, more.length)];
     return truncation;
+}
+
+-(void)setMHGradients:(NSArray<UIColor*>*)colors forDirection:(MHGradientDirection)direction{
+    [self.gradientColorsForDirection setObject:colors forKey:[NSString stringWithFormat:@"%@",@(direction)]];
+}
+
+-(NSArray<UIColor*>*)MHGradientColorsForDirection:(MHGradientDirection)direction{
+    return self.gradientColorsForDirection[[NSString stringWithFormat:@"%@",@(direction)]];
 }
 
 -(void)setMHGalleryBackgroundColor:(UIColor *)color forViewMode:(MHGalleryViewMode)viewMode{
