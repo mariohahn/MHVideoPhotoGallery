@@ -8,7 +8,11 @@
 
 #import "MHTransitionShowOverView.h"
 #import "MHGallerySharedManagerPrivate.h"
-#import "TTTAttributedLabel.h"
+#if __has_feature(modules)
+@import TTTAttributedLabel;
+#else
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
+#endif
 
 @interface MHTransitionShowOverView()
 @property (nonatomic,strong) UIToolbar *toolbar;

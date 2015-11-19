@@ -19,9 +19,14 @@
 #import "MHGalleryImageViewerViewController.h"
 
 #ifdef COCOAPODS
+#if __has_feature(modules)
+@import TTTAttributedLabel;
+@import SDWebImage;
+#else
 #import <TTTAttributedLabel/TTTAttributedLabel.h>
 #import <SDWebImage/SDWebImageDecoder.h>
 #import <SDWebImage/SDImageCache.h>
+#endif
 #else
 #import "TTTAttributedLabel.h"
 #import "SDWebImageDecoder.h"
