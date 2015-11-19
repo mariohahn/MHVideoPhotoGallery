@@ -683,11 +683,11 @@
             }
         }
         picker.body = videoURLS;
-        
-        [self presentViewController:picker
-                           animated:YES
-                         completion:nil];
-        
+        if (picker != nil) {
+            [self presentViewController:picker
+                               animated:YES
+                             completion:nil];
+        }
     } saveDataToCameraRoll:NO];
 }
 

@@ -9,22 +9,18 @@
 #import "MHGalleryLabel.h"
 #import "MHGallery.h"
 
-@interface MHGalleryLabel()<UIGestureRecognizerDelegate>
-
-@end
-
 @implementation MHGalleryLabel
 
 -(instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
         [self configureLabel];
-        
     }
     return self;
 }
 
-- (instancetype)init{
+- (instancetype)init
+{
     self = [super init];
     if (self) {
         [self configureLabel];
@@ -32,26 +28,15 @@
     return self;
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [super touchesBegan:touches withEvent:event];
-    
-    if (!self.activeLink) {
-        [self tappedLabel];
-    }
-}
-
--(void)configureLabel{
-    self.enabledTextCheckingTypes = NSTextCheckingTypeLink;
-   
+-(void)configureLabel{    
     self.wholeText = NO;
+    [self addGestureRecognizer:[UITapGestureRecognizer.alloc initWithTarget:self action:@selector(tappedLabel)]];
     self.userInteractionEnabled = YES;
 }
 -(void)setUICustomization:(MHUICustomization *)UICustomization{
     _UICustomization = UICustomization;
     
     self.attributedTruncationToken = [UICustomization descriptionTruncationString];
-    self.linkAttributes = [UICustomization descriptionLinkAttributes];
-    self.activeLinkAttributes = [UICustomization descriptionActiveLinkAttributes];
 }
 
 -(void)tappedLabel{
@@ -81,6 +66,13 @@
             [self setNeedsUpdateConstraints];
         }
     }
+}
+- (CGSize) intrinsicContentSize{
+    CGSize s = [super intrinsicContentSize];
+    if ( self.numberOfLines == 0 ){
+        s.height += 1;
+    }
+    return s;
 }
 
 @end

@@ -68,11 +68,6 @@
     return self.galleryItems.count;
 }
 
--(void)reloadData {
-    [self.imageViewerViewController reloadData];
-    [self.overViewViewController.collectionView reloadData];
-}
-
 @end
 
 
@@ -84,11 +79,12 @@
 
     if(galleryController.UICustomization.useCustomBackButtonImageOnImageViewer){
         UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"ic_square")
-                                                                        style:UIBarButtonItemStyleBordered
+                                                                        style:UIBarButtonItemStylePlain
                                                                        target:self
                                                                        action:nil];
         galleryController.overViewViewController.navigationItem.backBarButtonItem = backBarButton;
         galleryController.navigationBar.tintColor = galleryController.UICustomization.barButtonsTintColor;
+        galleryController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : galleryController.UICustomization.barButtonsTintColor};
     }
     
     if (galleryController.transitionCustomization.interactiveDismiss) {

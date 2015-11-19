@@ -25,7 +25,8 @@
 
 @property (nonatomic, strong)          NSArray *galleryItems;
 @property (nonatomic, strong)          UIToolbar *toolbar;
-@property (nonatomic, strong)          MHScrollViewLabel *titleLabel;
+@property (nonatomic, strong)          UITextView *titleView;
+@property (nonatomic, strong)          UIScrollView *descriptionScrollView;
 @property (nonatomic, strong)          MHScrollViewLabel *descriptionLabel;
 @property (nonatomic)                  NSInteger pageIndex;
 @property (nonatomic, strong)          UIPageViewController *pageViewController;
@@ -43,7 +44,6 @@
 -(void)playStopButtonPressed;
 -(void)changeToPauseButton;
 -(void)changeToPlayButton;
--(void)reloadData;
 @end
 
 @interface MHImageViewController : UIViewController<UIScrollViewDelegate,UIGestureRecognizerDelegate>

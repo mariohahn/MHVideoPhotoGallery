@@ -19,11 +19,8 @@
 #import "MHGalleryImageViewerViewController.h"
 
 #ifdef COCOAPODS
-#import <TTTAttributedLabel/TTTAttributedLabel.h>
-#import <SDWebImage/SDWebImageDecoder.h>
-#import <SDWebImage/SDImageCache.h>
+@import SDWebImage;
 #else
-#import "TTTAttributedLabel.h"
 #import "SDWebImageDecoder.h"
 #import "SDImageCache.h"
 #endif
@@ -66,10 +63,5 @@ extern NSString *const MHGalleryDurationData;
 @interface SDImageCache (MHPrivateMethods)
 - (NSString *)defaultCachePathForKey:(NSString *)key;
 - (NSString *)cachedFileNameForKey:(NSString *)key;
-@end
-
-
-@interface TTTAttributedLabel (MHPrivateMethods)
-@property (readwrite, nonatomic, strong) TTTAttributedLabelLink *activeLink;
 @end
 
