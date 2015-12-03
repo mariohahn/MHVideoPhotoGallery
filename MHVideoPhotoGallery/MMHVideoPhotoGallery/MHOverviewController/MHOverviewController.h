@@ -24,6 +24,7 @@
 @property (strong,nonatomic ) MHMediaPreviewCollectionViewCell *clickedCell;
 @property (nonatomic)         NSInteger             currentPage;
 @property (nonatomic, strong) NSArray               *galleryItems;
+@property (nonatomic , strong) UILabel               *noConentsLabel;
 
 -(UICollectionViewFlowLayout*)layoutForOrientation:(UIInterfaceOrientation)orientation;
 -(MHGalleryItem*)itemForIndex:(NSInteger)index;
