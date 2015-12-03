@@ -16,4 +16,5 @@
 "shareview.title.select.singular" = "Odabrane fotografije: %@";
 "shareview.download"              = "Preuzimanje podataka\n";
 "shareview.download.cancel"       = "otkidati";
+"truncate.more"                   = "more";
 

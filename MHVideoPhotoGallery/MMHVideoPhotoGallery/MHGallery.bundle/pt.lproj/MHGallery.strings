@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  MHVideoPhotoGallery
+
+  Created by Mario Hahn on 17.02.14.
+  Copyright (c) 2014 Mario Hahn. All rights reserved.
+*/
+
+
+"imagedetail.title.current"       = "%@ de %@";
+"overview.title.current"          = "GALERIA";
+"overview.menue.item.save"        = "Salvar";
+"shareview.message"               = "Mensagem";
+"shareview.mail"                  = "Email";
+"shareview.save.cameraRoll"       = "Salvar no \n Rolo de Câmera";
+"shareview.title.select.plural"   = "%@ fotos selecionadas";
+"shareview.title.select.singular" = "%@ foto selecionada";
+"shareview.download"              = "baixando arquivos\n";
+"shareview.download.cancel"       = "Cancelar";
+"truncate.more"                   = "more";
+

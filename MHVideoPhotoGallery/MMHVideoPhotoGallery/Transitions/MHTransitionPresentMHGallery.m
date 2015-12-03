@@ -27,8 +27,6 @@
     if (toViewController.presentationStyle == MHGalleryViewModeImageViewerNavigationBarHidden) {
         imageViewer = toViewController.viewControllers.lastObject;
         toViewController.navigationBar.hidden = YES;
-        imageViewer.descriptionView.alpha = 0;
-        imageViewer.descriptionViewBackground.alpha = 0;
         imageViewer.toolbar.alpha = 0;
         MHStatusBar().alpha =0;
         imageViewer.view.backgroundColor = [toViewController.UICustomization MHGalleryBackgroundColorForViewMode:toViewController.presentationStyle];
@@ -78,11 +76,7 @@
             cellImageSnapshot.frame = toViewController.view.bounds;
         }
         backView.alpha =1;
-    } completion:^(BOOL finished) {
-        if (toViewController.presentationStyle == MHGalleryViewModeImageViewerNavigationBarHidden) {
-            imageViewer.descriptionViewBackground.alpha = 0;
-        }
-        
+    } completion:^(BOOL finished) {        
         [UIView animateWithDuration:0.1 animations:^{
             cellImageSnapshot.transform = CGAffineTransformScale(CGAffineTransformIdentity,1.02,1.02);
         } completion:^(BOOL finished) {

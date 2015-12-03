@@ -18,11 +18,19 @@
 #import "MHTransitionShowOverView.h"
 #import "MHGalleryImageViewerViewController.h"
 
+#ifdef COCOAPODS
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
+#import <SDWebImage/SDWebImageDecoder.h>
+#import <SDWebImage/SDImageCache.h>
+#else
+#import "TTTAttributedLabel.h"
 #import "SDWebImageDecoder.h"
 #import "SDImageCache.h"
+#endif
 
 #define MHISIPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-#define kMHGalleryBundleName @"MHGallery.bundle"
+#define kMHGalleryBundleName @"MHGallery"
+#define kMHGalleryBundleExtension @"bundle"
 #define MHGalleryOSVersion [UIDevice.currentDevice.systemVersion floatValue]
 
 extern void MHGalleryCustomLocalizationBlock(NSString *(^customLocalizationBlock)(NSString *stringToLocalize));
@@ -42,6 +50,7 @@ extern UIImage *MHDefaultImageForFrame(CGRect frame);
 extern UIImage  *MHGalleryImage(NSString *imageName);
 
 extern UIView  *MHStatusBar(void);
+extern BOOL     MHShouldShowStatusBar(void);
 
 extern NSString *const MHYoutubeChannel;
 extern NSString *const MHGalleryViewModeShare;
@@ -57,5 +66,10 @@ extern NSString *const MHGalleryDurationData;
 @interface SDImageCache (MHPrivateMethods)
 - (NSString *)defaultCachePathForKey:(NSString *)key;
 - (NSString *)cachedFileNameForKey:(NSString *)key;
+@end
+
+
+@interface TTTAttributedLabel (MHPrivateMethods)
+@property (readwrite, nonatomic, strong) TTTAttributedLabelLink *activeLink;
 @end
 

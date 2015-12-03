@@ -273,7 +273,7 @@
         }
         
         [UIView animateWithDuration:0.3 animations:^{
-            MHStatusBar().alpha =1;
+            MHStatusBar().alpha = MHShouldShowStatusBar() ? 1 : 0;
             
             self.cellImageSnapshot.clipsToBounds = self.transitionImageView.clipsToBounds;
             self.cellImageSnapshot.layer.cornerRadius = self.transitionImageView.layer.cornerRadius;
@@ -284,14 +284,14 @@
                 if (!self.transitionImageView) {
                     CGPoint newPoint = self.startCenter;
                     if (self.cellImageSnapshot.center.x > self.startCenter.x) {
-                        newPoint.x = self.cellImageSnapshot.center.x + abs(self.cellImageSnapshot.center.x -self.startCenter.x)*4;
+                        newPoint.x = self.cellImageSnapshot.center.x + fabs(self.cellImageSnapshot.center.x -self.startCenter.x)*4;
                     }else{
-                        newPoint.x = self.cellImageSnapshot.center.x - abs(self.cellImageSnapshot.center.x -self.startCenter.x)*4;
+                        newPoint.x = self.cellImageSnapshot.center.x - fabs(self.cellImageSnapshot.center.x -self.startCenter.x)*4;
                     }
                     if (self.cellImageSnapshot.center.y > self.startCenter.y) {
-                        newPoint.y = self.cellImageSnapshot.center.y + abs(self.cellImageSnapshot.center.y -self.startCenter.y)*4;
+                        newPoint.y = self.cellImageSnapshot.center.y + fabs(self.cellImageSnapshot.center.y -self.startCenter.y)*4;
                     }else{
-                        newPoint.y = self.cellImageSnapshot.center.y - abs(self.cellImageSnapshot.center.y -self.startCenter.y)*4;
+                        newPoint.y = self.cellImageSnapshot.center.y - fabs(self.cellImageSnapshot.center.y -self.startCenter.y)*4;
                     }
                     self.cellImageSnapshot.center = newPoint;
                 }else{
@@ -392,7 +392,9 @@
         NSData *decodedData = [NSData.alloc initWithBase64EncodedString:@"b3JpZW50YXRpb24=" options:0];
         NSString *status = [NSString.alloc initWithData:decodedData encoding:NSUTF8StringEncoding];
         
-        [UIDevice.currentDevice setValue:@(UIInterfaceOrientationPortrait) forKey:status];
+        if (MHGalleryOSVersion < 8.0) {
+            [UIDevice.currentDevice setValue:@(UIInterfaceOrientationPortrait) forKey:status];
+        }
         if (self.orientationTransformBeforeDismiss >0) {
             [UIDevice.currentDevice setValue:@(UIInterfaceOrientationLandscapeRight) forKey:status];
         }else{

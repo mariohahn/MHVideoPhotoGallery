@@ -10,6 +10,7 @@
 #import "MHGalleryController.h"
 #import "MHGallerySharedManagerPrivate.h"
 #import <MobileCoreServices/UTCoreTypes.h>
+#import "SDWebImageManager.h"
 
 @implementation MHIndexPinchGestureRecognizer
 @end

@@ -12,7 +12,7 @@
 @implementation MHGalleryController
 
 - (id)initWithPresentationStyle:(MHGalleryViewMode)presentationStyle{
-    self = [super init];
+    self = [super initWithNibName:nil bundle:nil];
     if (!self)
         return nil;
     
@@ -68,6 +68,11 @@
     return self.galleryItems.count;
 }
 
+-(void)reloadData {
+    [self.imageViewerViewController reloadData];
+    [self.overViewViewController.collectionView reloadData];
+}
+
 @end
 
 
@@ -102,7 +107,7 @@
     if (galleryController.presentationStyle == MHGalleryViewModeImageViewerNavigationBarHidden) {
         galleryController.imageViewerViewController.hiddingToolBarAndNavigationBar = YES;
     }
-    [self presentViewController:galleryController animated:YES completion:completion];
+    [self presentViewController:galleryController animated:animated completion:completion];
 }
 
 

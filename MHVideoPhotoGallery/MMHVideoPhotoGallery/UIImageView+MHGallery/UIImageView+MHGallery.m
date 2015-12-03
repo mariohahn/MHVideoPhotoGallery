@@ -8,7 +8,6 @@
 
 #import "UIImageView+MHGallery.h"
 #import "MHGallery.h"
-#import "SDImageCache.h"
 #import "UIImageView+WebCache.h"
 
 @implementation UIImageView (MHGallery)
