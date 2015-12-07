@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		CCE50708F0B1B954A1D43543 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48BEA0714A525E3C516EBDBD /* libPods.a */; };
+		CD03AF671C15C0DA00082A0B /* ic_mic1.png in Resources */ = {isa = PBXBuildFile; fileRef = CD03AF651C15C0DA00082A0B /* ic_mic1.png */; };
+		CD03AF681C15C0DA00082A0B /* ic_mic1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD03AF661C15C0DA00082A0B /* ic_mic1@2x.png */; };
 		F514263518911D8E0091E3DF /* 707-albums-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = F514263318911D8E0091E3DF /* 707-albums-selected.png */; };
 		F514263618911D8E0091E3DF /* 707-albums-selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F514263418911D8E0091E3DF /* 707-albums-selected@2x.png */; };
 		F514263918911D920091E3DF /* 705-photos-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = F514263718911D920091E3DF /* 705-photos-selected.png */; };
@@ -111,6 +113,8 @@
 		48BEA0714A525E3C516EBDBD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7034C256C78A0FAB4D812A2B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A1831E23B84EF67E23139C0E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		CD03AF651C15C0DA00082A0B /* ic_mic1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_mic1.png; path = MMHVideoPhotoGallery/Images/ic_mic1.png; sourceTree = "<group>"; };
+		CD03AF661C15C0DA00082A0B /* ic_mic1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_mic1@2x.png"; path = "MMHVideoPhotoGallery/Images/ic_mic1@2x.png"; sourceTree = "<group>"; };
 		F514263318911D8E0091E3DF /* 707-albums-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "707-albums-selected.png"; sourceTree = "<group>"; };
 		F514263418911D8E0091E3DF /* 707-albums-selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "707-albums-selected@2x.png"; sourceTree = "<group>"; };
 		F514263718911D920091E3DF /* 705-photos-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "705-photos-selected.png"; sourceTree = "<group>"; };
@@ -428,6 +432,8 @@
 		F553D2DA1892B57E00BA4283 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CD03AF651C15C0DA00082A0B /* ic_mic1.png */,
+				CD03AF661C15C0DA00082A0B /* ic_mic1@2x.png */,
 				F553D2DB1892B58800BA4283 /* activityMH.png */,
 				F553D2DC1892B58800BA4283 /* activtyMH@2x.png */,
 				F553D32618967E5300BA4283 /* ic_square.png */,
@@ -700,6 +706,7 @@
 				F5B2EC8217F9D70C000ADC51 /* Storyboard.storyboard in Resources */,
 				F553D3081892B58800BA4283 /* mailMH.png in Resources */,
 				F553D3121892B58800BA4283 /* right_arrow.png in Resources */,
+				CD03AF671C15C0DA00082A0B /* ic_mic1.png in Resources */,
 				F553D3011892B58800BA4283 /* EditControlSelected@2x.png in Resources */,
 				F514263618911D8E0091E3DF /* 707-albums-selected@2x.png in Resources */,
 				F514263518911D8E0091E3DF /* 707-albums-selected.png in Resources */,
@@ -717,6 +724,7 @@
 				F5EE8DA61890393D002E5734 /* testIcon@2x.png in Resources */,
 				F553D30B1892B58800BA4283 /* messageMH@2x.png in Resources */,
 				F553D2FE1892B58800BA4283 /* EditControl.png in Resources */,
+				CD03AF681C15C0DA00082A0B /* ic_mic1@2x.png in Resources */,
 				F553D3051892B58800BA4283 /* facebookMH@2x.png in Resources */,
 				F553D3101892B58800BA4283 /* playButton.png in Resources */,
 				F553D3041892B58800BA4283 /* facebookMH.png in Resources */,

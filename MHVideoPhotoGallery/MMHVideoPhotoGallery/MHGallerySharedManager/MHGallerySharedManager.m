@@ -72,6 +72,9 @@
     }
     if (image) {
         succeedBlock(image,[dict[urlString] integerValue],nil);
+    }else if([urlString.lowercaseString hasSuffix:@"m4a"]){
+        UIImage *img = [UIImage imageNamed:@"ic_mic" inBundle:[NSBundle bundleForClass:[MHGalleryController class]] compatibleWithTraitCollection:nil];
+        succeedBlock(img,[dict[urlString] integerValue],nil);
     }else{
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
             NSURL *url = [NSURL URLWithString:urlString];
