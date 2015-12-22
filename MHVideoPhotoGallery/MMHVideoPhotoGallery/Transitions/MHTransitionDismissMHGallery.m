@@ -184,7 +184,11 @@
 
     
     
-    if (imageViewerCurrent.isPlayingVideo && imageViewerCurrent.moviePlayer) {
+    if (imageViewerCurrent.isPlayingVideo &&
+        imageViewerCurrent.moviePlayer &&
+        self.moviePlayer.naturalSize.width != 0.f &&
+        self.moviePlayer.naturalSize.height != 0.f)
+    {
         self.moviePlayer = imageViewerCurrent.moviePlayer;
         [self.moviePlayer.view setFrame:AVMakeRectWithAspectRatioInsideRect(imageViewerCurrent.moviePlayer.naturalSize,fromViewController.view.bounds)];
         
