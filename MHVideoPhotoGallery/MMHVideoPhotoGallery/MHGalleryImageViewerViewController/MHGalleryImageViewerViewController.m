@@ -1026,6 +1026,8 @@
                                                                                              urlString:self.item.URLString];
                                                                     }else{
                                                                         [weakSelf changeToErrorImage];
+                                                                        [weakSelf removeAllMoviePlayerViewsAndNotifications];
+                                                                        [weakSelf.playButton setHidden:YES];
                                                                     }
                                                                     [weakSelf.act stopAnimating];
                                                                 }];
