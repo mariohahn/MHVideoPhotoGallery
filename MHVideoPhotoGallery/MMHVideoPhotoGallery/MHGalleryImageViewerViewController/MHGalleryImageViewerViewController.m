@@ -1435,11 +1435,7 @@
         
         //show spinner if video has not been downloaded
         if (self.videoDownloaded == NO) {
-            CGRect movieActivityIndicatorFrame = CGRectMake(self.view.center.x-10, self.view.center.y-10, 20, 20);
-            self.movieActivityIndicatorView = [UIActivityIndicatorView.alloc initWithFrame:movieActivityIndicatorFrame];
-            self.movieActivityIndicatorView.hidesWhenStopped = YES;
-            [self.view addSubview:self.movieActivityIndicatorView];
-            [self.movieActivityIndicatorView startAnimating];
+            [self initMovieActivityIndicatorView];
         }
         
         if (self.moviePlayer) {
@@ -1465,6 +1461,18 @@
     }else{
         [self stopMovie];
     }
+}
+
+- (void)initMovieActivityIndicatorView {
+    CGRect movieActivityIndicatorFrame = CGRectMake(self.view.center.x-10, self.view.center.y-10, 20, 20);
+    self.movieActivityIndicatorView = [UIActivityIndicatorView.alloc initWithFrame:movieActivityIndicatorFrame];
+    //self.movieActivityIndicatorView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
+    //self.movieActivityIndicatorView.layer.cornerRadius = 20;
+    self.movieActivityIndicatorView.color = [UIColor whiteColor];
+    self.movieActivityIndicatorView.hidesWhenStopped = YES;
+    [self.view addSubview:self.movieActivityIndicatorView];
+    [self.movieActivityIndicatorView startAnimating];
+
 }
 
 -(MHGalleryViewMode)currentViewMode{
@@ -1570,9 +1578,9 @@
         }];
         
         //change color of movie activity indicator
-        if (self.movieActivityIndicatorView) {
+        /*if (self.movieActivityIndicatorView) {
             self.movieActivityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
-        }
+        }*/
     }else{
         self.navigationController.navigationBar.hidden = NO;
         self.viewController.toolbar.hidden = NO;
@@ -1589,9 +1597,9 @@
         }];
         
         //change color of movie activity indicator
-        if (self.movieActivityIndicatorView) {
+        /*if (self.movieActivityIndicatorView) {
             self.movieActivityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-        }
+        }*/
     }
 }
 
