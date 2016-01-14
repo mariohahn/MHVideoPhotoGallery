@@ -1435,7 +1435,8 @@
         
         //show spinner if video has not been downloaded
         if (self.videoDownloaded == NO) {
-            self.movieActivityIndicatorView = [UIActivityIndicatorView.alloc initWithFrame:self.view.bounds];
+            CGRect movieActivityIndicatorFrame = CGRectMake(self.view.center.x-10, self.view.center.y-10, 20, 20);
+            self.movieActivityIndicatorView = [UIActivityIndicatorView.alloc initWithFrame:movieActivityIndicatorFrame];
             self.movieActivityIndicatorView.hidesWhenStopped = YES;
             [self.view addSubview:self.movieActivityIndicatorView];
             [self.movieActivityIndicatorView startAnimating];
