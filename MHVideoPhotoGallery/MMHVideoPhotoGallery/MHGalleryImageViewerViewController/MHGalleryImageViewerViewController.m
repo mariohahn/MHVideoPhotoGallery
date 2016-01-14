@@ -947,7 +947,8 @@
         
         [self.view addGestureRecognizer:imageTap];
         
-        self.act = [UIActivityIndicatorView.alloc initWithFrame:self.view.bounds];
+        CGRect movieActivityIndicatorFrame = CGRectMake(self.view.center.x-10, self.view.center.y-10, 20, 20);
+        self.act = [UIActivityIndicatorView.alloc initWithFrame:movieActivityIndicatorFrame];
         [self.act startAnimating];
         self.act.hidesWhenStopped =YES;
         self.act.tag =507;
@@ -1032,6 +1033,7 @@
                                                                         [weakSelf.playButton setHidden:YES];
                                                                     }
                                                                     [weakSelf.act stopAnimating];
+                                                                    [weakSelf.movieActivityIndicatorView stopAnimating];
                                                                 }];
         }
     }
