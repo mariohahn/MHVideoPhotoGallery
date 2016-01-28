@@ -52,11 +52,13 @@ extern UIImage  *MHGalleryImage(NSString *imageName);
 extern UIView  *MHStatusBar(void);
 extern BOOL     MHShouldShowStatusBar(void);
 
+extern NSString *const MHYoutubeApiKey;
 extern NSString *const MHYoutubeChannel;
 extern NSString *const MHGalleryViewModeShare;
 extern NSString *const MHVimeoVideoBaseURL;
 extern NSString *const MHVimeoThumbBaseURL;
 extern NSString *const MHYoutubeInfoBaseURL;
+extern NSString *const MHYoutubeThumbBaseURL;
 extern NSString *const MHYoutubePlayBaseURL;
 extern NSString *const MHYoutubeBaseURL;
 extern NSString *const MHVimeoBaseURL;
