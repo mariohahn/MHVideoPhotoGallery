@@ -1028,9 +1028,18 @@
                                                                                          videoDuration:videoDuration
                                                                                              urlString:self.item.URLString];
                                                                     }else{
-                                                                        [weakSelf changeToErrorImage];
-                                                                        [weakSelf removeAllMoviePlayerViewsAndNotifications];
-                                                                        [weakSelf.playButton setHidden:YES];
+                                                                        if ([self.item.URLString rangeOfString:@"m3u8"].location == NSNotFound) {
+                                                                            [weakSelf changeToErrorImage];
+                                                                            [weakSelf removeAllMoviePlayerViewsAndNotifications];
+                                                                            [weakSelf.playButton setHidden:YES];
+                                                                        }
+                                                                        else {
+                                                                            //there is no thumbnail if format is HLS m3u8 playlist
+                                                                            //ensure that videoDuration is set
+                                                                            [weakSelf handleGeneratedThumb:nil
+                                                                                             videoDuration:videoDuration
+                                                                                                 urlString:self.item.URLString];
+                                                                        }
                                                                     }
                                                                     [weakSelf.act stopAnimating];
                                                                     [weakSelf.movieActivityIndicatorView stopAnimating];
@@ -1098,7 +1107,9 @@
     
     self.slider.maximumValue = videoDuration;
     [self.view viewWithTag:508].hidden =NO;
-    self.imageView.image = image;
+    if (image) {
+        self.imageView.image = image;
+    }
     
     self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
     self.playButton.hidden = NO;
@@ -1474,7 +1485,7 @@
     self.movieActivityIndicatorView.hidesWhenStopped = YES;
     [self.view addSubview:self.movieActivityIndicatorView];
     [self.movieActivityIndicatorView startAnimating];
-
+    
 }
 
 -(MHGalleryViewMode)currentViewMode{
@@ -1581,8 +1592,8 @@
         
         //change color of movie activity indicator
         /*if (self.movieActivityIndicatorView) {
-            self.movieActivityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
-        }*/
+         self.movieActivityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
+         }*/
     }else{
         self.navigationController.navigationBar.hidden = NO;
         self.viewController.toolbar.hidden = NO;
@@ -1600,8 +1611,8 @@
         
         //change color of movie activity indicator
         /*if (self.movieActivityIndicatorView) {
-            self.movieActivityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-        }*/
+         self.movieActivityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+         }*/
     }
 }
 

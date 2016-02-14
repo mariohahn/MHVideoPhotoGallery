@@ -100,13 +100,13 @@
                 
                 if (result != AVAssetImageGeneratorSucceeded || im == nil) {
                     dispatch_async(dispatch_get_main_queue(), ^(void){
-                        succeedBlock(nil,0,error);
+                        succeedBlock(nil,videoDurationTimeInSeconds,error);
                     });
                 }else{
                     UIImage *image = [UIImage imageWithCGImage:im];
                     if (image != nil) {
                         [SDImageCache.sharedImageCache storeImage:image
-                                                             forKey:urlString];
+                                                           forKey:urlString];
                         dispatch_async(dispatch_get_main_queue(), ^(void){
                             succeedBlock(image,videoDurationTimeInSeconds,nil);
                         });
