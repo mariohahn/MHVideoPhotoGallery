@@ -65,6 +65,7 @@
         
         [self sd_setImageWithURL:[NSURL URLWithString:toLoadURL]
                 placeholderImage:[SDImageCache.sharedImageCache imageFromDiskCacheForKey:placeholderURL]
+                         options:SDWebImageRetryFailed|SDWebImageAllowInvalidSSLCertificates
                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                            if (succeedBlock) {
                                succeedBlock (image,error);
