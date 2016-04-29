@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  MHVideoPhotoGallery
+
+  Created by Mario Hahn on 17.02.14.
+  Copyright (c) 2014 Mario Hahn. All rights reserved.
+*/
+
+
+"imagedetail.title.current"       = "%@ / %@";
+"overview.title.current"          = "总览";
+"overview.menue.item.save"        = "保存";
+"shareview.message"               = "信息";
+"shareview.mail"                  = "邮件";
+"shareview.save.cameraRoll"       = "保存到图库";
+"shareview.title.select.plural"   = "选中 %@ 张图片";
+"shareview.title.select.singular" = "选中 %@ 张图片";
+"shareview.download"              = "下载数据\n";
+"shareview.download.cancel"       = "取消";
+"truncate.more"                   = "更多";
