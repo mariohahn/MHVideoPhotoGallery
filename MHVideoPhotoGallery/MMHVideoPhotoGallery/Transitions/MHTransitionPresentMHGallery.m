@@ -147,23 +147,23 @@
 -(void)cancelInteractiveTransition{
     [super cancelInteractiveTransition];
     
-    
+	__weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:[self timeForUnrotet] animations:^{
-        self.transitionImageView.transform  = [self rotateToZeroAffineTranform];
+        weakSelf.transitionImageView.transform  = [weakSelf rotateToZeroAffineTranform];
     } completion:^(BOOL finished) {
-        CGRect currentFrame = self.transitionImageView.frame;
-        self.transitionImageView.transform = CGAffineTransformIdentity;
-        self.transitionImageView.frame = currentFrame;
+        CGRect currentFrame = weakSelf.transitionImageView.frame;
+        weakSelf.transitionImageView.transform = CGAffineTransformIdentity;
+        weakSelf.transitionImageView.frame = currentFrame;
         
         [UIView animateWithDuration:0.3 animations:^{
-            self.backView.alpha = 0;
-            self.transitionImageView.frame = self.startFrame;
+            weakSelf.backView.alpha = 0;
+            weakSelf.transitionImageView.frame = self.startFrame;
         } completion:^(BOOL finished) {
-            self.presentingImageView.hidden = NO;
+            weakSelf.presentingImageView.hidden = NO;
             
-            [self.transitionImageView removeFromSuperview];
-            [self.backView removeFromSuperview];
-            [self.context completeTransition:NO];
+            [weakSelf.transitionImageView removeFromSuperview];
+            [weakSelf.backView removeFromSuperview];
+            [weakSelf.context completeTransition:NO];
         }];
         
     }];

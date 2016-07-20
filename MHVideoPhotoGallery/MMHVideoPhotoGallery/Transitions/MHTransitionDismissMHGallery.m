@@ -316,35 +316,35 @@
 
 -(void)cancelInteractiveTransition{
     [super cancelInteractiveTransition];
-    
+	__weak typeof(self) weakself = self;
     [UIView animateWithDuration:0.3 animations:^{
-        if (self.moviePlayer) {
-            if (self.toTransform != self.orientationTransformBeforeDismiss) {
-                self.moviePlayer.view.center = CGPointMake(self.moviePlayer.view.bounds.size.height/2, self.moviePlayer.view.center.y);
+        if (weakself.moviePlayer) {
+            if (weakself.toTransform != weakself.orientationTransformBeforeDismiss) {
+                weakself.moviePlayer.view.center = CGPointMake(weakself.moviePlayer.view.bounds.size.height/2, weakself.moviePlayer.view.center.y);
             }else{
-                self.moviePlayer.view.frame = self.startFrame;
+                weakself.moviePlayer.view.frame = weakself.startFrame;
             }
         }else{
-            if (self.toTransform != self.orientationTransformBeforeDismiss) {
-                self.cellImageSnapshot.center = UIApplication.sharedApplication.keyWindow.center;
+            if (weakself.toTransform != weakself.orientationTransformBeforeDismiss) {
+                weakself.cellImageSnapshot.center = UIApplication.sharedApplication.keyWindow.center;
             }else{
-                self.cellImageSnapshot.frame = self.startFrame;
+                weakself.cellImageSnapshot.frame = weakself.startFrame;
             }
         }
-        self.backView.alpha = 1;
+        weakself.backView.alpha = 1;
     } completion:^(BOOL finished) {
         
-        self.transitionImageView.hidden = NO;
-        [self.cellImageSnapshot removeFromSuperview];
-        [self.backView removeFromSuperview];
+        weakself.transitionImageView.hidden = NO;
+        [weakself.cellImageSnapshot removeFromSuperview];
+        [weakself.backView removeFromSuperview];
         
-        UINavigationController *fromViewController = (UINavigationController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
-        if (self.moviePlayer) {
-            if (self.toTransform != self.orientationTransformBeforeDismiss) {
-                self.moviePlayer.view.transform = CGAffineTransformMakeRotation(self.toTransform);
-                self.moviePlayer.view.center = CGPointMake(self.moviePlayer.view.bounds.size.width/2, self.moviePlayer.view.bounds.size.height/2);
+        UINavigationController *fromViewController = (UINavigationController*)[weakself.context viewControllerForKey:UITransitionContextFromViewControllerKey];
+        if (weakself.moviePlayer) {
+            if (weakself.toTransform != weakself.orientationTransformBeforeDismiss) {
+                weakself.moviePlayer.view.transform = CGAffineTransformMakeRotation(weakself.toTransform);
+                weakself.moviePlayer.view.center = CGPointMake(weakself.moviePlayer.view.bounds.size.width/2, weakself.moviePlayer.view.bounds.size.height/2);
             }else{
-                self.moviePlayer.view.bounds = fromViewController.view.bounds;
+                weakself.moviePlayer.view.bounds = fromViewController.view.bounds;
             }
         }
         
@@ -353,27 +353,27 @@
         MHGalleryImageViewerViewController *imageViewer  = (MHGalleryImageViewerViewController*)fromViewController.visibleViewController;
         imageViewer.pageViewController.view.hidden = NO;
         
-        if (self.moviePlayer) {
+        if (weakself.moviePlayer) {
             MHImageViewController *imageViewController = (MHImageViewController*)imageViewer.pageViewController.viewControllers.firstObject;
-            [imageViewController.view insertSubview:self.moviePlayer.view atIndex:2];
+            [imageViewController.view insertSubview:weakself.moviePlayer.view atIndex:2];
         }
         
-        if ([self.context respondsToSelector:@selector(viewForKey:)]) { // is on iOS 8?
+        if ([weakself.context respondsToSelector:@selector(viewForKey:)]) { // is on iOS 8?
             [UIApplication.sharedApplication.keyWindow addSubview:fromViewController.view];
-            self.moviePlayer = nil;
+            weakself.moviePlayer = nil;
         }
         
-        [self.context completeTransition:NO];
-        if (self.moviePlayer) {
+        [weakself.context completeTransition:NO];
+        if (weakself.moviePlayer) {
             [UIView performWithoutAnimation:^{
-                [self doOrientationwithFromViewController:fromViewController];
+                [weakself doOrientationwithFromViewController:fromViewController];
             }];
         }else{
             if (MHGalleryOSVersion < 8.0) {
-                [self doOrientationwithFromViewController:fromViewController];
+                [weakself doOrientationwithFromViewController:fromViewController];
             }else{
                 [UIView performWithoutAnimation:^{
-                    [self doOrientationwithFromViewController:fromViewController];
+                    [weakself doOrientationwithFromViewController:fromViewController];
                 }];
             }
         }
