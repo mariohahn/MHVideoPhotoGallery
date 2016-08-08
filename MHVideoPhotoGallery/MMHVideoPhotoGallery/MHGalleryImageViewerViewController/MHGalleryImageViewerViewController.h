@@ -43,6 +43,7 @@
 -(void)playStopButtonPressed;
 -(void)changeToPauseButton;
 -(void)changeToPlayButton;
+-(void)donePressed;
 -(void)reloadData;
 @end
 
