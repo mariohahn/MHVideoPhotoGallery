@@ -40,6 +40,7 @@
 
 -(MHGalleryController*)galleryViewController;
 -(void)updateToolBarForItem:(MHGalleryItem*)item;
+-(void)changeUIForViewMode:(MHGalleryViewMode)viewMode;
 -(void)playStopButtonPressed;
 -(void)changeToPauseButton;
 -(void)changeToPlayButton;
