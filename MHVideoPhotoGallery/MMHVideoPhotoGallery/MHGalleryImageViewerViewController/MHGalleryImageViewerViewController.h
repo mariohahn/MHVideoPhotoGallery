@@ -73,6 +73,7 @@
 -(void)removeAllMoviePlayerViewsAndNotifications;
 -(void)playButtonPressed;
 -(void)centerImageView;
+-(void)changeUIForViewMode:(MHGalleryViewMode)viewMode;
 
 +(MHImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item
                                            viewController:(MHGalleryImageViewerViewController*)viewController;
