@@ -12,7 +12,7 @@
 
 @implementation MHGallerySharedManager
 
-+ (MHGallerySharedManager *)sharedManager{
++ (MHGallerySharedManager *)sharedInstance{
     static MHGallerySharedManager *sharedManagerInstance = nil;
     static dispatch_once_t onceQueue;
     dispatch_once(&onceQueue, ^{
@@ -109,7 +109,7 @@
                     UIImage *image = [UIImage imageWithCGImage:im];
                     if (image != nil) {
                         [SDImageCache.sharedImageCache storeImage:image
-                                                             forKey:urlString];
+                                                           forKey:urlString];
                         dispatch_async(dispatch_get_main_queue(), ^(void){
                             succeedBlock(image,videoDurationTimeInSeconds,nil);
                         });
@@ -292,46 +292,21 @@
         succeedBlock(image,[dict[URL] integerValue],nil);
     }else{
         NSString *videoID = [[URL componentsSeparatedByString:@"?v="] lastObject];
-        NSString *infoURL = [NSString stringWithFormat:MHYoutubeInfoBaseURL,videoID];
-        NSMutableURLRequest *httpRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:infoURL]
-                                                                   cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                               timeoutInterval:10];
-        [NSURLConnection sendAsynchronousRequest:httpRequest
-                                           queue:NSOperationQueue.new
-                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                                   if (!connectionError) {
-                                       NSError *error;
-                                       NSDictionary *jsonData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                                options:NSJSONReadingAllowFragments
-                                                                                                  error:&error];
-                                       dispatch_async(dispatch_get_main_queue(), ^(void){
-                                           if (jsonData.count) {
-                                               NSMutableDictionary *dictToSave = [self durationDict];
-                                               dictToSave[URL] = @([jsonData[@"data"][@"duration"] integerValue]);
-                                               [self setObjectToUserDefaults:dictToSave];
-                                               NSString *thumbURL = NSString.new;
-                                               if (self.youtubeThumbQuality == MHYoutubeThumbQualityHQ) {
-                                                   thumbURL = jsonData[@"data"][@"thumbnail"][@"hqDefault"];
-                                               }else if (self.youtubeThumbQuality == MHYoutubeThumbQualitySQ){
-                                                   thumbURL = jsonData[@"data"][@"thumbnail"][@"sqDefault"];
-                                               }
-                                               [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:thumbURL]
-                                                                                             options:SDWebImageContinueInBackground
-                                                                                            progress:nil
-                                                                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                                                                                               
-                                                                                               [SDImageCache.sharedImageCache removeImageForKey:thumbURL];
-                                                                                               [SDImageCache.sharedImageCache storeImage:image
-                                                                                                                                  forKey:URL];
-                                                                                               
-                                                                                               succeedBlock(image,[jsonData[@"data"][@"duration"] integerValue],nil);
-                                                                                           }];
-                                           }
-                                       });
-                                   }else{
-                                       succeedBlock(nil,0,connectionError);
-                                   }
-                               }];
+        NSString *infoURL = [NSString stringWithFormat:MHYoutubeThumbBaseURL,videoID];
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:infoURL]
+                                                          options:SDWebImageContinueInBackground
+                                                         progress:nil
+                                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                                            
+                                                            [SDImageCache.sharedImageCache removeImageForKey:infoURL];
+                                                            [SDImageCache.sharedImageCache storeImage:image
+                                                                                               forKey:URL];
+                                                            
+                                                            succeedBlock(image,0,nil);
+                                                        }];
+            
+        });
     }
     
 }

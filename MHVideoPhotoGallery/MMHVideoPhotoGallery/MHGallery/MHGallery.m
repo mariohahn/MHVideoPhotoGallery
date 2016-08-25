@@ -6,7 +6,7 @@
 NSString * const MHYoutubeBaseURL          = @"http://www.youtube.com/watch?v=%@";
 NSString * const MHYoutubeChannel          = @"https://gdata.youtube.com/feeds/api/users/%@/uploads?&max-results=50&alt=json";
 NSString * const MHYoutubePlayBaseURL      = @"https://www.youtube.com/get_video_info?video_id=%@&el=embedded&ps=default&eurl=&gl=US&hl=%@";
-NSString * const MHYoutubeInfoBaseURL      = @"http://gdata.youtube.com/feeds/api/videos/%@?v=2&alt=jsonc";
+NSString * const MHYoutubeThumbBaseURL     = @"http://img.youtube.com/vi/%@/hqdefault.jpg";
 NSString * const MHVimeoThumbBaseURL       = @"http://vimeo.com/api/v2/video/%@.json";
 NSString * const MHVimeoVideoBaseURL       = @"http://player.vimeo.com/video/%@/config";
 NSString * const MHVimeoBaseURL            = @"http://vimeo.com/%@";
