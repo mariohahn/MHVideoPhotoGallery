@@ -40,6 +40,7 @@
 
 -(MHGalleryController*)galleryViewController;
 -(void)updateToolBarForItem:(MHGalleryItem*)item;
+-(void)changeUIForViewMode:(MHGalleryViewMode)viewMode;
 -(void)playStopButtonPressed;
 -(void)changeToPauseButton;
 -(void)changeToPlayButton;
@@ -72,6 +73,7 @@
 -(void)removeAllMoviePlayerViewsAndNotifications;
 -(void)playButtonPressed;
 -(void)centerImageView;
+-(void)changeUIForViewMode:(MHGalleryViewMode)viewMode;
 
 +(MHImageViewController *)imageViewControllerForMHMediaItem:(MHGalleryItem*)item
                                            viewController:(MHGalleryImageViewerViewController*)viewController;
