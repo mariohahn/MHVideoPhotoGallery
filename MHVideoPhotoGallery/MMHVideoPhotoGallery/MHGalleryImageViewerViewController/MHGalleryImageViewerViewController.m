@@ -381,6 +381,11 @@
 -(void)changeUIForViewMode:(MHGalleryViewMode)viewMode {
     MHImageViewController *imageViewer = self.pageViewController.viewControllers.firstObject;
     [imageViewer changeUIForViewMode:viewMode];
+    
+    if (viewMode == MHGalleryViewModeImageViewerNavigationBarShown){
+        self.navigationController.navigationBar.hidden = NO;
+        self.toolbar.hidden = NO;
+    }
 }
 
 -(void)playStopButtonPressed{
