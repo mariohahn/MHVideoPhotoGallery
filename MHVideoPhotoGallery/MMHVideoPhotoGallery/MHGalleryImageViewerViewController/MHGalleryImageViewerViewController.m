@@ -740,6 +740,7 @@ static NSString* miniViewCellIdentifier = @"previewCell";
     layout.itemSize = CGSizeMake(64, 64);
     layout.minimumInteritemSpacing = 10;
     layout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8);
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     self.miniViewsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     [self.view addSubview:self.miniViewsCollectionView];
     __weak typeof(self) weakSelf = self;
