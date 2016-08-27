@@ -8,6 +8,7 @@
 
 #import "ExampleViewControllerTableView.h"
 #import "MHOverviewController.h"
+#import "MHCustomization.h"
 #import "UIImageView+WebCache.h"
 
 @implementation ImageTableViewCell
@@ -28,10 +29,13 @@
     
 
     
-    MHGalleryItem *tailored = [[MHGalleryItem alloc]initWithURL:@"http://www.tailored-apps.com/wp-content/uploads/2014/01/wien_cropped-350x300.jpg"
-                                                       galleryType:MHGalleryTypeImage];
+    MHGalleryItem *tailored = [MHGalleryItem.alloc initWithURL:@"http://www.tailored-apps.com/wp-content/uploads/2014/01/wien_cropped-350x300.jpg"
+                                                   galleryType:MHGalleryTypeImage];
     
-    self.galleryDataSource = @[tailored];
+    MHGalleryItem *tailored2 = [MHGalleryItem.alloc initWithURL:@"http://www.tailored-apps.com/wp-content/uploads/2014/01/hannes.jpg"
+                                                    galleryType:MHGalleryTypeImage];
+    
+    self.galleryDataSource = @[tailored, tailored2];
     
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -68,6 +72,10 @@
     gallery.galleryItems = galleryData;
     gallery.presentingFromImageView = imageView;
     gallery.presentationIndex = indexPath.row;
+    
+    MHUICustomization *customization = [MHUICustomization new];
+    customization.showMiniViews = YES;
+    gallery.UICustomization = customization;
     
     __weak MHGalleryController *blockGallery = gallery;
     

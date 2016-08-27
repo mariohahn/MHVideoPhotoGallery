@@ -14,8 +14,12 @@
 #import "Masonry.h"
 #import "MHGradientView.h"
 #import "MHBarButtonItem.h"
+#import "MHMediaPreviewCollectionViewCell.h"
 
 @implementation MHPinchGestureRecognizer
+@end
+
+@interface MHViewerPreviewCollectionCell : MHMediaPreviewCollectionViewCell
 @end
 
 @interface MHImageViewController ()
@@ -40,7 +44,7 @@
 
 @end
 
-@interface MHGalleryImageViewerViewController()<MHGalleryLabelDelegate,TTTAttributedLabelDelegate>
+@interface MHGalleryImageViewerViewController()<MHGalleryLabelDelegate,TTTAttributedLabelDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) MHGradientView           *bottomSuperView;
 @property (nonatomic, strong) MHGradientView           *topSuperView;
 
@@ -48,6 +52,9 @@
 @property (nonatomic, strong) MHBarButtonItem          *leftBarButton;
 @property (nonatomic, strong) MHBarButtonItem          *rightBarButton;
 @property (nonatomic, strong) MHBarButtonItem          *playStopBarButton;
+
+@property (nonatomic, strong) UICollectionView         *miniViewsCollectionView;
+
 @end
 
 @implementation MHGalleryImageViewerViewController
@@ -259,6 +266,9 @@
         self.shareBarButton.width = 30;
     }
     
+    if (self.UICustomization.showMiniViews) {
+        [self setupMiniViews];
+    }
     
     self.toolbar.barTintColor = self.UICustomization.barTintColor;
     self.toolbar.barStyle = self.UICustomization.barStyle;
@@ -714,6 +724,77 @@
     self.pageViewController.view.bounds = self.view.bounds;
     [self.pageViewController.view.subviews.firstObject setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) ];
     
+}
+
+static NSString* miniViewCellIdentifier = @"previewCell";
+
+- (void)setupMiniViews{
+    UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
+    layout.itemSize = CGSizeMake(64, 64);
+    layout.minimumInteritemSpacing = 10;
+    layout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8);
+    self.miniViewsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    [self.view addSubview:self.miniViewsCollectionView];
+    __weak typeof(self) weakSelf = self;
+    [self.miniViewsCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(weakSelf.toolbar.mas_top);
+        make.left.equalTo(weakSelf.view);
+        make.right.equalTo(weakSelf.view);
+        make.height.equalTo(@(80));
+    }];
+    self.miniViewsCollectionView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.5];
+    [self.miniViewsCollectionView registerClass:[MHViewerPreviewCollectionCell class] forCellWithReuseIdentifier:miniViewCellIdentifier];
+    self.miniViewsCollectionView.delegate = self;
+    self.miniViewsCollectionView.dataSource = self;
+    self.miniViewsCollectionView.allowsMultipleSelection = NO;
+    [self.miniViewsCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.pageIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return self.galleryItems.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    MHViewerPreviewCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:miniViewCellIdentifier
+                                                                                    forIndexPath:indexPath];
+    cell.galleryItem = [self itemForIndex:indexPath.row];
+    return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    MHImageViewController *theCurrentViewController = self.pageViewController.viewControllers.firstObject;
+   
+    NSUInteger indexPage = theCurrentViewController.pageIndex;
+    NSUInteger newIndex = (NSUInteger) indexPath.row;
+    if (newIndex == indexPage) {
+        return;
+    }
+    
+    if (theCurrentViewController.moviePlayer) {
+        [theCurrentViewController removeAllMoviePlayerViewsAndNotifications];
+    }
+    
+    MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:newIndex] viewController:self];
+    imageViewController.pageIndex = newIndex;
+    
+    if (newIndex == self.numberOfGalleryItems-1) {
+        self.rightBarButton.enabled = NO;
+    }
+    if (newIndex == 0) {
+        self.leftBarButton.enabled = YES;
+    }
+    if (!imageViewController) {
+        return;
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    
+    UIPageViewControllerNavigationDirection direction = newIndex > indexPage ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse;
+    [self.pageViewController setViewControllers:@[imageViewController] direction:direction animated:YES completion:^(BOOL finished) {
+        weakSelf.pageIndex = imageViewController.pageIndex;
+        [weakSelf updateToolBarForItem:[weakSelf itemForIndex:weakSelf.pageIndex]];
+        [weakSelf showCurrentIndex:weakSelf.pageIndex];
+    }];
 }
 
 @end
@@ -1519,6 +1600,8 @@
     self.viewController.topSuperView.alpha = alpha;
     self.viewController.descriptionLabel.alpha = alpha;
     self.viewController.bottomSuperView.alpha = alpha;
+    
+    self.viewController.miniViewsCollectionView.alpha = alpha;
 
     if (!MHShouldShowStatusBar()) {
         alpha = 0;
@@ -1675,5 +1758,15 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
 }
+
 @end
 
+@implementation MHViewerPreviewCollectionCell
+
+- (void)setSelected:(BOOL)selected{
+    [super setSelected:selected];
+    self.layer.borderWidth = 2.0;
+    self.layer.borderColor = selected ? [UIColor whiteColor].CGColor : [UIColor clearColor].CGColor;
+}
+
+@end
