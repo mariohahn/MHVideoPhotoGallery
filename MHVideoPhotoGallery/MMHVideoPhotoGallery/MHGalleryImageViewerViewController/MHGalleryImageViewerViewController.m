@@ -693,6 +693,11 @@
     return imageViewController;
 }
 
+- (void)setPageIndex:(NSInteger)pageIndex{
+    _pageIndex = pageIndex;
+    [self selectMiniViewAtIndex:_pageIndex];
+}
+
 -(MHImageViewController*)imageViewControllerWithItem:(MHGalleryItem*)item pageIndex:(NSInteger)pageIndex{
     MHImageViewController *imageViewController =[MHImageViewController imageViewControllerForMHMediaItem:[self itemForIndex:pageIndex] viewController:self];
     imageViewController.pageIndex  = pageIndex;
@@ -747,7 +752,11 @@ static NSString* miniViewCellIdentifier = @"previewCell";
     self.miniViewsCollectionView.delegate = self;
     self.miniViewsCollectionView.dataSource = self;
     self.miniViewsCollectionView.allowsMultipleSelection = NO;
-    [self.miniViewsCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.pageIndex inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+    [self selectMiniViewAtIndex:self.pageIndex];
+}
+
+- (void)selectMiniViewAtIndex:(NSUInteger)index{
+    [self.miniViewsCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -794,6 +803,7 @@ static NSString* miniViewCellIdentifier = @"previewCell";
         weakSelf.pageIndex = imageViewController.pageIndex;
         [weakSelf updateToolBarForItem:[weakSelf itemForIndex:weakSelf.pageIndex]];
         [weakSelf showCurrentIndex:weakSelf.pageIndex];
+        [weakSelf.miniViewsCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:weakSelf.pageIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
     }];
 }
 
