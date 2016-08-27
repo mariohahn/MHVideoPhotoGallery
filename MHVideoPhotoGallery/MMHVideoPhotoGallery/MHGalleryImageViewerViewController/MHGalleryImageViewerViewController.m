@@ -75,6 +75,8 @@
                                               animated:YES];
     
     [self.pageViewController.view.subviews.firstObject setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.miniViewsCollectionView reloadData];
+    [self selectMiniViewAtIndex:self.pageIndex];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
@@ -752,6 +754,7 @@ static NSString* miniViewCellIdentifier = @"previewCell";
     self.miniViewsCollectionView.delegate = self;
     self.miniViewsCollectionView.dataSource = self;
     self.miniViewsCollectionView.allowsMultipleSelection = NO;
+    self.miniViewsCollectionView.alpha = self.galleryViewController.presentationStyle == MHGalleryViewModeImageViewerNavigationBarHidden ? 0 : 1;
     [self selectMiniViewAtIndex:self.pageIndex];
 }
 
@@ -767,6 +770,7 @@ static NSString* miniViewCellIdentifier = @"previewCell";
     MHViewerPreviewCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:miniViewCellIdentifier
                                                                                     forIndexPath:indexPath];
     cell.galleryItem = [self itemForIndex:indexPath.row];
+    cell.tintColor = self.UICustomization.barButtonsTintColor;
     return cell;
 }
 
@@ -1773,10 +1777,22 @@ static NSString* miniViewCellIdentifier = @"previewCell";
 
 @implementation MHViewerPreviewCollectionCell
 
+- (instancetype)initWithFrame:(CGRect)frame{
+    if (self = [super initWithFrame:frame]) {
+        self.tintColor = [UIColor whiteColor];
+    }
+    return self;
+}
+
+- (void)setTintColor:(UIColor *)tintColor{
+    UIColor *color = tintColor ?: [UIColor whiteColor];
+    [super setTintColor:color];
+}
+
 - (void)setSelected:(BOOL)selected{
     [super setSelected:selected];
     self.layer.borderWidth = 2.0;
-    self.layer.borderColor = selected ? [UIColor whiteColor].CGColor : [UIColor clearColor].CGColor;
+    self.layer.borderColor = selected ? self.tintColor.CGColor : [UIColor clearColor].CGColor;
 }
 
 @end
