@@ -94,7 +94,7 @@
     if (self.finishedCallback) {
         gallery.finishedCallback = self.finishedCallback;
     }
-    [self.viewController presentMHGalleryController:gallery animated:YES completion:nil];
+    [self.viewController presentMHGallery:gallery animated:YES completion:nil];
 
 }
 -(void)presentMHGallery{
@@ -113,7 +113,7 @@
        gallery.finishedCallback = self.finishedCallback;
     }
 
-    [self.viewController presentMHGalleryController:gallery animated:YES completion:nil];
+    [self.viewController presentMHGallery:gallery animated:YES completion:nil];
     
 }
 

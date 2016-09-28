@@ -92,9 +92,9 @@
  *  @param animated          animated or nonanimated
  *  @param completion        complitionBlock
  */
--(void)presentMHGalleryController:(MHGalleryController*)galleryController
-                         animated:(BOOL)animated
-                       completion:(void (^)(void))completion;
+-(void)presentMHGallery:(MHGalleryController*)galleryController
+               animated:(BOOL)animated
+             completion:(void (^)(void))completion;
 /**
  *  For dismissing MHGalleryController
  *
