@@ -8,8 +8,14 @@
 
 #import "MHGalleryController.h"
 
-
 @implementation MHGalleryController
+
+-(UIViewController *)childViewControllerForStatusBarStyle {
+    return self.childViewControllers.firstObject;
+}
+-(UIViewController *)childViewControllerForStatusBarHidden {
+    return self.childViewControllers.firstObject;
+}
 
 - (id)initWithPresentationStyle:(MHGalleryViewMode)presentationStyle{
     self = [super initWithNibName:nil bundle:nil];
