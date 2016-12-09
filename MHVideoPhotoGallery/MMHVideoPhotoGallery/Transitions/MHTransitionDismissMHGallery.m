@@ -24,6 +24,10 @@
 @property (nonatomic,strong) UIView *backView;
 @property (nonatomic,strong) UIView *containerView;
 @property (nonatomic,strong) MHUIImageViewContentViewAnimation *cellImageSnapshot;
+
+@property (nonatomic,strong) id <UIViewControllerContextTransitioning> originTransitionContext;
+@property (nonatomic,strong) id <UIViewControllerContextTransitioning> currentTransitionContext;
+
 @end
 
 @implementation MHTransitionDismissMHGallery
@@ -31,6 +35,12 @@
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     
     self.context = transitionContext;
+    
+    if (transitionContext) {
+        _originTransitionContext = transitionContext;
+    }
+    
+    _currentTransitionContext = transitionContext;
     
     id toViewControllerNC = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
@@ -126,6 +136,12 @@
 -(void)startInteractiveTransition:(id<UIViewControllerContextTransitioning>)transitionContext{
     
     self.context = transitionContext;
+    
+    if (transitionContext) {
+        _originTransitionContext = transitionContext;
+    }
+    
+    _currentTransitionContext = transitionContext;
     
     id toViewControllerNC = (UINavigationController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
@@ -338,7 +354,15 @@
         [self.cellImageSnapshot removeFromSuperview];
         [self.backView removeFromSuperview];
         
-        UINavigationController *fromViewController = (UINavigationController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
+        UINavigationController *fromViewController = [[UINavigationController alloc] init];
+        
+        if (!_currentTransitionContext) {
+            fromViewController = (UINavigationController*)[_originTransitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+        }
+        else {
+            fromViewController = (UINavigationController*)[_currentTransitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+        }
+        
         if (self.moviePlayer) {
             if (self.toTransform != self.orientationTransformBeforeDismiss) {
                 self.moviePlayer.view.transform = CGAffineTransformMakeRotation(self.toTransform);

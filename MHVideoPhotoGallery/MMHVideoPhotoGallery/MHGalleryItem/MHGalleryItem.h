@@ -27,6 +27,9 @@ typedef NS_ENUM(NSUInteger, MHGalleryType) {
 @property (nonatomic,strong) NSString           *descriptionString;
 @property (nonatomic,strong) NSAttributedString *attributedString;
 @property (nonatomic,assign) MHGalleryType       galleryType;
+
+@property (nonatomic, assign) NSInteger imageId;
+
 /**
  *  MHGalleryItem initWithURL:galleryType
  *
