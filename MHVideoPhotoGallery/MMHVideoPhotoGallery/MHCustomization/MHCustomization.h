@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, MHBackButtonState) {
 @property (nonatomic,strong) NSDictionary *descriptionLinkAttributes;
 @property (nonatomic,strong) NSDictionary *descriptionActiveLinkAttributes;
 @property (nonatomic,strong) NSAttributedString *descriptionTruncationString;
-@property (nonatomic,strong) UIBarStyle barStyle; //Default UIBarStyleDefault
+@property (nonatomic)        UIBarStyle barStyle; //Default UIBarStyleDefault
 @property (nonatomic,strong) UIColor *barTintColor; //Default nil
 @property (nonatomic,strong) UIColor *barButtonsTintColor; //Default nil
 @property (nonatomic,strong) UIColor *videoProgressTintColor; //Default Black
