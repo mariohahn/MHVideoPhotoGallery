@@ -52,6 +52,13 @@
     [self.view addSubview:self.collectionView];
     [self.collectionView reloadData];
     
+    self.noConentsLabel = [[UILabel alloc] initWithFrame:self.view.bounds];
+    self.noConentsLabel.text = NSLocalizedString(@"caption_no_photos", @"There are no photos.");
+    self.noConentsLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:self.noConentsLabel];
+    
+
+    
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
     
@@ -105,8 +112,10 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return [self.galleryViewController.dataSource numberOfItemsInGallery:self.galleryViewController];
-}
+    NSInteger result = [self.galleryViewController.dataSource numberOfItemsInGallery:self.galleryViewController];
+    self.noConentsLabel.hidden = result != 0;
+    return result;
+};
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = (MHMediaPreviewCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(MHMediaPreviewCollectionViewCell.class) forIndexPath:indexPath];
