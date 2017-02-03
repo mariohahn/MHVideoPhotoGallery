@@ -289,14 +289,14 @@
 
 -(void)getImageForItem:(MHGalleryItem*)item
         finishCallback:(void(^)(UIImage *image))FinishBlock{
-    
-    [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:item.URLString]
-                                                  options:SDWebImageContinueInBackground
-                                                 progress:nil
-                                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                                                    FinishBlock(image);
-                                                }];
+    [SDWebImageManager.sharedManager loadImageWithURL:[NSURL URLWithString:item.URLString]
+                                              options:SDWebImageContinueInBackground
+                                             progress:nil
+                                            completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+                                                FinishBlock(image);
+                                            }];
 }
+
 -(void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     

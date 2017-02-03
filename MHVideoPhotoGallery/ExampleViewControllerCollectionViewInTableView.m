@@ -93,7 +93,7 @@
     tailored.attributedTitle = title;
     tailored2.attributedString = string2;
 
-    self.galleryDataSource = @[@[tailored,tailored2]];
+    self.galleryDataSource = @[@[tailored,tailored2, tailored3]];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.83 green:0.84 blue:0.86 alpha:1];
     [self.tableView reloadData];
     
