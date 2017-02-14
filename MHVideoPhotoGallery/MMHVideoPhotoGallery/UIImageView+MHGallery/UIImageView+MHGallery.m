@@ -17,35 +17,45 @@
     
     __weak typeof(self) weakSelf = self;
     
-    [MHGallerySharedManager.sharedManager startDownloadingThumbImage:URL
-                                                        successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
-                                                            
-                                                            if (!weakSelf) return;
-                                                            dispatch_main_sync_safe(^{
-                                                                if (!weakSelf) return;
-                                                                if (image){
-                                                                    weakSelf.image = image;
-                                                                    [weakSelf setNeedsLayout];
-                                                                }
-                                                                if (succeedBlock) {                                                                     succeedBlock(image,videoDuration,error);
-                                                                }
-                                                            });
-                                                        }];
+	[MHGallerySharedManager.sharedManager startDownloadingThumbImage:URL
+														successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
+															
+															if (!weakSelf) return;
+															
+															dispatch_sync(dispatch_get_main_queue(), ^{
+																if (!weakSelf) return;
+																if (image){
+																	weakSelf.image = image;
+																	[weakSelf setNeedsLayout];
+																}
+																if (succeedBlock) {                                                                     succeedBlock(image,videoDuration,error);
+																}
+															});
+//															dispatch_main_sync_safe(^{
+//																if (!weakSelf) return;
+//																if (image){
+//																	weakSelf.image = image;
+//																	[weakSelf setNeedsLayout];
+//																}
+//																if (succeedBlock) {                                                                     succeedBlock(image,videoDuration,error);
+//																}
+//															});
+														}];
 }
 
 -(void)setImageForMHGalleryItem:(MHGalleryItem*)item
                       imageType:(MHImageType)imageType
                    successBlock:(void (^)(UIImage *image,NSError *error))succeedBlock{
-    
+	
     __weak typeof(self) weakSelf = self;
-    
+	
     if ([item.URLString rangeOfString:MHAssetLibrary].location != NSNotFound && item.URLString) {
-        
+		
         MHAssetImageType assetType = MHAssetImageTypeThumb;
         if (imageType == MHImageTypeFull) {
             assetType = MHAssetImageTypeFull;
         }
-        
+		
         [MHGallerySharedManager.sharedManager getImageFromAssetLibrary:item.URLString
                                                              assetType:assetType
                                                           successBlock:^(UIImage *image, NSError *error) {
@@ -80,13 +90,21 @@
     __weak typeof(self) weakSelf = self;
     
     if (!weakSelf) return;
-    dispatch_main_sync_safe(^{
-        weakSelf.image = image;
-        [weakSelf setNeedsLayout];
-        if (succeedBlock) {
-            succeedBlock(image,nil);
-        }
-    });
+	
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		weakSelf.image = image;
+		[weakSelf setNeedsLayout];
+		if (succeedBlock) {
+			succeedBlock(image,nil);
+		}
+	});
+//    dispatch_main_sync_safe(^{
+//        weakSelf.image = image;
+//        [weakSelf setNeedsLayout];
+//        if (succeedBlock) {
+//            succeedBlock(image,nil);
+//        }
+//    });
 }
 
 
