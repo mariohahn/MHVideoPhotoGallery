@@ -48,6 +48,7 @@
 @property (nonatomic, strong) MHBarButtonItem          *leftBarButton;
 @property (nonatomic, strong) MHBarButtonItem          *rightBarButton;
 @property (nonatomic, strong) MHBarButtonItem          *playStopBarButton;
+@property (nonatomic)         BOOL                     shouldReactOnArrows;
 @end
 
 @implementation MHGalleryImageViewerViewController
@@ -56,6 +57,7 @@
     [super viewDidAppear:animated];
     
     self.navigationController.delegate = self;
+	self.shouldReactOnArrows = YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -597,6 +599,9 @@
 }
 
 -(void)leftPressed:(id)sender{
+	if (!self.shouldReactOnArrows) { return; }
+	self.shouldReactOnArrows = NO;
+	
     self.rightBarButton.enabled = YES;
     
     MHImageViewController *theCurrentViewController = self.pageViewController.viewControllers.firstObject;
@@ -612,6 +617,7 @@
         self.leftBarButton.enabled = NO;
     }
     if (!imageViewController) {
+		self.shouldReactOnArrows = YES;
         return;
     }
     
@@ -621,10 +627,14 @@
         weakSelf.pageIndex = imageViewController.pageIndex;
         [weakSelf updateToolBarForItem:[weakSelf itemForIndex:weakSelf.pageIndex]];
         [weakSelf showCurrentIndex:weakSelf.pageIndex];
+		weakSelf.shouldReactOnArrows = YES;
     }];
 }
 
 -(void)rightPressed:(id)sender{
+	if (!self.shouldReactOnArrows) { return; }
+	self.shouldReactOnArrows = NO;
+
     self.leftBarButton.enabled =YES;
     
     MHImageViewController *theCurrentViewController = self.pageViewController.viewControllers.firstObject;
@@ -640,6 +650,7 @@
         self.rightBarButton.enabled = NO;
     }
     if (!imageViewController) {
+		self.shouldReactOnArrows = YES;
         return;
     }
     
@@ -649,6 +660,7 @@
         weakSelf.pageIndex = imageViewController.pageIndex;
         [weakSelf updateToolBarForItem:[weakSelf itemForIndex:weakSelf.pageIndex]];
         [weakSelf showCurrentIndex:weakSelf.pageIndex];
+		weakSelf.shouldReactOnArrows = YES;
     }];
 }
 
