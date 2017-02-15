@@ -31,15 +31,6 @@
 																if (succeedBlock) {                                                                     succeedBlock(image,videoDuration,error);
 																}
 															});
-//															dispatch_main_sync_safe(^{
-//																if (!weakSelf) return;
-//																if (image){
-//																	weakSelf.image = image;
-//																	[weakSelf setNeedsLayout];
-//																}
-//																if (succeedBlock) {                                                                     succeedBlock(image,videoDuration,error);
-//																}
-//															});
 														}];
 }
 
@@ -98,13 +89,6 @@
 			succeedBlock(image,nil);
 		}
 	});
-//    dispatch_main_sync_safe(^{
-//        weakSelf.image = image;
-//        [weakSelf setNeedsLayout];
-//        if (succeedBlock) {
-//            succeedBlock(image,nil);
-//        }
-//    });
 }
 
 
