@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CCE50708F0B1B954A1D43543 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48BEA0714A525E3C516EBDBD /* libPods.a */; };
+		95A144B2F032B085774D2B94 /* Pods_MHVideoPhotoGallery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B52D6164AFC0D39EB31E4AFE /* Pods_MHVideoPhotoGallery.framework */; };
+		BD4D6A03DDA37AAA9B2E1CBA /* Pods_MHVideoPhotoGalleryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6786B5EB913F6A9F266E5B5 /* Pods_MHVideoPhotoGalleryTests.framework */; };
 		F514263518911D8E0091E3DF /* 707-albums-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = F514263318911D8E0091E3DF /* 707-albums-selected.png */; };
 		F514263618911D8E0091E3DF /* 707-albums-selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F514263418911D8E0091E3DF /* 707-albums-selected@2x.png */; };
 		F514263918911D920091E3DF /* 705-photos-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = F514263718911D920091E3DF /* 705-photos-selected.png */; };
@@ -108,9 +109,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		48BEA0714A525E3C516EBDBD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		7034C256C78A0FAB4D812A2B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		A1831E23B84EF67E23139C0E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		3CB83A1A73A539D2562B01F4 /* Pods-MHVideoPhotoGalleryTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MHVideoPhotoGalleryTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MHVideoPhotoGalleryTests/Pods-MHVideoPhotoGalleryTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5503C629D5222CFA5E7D0A40 /* Pods-MHVideoPhotoGallery.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MHVideoPhotoGallery.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MHVideoPhotoGallery/Pods-MHVideoPhotoGallery.debug.xcconfig"; sourceTree = "<group>"; };
+		6F0D023995F8475B5104D93A /* Pods-MHVideoPhotoGallery.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MHVideoPhotoGallery.release.xcconfig"; path = "Pods/Target Support Files/Pods-MHVideoPhotoGallery/Pods-MHVideoPhotoGallery.release.xcconfig"; sourceTree = "<group>"; };
+		B52D6164AFC0D39EB31E4AFE /* Pods_MHVideoPhotoGallery.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MHVideoPhotoGallery.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2CA54EF925AF26F9F068964 /* Pods-MHVideoPhotoGalleryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MHVideoPhotoGalleryTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MHVideoPhotoGalleryTests/Pods-MHVideoPhotoGalleryTests.release.xcconfig"; sourceTree = "<group>"; };
 		F514263318911D8E0091E3DF /* 707-albums-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "707-albums-selected.png"; sourceTree = "<group>"; };
 		F514263418911D8E0091E3DF /* 707-albums-selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "707-albums-selected@2x.png"; sourceTree = "<group>"; };
 		F514263718911D920091E3DF /* 705-photos-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "705-photos-selected.png"; sourceTree = "<group>"; };
@@ -236,6 +239,7 @@
 		F5EE8DA51890393D002E5734 /* testIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "testIcon@2x.png"; sourceTree = "<group>"; };
 		F5F8DA2B18B6A6A100EB25F2 /* MHPresenterImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHPresenterImageView.h; path = MMHVideoPhotoGallery/MHGalleryPresenterImageView/MHPresenterImageView.h; sourceTree = "<group>"; };
 		F5F8DA2C18B6A6A100EB25F2 /* MHPresenterImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHPresenterImageView.m; path = MMHVideoPhotoGallery/MHGalleryPresenterImageView/MHPresenterImageView.m; sourceTree = "<group>"; };
+		F6786B5EB913F6A9F266E5B5 /* Pods_MHVideoPhotoGalleryTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MHVideoPhotoGalleryTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,7 +252,7 @@
 				F53F924617EB008100A9FE6A /* CoreGraphics.framework in Frameworks */,
 				F53F924817EB008100A9FE6A /* UIKit.framework in Frameworks */,
 				F53F924417EB008100A9FE6A /* Foundation.framework in Frameworks */,
-				CCE50708F0B1B954A1D43543 /* libPods.a in Frameworks */,
+				95A144B2F032B085774D2B94 /* Pods_MHVideoPhotoGallery.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,17 +263,20 @@
 				F53F926317EB008100A9FE6A /* XCTest.framework in Frameworks */,
 				F53F926517EB008100A9FE6A /* UIKit.framework in Frameworks */,
 				F53F926417EB008100A9FE6A /* Foundation.framework in Frameworks */,
+				BD4D6A03DDA37AAA9B2E1CBA /* Pods_MHVideoPhotoGalleryTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		64EBA583430CC00734798E3D /* Pods */ = {
+		51B4CF3FCE4264CAD84C099E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7034C256C78A0FAB4D812A2B /* Pods.debug.xcconfig */,
-				A1831E23B84EF67E23139C0E /* Pods.release.xcconfig */,
+				5503C629D5222CFA5E7D0A40 /* Pods-MHVideoPhotoGallery.debug.xcconfig */,
+				6F0D023995F8475B5104D93A /* Pods-MHVideoPhotoGallery.release.xcconfig */,
+				3CB83A1A73A539D2562B01F4 /* Pods-MHVideoPhotoGalleryTests.debug.xcconfig */,
+				F2CA54EF925AF26F9F068964 /* Pods-MHVideoPhotoGalleryTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -281,7 +288,7 @@
 				F53F926817EB008100A9FE6A /* MHVideoPhotoGalleryTests */,
 				F53F924217EB008100A9FE6A /* Frameworks */,
 				F53F924117EB008100A9FE6A /* Products */,
-				64EBA583430CC00734798E3D /* Pods */,
+				51B4CF3FCE4264CAD84C099E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -303,7 +310,8 @@
 				F53F924517EB008100A9FE6A /* CoreGraphics.framework */,
 				F53F924717EB008100A9FE6A /* UIKit.framework */,
 				F53F926217EB008100A9FE6A /* XCTest.framework */,
-				48BEA0714A525E3C516EBDBD /* libPods.a */,
+				B52D6164AFC0D39EB31E4AFE /* Pods_MHVideoPhotoGallery.framework */,
+				F6786B5EB913F6A9F266E5B5 /* Pods_MHVideoPhotoGalleryTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -608,12 +616,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F53F927217EB008100A9FE6A /* Build configuration list for PBXNativeTarget "MHVideoPhotoGallery" */;
 			buildPhases = (
-				75DDE8B2C1B33F486A5B8488 /* Check Pods Manifest.lock */,
+				47F43FC8FF2902B9D31B9B4C /* [CP] Check Pods Manifest.lock */,
 				F53F923C17EB008100A9FE6A /* Sources */,
 				F53F923D17EB008100A9FE6A /* Frameworks */,
 				F53F923E17EB008100A9FE6A /* Resources */,
-				0C519C9D844EB0B45067DB4C /* Embed Pods Frameworks */,
-				87746AA85625C06CC49A954C /* Copy Pods Resources */,
+				8EE9D622D359A2D46E243B88 /* [CP] Embed Pods Frameworks */,
+				EB5EAECEEFF06CFC559F8FA7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -628,9 +636,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F53F927517EB008100A9FE6A /* Build configuration list for PBXNativeTarget "MHVideoPhotoGalleryTests" */;
 			buildPhases = (
+				68683487FA0AC127C1ACD355 /* [CP] Check Pods Manifest.lock */,
 				F53F925D17EB008100A9FE6A /* Sources */,
 				F53F925E17EB008100A9FE6A /* Frameworks */,
 				F53F925F17EB008100A9FE6A /* Resources */,
+				C252F07DFB33F165957600ED /* [CP] Embed Pods Frameworks */,
+				A29BDD531C7E6C397959674A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -748,49 +759,94 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0C519C9D844EB0B45067DB4C /* Embed Pods Frameworks */ = {
+		47F43FC8FF2902B9D31B9B4C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		75DDE8B2C1B33F486A5B8488 /* Check Pods Manifest.lock */ = {
+		68683487FA0AC127C1ACD355 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		87746AA85625C06CC49A954C /* Copy Pods Resources */ = {
+		8EE9D622D359A2D46E243B88 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MHVideoPhotoGallery/Pods-MHVideoPhotoGallery-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A29BDD531C7E6C397959674A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MHVideoPhotoGalleryTests/Pods-MHVideoPhotoGalleryTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C252F07DFB33F165957600ED /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MHVideoPhotoGalleryTests/Pods-MHVideoPhotoGalleryTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EB5EAECEEFF06CFC559F8FA7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MHVideoPhotoGallery/Pods-MHVideoPhotoGallery-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -949,7 +1005,7 @@
 		};
 		F53F927317EB008100A9FE6A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7034C256C78A0FAB4D812A2B /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 5503C629D5222CFA5E7D0A40 /* Pods-MHVideoPhotoGallery.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -969,7 +1025,7 @@
 		};
 		F53F927417EB008100A9FE6A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A1831E23B84EF67E23139C0E /* Pods.release.xcconfig */;
+			baseConfigurationReference = 6F0D023995F8475B5104D93A /* Pods-MHVideoPhotoGallery.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -989,6 +1045,7 @@
 		};
 		F53F927617EB008100A9FE6A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3CB83A1A73A539D2562B01F4 /* Pods-MHVideoPhotoGalleryTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MHVideoPhotoGallery.app/MHVideoPhotoGallery";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1012,6 +1069,7 @@
 		};
 		F53F927717EB008100A9FE6A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F2CA54EF925AF26F9F068964 /* Pods-MHVideoPhotoGalleryTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MHVideoPhotoGallery.app/MHVideoPhotoGallery";
 				FRAMEWORK_SEARCH_PATHS = (

@@ -21,7 +21,7 @@
                                                         successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
                                                             
                                                             if (!weakSelf) return;
-                                                            dispatch_main_sync_safe(^{
+                                                            dispatch_main_async_safe(^{
                                                                 if (!weakSelf) return;
                                                                 if (image){
                                                                     weakSelf.image = image;
@@ -80,7 +80,7 @@
     __weak typeof(self) weakSelf = self;
     
     if (!weakSelf) return;
-    dispatch_main_sync_safe(^{
+    dispatch_main_async_safe(^{
         weakSelf.image = image;
         [weakSelf setNeedsLayout];
         if (succeedBlock) {
