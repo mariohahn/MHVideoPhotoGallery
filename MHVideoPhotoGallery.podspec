@@ -13,8 +13,8 @@ Pod::Spec.new do |s|
     :tag => 'v2.1.3'
   }
 
-  s.dependency 'SDWebImage', '~> 4.0.0'
-  s.dependency 'TTTAttributedLabel', '1.13.3'
+  s.dependency 'SDWebImage', '~> 4.0'
+  s.dependency 'TTTAttributedLabel', '~> 2.0'
   s.dependency 'Masonry'
 
   s.frameworks = 'MessageUI','Social', 'ImageIO', 'QuartzCore', 'Accelerate','CoreMedia', 'AVFoundation','MediaPlayer'
