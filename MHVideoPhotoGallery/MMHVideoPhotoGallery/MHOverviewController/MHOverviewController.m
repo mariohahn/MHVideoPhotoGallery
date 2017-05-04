@@ -10,7 +10,9 @@
 #import "MHGalleryController.h"
 #import "MHGallerySharedManagerPrivate.h"
 #import <MobileCoreServices/UTCoreTypes.h>
-#import "SDWebImageManager.h"
+
+
+@import SDWebImage;
 
 @implementation MHIndexPinchGestureRecognizer
 @end
@@ -289,11 +291,11 @@
 
 -(void)getImageForItem:(MHGalleryItem*)item
         finishCallback:(void(^)(UIImage *image))FinishBlock{
-    
-    [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:item.URLString]
-                                                  options:SDWebImageContinueInBackground
+	
+    [[[SDWebImageManager sharedManager] imageDownloader] downloadImageWithURL:[NSURL URLWithString:item.URLString]
+                                                  options:SDWebImageDownloaderContinueInBackground
                                                  progress:nil
-                                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                                completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
                                                     FinishBlock(image);
                                                 }];
 }

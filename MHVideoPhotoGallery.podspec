@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'MHVideoPhotoGallery'
-  s.version      = '2.1.3'
+  s.version      = '2.1.4'
   s.license      = 'MIT'
   s.homepage     = 'https://github.com/mariohahn/MHVideoPhotoGallery'
   s.author = {
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
     :tag => 'v2.1.3'
   }
 
-  s.dependency 'SDWebImage','3.8.2'
+  s.dependency 'SDWebImage'
   s.dependency 'TTTAttributedLabel', '1.13.3'
   s.dependency 'Masonry'
 

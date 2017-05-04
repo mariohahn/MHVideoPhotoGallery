@@ -6,7 +6,7 @@ use_frameworks!
 
 def available_pods
 
-pod 'SDWebImage','3.8.2'
+pod 'SDWebImage'
 pod 'TTTAttributedLabel', '1.13.3'
 pod 'Masonry'
 
