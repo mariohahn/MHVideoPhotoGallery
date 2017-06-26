@@ -213,10 +213,11 @@
         [self getVimeoURLforMediaPlayer:URLString successBlock:^(NSURL *URL, NSError *error) {
             succeedBlock(URL,error);
         }];
-    }else if([URLString rangeOfString:@"youtube.com"].location != NSNotFound) {
-        [self getYoutubeURLforMediaPlayer:URLString successBlock:^(NSURL *URL, NSError *error) {
-            succeedBlock(URL,error);
-        }];
+        //TODO: - Check if the video is a youtube video.
+//    }else if([URLString rangeOfString:@"youtube.com"].location != NSNotFound) {
+//        [self getYoutubeURLforMediaPlayer:URLString successBlock:^(NSURL *URL, NSError *error) {
+//            succeedBlock(URL,error);
+//        }];
     }else{
         succeedBlock([NSURL URLWithString:URLString],nil);
     }
