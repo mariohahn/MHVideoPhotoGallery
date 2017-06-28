@@ -37,6 +37,7 @@
         self.descriptionActiveLinkAttributes = @{NSForegroundColorAttributeName : UIColor.whiteColor};
         self.descriptionTruncationString = [self truncationString];
         self.barButtonsTintColor = nil;
+        self.barTitleTextAttributes = nil;
         self.barStyle = UIBarStyleDefault;
         self.barTintColor = nil;
 		self.showMHShareViewInsteadOfActivityViewController = YES;

@@ -106,6 +106,7 @@
     }
     galleryController.navigationBar.barStyle = galleryController.UICustomization.barStyle;
     galleryController.navigationBar.barTintColor = galleryController.UICustomization.barTintColor;
+    galleryController.navigationBar.titleTextAttributes = galleryController.UICustomization.barTitleTextAttributes;
     
     if (!galleryController.dataSource) {
         galleryController.dataSource = galleryController;
