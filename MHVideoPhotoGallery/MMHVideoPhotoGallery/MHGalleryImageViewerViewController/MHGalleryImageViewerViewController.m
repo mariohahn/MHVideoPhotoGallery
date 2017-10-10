@@ -288,7 +288,11 @@
     [self.toolbar mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
         make.right.mas_equalTo(self.view.mas_right);
-        make.bottom.mas_equalTo(self.view.mas_bottom);
+		if (@available(iOS 11.0, *)) {
+			make.bottom.mas_equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+		} else {
+			make.bottom.mas_equalTo(self.view.mas_bottom);
+		}
     }];
     [self.bottomSuperView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self.toolbar.mas_top);
