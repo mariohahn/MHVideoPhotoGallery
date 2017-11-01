@@ -112,6 +112,7 @@
 		3CB83A1A73A539D2562B01F4 /* Pods-MHVideoPhotoGalleryTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MHVideoPhotoGalleryTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MHVideoPhotoGalleryTests/Pods-MHVideoPhotoGalleryTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5503C629D5222CFA5E7D0A40 /* Pods-MHVideoPhotoGallery.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MHVideoPhotoGallery.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MHVideoPhotoGallery/Pods-MHVideoPhotoGallery.debug.xcconfig"; sourceTree = "<group>"; };
 		6F0D023995F8475B5104D93A /* Pods-MHVideoPhotoGallery.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MHVideoPhotoGallery.release.xcconfig"; path = "Pods/Target Support Files/Pods-MHVideoPhotoGallery/Pods-MHVideoPhotoGallery.release.xcconfig"; sourceTree = "<group>"; };
+		983E74211FAA7A8F00834D8F /* MHVideoPhotoGallery.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MHVideoPhotoGallery.podspec; sourceTree = "<group>"; };
 		B52D6164AFC0D39EB31E4AFE /* Pods_MHVideoPhotoGallery.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MHVideoPhotoGallery.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2CA54EF925AF26F9F068964 /* Pods-MHVideoPhotoGalleryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MHVideoPhotoGalleryTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MHVideoPhotoGalleryTests/Pods-MHVideoPhotoGalleryTests.release.xcconfig"; sourceTree = "<group>"; };
 		F514263318911D8E0091E3DF /* 707-albums-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "707-albums-selected.png"; sourceTree = "<group>"; };
@@ -284,6 +285,7 @@
 		F53F923717EB008100A9FE6A = {
 			isa = PBXGroup;
 			children = (
+				983E74211FAA7A8F00834D8F /* MHVideoPhotoGallery.podspec */,
 				F53F924917EB008100A9FE6A /* MHVideoPhotoGallery */,
 				F53F926817EB008100A9FE6A /* MHVideoPhotoGalleryTests */,
 				F53F924217EB008100A9FE6A /* Frameworks */,
@@ -765,13 +767,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MHVideoPhotoGallery-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		68683487FA0AC127C1ACD355 /* [CP] Check Pods Manifest.lock */ = {
@@ -780,13 +785,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MHVideoPhotoGalleryTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8EE9D622D359A2D46E243B88 /* [CP] Embed Pods Frameworks */ = {
@@ -795,9 +803,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MHVideoPhotoGallery/Pods-MHVideoPhotoGallery-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -825,9 +840,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MHVideoPhotoGalleryTests/Pods-MHVideoPhotoGalleryTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

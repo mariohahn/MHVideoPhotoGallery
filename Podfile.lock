@@ -1,8 +1,8 @@
 PODS:
-  - Masonry (1.0.2)
-  - SDWebImage (4.0.0):
-    - SDWebImage/Core (= 4.0.0)
-  - SDWebImage/Core (4.0.0)
+  - Masonry (1.1.0)
+  - SDWebImage (4.2.1):
+    - SDWebImage/Core (= 4.2.1)
+  - SDWebImage/Core (4.2.1)
   - TTTAttributedLabel (1.13.3)
 
 DEPENDENCIES:
@@ -11,10 +11,10 @@ DEPENDENCIES:
   - TTTAttributedLabel (= 1.13.3)
 
 SPEC CHECKSUMS:
-  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
-  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  SDWebImage: 1fa4c9edf525b744f002db89f3f5a38b3cd4c541
   TTTAttributedLabel: 6f3174aef8e738f44dff97c2eb7d8184f6ab6277
 
 PODFILE CHECKSUM: feb5923bb06b0628b01c5a44f46a5839bf87b1b4
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.3.1
