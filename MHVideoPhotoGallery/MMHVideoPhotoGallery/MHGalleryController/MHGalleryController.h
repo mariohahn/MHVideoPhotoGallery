@@ -21,6 +21,7 @@
 -(void)galleryController:(MHGalleryController*)galleryController didShowIndex:(NSInteger)index;
 -(BOOL)galleryController:(MHGalleryController*)galleryController shouldHandleURL:(NSURL *)URL;
 -(NSArray<MHBarButtonItem *>*)customizeableToolBarItems:(NSArray<MHBarButtonItem *>*)toolBarItems forGalleryItem:(MHGalleryItem*)galleryItem;
+-(NSString *) customizeableTitleForItemAtIndex:(NSInteger) index outOf:(NSInteger) numberOfItems;
 @end
 
 @protocol MHGalleryDataSource<NSObject>

@@ -489,8 +489,13 @@
 }
 
 -(void)updateTitleForIndex:(NSInteger)pageIndex{
-    NSString *localizedString  = MHGalleryLocalizedString(@"imagedetail.title.current");
-    self.navigationItem.title = [NSString stringWithFormat:localizedString,@(pageIndex+1),@(self.numberOfGalleryItems)];
+	
+	if ([self.galleryViewController.galleryDelegate respondsToSelector:@selector(customizeableTitleForItemAtIndex:outOf:)]) {
+		 self.navigationItem.title = [self.galleryViewController.galleryDelegate customizeableTitleForItemAtIndex:pageIndex outOf:self.numberOfGalleryItems];
+	} else {
+		NSString *localizedString  = MHGalleryLocalizedString(@"imagedetail.title.current");
+		self.navigationItem.title = [NSString stringWithFormat:localizedString,@(pageIndex+1),@(self.numberOfGalleryItems)];
+	}
 }
 
 

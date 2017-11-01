@@ -26,9 +26,9 @@ typedef NS_ENUM(NSUInteger, MHBackButtonState) {
 @end
 
 @interface MHUICustomization : NSObject
-@property (nonatomic)        NSDictionary *descriptionLinkAttributes;
-@property (nonatomic)        NSDictionary *descriptionActiveLinkAttributes;
-@property (nonatomic)        NSAttributedString *descriptionTruncationString;
+@property (nonatomic,strong) NSDictionary *descriptionLinkAttributes;
+@property (nonatomic,strong) NSDictionary *descriptionActiveLinkAttributes;
+@property (nonatomic,strong) NSAttributedString *descriptionTruncationString;
 @property (nonatomic)        UIBarStyle barStyle; //Default UIBarStyleDefault
 @property (nonatomic,strong) UIColor *barTintColor; //Default nil
 @property (nonatomic,strong) UIColor *barButtonsTintColor; //Default nil
