@@ -23,7 +23,6 @@
 #import <SDWebImage/SDImageCache.h>
 #else
 #import "TTTAttributedLabel.h"
-#import "SDWebImageDecoder.h"
 #import "SDImageCache.h"
 #endif
 
