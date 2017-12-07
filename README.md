@@ -1,9 +1,8 @@
-[![Donate Bitcoin](https://img.shields.io/badge/donate-€5-orange.svg)](http://example.com/donate-bitcoin/?amount=5&currency=EUR&address=1Lj45X69tPYAPqnZP2c9Ccs349fC2CEMQo)
-
 <p align="center" >
   <img src="https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/galleryIcon.png?raw=true" alt="MHGallery" title="MHGallery">
 </p>
 ==================
+[![Donate Bitcoin](https://img.shields.io/badge/donate-€5-orange.svg)](http://example.com/donate-bitcoin/?amount=5&currency=EUR&address=1Lj45X69tPYAPqnZP2c9Ccs349fC2CEMQo)
 
 ## Podfile
 
