@@ -20,11 +20,11 @@
 
 #ifdef COCOAPODS
 #import <TTTAttributedLabel/TTTAttributedLabel.h>
-#import <SDWebImage/SDWebImageDecoder.h>
+#import <SDWebImage/SDWebImageCoder.h>
 #import <SDWebImage/SDImageCache.h>
 #else
 #import "TTTAttributedLabel.h"
-#import "SDWebImageDecoder.h"
+#import "SDWebImageCoder.h"
 #import "SDImageCache.h"
 #endif
 
