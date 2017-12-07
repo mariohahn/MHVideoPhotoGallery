@@ -1,9 +1,10 @@
-bitcoin:1Lj45X69tPYAPqnZP2c9Ccs349fC2CEMQo
 
 <p align="center" >
   <img src="https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/galleryIcon.png?raw=true" alt="MHGallery" title="MHGallery">
 </p>
 ==================
+
+<a href="bitcoin:1Lj45X69tPYAPqnZP2c9Ccs349fC2CEMQo">BTC Donation</a>
 
 ## Podfile
 
