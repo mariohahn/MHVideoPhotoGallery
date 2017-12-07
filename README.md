@@ -4,7 +4,7 @@
 </p>
 ==================
 
-<a href="bitcoin:1Lj45X69tPYAPqnZP2c9Ccs349fC2CEMQo">BTC Donation</a>
+<a href="bitcoin:1Lj45X69tPYAPqnZP2c9Ccs349fC2CEMQo?label=Donation"><img src="https://www.drupal.org/files/project-images/bitcoindonate.png" alt="Bitcoin Donate Button"></a>
 
 ## Podfile
 
