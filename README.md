@@ -15,17 +15,17 @@ bitcoin:1Lj45X69tPYAPqnZP2c9Ccs349fC2CEMQo
 platform :ios, '7.0'
 pod 'MHVideoPhotoGallery'
 ```
-##Supported Videos
+## Supported Videos
 ```ruby
 Youtube
 Vimeo
 Weblinks (.mov, .mp4, .mpv)
 ```
-##Supported Languages
+## Supported Languages
 ```ruby
 DE,EN,ES,FR,HR,IT,PT,RU,DA,ZH-Hans
 ```
-##MHGalleryItem 
+## MHGalleryItem 
 ```objective-c
 + (instancetype)itemWithURL:(NSString *)URLString thumbnailURL:(NSString*)thumbnailURL; //Thumbs are automatically generated for Videos. But you can set Thumb Images for GalleryTypeImage.
 + (instancetype)itemWithURL:(NSString*)URLString galleryType:(MHGalleryType)galleryType;
@@ -34,7 +34,7 @@ DE,EN,ES,FR,HR,IT,PT,RU,DA,ZH-Hans
 + (instancetype)itemWithImage:(UIImage*)image;
 ```
 
-##MHGalleryController
+## MHGalleryController
 ```objective-c
 
 +(instancetype)galleryWithPresentationStyle:(MHGalleryViewMode)presentationStyle;
@@ -58,7 +58,7 @@ DE,EN,ES,FR,HR,IT,PT,RU,DA,ZH-Hans
 ```
 
 
-##UI Customization
+## UI Customization
 ```objective-c
 @property (nonatomic)        UIBarStyle barStyle; //Default UIBarStyleDefault
 @property (nonatomic,strong) UIColor *barTintColor; //Default nil
@@ -86,7 +86,7 @@ DE,EN,ES,FR,HR,IT,PT,RU,DA,ZH-Hans
 @property (nonatomic)       BOOL fixXValueForDismiss; //Default NO
 ```
 
-##Usage
+## Usage
 
 ```objective-c
 
@@ -121,27 +121,27 @@ gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransition
 [self presentMHGalleryController:gallery animated:YES completion:nil];
 ```
 
-##Dismiss Video (Like Paper App)
+## Dismiss Video (Like Paper App)
 
 ![alt tag](https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/dismissInteractiveVideo.gif?raw=true)
 
-##Dismiss Image (Like Paper App)
+## Dismiss Image (Like Paper App)
 
 ![alt tag](https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/dismissInteractive.gif?raw=true)
 
-##Dismiss at the end or start on ScrollDirection (Like Paper App)
+## Dismiss at the end or start on ScrollDirection (Like Paper App)
 
 ![alt tag](https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/dismissAtTheEnd.gif?raw=true)
 
-##OverView interactive (dismiss & present)
+## OverView interactive (dismiss & present)
 
 ![alt tag](https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/interactive.gif?raw=true)
 
-##Share
+## Share
 
 ![alt tag](https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/ShareView.gif?raw=true)
 
-##OverView 
+## OverView 
 
 ![alt tag](https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/OverView.gif?raw=true)
 
