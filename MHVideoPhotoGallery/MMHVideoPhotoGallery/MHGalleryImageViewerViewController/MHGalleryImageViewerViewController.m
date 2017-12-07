@@ -171,13 +171,14 @@
     self.toolbar = UIToolbar.new;
     self.toolbar.tintColor = self.UICustomization.barButtonsTintColor;
     self.toolbar.tag = 307;
+    self.toolbar.translatesAutoresizingMaskIntoConstraints = false;
     [self.view addSubview:self.toolbar];
     
-    [self.toolbar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left);
-        make.right.mas_equalTo(self.view.mas_right);
-        make.bottom.mas_equalTo(self.view.mas_bottom);
-    }];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.toolbar.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.toolbar.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.toolbar.bottomAnchor constraintEqualToAnchor:self.bottomLayoutGuide.topAnchor]
+    ]];
     
     self.topSuperView = [MHGradientView.alloc initWithDirection:MHGradientDirectionBottomToTop andCustomization:self.UICustomization];
     [self.view addSubview:self.topSuperView];
@@ -199,7 +200,6 @@
         make.bottom.mas_equalTo(self.topSuperView.mas_bottom).with.offset(-20);
         make.top.mas_equalTo(self.topSuperView.mas_top).with.offset(5);
     }];
-    
     
     self.bottomSuperView = [MHGradientView.alloc initWithDirection:MHGradientDirectionTopToBottom andCustomization:self.UICustomization];
     [self.view addSubview:self.bottomSuperView];
@@ -279,11 +279,7 @@
     [self.topSuperView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.mas_topLayoutGuideBottom);
     }];
-    [self.toolbar mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left);
-        make.right.mas_equalTo(self.view.mas_right);
-        make.bottom.mas_equalTo(self.view.mas_bottom);
-    }];
+
     [self.bottomSuperView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self.toolbar.mas_top);
     }];
