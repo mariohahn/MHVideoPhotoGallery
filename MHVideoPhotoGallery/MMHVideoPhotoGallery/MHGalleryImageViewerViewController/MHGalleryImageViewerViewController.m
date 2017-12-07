@@ -950,47 +950,69 @@
         if (self.item.galleryType != MHGalleryTypeImage) {
             [self addPlayButtonToView];
             
-            self.moviePlayerToolBarTop = [UIToolbar.alloc initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44)];
-            self.moviePlayerToolBarTop.autoresizingMask =UIViewAutoresizingFlexibleWidth;
-            self.moviePlayerToolBarTop.alpha =0;
+            self.moviePlayerToolBarTop = UIToolbar.new;
+            self.moviePlayerToolBarTop.alpha = 0;
+            self.moviePlayerToolBarTop.translatesAutoresizingMaskIntoConstraints = false;
             self.moviePlayerToolBarTop.barTintColor = self.viewController.UICustomization.barTintColor;
             [self.view addSubview:self.moviePlayerToolBarTop];
             
             self.currentTimeMovie =0;
             self.wholeTimeMovie =0;
             
-            self.videoProgressView = [UIProgressView.alloc initWithFrame:CGRectMake(57, 21, self.view.frame.size.width-114, 3)];
+            self.videoProgressView = UIProgressView.new;
             self.videoProgressView.layer.borderWidth =0.5;
             self.videoProgressView.layer.borderColor =[UIColor colorWithWhite:0 alpha:0.3].CGColor;
             self.videoProgressView.trackTintColor =[UIColor clearColor];
             self.videoProgressView.progressTintColor = [self.viewController.UICustomization.videoProgressTintColor colorWithAlphaComponent:0.3f];
-            self.videoProgressView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+            self.videoProgressView.translatesAutoresizingMaskIntoConstraints = false;
             [self.moviePlayerToolBarTop addSubview:self.videoProgressView];
             
-            self.slider = [UISlider.alloc initWithFrame:CGRectMake(55, 0, self.view.frame.size.width-110, 44)];
+            self.slider = UISlider.new;
             self.slider.maximumValue =10;
             self.slider.minimumValue =0;
             self.slider.minimumTrackTintColor = self.viewController.UICustomization.videoProgressTintColor;
             self.slider.maximumTrackTintColor = [self.viewController.UICustomization.videoProgressTintColor colorWithAlphaComponent:0.2f];
-            [self.slider setThumbImage:MHGalleryImage(@"sliderPoint") forState:UIControlStateNormal];
+            [self.slider setThumbImage:MHGalleryImage(@"sliderPoint") forState:UIControlStateNormal];            
             [self.slider addTarget:self action:@selector(sliderDidChange:) forControlEvents:UIControlEventValueChanged];
             [self.slider addTarget:self action:@selector(sliderDidDragExit:) forControlEvents:UIControlEventTouchUpInside];
-            self.slider.autoresizingMask =UIViewAutoresizingFlexibleWidth;
+            self.slider.translatesAutoresizingMaskIntoConstraints = false;
             [self.moviePlayerToolBarTop addSubview:self.slider];
             
-            self.leftSliderLabel = [UILabel.alloc initWithFrame:CGRectMake(8, 0, 40, 43)];
-            self.leftSliderLabel.font =[UIFont systemFontOfSize:14];
+            self.leftSliderLabel = UILabel.new;
+            self.leftSliderLabel.font = [UIFont monospacedDigitSystemFontOfSize:14 weight:UIFontWeightRegular];
             self.leftSliderLabel.text = @"00:00";
             self.leftSliderLabel.textColor = self.viewController.UICustomization.videoProgressTintColor;
+            self.leftSliderLabel.translatesAutoresizingMaskIntoConstraints = false;
             [self.moviePlayerToolBarTop addSubview:self.leftSliderLabel];
             
-            self.rightSliderLabel = [UILabel.alloc initWithFrame:CGRectZero];
-            self.rightSliderLabel.frame = CGRectMake(self.viewController.view.frame.size.width-50, 0, 50, 43);
-            self.rightSliderLabel.font = [UIFont systemFontOfSize:14];
+            self.rightSliderLabel = UILabel.new;
+            self.rightSliderLabel.font = [UIFont monospacedDigitSystemFontOfSize:14 weight:UIFontWeightRegular];
             self.rightSliderLabel.text = @"-00:00";
             self.rightSliderLabel.textColor = self.viewController.UICustomization.videoProgressTintColor;
-            self.rightSliderLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
+            self.rightSliderLabel.translatesAutoresizingMaskIntoConstraints = false;
             [self.moviePlayerToolBarTop addSubview:self.rightSliderLabel];
+            
+            [NSLayoutConstraint activateConstraints:
+             @[
+               [self.moviePlayerToolBarTop.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+               [self.moviePlayerToolBarTop.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+               [self.moviePlayerToolBarTop.topAnchor constraintEqualToAnchor:self.topLayoutGuide.bottomAnchor],
+               
+               [self.slider.leadingAnchor constraintEqualToAnchor:self.leftSliderLabel.trailingAnchor constant: 4],
+               [self.slider.trailingAnchor constraintEqualToAnchor:self.rightSliderLabel.leadingAnchor constant: -4],
+               [self.slider.centerYAnchor constraintEqualToAnchor: self.moviePlayerToolBarTop.centerYAnchor],
+               
+               [self.videoProgressView.leadingAnchor constraintEqualToAnchor:self.leftSliderLabel.trailingAnchor constant: 6],
+               [self.videoProgressView.trailingAnchor constraintEqualToAnchor:self.rightSliderLabel.leadingAnchor constant: -6],
+               [self.videoProgressView.centerYAnchor constraintEqualToAnchor: self.moviePlayerToolBarTop.centerYAnchor],
+               
+               [self.leftSliderLabel.centerYAnchor constraintEqualToAnchor:self.moviePlayerToolBarTop.centerYAnchor],
+               [self.leftSliderLabel.leadingAnchor constraintEqualToAnchor:self.moviePlayerToolBarTop.layoutMarginsGuide.leadingAnchor],
+               
+               [self.rightSliderLabel.centerYAnchor constraintEqualToAnchor:self.moviePlayerToolBarTop.centerYAnchor],
+               [self.rightSliderLabel.trailingAnchor constraintEqualToAnchor:self.moviePlayerToolBarTop.layoutMarginsGuide.trailingAnchor]
+               ]
+             ];
             
             self.scrollView.maximumZoomScale = 1;
             self.scrollView.minimumZoomScale =1;
@@ -999,9 +1021,7 @@
         self.imageView.userInteractionEnabled = YES;
         
         [imageTap requireGestureRecognizerToFail: doubleTap];
-        
-        
-        
+
         if (self.item.galleryType == MHGalleryTypeImage) {
             
             
@@ -1263,7 +1283,7 @@
 -(void)updateTimerLabels{
     
     if (self.currentTimeMovie <=0) {
-        self.leftSliderLabel.text =@"00:00";
+        self.leftSliderLabel.text = @"00:00";
         
         self.rightSliderLabel.text = [MHGallerySharedManager stringForMinutesAndSeconds:self.wholeTimeMovie addMinus:YES];
     }else{
@@ -1477,24 +1497,14 @@
         if (self.imageView.image) {
             self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
         }
-        self.leftSliderLabel.frame = CGRectMake(8, 0, 40, 43);
-        self.rightSliderLabel.frame =CGRectMake(self.viewController.view.bounds.size.width-50, 0, 50, 43);
         
         if(UIApplication.sharedApplication.statusBarOrientation != UIInterfaceOrientationPortrait){
             if (self.view.bounds.size.width < self.view.bounds.size.height) {
-                self.rightSliderLabel.frame =CGRectMake(self.view.bounds.size.height-50, 0, 50, 43);
                 if (self.imageView.image) {
                     self.playButton.frame = CGRectMake(self.view.bounds.size.height/2-36, self.view.bounds.size.width/2-36, 72, 72);
                 }
             }
         }
-        self.moviePlayerToolBarTop.frame =CGRectMake(0,44+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44);
-        if (!MHISIPAD) {
-            if (UIApplication.sharedApplication.statusBarOrientation != UIInterfaceOrientationPortrait) {
-                self.moviePlayerToolBarTop.frame =CGRectMake(0,32+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width, 44);
-            }
-        }
-        
     }
 }
 
@@ -1623,11 +1633,6 @@
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                         duration:(NSTimeInterval)duration{
-    if (self.moviePlayerToolBarTop) {
-        self.moviePlayerToolBarTop.frame = CGRectMake(0, self.navigationController.navigationBar.bounds.size.height+([UIApplication sharedApplication].statusBarHidden?0:20), self.view.frame.size.width,44);
-        self.leftSliderLabel.frame = CGRectMake(8, 0, 40, 43);
-        self.rightSliderLabel.frame = CGRectMake(self.view.frame.size.width-20, 0, 50, 43);
-    }
     self.playButton.frame = CGRectMake(self.viewController.view.frame.size.width/2-36, self.viewController.view.frame.size.height/2-36, 72, 72);
     self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width*self.scrollView.zoomScale, self.view.bounds.size.height*self.scrollView.zoomScale);
     self.imageView.frame = CGRectMake(0,0 , self.scrollView.contentSize.width,self.scrollView.contentSize.height);
