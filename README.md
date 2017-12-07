@@ -4,7 +4,10 @@
 </p>
 ==================
 
-<a href="bitcoin:1Lj45X69tPYAPqnZP2c9Ccs349fC2CEMQo?label=Donation">![Bitcoin Donate Button](https://www.drupal.org/files/project-images/bitcoindonate.png)</a>
+<p align="left" >
+  <img src="https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/BTC.png?raw=true" alt="MHGallery" title="MHGallery">
+</p>
+bitcoin:1Lj45X69tPYAPqnZP2c9Ccs349fC2CEMQo
 
 ## Podfile
 
