@@ -131,17 +131,17 @@ gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransition
 
 ##Dismiss at the end or start on ScrollDirection (Like Paper App)
 
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissAtTheEnd.gif)
+![alt tag](https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/dismissAtTheEnd.gif?raw=true)
 
 ##OverView interactive (dismiss & present)
 
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/interactive.gif)
+![alt tag](https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/interactive.gif?raw=true)
 
 ##Share
 
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/ShareView.gif)
+![alt tag](https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/ShareView.gif?raw=true)
 
 ##OverView 
 
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/OverView.gif)
+![alt tag](https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/OverView.gif?raw=true)
 
