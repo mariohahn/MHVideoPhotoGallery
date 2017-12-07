@@ -79,7 +79,7 @@ DE,EN,ES,FR,HR,IT,PT,RU,DA,ZH-Hans
 -(UIColor*)MHGalleryBackgroundColorForViewMode:(MHGalleryViewMode)viewMode;
 ```
 
-##Transition Customization
+## Transition Customization
 ```objective-c
 @property (nonatomic)       BOOL interactiveDismiss; //Default YES
 @property (nonatomic)       BOOL dismissWithScrollGestureOnFirstAndLastImage;//Default YES
