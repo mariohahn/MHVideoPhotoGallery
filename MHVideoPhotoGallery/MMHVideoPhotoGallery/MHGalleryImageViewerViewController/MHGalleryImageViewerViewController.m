@@ -192,14 +192,17 @@
     self.titleLabel.textLabel.labelDelegate = self;
     self.titleLabel.textLabel.delegate = self;
     self.titleLabel.textLabel.UICustomization = self.UICustomization;
+    self.titleLabel.translatesAutoresizingMaskIntoConstraints = false;
     [self.topSuperView addSubview:self.titleLabel];
     
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.topSuperView.mas_left).with.offset(10);
-        make.right.mas_equalTo(self.topSuperView.mas_right).with.offset(-10);
-        make.bottom.mas_equalTo(self.topSuperView.mas_bottom).with.offset(-20);
-        make.top.mas_equalTo(self.topSuperView.mas_top).with.offset(5);
-    }];
+    [NSLayoutConstraint activateConstraints:
+     @[
+       [self.titleLabel.leadingAnchor constraintEqualToAnchor:self.view.readableContentGuide.leadingAnchor],
+       [self.titleLabel.trailingAnchor constraintEqualToAnchor:self.view.readableContentGuide.trailingAnchor],
+       [self.titleLabel.topAnchor constraintEqualToAnchor:self.topSuperView.topAnchor constant:5],
+       [self.titleLabel.bottomAnchor constraintEqualToAnchor:self.topSuperView.bottomAnchor constant: -20],
+       ]
+     ];
     
     self.bottomSuperView = [MHGradientView.alloc initWithDirection:MHGradientDirectionTopToBottom andCustomization:self.UICustomization];
     [self.view addSubview:self.bottomSuperView];
@@ -214,14 +217,17 @@
     self.descriptionLabel.textLabel.labelDelegate = self;
     self.descriptionLabel.textLabel.delegate = self;
     self.descriptionLabel.textLabel.UICustomization = self.UICustomization;
+    self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false;
     [self.bottomSuperView addSubview:self.descriptionLabel];
     
-    [self.descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.bottomSuperView.mas_left).with.offset(10);
-        make.right.mas_equalTo(self.bottomSuperView.mas_right).with.offset(-10);
-        make.bottom.mas_equalTo(self.bottomSuperView.mas_bottom).with.offset(-5);
-        make.top.mas_equalTo(self.bottomSuperView.mas_top).with.offset(20);
-    }];
+    [NSLayoutConstraint activateConstraints:
+     @[
+       [self.descriptionLabel.leadingAnchor constraintEqualToAnchor:self.view.readableContentGuide.leadingAnchor],
+       [self.descriptionLabel.trailingAnchor constraintEqualToAnchor:self.view.readableContentGuide.trailingAnchor],
+       [self.descriptionLabel.topAnchor constraintEqualToAnchor:self.bottomSuperView.topAnchor constant:20],
+       [self.descriptionLabel.bottomAnchor constraintEqualToAnchor:self.bottomSuperView.bottomAnchor constant: -5],
+       ]
+     ];
 
     self.playStopBarButton = [MHBarButtonItem.alloc initWithImage:MHGalleryImage(@"play")
                                                             style:UIBarButtonItemStylePlain
