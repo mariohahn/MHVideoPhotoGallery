@@ -1,16 +1,16 @@
 Pod::Spec.new do |s|
   s.name         = 'MHVideoPhotoGallery'
-  s.version      = '2.1.3'
+  s.version      = '2.2.0'
   s.license      = 'MIT'
   s.homepage     = 'https://github.com/mariohahn/MHVideoPhotoGallery'
   s.author = {
     'Mario Hahn' => 'mario_hahn@me.com'
   }
-  s.summary      = 'Gallery for iOS 7 Devices.'
+  s.summary      = 'Gallery for iOS 8 Devices.'
   s.platform     =  :ios
   s.source = {
     :git => 'https://github.com/mariohahn/MHVideoPhotoGallery.git',
-    :tag => 'v2.1.3'
+    :tag => 'v2.2.0'
   }
 
   s.dependency 'SDWebImage'
@@ -22,6 +22,6 @@ Pod::Spec.new do |s|
   s.resources = "MHVideoPhotoGallery/MMHVideoPhotoGallery/**/*.{png,bundle}"
   s.public_header_files = "MHVideoPhotoGallery/MMHVideoPhotoGallery/**/*.h"
   s.source_files = ['MHVideoPhotoGallery/MMHVideoPhotoGallery/**/*.{h,m}']
-  s.ios.deployment_target = '7.0'
+  s.ios.deployment_target = '8.0'
   s.requires_arc = true
 end
