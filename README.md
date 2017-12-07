@@ -1,5 +1,7 @@
+[![Donate Bitcoin](https://img.shields.io/badge/donate-€5-orange.svg)](http://example.com/donate-bitcoin/?amount=5&currency=EUR&address=1Lj45X69tPYAPqnZP2c9Ccs349fC2CEMQo)
+
 <p align="center" >
-  <img src="https://dl.dropboxusercontent.com/u/17911939/galleryIcon.png" alt="MHGallery" title="MHGallery">
+  <img src="https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/galleryIcon.png?raw=true" alt="MHGallery" title="MHGallery">
 </p>
 ==================
 
@@ -117,11 +119,11 @@ gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransition
 
 ##Dismiss Video (Like Paper App)
 
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissInteractiveVideo.gif)
+![alt tag](https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/dismissInteractiveVideo.gif?raw=true)
 
 ##Dismiss Image (Like Paper App)
 
-![alt tag](https://dl.dropboxusercontent.com/u/17911939/dismissInteractive.gif)
+![alt tag](https://github.com/mariohahn/MHVideoPhotoGallery/blob/master/Images%20Github/dismissInteractive.gif?raw=true)
 
 ##Dismiss at the end or start on ScrollDirection (Like Paper App)
 
@@ -138,18 +140,4 @@ gallery.finishedCallback = ^(NSUInteger currentIndex,UIImage *image,MHTransition
 ##OverView 
 
 ![alt tag](https://dl.dropboxusercontent.com/u/17911939/OverView.gif)
-
-## Donating
-
-Support this project via gittip.
-
-<a href="https://www.gittip.com/mariohahn/">
-  <img alt="Support via Gittip" src="https://rawgithub.com/twolfson/gittip-badge/0.2.0/dist/gittip.png"/>
-</a>
-
-	
-
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mariohahn/mhvideophotogallery/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
