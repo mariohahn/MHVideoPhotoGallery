@@ -82,7 +82,7 @@
     
     MHGalleryItem *item = [section.galleryItems firstObject];
     
-    [[MHGallerySharedManager sharedManager] getImageFromAssetLibrary:item.URLString
+    [[MHGallerySharedManager sharedInstance] getImageFromAssetLibrary:item.URLString
                                                            assetType:MHAssetImageTypeThumb
                                                         successBlock:^(UIImage *image, NSError *error) {
         cell.iv.image = image;

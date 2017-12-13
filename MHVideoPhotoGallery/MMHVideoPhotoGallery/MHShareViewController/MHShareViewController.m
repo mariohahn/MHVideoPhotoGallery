@@ -829,7 +829,7 @@
                 MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString image:nil];
                 [weakSelf addDataToDownloadArray:imageURL];
             }else{
-                [MHGallerySharedManager.sharedManager getURLForMediaPlayer:item.URLString successBlock:^(NSURL *URL, NSError *error) {
+                [MHGallerySharedManager.sharedInstance getURLForMediaPlayer:item.URLString successBlock:^(NSURL *URL, NSError *error) {
                     NSURLSession *session = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.defaultSessionConfiguration];
                     
                     [self.sessions addObject:session];
@@ -866,7 +866,7 @@
         if (item.galleryType == MHGalleryTypeImage) {
             
             if ([item.URLString rangeOfString:MHAssetLibrary].location != NSNotFound && item.URLString) {
-                [MHGallerySharedManager.sharedManager getImageFromAssetLibrary:item.URLString
+                [MHGallerySharedManager.sharedInstance getImageFromAssetLibrary:item.URLString
                                                                      assetType:MHAssetImageTypeFull
                                                                   successBlock:^(UIImage *image, NSError *error) {
                                                                       MHImageURL *imageURL = [MHImageURL.alloc initWithURL:item.URLString

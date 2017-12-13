@@ -12,7 +12,7 @@
 
 @implementation MHGallerySharedManager
 
-+ (MHGallerySharedManager *)sharedManager{
++ (MHGallerySharedManager *)sharedInstance{
     static MHGallerySharedManager *sharedManagerInstance = nil;
     static dispatch_once_t onceQueue;
     dispatch_once(&onceQueue, ^{
