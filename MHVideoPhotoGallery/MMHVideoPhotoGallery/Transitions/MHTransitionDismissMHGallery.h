@@ -19,5 +19,5 @@
 @property (nonatomic,assign)    BOOL interactive;
 @property (nonatomic,assign)    BOOL finishButtonAction;
 
-@property (nonatomic,assign)    id <UIViewControllerContextTransitioning> context;
+@property (nonatomic,weak)    id <UIViewControllerContextTransitioning> context;
 @end

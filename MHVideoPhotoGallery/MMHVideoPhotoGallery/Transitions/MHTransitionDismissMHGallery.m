@@ -26,6 +26,18 @@
 @property (nonatomic,strong) MHUIImageViewContentViewAnimation *cellImageSnapshot;
 @end
 
+CGRect MakeRectWithAspectRatioInsideRect(CGSize size, CGRect rect) {
+    CGRect resultRect = AVMakeRectWithAspectRatioInsideRect(size, rect);
+
+    if (isnan(resultRect.origin.x) ||
+        isnan(resultRect.origin.y) ||
+        isnan(resultRect.size.width) ||
+        isnan(resultRect.size.height)) {
+        return rect;
+    }
+    return resultRect;
+}
+
 @implementation MHTransitionDismissMHGallery
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
@@ -55,7 +67,7 @@
     
     MHUIImageViewContentViewAnimation *cellImageSnapshot = [MHUIImageViewContentViewAnimation.alloc initWithFrame:fromViewController.view.bounds];
     cellImageSnapshot.image = image;
-    [cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size,fromViewController.view.bounds)];
+    [cellImageSnapshot setFrame:MakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size,fromViewController.view.bounds)];
     cellImageSnapshot.contentMode = UIViewContentModeScaleAspectFit;
     
     [imageViewer.pageViewController.view setHidden:YES];
@@ -81,7 +93,7 @@
         self.toTransform = self.startTransform;
     }
     if (self.toTransform != self.orientationTransformBeforeDismiss) {
-        cellImageSnapshot.frame  = AVMakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height));
+        cellImageSnapshot.frame  = MakeRectWithAspectRatioInsideRect(cellImageSnapshot.imageMH.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height));
         cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
         cellImageSnapshot.center = [UIApplication sharedApplication].keyWindow.center;
         self.startFrame = cellImageSnapshot.bounds;
@@ -153,7 +165,7 @@
     }
     
     self.cellImageSnapshot.image = image;
-    [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(image.size,fromViewController.view.bounds)];
+    [self.cellImageSnapshot setFrame:MakeRectWithAspectRatioInsideRect(image.size,fromViewController.view.bounds)];
     self.startFrame = self.cellImageSnapshot.frame;
     self.startCenter = self.cellImageSnapshot.center;
     
@@ -186,7 +198,7 @@
     
     if (imageViewerCurrent.isPlayingVideo && imageViewerCurrent.moviePlayer) {
         self.moviePlayer = imageViewerCurrent.moviePlayer;
-        [self.moviePlayer.view setFrame:AVMakeRectWithAspectRatioInsideRect(imageViewerCurrent.moviePlayer.naturalSize,fromViewController.view.bounds)];
+        [self.moviePlayer.view setFrame:MakeRectWithAspectRatioInsideRect(imageViewerCurrent.moviePlayer.naturalSize,fromViewController.view.bounds)];
         
         self.startFrame = self.moviePlayer.view.frame;
         
@@ -199,13 +211,13 @@
     self.navFrame = fromViewController.navigationBar.frame;
     if (self.toTransform != self.orientationTransformBeforeDismiss && !self.wrongTransform) {
         if (self.moviePlayer) {
-            [self.moviePlayer.view setFrame:AVMakeRectWithAspectRatioInsideRect(imageViewerCurrent.moviePlayer.naturalSize,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
+            [self.moviePlayer.view setFrame:MakeRectWithAspectRatioInsideRect(imageViewerCurrent.moviePlayer.naturalSize,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
             self.moviePlayer.view.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
             self.moviePlayer.view.center = UIApplication.sharedApplication.keyWindow.center;
             self.startFrame = self.moviePlayer.view.bounds;
             self.startCenter = self.moviePlayer.view.center;
         }else{
-            [self.cellImageSnapshot setFrame:AVMakeRectWithAspectRatioInsideRect(image.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
+            [self.cellImageSnapshot setFrame:MakeRectWithAspectRatioInsideRect(image.size,CGRectMake(0, 0, fromViewController.view.bounds.size.width, fromViewController.view.bounds.size.height))];
             self.cellImageSnapshot.transform = CGAffineTransformMakeRotation(self.orientationTransformBeforeDismiss);
             self.cellImageSnapshot.center = UIApplication.sharedApplication.keyWindow.center;
             self.startFrame = self.cellImageSnapshot.bounds;
@@ -256,10 +268,9 @@
         delayTime =0.2;
     }
     double delayInSeconds = delayTime;
+    typeof(self.context) context = self.context;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        
-        
         
         if (self.transitionImageView.contentMode == UIViewContentModeScaleAspectFill) {
             [self.cellImageSnapshot animateToViewMode:UIViewContentModeScaleAspectFill
@@ -306,7 +317,7 @@
             self.transitionImageView.hidden = NO;
             [self.cellImageSnapshot removeFromSuperview];
             [self.backView removeFromSuperview];
-            [self.context completeTransition:!self.context.transitionWasCancelled];
+            [context completeTransition:!context.transitionWasCancelled];
             self.context = nil;
         }];
     });
@@ -316,6 +327,8 @@
 
 -(void)cancelInteractiveTransition{
     [super cancelInteractiveTransition];
+
+    typeof(self.context) context = self.context;
     
     [UIView animateWithDuration:0.3 animations:^{
         if (self.moviePlayer) {
@@ -338,7 +351,7 @@
         [self.cellImageSnapshot removeFromSuperview];
         [self.backView removeFromSuperview];
         
-        UINavigationController *fromViewController = (UINavigationController*)[self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
+        UINavigationController *fromViewController = (UINavigationController*)[context viewControllerForKey:UITransitionContextFromViewControllerKey];
         if (self.moviePlayer) {
             if (self.toTransform != self.orientationTransformBeforeDismiss) {
                 self.moviePlayer.view.transform = CGAffineTransformMakeRotation(self.toTransform);
@@ -358,12 +371,12 @@
             [imageViewController.view insertSubview:self.moviePlayer.view atIndex:2];
         }
         
-        if ([self.context respondsToSelector:@selector(viewForKey:)]) { // is on iOS 8?
+        if ([context respondsToSelector:@selector(viewForKey:)]) { // is on iOS 8?
             [UIApplication.sharedApplication.keyWindow addSubview:fromViewController.view];
             self.moviePlayer = nil;
         }
         
-        [self.context completeTransition:NO];
+        [context completeTransition:NO];
         if (self.moviePlayer) {
             [UIView performWithoutAnimation:^{
                 [self doOrientationwithFromViewController:fromViewController];
