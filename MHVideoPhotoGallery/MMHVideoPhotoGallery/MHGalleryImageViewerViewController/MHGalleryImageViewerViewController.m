@@ -1532,7 +1532,7 @@
     self.viewController.descriptionLabel.alpha = alpha;
     self.viewController.bottomSuperView.alpha = alpha;
 
-    if (!MHShouldShowStatusBar()) {
+    if (!MHShouldShowStatusBar() || [self prefersStatusBarHidden]) {
         alpha = 0;
     }
     MHStatusBar().alpha = alpha;
