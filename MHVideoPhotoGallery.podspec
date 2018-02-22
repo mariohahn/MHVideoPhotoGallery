@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'MHVideoPhotoGallery'
-  s.version      = '2.1.3'
+  s.version      = '2.1.4'
   s.license      = 'MIT'
   s.homepage     = 'https://github.com/mariohahn/MHVideoPhotoGallery'
   s.author = {
@@ -9,8 +9,8 @@ Pod::Spec.new do |s|
   s.summary      = 'Gallery for iOS 7 Devices.'
   s.platform     =  :ios
   s.source = {
-    :git => 'https://github.com/mariohahn/MHVideoPhotoGallery.git',
-    :tag => 'v2.1.3'
+    :git => 'https://github.com/vibe0508/MHVideoPhotoGallery.git',
+    :tag => 'v2.1.4'
   }
 
   s.dependency 'SDWebImage'

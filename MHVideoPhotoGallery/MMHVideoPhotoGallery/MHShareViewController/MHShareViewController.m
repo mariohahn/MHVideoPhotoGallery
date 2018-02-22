@@ -963,25 +963,33 @@
 }
 -(void)saveImages:(NSArray*)object{
     [self getAllImagesForSelectedRows:^(NSArray *images) {
-        for (MHImageURL *dataURL in images) {
+        for (id dataObj in images) {
+
+            if (![dataObj isKindOfClass:[MHImageURL class]] &&
+                ![dataObj isKindOfClass:[UIImage class]]) {
+                continue;
+            }
+
+            ALAssetsLibrary* library = ALAssetsLibrary.new;
+            NSData *data;
             
-            if ([dataURL.image isKindOfClass:[UIImage class]]) {
+            if ([dataObj isKindOfClass:[MHImageURL class]] &&
+                [[dataObj image] isKindOfClass:[UIImage class]]) {
                 
-                UIImage *imageToStore = dataURL.image;
-                
-                ALAssetsLibrary* library = ALAssetsLibrary.new;
-                NSData *data;
-                
+                UIImage *imageToStore = [dataObj image];
+
                 if (imageToStore.images) {
-                    data = [NSData dataWithContentsOfFile:[[SDImageCache sharedImageCache] defaultCachePathForKey:dataURL.URL]];
+                    data = [NSData dataWithContentsOfFile:[[SDImageCache sharedImageCache] defaultCachePathForKey:[dataObj URL]]];
                 }else{
                     data = UIImageJPEGRepresentation(imageToStore, 1.0);
                 }
-                
-                [library writeImageDataToSavedPhotosAlbum:data metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
-                    NSLog(@"%@",error);
-                }];
+            } else if ([dataObj isKindOfClass:[UIImage class]]) {
+                data = UIImageJPEGRepresentation(dataObj, 1.0);
             }
+
+            [library writeImageDataToSavedPhotosAlbum:data metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+                NSLog(@"%@",error);
+            }];
         }
         [self cancelPressed];
     } saveDataToCameraRoll:YES];
