@@ -94,7 +94,7 @@
  */
 -(void)presentMHGalleryController:(MHGalleryController*)galleryController
                          animated:(BOOL)animated
-                       completion:(void (^)(void))completion;
+                       completion:(void (^)(void))completion NS_SWIFT_NAME(presentGallery(gallery:animated:completion:));
 /**
  *  For dismissing MHGalleryController
  *
