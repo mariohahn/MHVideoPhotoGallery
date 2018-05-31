@@ -86,7 +86,7 @@
 
 -(void)presentMHGallery:(MHGalleryController *)galleryController
                animated:(BOOL)animated
-             completion:(void (^)(void))completion{
+             completion:(nullable void (^)(void))completion{
 
     if(galleryController.UICustomization.useCustomBackButtonImageOnImageViewer){
         UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"ic_square")

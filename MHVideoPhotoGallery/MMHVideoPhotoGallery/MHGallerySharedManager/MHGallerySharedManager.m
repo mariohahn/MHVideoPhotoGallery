@@ -109,11 +109,11 @@
                     UIImage *image = [UIImage imageWithCGImage:im];
                     if (image != nil) {
                         [SDImageCache.sharedImageCache storeImage:image
-                                                           forKey:urlString
-                                                       completion:nil];
-                        dispatch_async(dispatch_get_main_queue(), ^(void){
-                            succeedBlock(image,videoDurationTimeInSeconds,nil);
-                        });
+                                                             forKey:urlString
+                                                                completion:^{
+                                                                    succeedBlock(image,videoDurationTimeInSeconds,nil);
+                                                                }];
+                
                     }
                 }
             };
@@ -145,7 +145,7 @@
 -(void)getYoutubeURLforMediaPlayer:(NSString*)URL
                       successBlock:(void (^)(NSURL *URL,NSError *error))succeedBlock{
     
-    NSString *videoID = [[URL componentsSeparatedByString:@"?v="] lastObject];
+    NSString *videoID = [[[URL componentsSeparatedByString:@"?v="] lastObject] lastPathComponent];
     NSURL *videoInfoURL = [NSURL URLWithString:[NSString stringWithFormat:MHYoutubePlayBaseURL, videoID ?: @"", [self languageIdentifier]]];
     NSMutableURLRequest *httpRequest = [[NSMutableURLRequest alloc] initWithURL:videoInfoURL
                                                                     cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -213,11 +213,10 @@
         [self getVimeoURLforMediaPlayer:URLString successBlock:^(NSURL *URL, NSError *error) {
             succeedBlock(URL,error);
         }];
-        //TODO: - Check if the video is a youtube video.
-//    }else if([URLString rangeOfString:@"youtube.com"].location != NSNotFound) {
-//        [self getYoutubeURLforMediaPlayer:URLString successBlock:^(NSURL *URL, NSError *error) {
-//            succeedBlock(URL,error);
-//        }];
+    }else if([URLString rangeOfString:@"youtube.com"].location != NSNotFound || [URLString rangeOfString:@"youtu.be"].location != NSNotFound) {
+        [self getYoutubeURLforMediaPlayer:URLString successBlock:^(NSURL *URL, NSError *error) {
+            succeedBlock(URL,error);
+        }];
     }else{
         succeedBlock([NSURL URLWithString:URLString],nil);
     }
@@ -293,7 +292,7 @@
         NSMutableDictionary *dict = [self durationDict];
         succeedBlock(image,[dict[URL] integerValue],nil);
     }else{
-        NSString *videoID = [[URL componentsSeparatedByString:@"?v="] lastObject];
+        NSString *videoID = [[[URL componentsSeparatedByString:@"?v="] lastObject] lastPathComponent];
         NSString *infoURL = [NSString stringWithFormat:MHYoutubeThumbBaseURL,videoID];
         dispatch_async(dispatch_get_main_queue(), ^(void){
             [SDWebImageManager.sharedManager.imageDownloader downloadImageWithURL:[NSURL URLWithString:infoURL]
@@ -355,18 +354,18 @@
                                                    NSMutableDictionary *dictToSave = [self durationDict];
                                                    dictToSave[vimdeoURLString] = @([jsonData[0][@"duration"] integerValue]);
                                                    [self setObjectToUserDefaults:dictToSave];
-                                                   
-                                                   [SDWebImageManager.sharedManager.imageDownloader downloadImageWithURL:[NSURL URLWithString:jsonData[0][quality]]
-                                                                                                 options:SDWebImageDownloaderContinueInBackground
-                                                                                                progress:nil
-                                                                                               completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
-                                                                                                   
-                                                                                                   [SDImageCache.sharedImageCache removeImageForKey:jsonData[0][quality] withCompletion:nil];
-                                                                                                   [SDImageCache.sharedImageCache storeImage:image
-                                                                                                                                      forKey:vimdeoURLString completion:nil];
-                                                                                                   
-                                                                                                   succeedBlock(image,[jsonData[0][@"duration"] integerValue],nil);
-                                                                                               }];
+                                                   [SDWebImageManager.sharedManager loadImageWithURL:[NSURL URLWithString:jsonData[0][quality]]
+                                                                                             options:SDWebImageContinueInBackground
+                                                                                            progress:nil
+                                                                                           completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+                                                                                               [SDImageCache.sharedImageCache removeImageForKey:jsonData[0][quality] withCompletion:nil];
+                                                                                               
+                                                                                               [SDImageCache.sharedImageCache storeImage:image
+                                                                                                                                  forKey:vimdeoURLString
+                                                                                                completion:^{
+                                                                                                    succeedBlock(image,[jsonData[0][@"duration"] integerValue],nil);
+                                                                                                }];
+                                                                                           }];
                                                }else{
                                                    succeedBlock(nil,0,nil);
                                                }
@@ -390,7 +389,7 @@
                      successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
                          succeedBlock(image,videoDuration,error);
                      }];
-    }else if([urlString rangeOfString:@"youtube.com"].location != NSNotFound) {
+    }else if([urlString rangeOfString:@"youtube.com"].location != NSNotFound || [urlString rangeOfString:@"youtu.be"].location != NSNotFound) {
         [self getYoutubeThumbImage:urlString
                       successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
                           succeedBlock(image,videoDuration,error);

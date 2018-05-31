@@ -876,15 +876,14 @@
             }else if (item.image) {
                 [self addDataToDownloadArray:item.image];
             }else{
-                
-                [SDWebImageManager.sharedManager.imageDownloader downloadImageWithURL:[NSURL URLWithString:item.URLString]
-                                                                              options:SDWebImageDownloaderContinueInBackground
-                                                                             progress:nil
-                                                                            completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
-                                                                                MHImageURL *imageURLMH = [MHImageURL.alloc initWithURL:item.URLString
-                                                                                                                                 image:image];
-                                                                                [weakSelf addDataToDownloadArray:imageURLMH];
-                                                                            }];
+                [SDWebImageManager.sharedManager loadImageWithURL:[NSURL URLWithString:item.URLString]
+                                                          options:SDWebImageContinueInBackground
+                                                         progress:nil
+                                                        completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+                                                            MHImageURL *imageURLMH = [MHImageURL.alloc initWithURL:item.URLString
+                                                                                                             image:image];
+                                                            [weakSelf addDataToDownloadArray:imageURLMH];
+                                                        }];
             }
         }
     }

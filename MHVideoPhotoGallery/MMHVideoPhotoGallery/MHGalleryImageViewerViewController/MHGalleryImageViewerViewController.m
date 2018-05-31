@@ -1437,7 +1437,7 @@
 
 -(void)playButtonPressed{
     if (!self.playingVideo) {
-        if([self.item.URLString rangeOfString:@"youtube.com"].location != NSNotFound){
+        if([self.item.URLString rangeOfString:@"youtube.com"].location == NSNotFound){
             NSURL * youtubeURL = [NSURL URLWithString:self.item.URLString];
             if ([[UIApplication sharedApplication] canOpenURL:youtubeURL]){
                 [[UIApplication sharedApplication] openURL:youtubeURL];
