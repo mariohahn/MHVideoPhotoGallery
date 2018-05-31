@@ -1436,6 +1436,15 @@
 }
 
 -(void)playButtonPressed{
+    if (self.moviePlayer.contentURL == nil)
+    {
+        NSURL *url = [NSURL URLWithString: _item.URLString];
+        if ([[UIApplication sharedApplication] canOpenURL: url])
+        {
+            [[UIApplication sharedApplication] openURL: url];
+        }
+        return;
+    }
     if (!self.playingVideo) {
         [self bringMoviePlayerToFront];
         
