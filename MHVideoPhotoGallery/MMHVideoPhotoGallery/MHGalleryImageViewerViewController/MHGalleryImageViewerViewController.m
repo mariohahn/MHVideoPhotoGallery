@@ -1437,36 +1437,29 @@
 
 -(void)playButtonPressed{
     if (!self.playingVideo) {
-        if([self.item.URLString rangeOfString:@"youtube.com"].location == NSNotFound){
-            NSURL * youtubeURL = [NSURL URLWithString:self.item.URLString];
-            if ([[UIApplication sharedApplication] canOpenURL:youtubeURL]){
-                [[UIApplication sharedApplication] openURL:youtubeURL];
-            }
+        [self bringMoviePlayerToFront];
+        
+        self.playButton.hidden = YES;
+        self.playingVideo =YES;
+        
+        if (self.moviePlayer) {
+            [self.moviePlayer play];
+            [self.viewController changeToPauseButton];
+            
         }else{
-            [self bringMoviePlayerToFront];
-            
-            self.playButton.hidden = YES;
-            self.playingVideo =YES;
-            
-            if (self.moviePlayer) {
-                [self.moviePlayer play];
-                [self.viewController changeToPauseButton];
-                
-            }else{
-                UIActivityIndicatorView *act = [UIActivityIndicatorView.alloc initWithFrame:self.view.bounds];
-                act.tag = 304;
-                [self.view addSubview:act];
-                [act startAnimating];
-                self.shouldPlayVideo = YES;
-            }
-            if (!self.movieTimer) {
-                self.movieTimer = [NSTimer timerWithTimeInterval:0.01f
-                                                          target:self
-                                                        selector:@selector(movieTimerChanged:)
-                                                        userInfo:nil
-                                                         repeats:YES];
-                [NSRunLoop.currentRunLoop addTimer:self.movieTimer forMode:NSRunLoopCommonModes];
-            }
+            UIActivityIndicatorView *act = [UIActivityIndicatorView.alloc initWithFrame:self.view.bounds];
+            act.tag = 304;
+            [self.view addSubview:act];
+            [act startAnimating];
+            self.shouldPlayVideo = YES;
+        }
+        if (!self.movieTimer) {
+            self.movieTimer = [NSTimer timerWithTimeInterval:0.01f
+                                                      target:self
+                                                    selector:@selector(movieTimerChanged:)
+                                                    userInfo:nil
+                                                     repeats:YES];
+            [NSRunLoop.currentRunLoop addTimer:self.movieTimer forMode:NSRunLoopCommonModes];
         }
     }else{
         [self stopMovie];
