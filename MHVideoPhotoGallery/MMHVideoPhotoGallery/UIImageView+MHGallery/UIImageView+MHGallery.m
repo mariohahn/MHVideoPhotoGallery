@@ -22,7 +22,7 @@
 															
 															if (!weakSelf) return;
 															
-															dispatch_sync(dispatch_get_main_queue(), ^{
+															dispatch_main_async_safe(^{
 																if (!weakSelf) return;
 																if (image){
 																	weakSelf.image = image;
@@ -52,10 +52,9 @@
                                                           successBlock:^(UIImage *image, NSError *error) {
                                                               [weakSelf setImageForImageView:image successBlock:succeedBlock];
                                                           }];
-    }else if(item.image){
+    } else if(item.image) {
         [self setImageForImageView:item.image successBlock:succeedBlock];
-    }else{
-        
+    } else {
         NSString *placeholderURL = item.thumbnailURL;
         NSString *toLoadURL = item.URLString;
         
@@ -82,7 +81,7 @@
     
     if (!weakSelf) return;
 	
-	dispatch_sync(dispatch_get_main_queue(), ^{
+	dispatch_main_async_safe(^{
 		weakSelf.image = image;
 		[weakSelf setNeedsLayout];
 		if (succeedBlock) {
