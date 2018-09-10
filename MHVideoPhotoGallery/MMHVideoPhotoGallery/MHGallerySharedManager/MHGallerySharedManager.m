@@ -248,26 +248,37 @@
                                                                                             options:NSJSONReadingAllowFragments
                                                                                               error:&error];
                                    dispatch_async(dispatch_get_main_queue(), ^(void){
-                                       NSDictionary *filesInfo = [jsonData valueForKeyPath:@"request.files.h264"];
+                                       NSArray *filesInfo = [jsonData valueForKeyPath:@"request.files.progressive"];
                                        if (!filesInfo) {
                                            succeedBlock(nil,nil);
                                        }
-                                       NSString *quality = NSString.new;
-                                       if (self.vimeoVideoQuality == MHVimeoVideoQualityHD) {
-                                           quality = @"hd";
-                                           if(!filesInfo[quality]){
-                                               quality = @"sd";
+                                       if (filesInfo != nil) {
+                                           NSInteger i = 0;
+                                           NSDictionary *videoInfo = nil;
+                                           NSString *HDVideo = nil;
+                                           NSString *SDVideo = nil;
+                                           NSString *MobileVideo = nil;
+                                           while (i < filesInfo.count) {
+                                               videoInfo = [filesInfo objectAtIndex:i];
+                                               if ([(NSString*)videoInfo[@"quality"] isEqualToString: @"720p"])
+                                                   HDVideo = videoInfo[@"url"];
+                                               else if ([(NSString*)videoInfo[@"quality"] isEqualToString: @"360p"])
+                                                   SDVideo = videoInfo[@"url"];
+                                               else if ([(NSString*)videoInfo[@"quality"] isEqualToString: @"240p"])
+                                                   MobileVideo = videoInfo[@"url"];
+                                               i = i + 1;
                                            }
-                                       } else if (self.vimeoVideoQuality == MHVimeoVideoQualityMobile){
-                                           quality = @"mobile";
-                                       }else if(self.vimeoVideoQuality == MHVimeoVideoQualitySD){
-                                           quality = @"sd";
-                                       }
-                                       NSDictionary *videoInfo =filesInfo[quality];
-                                       if (!videoInfo[@"url"]) {
+                                           if (HDVideo != nil && self.vimeoVideoQuality == MHVimeoVideoQualityHD)
+                                               succeedBlock([NSURL URLWithString:HDVideo],nil);
+                                           else if (SDVideo != nil && self.vimeoVideoQuality != MHVimeoVideoQualityMobile)
+                                               succeedBlock([NSURL URLWithString:SDVideo],nil);
+                                           else if (MobileVideo != nil)
+                                               succeedBlock([NSURL URLWithString:MobileVideo],nil);
+                                           else
+                                               succeedBlock(nil, nil);
+                                       }else{
                                            succeedBlock(nil,nil);
                                        }
-                                       succeedBlock([NSURL URLWithString:videoInfo[@"url"]],nil);
                                    });
                                }else{
                                    succeedBlock(nil,connectionError);
