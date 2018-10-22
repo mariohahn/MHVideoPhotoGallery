@@ -18,10 +18,15 @@
 #import "MHTransitionShowOverView.h"
 #import "MHGalleryImageViewerViewController.h"
 
-
+#ifdef COCOAPODS
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
+#import <SDWebImage/SDWebImageCoder.h>
+#import <SDWebImage/SDImageCache.h>
+#else
 #import "TTTAttributedLabel.h"
 #import "SDWebImageCoder.h"
 #import "SDImageCache.h"
+#endif
 
 #define MHISIPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 #define kMHGalleryBundleName @"MHGallery"
