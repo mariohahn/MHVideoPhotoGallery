@@ -30,7 +30,7 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    self.title =  MHGalleryLocalizedString(@"overview.title.current");
+    self.title = MHGalleryLocalizedString(@"overview.title.current");
     
     UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
     
@@ -40,7 +40,6 @@
                                            collectionViewLayout:[self layoutForOrientation:UIApplication.sharedApplication.statusBarOrientation]];
     
     self.collectionView.backgroundColor = [self.galleryViewController.UICustomization MHGalleryBackgroundColorForViewMode:MHGalleryViewModeOverView];
-    self.collectionView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     
     [self.collectionView registerClass:MHMediaPreviewCollectionViewCell.class
             forCellWithReuseIdentifier:NSStringFromClass(MHMediaPreviewCollectionViewCell.class)];
@@ -60,7 +59,6 @@
 #pragma clang diagnostic pop
     
     UIMenuController.sharedMenuController.menuItems = @[saveItem];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -70,7 +68,6 @@
     
     [UIApplication.sharedApplication setStatusBarStyle:self.galleryViewController.preferredStatusBarStyleMH
                                               animated:YES];
-    
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -115,8 +112,6 @@
     
     return cell;
 }
-
-
 
 -(void)makeMHGalleryOverViewCell:(MHMediaPreviewCollectionViewCell*)cell atIndexPath:(NSIndexPath*)indexPath{
     
@@ -289,14 +284,14 @@
 
 -(void)getImageForItem:(MHGalleryItem*)item
         finishCallback:(void(^)(UIImage *image))FinishBlock{
-    
-    [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:item.URLString]
-                                                  options:SDWebImageContinueInBackground
-                                                 progress:nil
-                                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                                                    FinishBlock(image);
-                                                }];
+    [SDWebImageManager.sharedManager loadImageWithURL:[NSURL URLWithString:item.URLString]
+                                              options:SDWebImageContinueInBackground
+                                             progress:nil
+                                            completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+                                                FinishBlock(image);
+                                            }];
 }
+
 -(void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     

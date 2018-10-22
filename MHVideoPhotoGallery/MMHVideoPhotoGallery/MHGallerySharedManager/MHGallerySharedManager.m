@@ -106,10 +106,11 @@
                     UIImage *image = [UIImage imageWithCGImage:im];
                     if (image != nil) {
                         [SDImageCache.sharedImageCache storeImage:image
-                                                             forKey:urlString];
-                        dispatch_async(dispatch_get_main_queue(), ^(void){
-                            succeedBlock(image,videoDurationTimeInSeconds,nil);
-                        });
+                                                             forKey:urlString
+                                                                completion:^{
+                                                                    succeedBlock(image,videoDurationTimeInSeconds,nil);
+                                                                }];
+                
                     }
                 }
             };
@@ -312,17 +313,20 @@
                                                }else if (self.youtubeThumbQuality == MHYoutubeThumbQualitySQ){
                                                    thumbURL = jsonData[@"data"][@"thumbnail"][@"sqDefault"];
                                                }
-                                               [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:thumbURL]
-                                                                                             options:SDWebImageContinueInBackground
-                                                                                            progress:nil
-                                                                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                                                                                               
-                                                                                               [SDImageCache.sharedImageCache removeImageForKey:thumbURL];
-                                                                                               [SDImageCache.sharedImageCache storeImage:image
-                                                                                                                                  forKey:URL];
-                                                                                               
-                                                                                               succeedBlock(image,[jsonData[@"data"][@"duration"] integerValue],nil);
-                                                                                           }];
+                                               
+                                               [SDWebImageManager.sharedManager loadImageWithURL:[NSURL URLWithString:thumbURL]
+                                                                                         options:SDWebImageContinueInBackground
+                                                                                        progress:nil
+                                                                                       completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+                                                                                           [SDImageCache.sharedImageCache removeImageForKey:thumbURL withCompletion:nil];
+                                                                                           
+                                                                                           [SDImageCache.sharedImageCache storeImage:image
+                                                                                                                              forKey:URL
+                                                                                                                          completion: ^{
+                                                                                                                              succeedBlock(image,[jsonData[@"data"][@"duration"] integerValue],nil);
+                                                                                                                          }
+                                                                                            ];
+                                                                                       }];
                                            }
                                        });
                                    }else{
@@ -373,17 +377,18 @@
                                                    NSMutableDictionary *dictToSave = [self durationDict];
                                                    dictToSave[vimdeoURLString] = @([jsonData[0][@"duration"] integerValue]);
                                                    [self setObjectToUserDefaults:dictToSave];
-                                                   
-                                                   [SDWebImageManager.sharedManager downloadImageWithURL:[NSURL URLWithString:jsonData[0][quality]]
-                                                                                                 options:SDWebImageContinueInBackground
-                                                                                                progress:nil
-                                                                                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                                                                                                   [SDImageCache.sharedImageCache removeImageForKey:jsonData[0][quality]];
-                                                                                                   [SDImageCache.sharedImageCache storeImage:image
-                                                                                                                                      forKey:vimdeoURLString];
-                                                                                                   
-                                                                                                   succeedBlock(image,[jsonData[0][@"duration"] integerValue],nil);
-                                                                                               }];
+                                                   [SDWebImageManager.sharedManager loadImageWithURL:[NSURL URLWithString:jsonData[0][quality]]
+                                                                                             options:SDWebImageContinueInBackground
+                                                                                            progress:nil
+                                                                                           completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+                                                                                               [SDImageCache.sharedImageCache removeImageForKey:jsonData[0][quality] withCompletion:nil];
+                                                                                               
+                                                                                               [SDImageCache.sharedImageCache storeImage:image
+                                                                                                                                  forKey:vimdeoURLString
+                                                                                                completion:^{
+                                                                                                    succeedBlock(image,[jsonData[0][@"duration"] integerValue],nil);
+                                                                                                }];
+                                                                                           }];
                                                }else{
                                                    succeedBlock(nil,0,nil);
                                                }

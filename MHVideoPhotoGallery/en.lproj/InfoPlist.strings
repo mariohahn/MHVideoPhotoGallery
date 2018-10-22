@@ -1,2 +1,4 @@
-/* Localized versions of Info.plist keys */
-
+{
+	"NSPhotoLibraryUsageDescription" = "Photos usage description";
+	"NSCameraUsageDescription" = "Camera usage description";
+}
