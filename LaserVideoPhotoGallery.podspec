@@ -1,16 +1,16 @@
 Pod::Spec.new do |s|
-  s.name         = 'MHVideoPhotoGallery'
-  s.version      = '2.2.0'
+  s.name         = 'LaserVideoPhotoGallery'
+  s.version      = '3.0.0'
   s.license      = 'MIT'
-  s.homepage     = 'https://github.com/LaserPatrick/MHVideoPhotoGallery'
+  s.homepage     = 'https://github.com/LaserSrl/LaserVideoPhotoGallery'
   s.author = {
-    'Mario Hahn' => 'mario_hahn@me.com'
+    'Laser Patrick' => 'patrick.negretto@laser-group.com'
   }
   s.summary      = 'Gallery for iOS 9 Devices.'
   s.platform     =  :ios
   s.source = {
-    :git => 'https://github.com/mariohahn/MHVideoPhotoGallery.git',
-    :tag => 'v2.2.0'
+    :git => 'https://github.com/LaserSrl/LaserVideoPhotoGallery.git',
+    :tag => s.version.to_s
   }
 
   s.dependency 'SDWebImage', '~> 4.0'
