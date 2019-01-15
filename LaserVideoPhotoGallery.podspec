@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'LaserVideoPhotoGallery'
-  s.version      = '3.0.0'
+  s.version      = '3.0.1'
   s.license      = 'MIT'
   s.homepage     = 'https://github.com/LaserSrl/LaserVideoPhotoGallery'
   s.author = {
