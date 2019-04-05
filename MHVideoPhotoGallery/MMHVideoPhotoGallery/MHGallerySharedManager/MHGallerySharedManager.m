@@ -306,19 +306,19 @@
         NSString *videoID = [[[URL componentsSeparatedByString:@"?v="] lastObject] lastPathComponent];
         NSString *infoURL = [NSString stringWithFormat:MHYoutubeThumbBaseURL,videoID];
         dispatch_async(dispatch_get_main_queue(), ^(void){
-            [SDWebImageManager.sharedManager.imageDownloader downloadImageWithURL:[NSURL URLWithString:infoURL]
-                                                          options:SDWebImageDownloaderContinueInBackground
+            [SDWebImageManager.sharedManager loadImageWithURL:[NSURL URLWithString:infoURL]
+                                                          options:SDWebImageContinueInBackground
                                                          progress:nil
-                                                        completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
-                                                            
-                                                            [SDImageCache.sharedImageCache removeImageForKey:infoURL
-                                                                                              withCompletion:nil];
-                                                            [SDImageCache.sharedImageCache storeImage:image
-                                                                                               forKey:URL
-                                                                                           completion:nil];
-                                                            
-                                                            succeedBlock(image,0,nil);
-                                                        }];
+                                                    completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+                                                        
+                                                        [SDImageCache.sharedImageCache removeImageForKey:infoURL
+                                                                                          withCompletion:nil];
+                                                        [SDImageCache.sharedImageCache storeImage:image
+                                                                                           forKey:URL
+                                                                                       completion:nil];
+                                                        
+                                                        succeedBlock(image,0,nil);
+                                                    }];
             
         });
     }
