@@ -6,7 +6,11 @@
 //  Copyright © 2015 Mario Hahn. All rights reserved.
 //
 
+#if __has_feature(modules)
+@import TTTAttributedLabel;
+#else
 #import <TTTAttributedLabel/TTTAttributedLabel.h>
+#endif
 #import "MHCustomization.h"
 
 @class MHGalleryLabel;

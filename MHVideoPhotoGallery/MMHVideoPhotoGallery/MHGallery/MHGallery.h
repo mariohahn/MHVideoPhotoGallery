@@ -19,9 +19,14 @@
 #import "MHGalleryImageViewerViewController.h"
 
 #ifdef COCOAPODS
+#if __has_feature(modules)
+@import TTTAttributedLabel;
+@import SDWebImage;
+#else
 #import <TTTAttributedLabel/TTTAttributedLabel.h>
 #import <SDWebImage/SDWebImageCoder.h>
 #import <SDWebImage/SDImageCache.h>
+#endif
 #else
 #import "TTTAttributedLabel.h"
 #import "SDWebImageCoder.h"
@@ -56,7 +61,7 @@ extern NSString *const MHYoutubeChannel;
 extern NSString *const MHGalleryViewModeShare;
 extern NSString *const MHVimeoVideoBaseURL;
 extern NSString *const MHVimeoThumbBaseURL;
-extern NSString *const MHYoutubeInfoBaseURL;
+extern NSString *const MHYoutubeThumbBaseURL;
 extern NSString *const MHYoutubePlayBaseURL;
 extern NSString *const MHYoutubeBaseURL;
 extern NSString *const MHVimeoBaseURL;

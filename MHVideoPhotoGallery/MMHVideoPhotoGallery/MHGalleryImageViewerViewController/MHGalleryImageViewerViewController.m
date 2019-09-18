@@ -1040,7 +1040,7 @@
             }];
             
         }else{
-            [MHGallerySharedManager.sharedManager startDownloadingThumbImage:self.item.URLString
+            [MHGallerySharedManager.sharedInstance startDownloadingThumbImage:self.item.URLString
                                                                 successBlock:^(UIImage *image,NSUInteger videoDuration,NSError *error) {
                                                                     if (!error) {
                                                                         [weakSelf handleGeneratedThumb:image
@@ -1086,7 +1086,7 @@
             [weakSelf autoPlayVideo];
             return;
         }
-        [[MHGallerySharedManager sharedManager] getURLForMediaPlayer:self.item.URLString successBlock:^(NSURL *URL, NSError *error) {
+        [[MHGallerySharedManager sharedInstance] getURLForMediaPlayer:self.item.URLString successBlock:^(NSURL *URL, NSError *error) {
             if (error || URL == nil) {
                 [weakSelf changePlayButtonToUnPlay];
             }else{
@@ -1436,8 +1436,16 @@
 }
 
 -(void)playButtonPressed{
+    if (self.moviePlayer.contentURL == nil)
+    {
+        NSURL *url = [NSURL URLWithString: _item.URLString];
+        if ([[UIApplication sharedApplication] canOpenURL: url])
+        {
+            [[UIApplication sharedApplication] openURL: url];
+        }
+        return;
+    }
     if (!self.playingVideo) {
-        
         [self bringMoviePlayerToFront];
         
         self.playButton.hidden = YES;
@@ -1462,7 +1470,6 @@
                                                      repeats:YES];
             [NSRunLoop.currentRunLoop addTimer:self.movieTimer forMode:NSRunLoopCommonModes];
         }
-        
     }else{
         [self stopMovie];
     }

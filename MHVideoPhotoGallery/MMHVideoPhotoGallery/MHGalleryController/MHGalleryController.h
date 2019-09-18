@@ -92,9 +92,9 @@
  *  @param animated          animated or nonanimated
  *  @param completion        complitionBlock
  */
--(void)presentMHGalleryController:(MHGalleryController*)galleryController
+-(void)presentMHGallery:(MHGalleryController*)galleryController
                          animated:(BOOL)animated
-                       completion:(void (^)(void))completion NS_SWIFT_NAME(present(galleryController:animated:completion:));
+                       completion:(nullable void (^)(void))completion NS_SWIFT_NAME(present(galleryController:animated:completion:));
 /**
  *  For dismissing MHGalleryController
  *

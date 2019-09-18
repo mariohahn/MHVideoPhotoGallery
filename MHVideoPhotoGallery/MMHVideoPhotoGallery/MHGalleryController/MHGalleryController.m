@@ -8,8 +8,14 @@
 
 #import "MHGalleryController.h"
 
-
 @implementation MHGalleryController
+
+-(UIViewController *)childViewControllerForStatusBarStyle {
+    return self.childViewControllers.firstObject;
+}
+-(UIViewController *)childViewControllerForStatusBarHidden {
+    return self.childViewControllers.firstObject;
+}
 
 - (id)initWithPresentationStyle:(MHGalleryViewMode)presentationStyle{
     self = [super initWithNibName:nil bundle:nil];
@@ -78,9 +84,9 @@
 
 @implementation UIViewController(MHGalleryViewController)
 
--(void)presentMHGalleryController:(MHGalleryController *)galleryController
-                         animated:(BOOL)animated
-                       completion:(void (^)(void))completion{
+-(void)presentMHGallery:(MHGalleryController *)galleryController
+               animated:(BOOL)animated
+             completion:(nullable void (^)(void))completion{
 
     if(galleryController.UICustomization.useCustomBackButtonImageOnImageViewer){
         UIBarButtonItem *backBarButton = [UIBarButtonItem.alloc initWithImage:MHTemplateImage(@"ic_square")
@@ -100,6 +106,7 @@
     }
     galleryController.navigationBar.barStyle = galleryController.UICustomization.barStyle;
     galleryController.navigationBar.barTintColor = galleryController.UICustomization.barTintColor;
+    galleryController.navigationBar.titleTextAttributes = galleryController.UICustomization.barTitleTextAttributes;
     
     if (!galleryController.dataSource) {
         galleryController.dataSource = galleryController;

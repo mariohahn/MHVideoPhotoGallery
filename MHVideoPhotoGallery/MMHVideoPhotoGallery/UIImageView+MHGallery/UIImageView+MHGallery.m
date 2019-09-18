@@ -17,7 +17,7 @@
     
     __weak typeof(self) weakSelf = self;
     
-    [MHGallerySharedManager.sharedManager startDownloadingThumbImage:URL
+    [MHGallerySharedManager.sharedInstance startDownloadingThumbImage:URL
                                                         successBlock:^(UIImage *image, NSUInteger videoDuration, NSError *error) {
                                                             
                                                             if (!weakSelf) return;
@@ -46,7 +46,7 @@
             assetType = MHAssetImageTypeFull;
         }
         
-        [MHGallerySharedManager.sharedManager getImageFromAssetLibrary:item.URLString
+        [MHGallerySharedManager.sharedInstance getImageFromAssetLibrary:item.URLString
                                                              assetType:assetType
                                                           successBlock:^(UIImage *image, NSError *error) {
                                                               [weakSelf setImageForImageView:image successBlock:succeedBlock];
@@ -65,6 +65,7 @@
         
         [self sd_setImageWithURL:[NSURL URLWithString:toLoadURL]
                 placeholderImage:[SDImageCache.sharedImageCache imageFromDiskCacheForKey:placeholderURL]
+                         options:SDWebImageRetryFailed|SDWebImageAllowInvalidSSLCertificates|SDWebImageHandleCookies
                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                            if (succeedBlock) {
                                succeedBlock (image,error);
